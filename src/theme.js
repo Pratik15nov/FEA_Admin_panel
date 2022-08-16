@@ -21,7 +21,7 @@ const theme = createTheme({
   typography: {
     fontFamily: ["Inter", "sans-serif"].join(","),
     h1: {
-      fontSize: "20px",
+      fontSize: "30px",
     },
   },
 });
