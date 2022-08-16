@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#277BC0 ",
+      main: "#277BC0",
     },
     secondary: {
       main: "#FFB200",
@@ -19,7 +19,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Inter", "sans-serif"].join(","),
+    // fontFamily: ["-apple-system"].join(","),
     h1: {
       fontSize: "30px",
     },
