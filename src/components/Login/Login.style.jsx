@@ -1,25 +1,26 @@
 import { Avatar, Box, styled } from "@mui/material";
 
-const SideImage = styled(Box)`
-  width: 95%;
-  height: 700px;
-  border-radius: 10px;
-  margin: 5px 0 0 0;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url("../images/sideImage.svg");
+export const Container = styled(Box)(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr",
+  marginTop: "120px",
+}));
+
+export const SideImage = styled(Box)`
+  padding-left: 20px;
+  & img {
+    height: calc(100vh - 150px);
+  }
 `;
-const LoginSide = styled(Box)`
+export const LoginSide = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 15% 0 0 0;
 `;
 
-const CustomAvatar = styled(Avatar)(({ theme }) => ({
-  margin: "3px",
+export const CustomAvatar = styled(Avatar)(({ theme }) => ({
+  margin: "5px",
   backgroundColor: theme.palette.primary.main,
+  padding: "15px",
+  boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
 }));
-
-export { CustomAvatar, SideImage, LoginSide };

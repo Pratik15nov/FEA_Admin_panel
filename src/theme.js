@@ -19,7 +19,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Inter", "sans-serif"].join(","),
+    // fontFamily: ["-apple-system"].join(","),
     h1: {
       fontSize: "30px",
     },
