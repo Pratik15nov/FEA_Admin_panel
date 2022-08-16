@@ -164,13 +164,13 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex"}}>
       <CssBaseline />
 
       <AppBar
         position="fixed"
         open={open}
-        sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+        sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)"  ,backgroundColor:""  }}
       >
         <Toolbar>
           <IconButton
