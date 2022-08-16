@@ -1,42 +1,84 @@
 import * as React from "react";
-import { CustomAvatar, SideImage, LoginSide } from "./Login.style";
+import { Container, CustomAvatar, SideImage, LoginSide } from "./Login.style";
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useForm, Controller } from "react-hook-form";
 
 const Login = () => {
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      email: null,
+      password: null,
+    },
+  });
+
+  const handleLogin = (body) => {
+    console.log(body);
+  };
+
   return (
     <Box>
-      <Grid container>
-        <Grid tem sm={8}>
-          <LoginSide>
-            <CustomAvatar>
-              <LockOutlinedIcon />
-            </CustomAvatar>
-            <Typography variant="h1">Sign in</Typography>
-            <Box component="form" noValidate onSubmit={console.log("HELLOW")}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
+      <Container>
+        <LoginSide>
+          <CustomAvatar>
+            <LockOutlinedIcon fontSize="large" />
+          </CustomAvatar>
+          <Typography variant="h1">Sign in</Typography>
+          <Box>
+            <form onSubmit={handleSubmit(handleLogin)}>
+              <Controller
                 name="email"
-                autoComplete="email"
-                autoFocus
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ?? ""}
+                  />
+                )}
+                control={control}
+                rules={{
+                  required: "Email Addres is Required",
+                }}
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
+              <Controller
                 name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ?? ""}
+                  />
+                )}
+                control={control}
+                rules={{
+                  required: "Password is Required",
+                }}
               />
 
               <Button
@@ -47,25 +89,22 @@ const Login = () => {
               >
                 Sign In
               </Button>
+
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant={"body2"}>
                     Forgot password?
                   </Link>
                 </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
               </Grid>
-            </Box>
-          </LoginSide>
-        </Grid>
-        <Grid item sm={4}>
-          <SideImage />
-        </Grid>
-      </Grid>
+            </form>
+          </Box>
+        </LoginSide>
+
+        <SideImage>
+          <img src="/images/sideImage.svg" alt="SIGN_IN" />
+        </SideImage>
+      </Container>
     </Box>
   );
 };
