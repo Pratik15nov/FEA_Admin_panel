@@ -250,7 +250,11 @@ export default function MiniDrawer(props) {
               <ListItemText primary="Products" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/category")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -379,10 +383,8 @@ export default function MiniDrawer(props) {
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 24px" }}>
-        {props.children}
-        {/* <DrawerHeader />
-         */}
+      <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>
+        <Box sx={{ p: "20px" }}>{props.children}</Box>
       </Box>
     </Box>
   );

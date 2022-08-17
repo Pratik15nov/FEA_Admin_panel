@@ -20,7 +20,7 @@ const Login = () => {
 
   const handleLogin = (body) => {
     console.log(body);
-    navigate("/Navbar");
+    navigate("/dashboard");
   };
 
   return (
