@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled,alpha } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -56,8 +56,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
+   ...theme.mixins.toolbar,
 }));
 
 const AppBar = styled(MuiAppBar, {
@@ -96,7 +95,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer(props) {
-  
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -369,10 +367,8 @@ export default function MiniDrawer(props) {
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: '64px 24px 24px 24px'}}>
+      <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 24px" }}>
         {props.children}
-        {/* <DrawerHeader />
-         */}
       </Box>
     </Box>
   );
