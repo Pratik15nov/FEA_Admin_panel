@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled,alpha } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -27,6 +27,7 @@ import ViewQuiltRoundedIcon from "@mui/icons-material/ViewQuiltRounded";
 import DiscountRoundedIcon from "@mui/icons-material/DiscountRounded";
 import LocalLibraryRoundedIcon from "@mui/icons-material/LocalLibraryRounded";
 import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
+import { useNavigate } from "react-router";
 
 const drawerWidth = 240;
 
@@ -96,7 +97,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer(props) {
-  
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -145,6 +145,8 @@ export default function MiniDrawer(props) {
       },
     },
   }));
+
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -197,7 +199,11 @@ export default function MiniDrawer(props) {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/dashboard")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -220,7 +226,11 @@ export default function MiniDrawer(props) {
               />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/products")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -369,7 +379,7 @@ export default function MiniDrawer(props) {
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: '64px 24px 24px 24px'}}>
+      <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 24px" }}>
         {props.children}
         {/* <DrawerHeader />
          */}
