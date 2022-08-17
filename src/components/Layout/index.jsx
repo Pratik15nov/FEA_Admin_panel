@@ -57,7 +57,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-   ...theme.mixins.toolbar,
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
 }));
 
 const AppBar = styled(MuiAppBar, {
@@ -380,6 +381,8 @@ export default function MiniDrawer(props) {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 24px" }}>
         {props.children}
+        {/* <DrawerHeader />
+         */}
       </Box>
     </Box>
   );
