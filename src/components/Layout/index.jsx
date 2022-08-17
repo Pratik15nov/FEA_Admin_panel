@@ -27,6 +27,7 @@ import ViewQuiltRoundedIcon from "@mui/icons-material/ViewQuiltRounded";
 import DiscountRoundedIcon from "@mui/icons-material/DiscountRounded";
 import LocalLibraryRoundedIcon from "@mui/icons-material/LocalLibraryRounded";
 import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
+import { useNavigate } from "react-router";
 
 const drawerWidth = 240;
 
@@ -144,6 +145,8 @@ export default function MiniDrawer(props) {
     },
   }));
 
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -195,7 +198,11 @@ export default function MiniDrawer(props) {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/dashboard")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -218,7 +225,11 @@ export default function MiniDrawer(props) {
               />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/products")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
