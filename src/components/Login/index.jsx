@@ -7,8 +7,10 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { handleSubmit, control } = useForm({
     defaultValues: {
       email: null,
@@ -18,6 +20,7 @@ const Login = () => {
 
   const handleLogin = (body) => {
     console.log(body);
+    navigate("/Navbar");
   };
 
   return (
