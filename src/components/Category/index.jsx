@@ -1,4 +1,4 @@
-import * as React from "react";
+import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -22,6 +22,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { ImageAvatar } from "./Category.style";
+import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
+import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
+import { categoryHandlerData } from "../../service/Auth.Service";
+import { listBody } from "../../utils/Helper";
 
 function createData(name, calories, fat, carbs, protein) {
   return {
@@ -81,34 +85,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    // id: "name",
+    id: "categories",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "Categories",
   },
   {
-    id: "calories",
+    // id: "calories",
+    id: "createdAt",
     numeric: true,
     disablePadding: false,
-    label: "Calories",
+    label: "Created At",
   },
   {
-    id: "fat",
-    numeric: true,
+    // id: "fat",
+    id: "status",
+    numeric: false,
     disablePadding: false,
-    label: "Fat (g)",
+    label: "Status",
   },
   {
-    id: "carbs",
+    // id: "carbs",
+    id: "updatedProduct",
     numeric: true,
     disablePadding: false,
-    label: "Carbs (g)",
+    label: "Update product",
   },
   {
-    id: "protein",
+    // id: "protein",
+    id: "deleteProduct",
+
     numeric: true,
     disablePadding: false,
-    label: "Protein (g)",
+    label: "Delete product",
   },
 ];
 
@@ -233,12 +243,29 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function Category() {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [categorydata, setCategoryData] = useState([]);
+
+  useEffect(() => {
+    getcategoryData(); // eslint-disable-next-line
+  }, []);
+
+  const getcategoryData = async () => {
+    const response = await categoryHandlerData(
+      listBody({ where: { isActive: true }, perPage: 1000 })
+    );
+    setCategoryData(response);
+  };
+
+  console.log(
+    "DATA",
+    categorydata
+  );
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -292,7 +319,7 @@ export default function Category() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categorydata.length) : 0; // CHANGE_HERE
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -310,25 +337,25 @@ export default function Category() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={categorydata.length} // CHANGE_HERE
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(categorydata, getComparator(order, orderBy)) // CHANGE_HERE
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.categoryName); // CHANGE_HERE
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.categoryName)} // CHANGE_HERE
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.categoryName} // CHANGE_HERE
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -346,17 +373,24 @@ export default function Category() {
                         scope="row"
                         padding="none"
                       >
-                        <ImageAvatar
-                          variant="rounded"
-                          alt="Product img"
-                          src="https://images.unsplash.com/photo-1655729916123-5a159e49de25?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDk1fHhqUFI0aGxrQkdBfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-                        />
-                        {row.name}
+                        <Box display={"flex"}>
+                          <ImageAvatar
+                            variant="rounded"
+                            alt="Product image"
+                            src="https://images.unsplash.com/photo-1656226238400-e10946021d9b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDc3fHhqUFI0aGxrQkdBfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+                          />
+                          &nbsp; &nbsp;
+                          {row.categoryName}
+                        </Box>
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.createdAt}</TableCell>
+                      <TableCell align="right">{row.isActive ? 'True' : 'False'}</TableCell>
+                      <TableCell align="right">
+                        {<AppRegistrationTwoToneIcon sx={{ color: "green" }} />}
+                      </TableCell>
+                      <TableCell align="right">
+                        <AutoDeleteTwoToneIcon sx={{ color: "red" }} />
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -375,7 +409,7 @@ export default function Category() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={categorydata.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
