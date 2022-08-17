@@ -19,9 +19,10 @@ const theme = createTheme({
     },
   },
   typography: {
-    // fontFamily: ["-apple-system"].join(","),
+    fontFamily: ["-apple-system"].join(","),
     h1: {
-      fontSize: "30px",
+      fontSize: "24px",
+      fontWeight: 600
     },
   },
 });

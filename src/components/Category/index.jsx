@@ -22,7 +22,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { ImageAvatar } from "./Category.style";
-
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+// import Link from "@mui/material/Link";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import Grid from "@mui/material/Grid";
+import { Link } from "react-router-dom";
 function createData(name, calories, fat, carbs, protein) {
   return {
     name,
@@ -296,6 +301,26 @@ export default function Category() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <Grid container sx={{ padding: 2 }}>
+        <Grid item xs={10}>
+          <Typography variant="h1">Category List</Typography>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Box underline="hover" color="inherit">
+              Category
+            </Box>
+            <Typography color="text.primary">Category List</Typography>
+          </Breadcrumbs>
+        </Grid>
+        <Grid item xs={2}>
+          <Link to="/category/add" style={{ textDecoration: "none" }}>
+            <Button variant="contained">
+              <AddIcon />
+              Add Category
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>

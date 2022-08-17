@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import Dashboard from "./components/Dashboard";
 import Products from "./components/Products";
 import Category from "./components/Category";
+import AddCategory from "./components/Category/AddCategory";
 
 function App() {
   return (
@@ -38,6 +39,15 @@ function App() {
             element={
               <Layout>
                 <Category />
+              </Layout>
+            }
+          />
+           <Route
+            exact
+            path="/category/add"
+            element={
+              <Layout>
+                <AddCategory />
               </Layout>
             }
           />

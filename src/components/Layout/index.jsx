@@ -66,7 +66,7 @@ export default function MiniDrawer(props) {
           <img src="/images/logo.png" alt="logo"></img>
         </Toolbar>
         <Toolbar sx={{ flexDirection: "row-reverse" }}>
-          <Avatar alt="admin" src="./images/profile.webp" />
+          <Avatar alt="admin" src="/images/profile.webp" />
           <NotificationsActiveIcon sx={{ marginRight: 3 }} />
           <Search>
             <SearchIconWrapper>
@@ -79,7 +79,7 @@ export default function MiniDrawer(props) {
       <Drawer variant="permanent" open={open}>
         <AvatarHeader>
           <CardHeader
-            avatar={<AvatarStyle alt="admin" src="./images/profile.webp" />}
+            avatar={<AvatarStyle alt="admin" src="/images/profile.webp" />}
             title="Prince Akabari"
             subheader="Admin"
             sx={{ padding: 1 }}
@@ -107,7 +107,7 @@ export default function MiniDrawer(props) {
               <ListItemText primary="Products" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/category")} >
+          <ListItem disablePadding onClick={() => navigate("/category")}>
             <ListItemButton>
               <ListItemIcon>
                 <CategoryIcon />
