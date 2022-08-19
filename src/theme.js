@@ -21,7 +21,13 @@ const theme = createTheme({
   typography: {
     // fontFamily: ["-apple-system"].join(","),
     h1: {
-      fontSize: "30px",
+      fontSize: "24px",
+    },
+    h2: {
+      fontSize: "20px",
+    },
+    h3: {
+      fontSize: "15px",
     },
   },
 });

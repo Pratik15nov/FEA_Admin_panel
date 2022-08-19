@@ -1,4 +1,5 @@
-export const ENDPOINTURL = "https://fea-backend.herokuapp.com/api/v1";
+export const ENDPOINTURL = "https://fea-backend.herokuapp.com/api/v1"; // "http://localhost:8080/api/v1";
+export const ENDPOINTURLFORIMG = "https://fea-backend.herokuapp.com/"; //  "http://localhost:8080/";
 
 export const listBody = (data) => {
   return {
