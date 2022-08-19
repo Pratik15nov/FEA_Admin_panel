@@ -1,4 +1,6 @@
+
 export const ENDPOINTURL = "https://fea-backend.herokuapp.com/api/v1";
+export const ENDPOINTURLFORIMG = "https://fea-backend.herokuapp.com/";
 
 export const listBody = (data) => {
   return {
@@ -17,3 +19,5 @@ export const delBody = (data) => {
     data,
   };
 };
+
+

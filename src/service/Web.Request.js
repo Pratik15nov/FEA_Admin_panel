@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export const get = async (url) => {
   const response = await axios
     .get(url)
@@ -67,6 +68,9 @@ export const post = async (url, data) => {
     .then((res) => {
       if (res.status === 200) {
         if (res.data?.success) {
+          
+
+          console.log(res.data.message);
           return res.data?.data.list ? res.data?.data.list : res.data;
         } else {
           return [];

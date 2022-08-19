@@ -8,8 +8,21 @@ import Dashboard from "./components/Dashboard";
 import Products from "./components/Products";
 import Category from "./components/Category";
 import AddCategory from "./components/Category/AddCategory";
+import CustomSnackbar from "./components/Snackbar";
+import { useState } from "react";
 
 function App() {
+  const [message, setMessage] = useState(" ");
+  const [msgData, setMsgData] = useState(false);
+
+  const getValue = (open, msg) => {
+    setMessage(msg);
+    setMsgData(open);
+    setTimeout(() => {
+      setMsgData(false);
+    }, 3000);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
@@ -42,16 +55,17 @@ function App() {
               </Layout>
             }
           />
-           <Route
+          <Route
             exact
             path="/category/add"
             element={
               <Layout>
-                <AddCategory />
+                <AddCategory getValue={getValue} />
               </Layout>
             }
           />
         </Routes>
+        <CustomSnackbar open={msgData} msg={message} />
       </BrowserRouter>
     </ThemeProvider>
   );
