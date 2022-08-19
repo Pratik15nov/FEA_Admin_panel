@@ -32,257 +32,163 @@ import { Breadcrumbs } from "@mui/material";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-  {
-    id: "categories",
-    numeric: false,
-    disablePadding: true,
-    label: "Categories",
-  },
-  {
-    id: "createdAt",
-    numeric: true,
-    disablePadding: false,
-    label: "Created At",
-  },
-  {
-    id: "status",
-    numeric: false,
-    disablePadding: false,
-    label: "Status",
-  },
-  {
-    id: "updatedProduct",
-    numeric: true,
-    disablePadding: false,
-    label: "Update product",
-  },
-  {
-    id: "deleteProduct",
-    numeric: true,
-    disablePadding: false,
-    label: "Delete product",
-  },
-];
-
-function EnhancedTableHead(props) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-const EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Category
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
+import {
+  UpdateIcon,
+  DeletionIcon,
+  IOSSwitch,
+  TableGrid,
+  CategoryName,
+  ColoumHead,
+} from "./Category.style";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
+import { categoryDelete } from "../../service/Auth.Service";
 
 export default function Category() {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [loading, setLoading] = useState(false);
   const [categorydata, setCategoryData] = useState([]);
+  const [openalert, setOpenAlert] = useState(false);
+  const [alertdata, setAlertData] = useState([]);
+
+  const [totalCount, setTotalCount] = useState(0);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     getcategoryData(); // eslint-disable-next-line
-  }, []);
+  }, [page]);
+
+  const handleAlert = (data) => {
+    setAlertData(data);
+    setOpenAlert(true);
+  };
+
+  const alertClose = () => {
+    setAlertData([]);
+    setOpenAlert(false);
+  };
+
+  const handleToggleStatus = async (id, value) => {
+    const body = {
+      isActive: value,
+    };
+    try {
+      const response = await categoryStatus(id, body);
+      if (response.success) {
+        console.log(response);
+        getcategoryData();
+        console.log("SWITCH WORKS");
+      } else {
+        console.log("SWITCH IS NOT WORKING");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const removeCategory = async (id) => {
+    try {
+      const response = await categoryDelete(id);
+      if (response.data.success) {
+        console.log(response);
+        setOpenAlert(false);
+        setAlertData([]);
+        getcategoryData();
+      } else {
+        console.log("DELETION NOT WORKING");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const columns = [
+    {
+      field: "categoryImg",
+      headerName: <ColoumHead variant="h2">Image</ColoumHead>,
+      flex: 1,
+      sortable: false,
+      renderCell: (params) => (
+        <ImageAvatar
+          variant="rounded"
+          alt="Product image"
+          src={ENDPOINTURLFORIMG + params.value}
+        />
+      ),
+    },
+    {
+      field: "categoryName",
+      headerName: <ColoumHead variant="h2">Categories</ColoumHead>,
+      flex: 1,
+      sortable: true,
+      renderCell: (params) => (
+        <CategoryName>{params.row.categoryName}</CategoryName>
+      ),
+    },
+    {
+      field: "isActive",
+      headerName: <ColoumHead variant="h2">Status</ColoumHead>,
+      flex: 1,
+      sortable: false,
+      renderCell: (params) => {
+        let value = params.row?.isActive;
+
+        return (
+          <IOSSwitch
+            sx={{ m: 1 }}
+            //   defaultChecked={params.row.isActive ? true :  false}
+            // value={params.row.isActive}
+            // defaultValue={params.row?.isActive}
+            onChange={(e) => {
+              value = !params.row?.isActive;
+              handleToggleStatus(params.row._id, e.target.checked);
+            }}
+            checked={value}
+          />
+        );
+      },
+    },
+    {
+      field: "actions",
+      headerName: <ColoumHead variant="h2">Actions</ColoumHead>,
+      flex: 1,
+      sortable: false,
+      renderCell: (params) => (
+        <Box>
+          <UpdateIcon
+            onClick={() => console.log("ID FOR UPDATION", params.row._id)}
+          />
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <DeletionIcon onClick={() => handleAlert(params.row)} />
+        </Box>
+      ),
+    },
+  ];
 
   const getcategoryData = async () => {
-    const response = await categoryHandlerData(
-      listBody({ where: { isActive: true }, perPage: 1000 })
-    );
-    setCategoryData(response);
-  };
-
-  console.log("DATA", categorydata);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = categorydata.map((n) => n.categoryName);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+    setLoading(true);
+    try {
+      const response = await categoryHandlerData(
+        listBody({ where: null, perPage: 10, page: page })
       );
+      if (response.success) {
+        if (totalCount === 0) {
+          setTotalCount(response.count);
+        }
+        // const updateData = response?.list?.map((res) => ({ ...res, actions: null }));
+        setCategoryData(response?.list);
+      } else {
+        setCategoryData([]);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -414,4 +320,19 @@ export default function Category() {
       />
     </Box>
   );
+}
+
+{
+  /* <IOSSwitch
+  sx={{ m: 1 }}
+  checked={params.row?.isActive}
+  //   defaultChecked={params.row.isActive}
+  // value={params.row.isActive}
+  // defaultValue={params.row?.isActive}
+  onChange={(e) => {
+    console.log(e.target.checked);
+    console.log("9090",params.row?.isActive)
+    handleToggleStatus(params.row._id, e.target.checked);
+  }}
+  /> */
 }

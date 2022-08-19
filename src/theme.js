@@ -22,7 +22,12 @@ const theme = createTheme({
     fontFamily: ["-apple-system"].join(","),
     h1: {
       fontSize: "24px",
-      fontWeight: 600,
+    },
+    h2: {
+      fontSize: "20px",
+    },
+    h3: {
+      fontSize: "15px",
     },
   },
 });
