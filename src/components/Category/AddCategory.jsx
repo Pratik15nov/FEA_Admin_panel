@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Typography, Breadcrumbs, TextField } from "@mui/material";
+import { Box, Typography, Breadcrumbs, TextField, Grid } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -28,7 +28,6 @@ export default function AddCategory(props) {
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.map((file) => {
       setFile(file);
-
       setValue("categoryImg", file);
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -38,6 +37,7 @@ export default function AddCategory(props) {
       return file;
     }); // eslint-disable-next-line
   }, []);
+
   useEffect(() => {
     let categoryId;
     if (search.split("=").length > 0) {
@@ -74,11 +74,9 @@ export default function AddCategory(props) {
   //this function used for submit category details
   const handleCategoryAddData = async (body) => {
     setLoading(true);
-
     const reqBody = new FormData();
     reqBody.append("categoryName", body.categoryName);
     reqBody.append("categoryImg", file);
-
     const response = await categoryAddHandler(reqBody);
     if (response.success) {
       navigate(`/category`);
@@ -93,13 +91,11 @@ export default function AddCategory(props) {
     const reqBody = new FormData(); //  if passing an image or file with all data use reBody
     reqBody.append("categoryName", body.categoryName);
     reqBody.append("categoryImg", file);
-
     // if not passing any imge or file pass  data normally like Body
     const Body = {
       categoryName: body.categoryName,
       categoryImg: apiImg,
     };
-
     const response = await categoryEditHandler(
       cid,
       file !== null ? reqBody : Body
@@ -182,63 +178,71 @@ export default function AddCategory(props) {
                   <>
                     {images == null ? (
                       <Box>
-                        <DragDrop onDrop={onDrop} accept={"image/*"} />
-                        {value !== null ? (
-                          <>
-                            <Box
-                              component="img"
-                              src={ENDPOINTURLFORIMG + value}
-                              sx={{
-                                height: 233,
-                                width: 350,
-                                maxHeight: { xs: 233, md: 167 },
-                                maxWidth: { xs: 350, md: 250 },
-                              }}
-                              alt=""
-                            />
-                            <DeleteIcon
-                              onClick={() => setValue("categoryImg", null)}
-                              sx={{ cursor: "pointer" }}
-                            />
-                          </>
-                        ) : (
-                          <></>
-                        )}
+                        <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          </Grid>
+                          <Grid item xs={6}>
+                            {value !== null ? (
+                              <>
+                                <Box
+                                  component="img"
+                                  src={ENDPOINTURLFORIMG + value}
+                                  sx={{
+                                    height: 250,
+                                    width: 250,
+                                  }}
+                                  alt=""
+                                />
+                                <DeleteIcon
+                                  onClick={() => setValue("categoryImg", null)}
+                                  sx={{ cursor: "pointer" }}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Grid>
+                        </Grid>
                       </Box>
                     ) : (
                       <>
-                        <DragDrop onDrop={onDrop} accept={"image/*"} />
-                        <Box
-                          component="img"
-                          src={images}
-                          sx={{
-                            height: 233,
-                            width: 350,
-                            maxHeight: { xs: 233, md: 167 },
-                            maxWidth: { xs: 350, md: 250 },
-                          }}
-                          alt=""
-                        />
-                        {images !== null ? (
-                          <>
-                            <DeleteIcon
-                              onClick={() => [
-                                setImages(null),
-                                setValue("categoryImg", null),
-                              ]}
-                              sx={{ cursor: "pointer" }}
+                        <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Box
+                              component="img"
+                              src={images}
+                              sx={{
+                                height: 250,
+                                width: 250,
+                              }}
+                              alt=""
                             />
-                          </>
-                        ) : (
-                          <></>
-                        )}
+                            {images !== null ? (
+                              <>
+                                <DeleteIcon
+                                  onClick={() => [
+                                    setImages(null),
+                                    setValue("categoryImg", null),
+                                  ]}
+                                  sx={{ cursor: "pointer" }}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Grid>
+                        </Grid>
                       </>
                     )}
                   </>
                 )}
                 control={control}
                 rules={{
-                  required: "please add category img",
+                  required: "Please add category img",
                 }}
               />
             </Box>

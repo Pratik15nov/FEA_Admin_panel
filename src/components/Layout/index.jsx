@@ -1,16 +1,18 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
+import {
+  Box,
+  Toolbar,
+  List,
+  Divider,
+  ListItem,
+  ListItemButton,
+  CardHeader,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import CardHeader from "@mui/material/CardHeader";
 import GridViewIcon from "@mui/icons-material/GridView";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -34,17 +36,7 @@ import {
 
 export default function MiniDrawer(props) {
   const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const navigate = useNavigate();
-
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -54,7 +46,7 @@ export default function MiniDrawer(props) {
       >
         <Toolbar>
           <mainListIcon
-            onClick={handleDrawerOpen}
+            onClick={() => setOpen(true)}
             sx={{
               marginRight: 5,
               ...(open && { display: "none" }),
@@ -84,7 +76,7 @@ export default function MiniDrawer(props) {
             sx={{ padding: 1 }}
           />
 
-          <mainListIcon onClick={handleDrawerClose}>
+          <mainListIcon onClick={() => setOpen(false)}>
             <KeyboardDoubleArrowLeftIcon />
           </mainListIcon>
         </AvatarHeader>
