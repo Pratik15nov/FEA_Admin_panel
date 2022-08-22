@@ -3,6 +3,9 @@ import MuiAppBar from "@mui/material/AppBar";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
 
 const openedMixin = (theme) => ({
   width: 240,
@@ -59,7 +62,7 @@ const Drawer = styled(MuiDrawer, {
   whiteSpace: "nowrap",
   boxSizing: "border-box",
   border: "none",
-  
+
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -122,6 +125,23 @@ const AvatarHeader = styled(DrawerHeader)(({ theme }) => ({
   boxShadow: `0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)`,
   color: `white`,
 }));
+
+const ListIcon = styled(ListItemIcon)(({ theme }) => ({
+  color: theme.palette.primary.main,
+}));
+
+const ListText = styled(ListItemText)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  fontWeight: 600,
+  "& .MuiTypography-root": {
+    fontWeight: 600,
+  },
+}));
+
+const mainListIcon = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.primary.main,
+}));
+
 export {
   Customsidebar,
   DrawerHeader,
@@ -132,4 +152,7 @@ export {
   StyledInputBase,
   AvatarStyle,
   AvatarHeader,
+  ListIcon,
+  ListText,
+  mainListIcon,
 };

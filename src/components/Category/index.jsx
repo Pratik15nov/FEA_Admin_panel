@@ -13,9 +13,10 @@ import {
   TableGrid,
   CategoryName,
   ColoumHead,
+  Search,
   SearchIconWrapper,
   StyledInputBase,
-  Search,
+  MyButton,
 } from "./Category.style";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -25,10 +26,13 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  Button,
+  Grid,
+  Breadcrumbs,
 } from "@mui/material";
 import { categoryDelete } from "../../service/Auth.Service";
 import { useNavigate } from "react-router";
+
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
@@ -140,7 +144,9 @@ export default function Category() {
       sortable: false,
       renderCell: (params) => (
         <Box>
-          <UpdateIcon onClick={() => navigate(`/add?cid=${params.row._id}`)} />
+          <UpdateIcon
+            onClick={() => navigate(`/category/add?cid=${params.row._id}`)}
+          />
           &nbsp;&nbsp;&nbsp;&nbsp;
           <DeletionIcon onClick={() => handleAlert(params.row)} />
         </Box>
@@ -171,53 +177,75 @@ export default function Category() {
   };
 
   return (
-    <Box sx={{ height: 370, width: "100%" }}>
-      <Dialog
-        open={openalert}
-        onClose={alertClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Deletion alert</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete {alertdata.categoryName} category ?
-            {alertdata._id}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={alertClose}>Disagree</Button>
-          <Button onClick={() => removeCategory(alertdata._id)} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ padding: 2 }}>
+        <Grid container sx={{ paddingBottom: "20px" }}>
+          <Grid xs={6}>
+            <Typography variant="h1"> Category </Typography>
+            <Breadcrumbs aria-label="breadcrumb">
+              <Box underline="hover" color="inherit">
+                Category
+              </Box>
+              <Typography>Category List</Typography>
+            </Breadcrumbs>
+          </Grid>
+          <Grid xs={4}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase placeholder="Search…" />
+            </Search>
+          </Grid>
+          <Grid xs={2}>
+            <MyButton
+              variant="contained"
+              onClick={() => navigate(`/category/add`)}
+            >
+              + Add Category
+            </MyButton>
+          </Grid>
+        </Grid>
 
-      <Search>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase placeholder="Search…" />
-      </Search>
-
-      <TableGrid
-        autoHeight={true}
-        rows={categorydata}
-        columns={columns}
-        loading={loading}
-        pageSize={10}
-        rowCount={totalCount}
-        rowsPerPageOptions={[10]}
-        checkboxSelection={true}
-        getRowId={(row) => row._id}
-        disableSelectionOnClick
-        pagination
-        paginationMode="server"
-        onPageChange={(page, detail) => {
-          setPage(page);
-          console.log(page);
-        }}
-      />
+        <Dialog
+          open={openalert}
+          onClose={alertClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Deletion alert</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete {alertdata.categoryName} category
+              ?{alertdata._id}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <MyButton onClick={alertClose}>Disagree</MyButton>
+            <MyButton onClick={() => removeCategory(alertdata._id)} autoFocus>
+              Agree
+            </MyButton>
+          </DialogActions>
+        </Dialog>
+        <TableGrid
+          autoHeight={true}
+          rows={categorydata}
+          columns={columns}
+          loading={loading}
+          pageSize={10}
+          rowCount={totalCount}
+          rowsPerPageOptions={[10]}
+          checkboxSelection={true}
+          getRowId={(row) => row._id}
+          disableSelectionOnClick
+          pagination
+          paginationMode="server"
+          onPageChange={(page, detail) => {
+            setPage(page);
+            console.log(page);
+          }}
+        />
+      </Box>
     </Box>
   );
 }

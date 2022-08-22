@@ -3,12 +3,9 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
@@ -31,6 +28,8 @@ import {
   StyledInputBase,
   AvatarStyle,
   AvatarHeader,
+  ListIcon,
+  ListText,
 } from "./Layout.style";
 
 export default function MiniDrawer(props) {
@@ -54,7 +53,7 @@ export default function MiniDrawer(props) {
         open={open}
       >
         <Toolbar>
-          <IconButton
+          <mainListIcon
             onClick={handleDrawerOpen}
             sx={{
               marginRight: 5,
@@ -62,11 +61,11 @@ export default function MiniDrawer(props) {
             }}
           >
             <MenuIcon />
-          </IconButton>
+          </mainListIcon>
           <img src="/images/logo.png" alt="logo"></img>
         </Toolbar>
         <Toolbar sx={{ flexDirection: "row-reverse" }}>
-          <Avatar alt="admin" src="./images/profile.webp" />
+          <Avatar alt="admin" src="/images/profile.webp" />
           <NotificationsActiveIcon sx={{ marginRight: 3 }} />
           <Search>
             <SearchIconWrapper>
@@ -79,80 +78,80 @@ export default function MiniDrawer(props) {
       <Drawer variant="permanent" open={open}>
         <AvatarHeader>
           <CardHeader
-            avatar={<AvatarStyle alt="admin" src="./images/profile.webp" />}
+            avatar={<AvatarStyle alt="admin" src="/images/profile.webp" />}
             title="Prince Akabari"
             subheader="Admin"
             sx={{ padding: 1 }}
           />
 
-          <IconButton onClick={handleDrawerClose}>
+          <mainListIcon onClick={handleDrawerClose}>
             <KeyboardDoubleArrowLeftIcon />
-          </IconButton>
+          </mainListIcon>
         </AvatarHeader>
         <Divider />
         <List>
           <ListItem disablePadding onClick={() => navigate("/dashboard")}>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <GridViewIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
+              </ListIcon>
+              <ListText>Dashboard</ListText>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding onClick={() => navigate("/products")}>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <InventoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Products" />
+              </ListIcon>
+              <ListText>Products</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/category")} >
+          <ListItem disablePadding onClick={() => navigate("/category")}>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <CategoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Category" />
+              </ListIcon>
+              <ListText>Category</ListText>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <PeopleAltIcon />
-              </ListItemIcon>
-              <ListItemText primary="Customers" />
+              </ListIcon>
+              <ListText>Customers</ListText>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <ViewQuiltRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Orders" />
+              </ListIcon>
+              <ListText>Orders</ListText>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <DiscountRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Coupons" />
+              </ListIcon>
+              <ListText>Coupons</ListText>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <LocalLibraryRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="All Staff" />
+              </ListIcon>
+              <ListText>All Staff</ListText>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListIcon>
                 <SettingsSuggestRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Setting" />
+              </ListIcon>
+              <ListText>Setting</ListText>
             </ListItemButton>
           </ListItem>
         </List>

@@ -3,10 +3,10 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#277BC0",
+      main: "#1A1A40",
     },
     secondary: {
-      main: "#FFB200",
+      main: "#270082",
     },
 
     custom: {
@@ -19,7 +19,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    // fontFamily: ["-apple-system"].join(","),
+    fontFamily: ["-apple-system"].join(","),
     h1: {
       fontSize: "24px",
     },
