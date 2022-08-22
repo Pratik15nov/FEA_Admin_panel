@@ -88,17 +88,21 @@ export default function AddCategory(props) {
   // it can be use for edit categories details
   const handleCategoryEditData = async (body) => {
     setLoading(true);
-    const reqBody = new FormData(); //  if passing an image or file with all data use reBody
-    reqBody.append("categoryName", body.categoryName);
-    reqBody.append("categoryImg", file);
-    // if not passing any imge or file pass  data normally like Body
-    const Body = {
-      categoryName: body.categoryName,
-      categoryImg: apiImg,
-    };
+    let reqBody;
+    if(file !== null) {
+      reqBody = new FormData(); //  if passing an image or file with all data use reBody
+      reqBody.append("categoryName", body.categoryName);
+      reqBody.append("categoryImg", file);
+    } else {
+      // if not passing any imge or file pass  data normally like Body
+      reqBody = {
+        categoryName: body.categoryName,
+        categoryImg: apiImg,
+      };
+    }
     const response = await categoryEditHandler(
       cid,
-      file !== null ? reqBody : Body
+      reqBody
     );
     if (response.success) {
       navigate(`/category`);
@@ -172,8 +176,7 @@ export default function AddCategory(props) {
               <Controller
                 name="categoryImg"
                 render={({
-                  field: { onChange, value },
-                  fieldState: { error },
+                  field: { value }
                 }) => (
                   <>
                     {images == null ? (
