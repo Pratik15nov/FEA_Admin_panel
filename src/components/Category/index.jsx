@@ -224,13 +224,8 @@ export default function Category() {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-<<<<<<< HEAD
                 placeholder="Search…"
                 onChange={(e) => captureSearch(e.target.value)}
-=======
-                placeholder="Search Category
-"
->>>>>>> 08afc3cbb7d07cc82c33f2579b4fce2cd27a102f
               />
             </Search>
           </Grid>
