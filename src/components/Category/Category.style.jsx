@@ -1,7 +1,8 @@
-import { Avatar, styled, Switch, Typography } from "@mui/material";
+import { Avatar, styled, Switch, Typography, alpha } from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
+import InputBase from "@mui/material/InputBase";
 
 export const ImageAvatar = styled(Avatar)(({ theme }) => ({}));
 export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
@@ -22,9 +23,9 @@ export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
 }));
 
 export const CategoryName = styled(Typography)(({ theme }) => ({
-    fontSize:"18px",
-    fontWeight:400,
-    color: "black",
+  fontSize: "18px",
+  fontWeight: 400,
+  color: "black",
 
   "&:hover": {
     color: "black",
@@ -32,9 +33,9 @@ export const CategoryName = styled(Typography)(({ theme }) => ({
 }));
 
 export const ColoumHead = styled(Typography)(({ theme }) => ({
-    color:"black",
-    fontWeight:600,
-  }));
+  color: "black",
+  fontWeight: 600,
+}));
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
   " &.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
@@ -64,9 +65,9 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiTablePagination-actions": {
     color: "white",
   },
-  "& .MuiDataGrid-iconSeparator" :{
-    display:"none",
-  }
+  "& .MuiDataGrid-iconSeparator": {
+    display: "none",
+  },
 }));
 
 export const IOSSwitch = styled((props) => (
@@ -117,5 +118,43 @@ export const IOSSwitch = styled((props) => (
     transition: theme.transitions.create(["background-color"], {
       duration: 500,
     }),
+  },
+}));
+
+export const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+}));
+
+export const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  backgroundColor: theme.palette.primary.main,
+  borderRadius: "20px",
+  marginBottom: "20px",
+  "&:hover": {
+    backgroundColor: "#98cbf4",
+  },
+
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    width: "auto",
   },
 }));

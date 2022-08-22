@@ -13,10 +13,13 @@ import {
   TableGrid,
   CategoryName,
   ColoumHead,
+  SearchIconWrapper,
+  StyledInputBase,
+  Search,
 } from "./Category.style";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
-  Typography,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -189,6 +192,14 @@ export default function Category() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase placeholder="Search…" />
+      </Search>
+
       <TableGrid
         autoHeight={true}
         rows={categorydata}
@@ -209,19 +220,4 @@ export default function Category() {
       />
     </Box>
   );
-}
-
-{
-  /* <IOSSwitch
-  sx={{ m: 1 }}
-  checked={params.row?.isActive}
-  //   defaultChecked={params.row.isActive}
-  // value={params.row.isActive}
-  // defaultValue={params.row?.isActive}
-  onChange={(e) => {
-    console.log(e.target.checked);
-    console.log("9090",params.row?.isActive)
-    handleToggleStatus(params.row._id, e.target.checked);
-  }}
-  /> */
 }

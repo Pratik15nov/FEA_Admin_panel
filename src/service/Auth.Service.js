@@ -13,5 +13,6 @@ export const categoryStatus = (id, body) => {
   return put(`${ENDPOINTURL}/category/statusChange/${id}`, body);
 };
 
-
-
+export const searchHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/category/search`, body);
+};
