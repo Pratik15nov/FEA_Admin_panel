@@ -50,11 +50,16 @@ export default function Category() {
   };
 
   const handleToggleStatus = async (id, value) => {
+    console.log("id: ", id);
+    console.log("value: ", value);
+
     const body = {
       isActive: value,
     };
     try {
       const response = await categoryStatus(id, body);
+      console.log("response: ", response);
+
       if (response.success) {
         console.log(response);
         getcategoryData();
@@ -112,19 +117,13 @@ export default function Category() {
       flex: 1,
       sortable: false,
       renderCell: (params) => {
-        let value = params.row?.isActive;
-
         return (
           <IOSSwitch
             sx={{ m: 1 }}
-            //   defaultChecked={params.row.isActive ? true :  false}
-            // value={params.row.isActive}
-            // defaultValue={params.row?.isActive}
+            checked={params.row?.isActive}
             onChange={(e) => {
-              value = !params.row?.isActive;
               handleToggleStatus(params.row._id, e.target.checked);
             }}
-            checked={value}
           />
         );
       },
