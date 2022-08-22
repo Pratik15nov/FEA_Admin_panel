@@ -1,4 +1,4 @@
-import { post, remove, patch } from "./Web.Request";
+import { post, remove, patch, put } from "./Web.Request";
 import { ENDPOINTURL } from "../utils/Helper";
 
 export const categoryHandlerData = (body) => {
@@ -10,5 +10,8 @@ export const categoryDelete = (id) => {
 };
 
 export const categoryStatus = (id, body) => {
-  return patch(`${ENDPOINTURL}/category/${id}`, body);
+  return put(`${ENDPOINTURL}/category/statusChange/${id}`, body);
 };
+
+
+
