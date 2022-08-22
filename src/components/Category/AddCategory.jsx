@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link } from "react-router-dom";
 import {
   categoryEditHandler,
   categoryHndlerData,
@@ -108,7 +109,9 @@ export default function AddCategory(props) {
           <Box underline="hover" color="inherit">
             Category
           </Box>
-          <Typography>Category List</Typography>
+          <Typography  sx={{textDecoration:"none"}}>
+            <Link to="/category" style={{ textDecoration: 'none' }} >Category List</Link>
+          </Typography>
           <Typography color="text.primary">{cid ? "Edit" : "Add"} </Typography>
         </Breadcrumbs>
       </Box>
