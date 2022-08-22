@@ -18,20 +18,11 @@ import {
   SearchIconWrapper,
   StyledInputBase,
   MyButton,
-  DialogText,
 } from "./Category.style";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Grid,
-  Breadcrumbs,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Breadcrumbs, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
+import DialogBox from "../Dialog";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
@@ -231,29 +222,13 @@ export default function Category() {
             </MyButton>
           </Grid>
         </Grid>
-
-        <Dialog // open up a dialog box as a confirmation when user clicks on <DeletionIcon/> icon
-          open={openAlert}
-          onClose={alertClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">Deletion alert</DialogTitle>
-          <DialogContent>
-            <DialogText>
-              Are you sure you want to delete {""}
-              {""} <b>{alertData.categoryName}</b>
-              {""}
-              {""} category ?
-            </DialogText>
-          </DialogContent>
-          <DialogActions>
-            <MyButton onClick={alertClose}>Disagree</MyButton>
-            <MyButton onClick={() => removeCategory(alertData._id)} autoFocus>
-              Agree
-            </MyButton>
-          </DialogActions>
-        </Dialog>
+        <DialogBox  // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
+          openAlert={openAlert}
+          alertClose={alertClose}
+          msg={`Are you sure you want to delete CHECK ${alertData.categoryName}  category ?`}
+          onAgree={removeCategory}
+          callBackData={alertData._id}
+        />
         <TableGrid // its material UI DataGrid to show the category information in a  table structure
           autoHeight={true}
           rows={categoryData}

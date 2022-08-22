@@ -73,11 +73,6 @@ export const CategoryName = styled(Typography)(({ theme }) => ({
   },
 }));
 
-export const DialogText = styled(Typography)(({ theme }) => ({
-  fontSize: "20px",
-  fontWeight: 400,
-  color: "black",
-}));
 export const ColoumHead = styled(Typography)(({ theme }) => ({
   color: "white",
   fontWeight: 600,
