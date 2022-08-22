@@ -3,6 +3,7 @@ import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
   categoryHandlerData,
   categoryStatus,
+  searchHandlerData,
 } from "../../service/Auth.Service";
 
 import {
@@ -18,9 +19,9 @@ import {
   StyledInputBase,
   MyButton,
 } from "./Category.style";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
-  Typography,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -28,11 +29,10 @@ import {
   DialogActions,
   Grid,
   Breadcrumbs,
+  Typography,
 } from "@mui/material";
 import { categoryDelete } from "../../service/Auth.Service";
 import { useNavigate } from "react-router";
-
-import SearchIcon from "@mui/icons-material/Search";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export default function Category() {
   const [alertdata, setAlertData] = useState([]);
 
   const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -58,6 +58,7 @@ export default function Category() {
     setOpenAlert(false);
   };
 
+  // this function handles the toggle of Status
   const handleToggleStatus = async (id, value) => {
     console.log("id: ", id);
     console.log("value: ", value);
@@ -81,6 +82,7 @@ export default function Category() {
     }
   };
 
+  // this function handles the onClick event emitted by the <DeletionIcon/>
   const removeCategory = async (id) => {
     try {
       const response = await categoryDelete(id);
@@ -97,6 +99,7 @@ export default function Category() {
     }
   };
 
+  // this coloum makes sures that what types of Table Head we want to apple to our table(DataGrid)
   const columns = [
     {
       field: "categoryImg",
@@ -147,24 +150,34 @@ export default function Category() {
           <UpdateIcon
             onClick={() => navigate(`/category/add?cid=${params.row._id}`)}
           />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <DeletionIcon onClick={() => handleAlert(params.row)} />
+          {params.row.isActive ? (
+            <>
+              &nbsp;&nbsp;
+              <DeletionIcon onClick={() => handleAlert(params.row)} />
+            </>
+          ) : (
+            <></>
+          )}
         </Box>
       ),
     },
   ];
 
+  //  this API  fetches the data  from databse according to pagination
   const getcategoryData = async () => {
     setLoading(true);
     try {
       const response = await categoryHandlerData(
         listBody({ where: null, perPage: 10, page: page })
+        // listBody({ where: null, perPage: 10, page: page })
       );
+      console.log("response", response?.list);
+      console.log("page: ", page);
+
       if (response.success) {
         if (totalCount === 0) {
           setTotalCount(response.count);
         }
-        // const updateData = response?.list?.map((res) => ({ ...res, actions: null }));
         setCategoryData(response?.list);
       } else {
         setCategoryData([]);
@@ -173,6 +186,26 @@ export default function Category() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // this function captures the values emitted by the search field and updates the table(DataGrid);
+  const captureSearch = async (data) => {
+    const body = {
+      searchText: data,
+    };
+
+    try {
+      if (data.length >= 3) {
+        const response = await searchHandlerData(body);
+
+        setCategoryData(response?.data);
+      }
+      if (data.length === 0) {
+        getcategoryData();
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -195,22 +228,22 @@ export default function Category() {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder="Search Category
-"
+                placeholder="Search…"
+                onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
               />
             </Search>
           </Grid>
           <Grid xs={2}>
             <MyButton
               variant="contained"
-              onClick={() => navigate(`/category/add`)}
+              onClick={() => navigate(`/category/add`)} // this navigates to a new component to add the new categories
             >
               Add Category
             </MyButton>
           </Grid>
         </Grid>
 
-        <Dialog
+        <Dialog // open up a dialog box as a confirmation when user clicks on <DeletionIcon/> icon
           open={openalert}
           onClose={alertClose}
           aria-labelledby="alert-dialog-title"
@@ -230,7 +263,7 @@ export default function Category() {
             </MyButton>
           </DialogActions>
         </Dialog>
-        <TableGrid
+        <TableGrid // its material UI DataGrid to show the category information in a  table structure
           autoHeight={true}
           rows={categorydata}
           columns={columns}
@@ -244,9 +277,10 @@ export default function Category() {
           pagination
           paginationMode="server"
           onPageChange={(page, detail) => {
-            setPage(page);
+            setPage(page + 1);
             console.log(page);
           }}
+          onSelectionModelChange={(itm) => console.log(itm)}
         />
       </Box>
     </Box>
