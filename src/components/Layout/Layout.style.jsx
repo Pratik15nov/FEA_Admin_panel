@@ -62,6 +62,11 @@ const Drawer = styled(MuiDrawer, {
   whiteSpace: "nowrap",
   boxSizing: "border-box",
   border: "none",
+  borderRight: "none",
+  "& .MuiDrawer-paper": {
+    boxShadow: "rgb(0 0 0 / 24%) 0px 3px 8px",
+
+  },
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
