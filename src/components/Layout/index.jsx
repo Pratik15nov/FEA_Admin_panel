@@ -114,7 +114,7 @@ export default function MiniDrawer(props) {
               <ListText>Category</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={() => navigate("/customers")}>
             <ListItemButton>
               <ListIcon>
                 <PeopleAltIcon />
@@ -122,7 +122,7 @@ export default function MiniDrawer(props) {
               <ListText>Customers</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={() => navigate("/orders")}>
             <ListItemButton>
               <ListIcon>
                 <ViewQuiltRoundedIcon />
@@ -130,7 +130,7 @@ export default function MiniDrawer(props) {
               <ListText>Orders</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={() => navigate("/coupons")}>
             <ListItemButton>
               <ListIcon>
                 <DiscountRoundedIcon />
@@ -138,7 +138,7 @@ export default function MiniDrawer(props) {
               <ListText>Coupons</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={() => navigate("/staff")}>
             <ListItemButton>
               <ListIcon>
                 <LocalLibraryRoundedIcon />
@@ -146,7 +146,7 @@ export default function MiniDrawer(props) {
               <ListText>All Staff</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={() => navigate("/")}>
             <ListItemButton>
               <ListIcon>
                 <SettingsSuggestRoundedIcon />

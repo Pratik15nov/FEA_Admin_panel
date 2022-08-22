@@ -25,6 +25,8 @@ export default function AddCategory(props) {
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState(null);
   const [file, setFile] = useState(null);
+  const [apiImg, setApiImg] = useState(null);
+
   const navigate = useNavigate();
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -56,7 +58,8 @@ export default function AddCategory(props) {
 
   const getCategoryData = async (categoryId) => {
     const response = await categoryHndlerData(categoryId);
-
+    console.log(response);
+    setApiImg(response.categoryImg);
     if (response) {
       reset({
         categoryName: response.categoryName,
@@ -72,13 +75,16 @@ export default function AddCategory(props) {
     },
   });
 
+  console.log("CHECK", typeof apiImg);
   const handleCategoryAddData = async (body) => {
     setLoading(true);
+
     const reqBody = new FormData();
     reqBody.append("categoryName", body.categoryName);
     reqBody.append("categoryImg", file);
 
     const response = await categoryAddHandler(reqBody);
+    console.log("REQBODY", reqBody);
     if (response.success) {
       console.log(response.message);
       navigate(`/category`);
@@ -89,11 +95,20 @@ export default function AddCategory(props) {
 
   const handleCategoryEditData = async (body) => {
     setLoading(true);
-    const reqBody = new FormData();
+    const reqBody = new FormData(); //  if passing an image or file with all data use reBody
     reqBody.append("categoryName", body.categoryName);
     reqBody.append("categoryImg", file);
 
-    const response = await categoryEditHandler(cid, reqBody);
+    const Body = {
+      // if not passing any imge or file pass  data normally like Body
+      categoryName: body.categoryName,
+      categoryImg: apiImg,
+    };
+
+    const response = await categoryEditHandler(
+      cid,
+      file !== null ? reqBody : Body
+    );
     if (response.success) {
       navigate(`/category`);
       setLoading(false);
@@ -109,8 +124,10 @@ export default function AddCategory(props) {
           <Box underline="hover" color="inherit">
             Category
           </Box>
-          <Typography  sx={{textDecoration:"none"}}>
-            <Link to="/category" style={{ textDecoration: 'none' }} >Category List</Link>
+          <Typography sx={{ textDecoration: "none" }}>
+            <Link to="/category" style={{ textDecoration: "none" }}>
+              Category List
+            </Link>
           </Typography>
           <Typography color="text.primary">{cid ? "Edit" : "Add"} </Typography>
         </Breadcrumbs>
@@ -173,7 +190,17 @@ export default function AddCategory(props) {
                         <DragDrop onDrop={onDrop} accept={"image/*"} />
                         {value !== null ? (
                           <>
-                            <img src={ENDPOINTURLFORIMG + value} alt="" />
+                            <Box
+                              component="img"
+                              src={ENDPOINTURLFORIMG + value}
+                              sx={{
+                                height: 233,
+                                width: 350,
+                                maxHeight: { xs: 233, md: 167 },
+                                maxWidth: { xs: 350, md: 250 },
+                              }}
+                              alt=""
+                            />
                             <DeleteIcon
                               onClick={() => setValue("categoryImg", null)}
                               sx={{ cursor: "pointer" }}
@@ -186,7 +213,17 @@ export default function AddCategory(props) {
                     ) : (
                       <>
                         <DragDrop onDrop={onDrop} accept={"image/*"} />
-                        <img src={images} alt="" />
+                        <Box
+                          component="img"
+                          src={images}
+                          sx={{
+                            height: 233,
+                            width: 350,
+                            maxHeight: { xs: 233, md: 167 },
+                            maxWidth: { xs: 350, md: 250 },
+                          }}
+                          alt=""
+                        />
                         {images !== null ? (
                           <>
                             <DeleteIcon

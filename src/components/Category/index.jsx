@@ -180,7 +180,7 @@ export default function Category() {
     <Box sx={{ width: "100%" }}>
       <Box sx={{ padding: 2 }}>
         <Grid container sx={{ paddingBottom: "20px" }}>
-          <Grid xs={6}>
+          <Grid xs={7}>
             <Typography variant="h1"> Category </Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <Box underline="hover" color="inherit">
@@ -189,12 +189,15 @@ export default function Category() {
               <Typography>Category List</Typography>
             </Breadcrumbs>
           </Grid>
-          <Grid xs={4}>
+          <Grid xs={3}>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <StyledInputBase placeholder="Search…" />
+              <StyledInputBase
+                placeholder="Search Category
+"
+              />
             </Search>
           </Grid>
           <Grid xs={2}>
@@ -202,7 +205,7 @@ export default function Category() {
               variant="contained"
               onClick={() => navigate(`/category/add`)}
             >
-              + Add Category
+              Add Category
             </MyButton>
           </Grid>
         </Grid>

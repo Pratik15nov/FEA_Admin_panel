@@ -6,6 +6,10 @@ import Login from "./components/Login";
 import Layout from "./components/Layout";
 import Dashboard from "./components/Dashboard";
 import Products from "./components/Products";
+import Customers from "./components/Customers";
+import Orders from "./components/Orders";
+import Staff from "./components/Staff";
+import Coupons from "./components/Coupons";
 import Category from "./components/Category";
 import AddCategory from "./components/Category/AddCategory";
 import CustomSnackbar from "./components/Snackbar";
@@ -52,6 +56,42 @@ function App() {
             element={
               <Layout>
                 <Category />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/customers"
+            element={
+              <Layout>
+                <Customers />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/orders"
+            element={
+              <Layout>
+                <Orders />
+              </Layout>
+            }
+          />
+           <Route
+            exact
+            path="/coupons"
+            element={
+              <Layout>
+                <Coupons />
+              </Layout>
+            }
+          />
+           <Route
+            exact
+            path="/staff"
+            element={
+              <Layout>
+                <Staff />
               </Layout>
             }
           />

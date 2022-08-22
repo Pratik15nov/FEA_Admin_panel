@@ -1,16 +1,16 @@
 import { Box, Typography, Grid, Breadcrumbs } from "@mui/material";
-const Products = () => {
+const Coupons = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ padding: 2 }}>
         <Grid container sx={{ paddingBottom: "20px" }}>
           <Grid xs={7}>
-            <Typography variant="h1"> Products </Typography>
+            <Typography variant="h1"> Coupons </Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <Box underline="hover" color="inherit">
-                Products
+                Coupons
               </Box>
-              <Typography>Products List</Typography>
+              <Typography>Coupons List</Typography>
             </Breadcrumbs>
           </Grid>
           <Grid xs={3}></Grid>
@@ -21,4 +21,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Coupons;
