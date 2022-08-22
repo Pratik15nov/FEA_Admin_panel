@@ -3,6 +3,7 @@ import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
   categoryHandlerData,
   categoryStatus,
+  searchHandlerData,
 } from "../../service/Auth.Service";
 
 import {
@@ -28,11 +29,10 @@ import {
   DialogActions,
   Grid,
   Breadcrumbs,
+  Typography,
 } from "@mui/material";
 import { categoryDelete } from "../../service/Auth.Service";
 import { useNavigate } from "react-router";
-
-import SearchIcon from "@mui/icons-material/Search";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export default function Category() {
   const [alertdata, setAlertData] = useState([]);
 
   const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -147,8 +147,14 @@ export default function Category() {
           <UpdateIcon
             onClick={() => navigate(`/category/add?cid=${params.row._id}`)}
           />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <DeletionIcon onClick={() => handleAlert(params.row)} />
+          {params.row.isActive ? (
+            <>
+              &nbsp;&nbsp;
+              <DeletionIcon onClick={() => handleAlert(params.row)} />
+            </>
+          ) : (
+            <></>
+          )}
         </Box>
       ),
     },
@@ -159,7 +165,11 @@ export default function Category() {
     try {
       const response = await categoryHandlerData(
         listBody({ where: null, perPage: 10, page: page })
+        // listBody({ where: null, perPage: 10, page: page })
       );
+      console.log("response", response?.list);
+      console.log("page: ", page);
+
       if (response.success) {
         if (totalCount === 0) {
           setTotalCount(response.count);
@@ -173,6 +183,25 @@ export default function Category() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const captureSearch = async (data) => {
+    const body = {
+      searchText: data,
+    };
+
+    try {
+      if (data.length >= 3) {
+        const response = await searchHandlerData(body);
+
+        setCategoryData(response?.data);
+      }
+      if (data.length === 0) {
+        getcategoryData();
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -194,7 +223,10 @@ export default function Category() {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <StyledInputBase placeholder="Search…" />
+              <StyledInputBase
+                placeholder="Search…"
+                onChange={(e) => captureSearch(e.target.value)}
+              />
             </Search>
           </Grid>
           <Grid xs={2}>
@@ -241,9 +273,10 @@ export default function Category() {
           pagination
           paginationMode="server"
           onPageChange={(page, detail) => {
-            setPage(page);
+            setPage(page + 1);
             console.log(page);
           }}
+          onSelectionModelChange={itm => console.log(itm)}
         />
       </Box>
     </Box>

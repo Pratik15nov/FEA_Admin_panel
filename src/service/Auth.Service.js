@@ -23,3 +23,7 @@ export const categoryHndlerData = (id) => {
 export const categoryAddHandler = (body) => {
   return post(`${ENDPOINTURL}/category`, body);
 };
+
+export const searchHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/category/search`, body);
+};
