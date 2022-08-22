@@ -1,8 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import TextField from "@mui/material/TextField";
+import { Box, Typography, Breadcrumbs, TextField } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,7 +10,6 @@ import {
   categoryAddHandler,
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG } from "../../utils/Helper";
-// import { useNavigate } from "react-router";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -26,12 +22,11 @@ export default function AddCategory(props) {
   const [images, setImages] = useState(null);
   const [file, setFile] = useState(null);
   const [apiImg, setApiImg] = useState(null);
-
   const navigate = useNavigate();
 
+  //use for images manually upload and drop
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.map((file) => {
-      console.log(file);
       setFile(file);
 
       setValue("categoryImg", file);
@@ -56,9 +51,9 @@ export default function AddCategory(props) {
     setcid(categoryId); // eslint-disable-next-line
   }, [search]);
 
+  // this function get particular category name and image
   const getCategoryData = async (categoryId) => {
     const response = await categoryHndlerData(categoryId);
-    console.log(response);
     setApiImg(response.categoryImg);
     if (response) {
       reset({
@@ -68,6 +63,7 @@ export default function AddCategory(props) {
     }
   };
 
+  // this function used for after submit form create object and then update functionality this value change from api value
   const { handleSubmit, control, reset, setValue } = useForm({
     defaultValues: {
       categoryName: null,
@@ -75,7 +71,7 @@ export default function AddCategory(props) {
     },
   });
 
-  console.log("CHECK", typeof apiImg);
+  //this function used for submit category details
   const handleCategoryAddData = async (body) => {
     setLoading(true);
 
@@ -84,23 +80,22 @@ export default function AddCategory(props) {
     reqBody.append("categoryImg", file);
 
     const response = await categoryAddHandler(reqBody);
-    console.log("REQBODY", reqBody);
     if (response.success) {
-      console.log(response.message);
       navigate(`/category`);
       setLoading(false);
       props.getValue(true, `${response.message}`);
     }
   };
 
+  // it can be use for edit categories details
   const handleCategoryEditData = async (body) => {
     setLoading(true);
     const reqBody = new FormData(); //  if passing an image or file with all data use reBody
     reqBody.append("categoryName", body.categoryName);
     reqBody.append("categoryImg", file);
 
+    // if not passing any imge or file pass  data normally like Body
     const Body = {
-      // if not passing any imge or file pass  data normally like Body
       categoryName: body.categoryName,
       categoryImg: apiImg,
     };
@@ -243,7 +238,7 @@ export default function AddCategory(props) {
                 )}
                 control={control}
                 rules={{
-                  required: "Plz add category img",
+                  required: "please add category img",
                 }}
               />
             </Box>
