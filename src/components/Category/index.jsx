@@ -4,8 +4,8 @@ import {
   categoryHandlerData,
   categoryStatus,
   searchHandlerData,
+  categoryDelete,
 } from "../../service/Auth.Service";
-
 import {
   ImageAvatar,
   UpdateIcon,
@@ -18,6 +18,7 @@ import {
   SearchIconWrapper,
   StyledInputBase,
   MyButton,
+  DialogText,
 } from "./Category.style";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -25,81 +26,23 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Grid,
   Breadcrumbs,
   Typography,
 } from "@mui/material";
-import { categoryDelete } from "../../service/Auth.Service";
 import { useNavigate } from "react-router";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
-  const [categorydata, setCategoryData] = useState([]);
-  const [openalert, setOpenAlert] = useState(false);
-  const [alertdata, setAlertData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertData, setAlertData] = useState([]);
 
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    getcategoryData(); // eslint-disable-next-line
-  }, [page]);
-
-  const handleAlert = (data) => {
-    setAlertData(data);
-    setOpenAlert(true);
-  };
-
-  const alertClose = () => {
-    setAlertData([]);
-    setOpenAlert(false);
-  };
-
-  // this function handles the toggle of Status
-  const handleToggleStatus = async (id, value) => {
-    console.log("id: ", id);
-    console.log("value: ", value);
-
-    const body = {
-      isActive: value,
-    };
-    try {
-      const response = await categoryStatus(id, body);
-      console.log("response: ", response);
-
-      if (response.success) {
-        console.log(response);
-        getcategoryData();
-        console.log("SWITCH WORKS");
-      } else {
-        console.log("SWITCH IS NOT WORKING");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // this function handles the onClick event emitted by the <DeletionIcon/>
-  const removeCategory = async (id) => {
-    try {
-      const response = await categoryDelete(id);
-      if (response.data.success) {
-        console.log(response);
-        setOpenAlert(false);
-        setAlertData([]);
-        getcategoryData();
-      } else {
-        console.log("DELETION NOT WORKING");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // this coloum makes sures that what types of Table Head we want to apple to our table(DataGrid)
+  // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
     {
       field: "categoryImg",
@@ -163,16 +106,62 @@ export default function Category() {
     },
   ];
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    getCategoryData(); // eslint-disable-next-line
+  }, [page]);
+
+  const handleAlert = (data) => {
+    setAlertData(data);
+    setOpenAlert(true);
+  };
+
+  const alertClose = () => {
+    setAlertData([]);
+    setOpenAlert(false);
+  };
+
+  // this function handles the toggle of Status
+  const handleToggleStatus = async (id, value) => {
+    const body = {
+      isActive: value,
+    };
+    try {
+      const response = await categoryStatus(id, body);
+
+      if (response.success) {
+        getCategoryData();
+      } else {
+        alert("SWITCH IS NOT WORKING");
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  // this function handles the onClick event emitted by the <DeletionIcon/>
+  const removeCategory = async (id) => {
+    try {
+      const response = await categoryDelete(id);
+      if (response.data.success) {
+        setOpenAlert(false);
+        setAlertData([]);
+        getCategoryData();
+      } else {
+        alert("DELETION NOT WORKING");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   //  this API  fetches the data  from databse according to pagination
-  const getcategoryData = async () => {
+  const getCategoryData = async () => {
     setLoading(true);
     try {
       const response = await categoryHandlerData(
         listBody({ where: null, perPage: 10, page: page })
-        // listBody({ where: null, perPage: 10, page: page })
       );
-      console.log("response", response?.list);
-      console.log("page: ", page);
 
       if (response.success) {
         if (totalCount === 0) {
@@ -183,7 +172,7 @@ export default function Category() {
         setCategoryData([]);
       }
     } catch (err) {
-      console.error(err);
+      alert(err);
     } finally {
       setLoading(false);
     }
@@ -202,10 +191,10 @@ export default function Category() {
         setCategoryData(response?.data);
       }
       if (data.length === 0) {
-        getcategoryData();
+        getCategoryData();
       }
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
@@ -244,28 +233,30 @@ export default function Category() {
         </Grid>
 
         <Dialog // open up a dialog box as a confirmation when user clicks on <DeletionIcon/> icon
-          open={openalert}
+          open={openAlert}
           onClose={alertClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">Deletion alert</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete {alertdata.categoryName} category
-              ?{alertdata._id}
-            </DialogContentText>
+            <DialogText>
+              Are you sure you want to delete {""}
+              {""} <b>{alertData.categoryName}</b>
+              {""}
+              {""} category ?
+            </DialogText>
           </DialogContent>
           <DialogActions>
             <MyButton onClick={alertClose}>Disagree</MyButton>
-            <MyButton onClick={() => removeCategory(alertdata._id)} autoFocus>
+            <MyButton onClick={() => removeCategory(alertData._id)} autoFocus>
               Agree
             </MyButton>
           </DialogActions>
         </Dialog>
         <TableGrid // its material UI DataGrid to show the category information in a  table structure
           autoHeight={true}
-          rows={categorydata}
+          rows={categoryData}
           columns={columns}
           loading={loading}
           pageSize={10}
@@ -278,9 +269,9 @@ export default function Category() {
           paginationMode="server"
           onPageChange={(page, detail) => {
             setPage(page + 1);
-            console.log(page);
           }}
-          onSelectionModelChange={(itm) => console.log(itm)}
+          // onSelectionModelChange={(itm) => console.log(itm)}
+          Property="RowHeaderWidth"
         />
       </Box>
     </Box>
