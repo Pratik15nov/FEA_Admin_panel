@@ -25,6 +25,7 @@ import {
   Button,
 } from "@mui/material";
 import { categoryDelete } from "../../service/Auth.Service";
+import { useNavigate } from "react-router";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ export default function Category() {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
 
+  const navigate = useNavigate();
   useEffect(() => {
     getcategoryData(); // eslint-disable-next-line
   }, [page]);
@@ -50,11 +52,16 @@ export default function Category() {
   };
 
   const handleToggleStatus = async (id, value) => {
+    console.log("id: ", id);
+    console.log("value: ", value);
+
     const body = {
       isActive: value,
     };
     try {
       const response = await categoryStatus(id, body);
+      console.log("response: ", response);
+
       if (response.success) {
         console.log(response);
         getcategoryData();
@@ -112,19 +119,13 @@ export default function Category() {
       flex: 1,
       sortable: false,
       renderCell: (params) => {
-        let value = params.row?.isActive;
-
         return (
           <IOSSwitch
             sx={{ m: 1 }}
-            //   defaultChecked={params.row.isActive ? true :  false}
-            // value={params.row.isActive}
-            // defaultValue={params.row?.isActive}
+            checked={params.row?.isActive}
             onChange={(e) => {
-              value = !params.row?.isActive;
               handleToggleStatus(params.row._id, e.target.checked);
             }}
-            checked={value}
           />
         );
       },
@@ -136,9 +137,7 @@ export default function Category() {
       sortable: false,
       renderCell: (params) => (
         <Box>
-          <UpdateIcon
-            onClick={() => console.log("ID FOR UPDATION", params.row._id)}
-          />
+          <UpdateIcon onClick={() => navigate(`/add?cid=${params.row._id}`)} />
           &nbsp;&nbsp;&nbsp;&nbsp;
           <DeletionIcon onClick={() => handleAlert(params.row)} />
         </Box>

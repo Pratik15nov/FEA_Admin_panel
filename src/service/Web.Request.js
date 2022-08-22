@@ -80,3 +80,22 @@ export const post = async (url, data) => {
       return err?.response?.data;
     });
 };
+
+export const put = async (url, data) => {
+  return await axios
+    .put(url, data)
+    .then((res) => {
+      if (res.status === 200) {
+        if (res.data?.success) {
+          return res.data?.data.list ? res.data?.data : res.data;
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
+    })
+    .catch((err) => {
+      return err?.response?.data;
+    });
+};
