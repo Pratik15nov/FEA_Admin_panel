@@ -25,6 +25,7 @@ import {
   Button,
 } from "@mui/material";
 import { categoryDelete } from "../../service/Auth.Service";
+import { useNavigate } from "react-router";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ export default function Category() {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
 
+  const navigate = useNavigate();
   useEffect(() => {
     getcategoryData(); // eslint-disable-next-line
   }, [page]);
@@ -135,9 +137,7 @@ export default function Category() {
       sortable: false,
       renderCell: (params) => (
         <Box>
-          <UpdateIcon
-            onClick={() => console.log("ID FOR UPDATION", params.row._id)}
-          />
+          <UpdateIcon onClick={() => navigate(`/add?cid=${params.row._id}`)} />
           &nbsp;&nbsp;&nbsp;&nbsp;
           <DeletionIcon onClick={() => handleAlert(params.row)} />
         </Box>
