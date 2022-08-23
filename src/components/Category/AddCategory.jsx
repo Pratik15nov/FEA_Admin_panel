@@ -74,40 +74,54 @@ export default function AddCategory(props) {
     },
   });
 
-  //this function used for submit category details
-  const handleCategoryAddData = async (body) => {
-    setLoading(true);
-    const reqBody = new FormData();
-    reqBody.append("categoryName", body.categoryName);
-    reqBody.append("categoryImg", file);
-    const response = await categoryAddHandler(reqBody);
-    if (response.success) {
-      navigate(`/category`);
-      setLoading(false);
-      props.getValue(true, `${response.message}`);
-    }
-  };
-
   // it can be use for edit categories details
-  const handleCategoryEditData = async (body) => {
+  const handleCategoryData = async (body) => {
     setLoading(true);
-    let reqBody;
-    if (file !== null) {
-      reqBody = new FormData(); //  if passing an image or file with all data use reBody
-      reqBody.append("categoryName", body.categoryName);
-      reqBody.append("categoryImg", file);
-    } else {
-      // if not passing any imge or file pass  data normally like Body
-      reqBody = {
-        categoryName: body.categoryName,
-        categoryImg: apiImg,
-      };
-    }
-    const response = await categoryEditHandler(cid, reqBody);
-    if (response.success) {
-      navigate(`/category`);
-      setLoading(false);
-      props.getValue(true, `${response.message}`);
+    try {
+      if (cid) {
+        let reqBody;
+        try {
+          if (file !== null) {
+            reqBody = new FormData(); //  if passing an image or file with all data use reBody
+            reqBody.append("categoryName", body.categoryName);
+            reqBody.append("categoryImg", file);
+          } else {
+            // if not passing any imge or file pass  data normally like Body
+            reqBody = {
+              categoryName: body.categoryName,
+              categoryImg: apiImg,
+            };
+          }
+        } catch (error) {
+          alert(error);
+        }
+        const response = await categoryEditHandler(cid, reqBody);
+        try {
+          if (response.success) {
+            navigate(`/category`);
+            setLoading(false);
+            props.getValue(true, `${response.message}`);
+          }
+        } catch (error) {
+          alert(error);
+        }
+      } else {
+        const reqBody = new FormData();
+        reqBody.append("categoryName", body.categoryName);
+        reqBody.append("categoryImg", file);
+        const response = await categoryAddHandler(reqBody);
+        try {
+          if (response.success) {
+            navigate(`/category`);
+            setLoading(false);
+            props.getValue(true, `${response.message}`);
+          }
+        } catch (error) {
+          alert(error);
+        }
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 
@@ -234,30 +248,16 @@ export default function AddCategory(props) {
                 }}
               />
             </Box>
-
             <br />
-            {cid ? (
-              <LoadingButton
-                type="submit"
-                loading={loading}
-                loadingPosition="end"
-                variant="contained"
-                onClick={handleSubmit(handleCategoryEditData)}
-              >
-                Update Category
-              </LoadingButton>
-            ) : (
-              <LoadingButton
-                type="submit"
-                endIcon={<AddIcon />}
-                loading={loading}
-                loadingPosition="end"
-                variant="contained"
-                onClick={handleSubmit(handleCategoryAddData)}
-              >
-                Add Category
-              </LoadingButton>
-            )}
+            <LoadingButton
+              type="submit"
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleSubmit(handleCategoryData)}
+            >
+              {cid ? "Update" : "Add"} Category
+            </LoadingButton>
           </form>
         </Box>
       </Box>
