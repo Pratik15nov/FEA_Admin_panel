@@ -91,7 +91,12 @@ export default function BreadcrumbArea(props) {
             <Typography variant="h1"> {items} </Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <MyLink to="/dashboard">Dashboard</MyLink>
-              <MyLink to={`/${linkAdd}`}>{linkAdd + " " + "List"}</MyLink>
+              <MyLink to={`/${linkAdd}`}>
+                {linkAdd?.charAt(0).toUpperCase() +
+                  linkAdd?.slice(1) +
+                  " " +
+                  "List"}
+              </MyLink>
               <Typography>{items}</Typography>
             </Breadcrumbs>
           </Grid>
