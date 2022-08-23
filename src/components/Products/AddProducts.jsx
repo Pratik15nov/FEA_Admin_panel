@@ -3,9 +3,9 @@ import { Box, Typography, TextField, Grid } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import {
-  categoryEditHandler,
-  categoryHndlerData,
-  categoryAddHandler,
+  productEditHandler,
+  ProductDataHndlerData,
+  productAddHandler,
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -17,9 +17,9 @@ import {
   ImgBox,
   ImgSize,
   DelIcon,
-} from "./Category.style";
+} from "./Products.style";
 
-export default function AddCategory(props) {
+export default function AddProducts(props) {
   const [cid, setcid] = useState();
   const location = useLocation();
   const { search } = location;
@@ -33,7 +33,7 @@ export default function AddCategory(props) {
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.map((file) => {
       setFile(file);
-      setValue("categoryImg", file);
+      setValue("img", file);
       const reader = new FileReader();
       reader.onload = function (e) {
         setImages(e.target.result);
@@ -44,45 +44,48 @@ export default function AddCategory(props) {
   }, []);
 
   useEffect(() => {
-    let categoryId;
+    let productId;
     try {
       if (search.split("=").length > 0) {
-        categoryId = search.split("=")[1];
+        productId = search.split("=")[1];
       } else {
-        categoryId = "";
+        productId = "";
       }
     } catch (error) {
       alert(error);
     }
     try {
       if (search.split("=").length > 0) {
-        categoryId = search.split("=")[1];
+        productId = search.split("=")[1];
       } else {
-        categoryId = "";
+        productId = "";
       }
     } catch (error) {
       alert(error);
     }
     try {
-      if (categoryId) {
-        getCategoryData(categoryId);
+      if (productId) {
+        ProductData(productId);
       }
     } catch (error) {
       alert(error);
     }
-    setcid(categoryId);
+    setcid(productId);
     // eslint-disable-next-line
   }, [search]);
 
-  // this function get particular category name and image
-  const getCategoryData = async (categoryId) => {
-    const response = await categoryHndlerData(categoryId);
-    setApiImg(response.categoryImg);
+  const ProductData = async (productId) => {
+    const response = await ProductDataHndlerData(productId);
+    setApiImg(response.img);
     try {
       if (response) {
         reset({
-          categoryName: response.categoryName,
-          categoryImg: response.categoryImg,
+          name: response.name,
+          specification: response.specification,
+          quantity: response.quantity,
+          price: response.price,
+          discountPrice: response.discountPrice,
+          img: response.img,
         });
       }
     } catch (error) {
@@ -90,16 +93,19 @@ export default function AddCategory(props) {
     }
   };
 
-  // this function used for after submit form create object and then update functionality this value change from api value
   const { handleSubmit, control, reset, setValue } = useForm({
     defaultValues: {
-      categoryName: null,
-      categoryImg: null,
+      name: null,
+      specification: null,
+      quantity: null,
+      price: null,
+      discountPrice: null,
+      img: null,
     },
   });
 
   // it can be use for edit categories details
-  const handleCategoryData = async (body) => {
+  const handleProductData = async (body) => {
     setLoading(true);
     try {
       if (cid) {
@@ -107,22 +113,30 @@ export default function AddCategory(props) {
         try {
           if (file !== null) {
             reqBody = new FormData(); //  if passing an image or file with all data use reBody
-            reqBody.append("categoryName", body.categoryName);
-            reqBody.append("categoryImg", file);
+            reqBody.append("name", body.name);
+            reqBody.append("specification", body.specification);
+            reqBody.append("quantity", body.quantity);
+            reqBody.append("price", body.price);
+            reqBody.append("discountPrice", body.discountPrice);
+            reqBody.append("productImg", file);
           } else {
             // if not passing any imge or file pass  data normally like Body
             reqBody = {
-              categoryName: body.categoryName,
-              categoryImg: apiImg,
+              name: body.name,
+              specification: body.specification,
+              quantity: body.quantity,
+              price: body.price,
+              discountPrice: body.discountPrice,
+              productImg: apiImg,
             };
           }
         } catch (error) {
           alert(error);
         }
-        const response = await categoryEditHandler(cid, reqBody);
+        const response = await productEditHandler(cid, reqBody);
         try {
           if (response.success) {
-            navigate(`/category`);
+            // navigate(`/products`);
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }
@@ -131,12 +145,16 @@ export default function AddCategory(props) {
         }
       } else {
         const reqBody = new FormData();
-        reqBody.append("categoryName", body.categoryName);
-        reqBody.append("categoryImg", file);
-        const response = await categoryAddHandler(reqBody);
+        reqBody.append("name", body.name);
+        reqBody.append("specification", body.specification);
+        reqBody.append("quantity", body.quantity);
+        reqBody.append("price", body.price);
+        reqBody.append("discountPrice", body.discountPrice);
+        reqBody.append("productImg", file);
+        const response = await productAddHandler(reqBody);
         try {
           if (response.success) {
-            navigate(`/category`);
+            // navigate(`/products`);
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }
@@ -153,19 +171,19 @@ export default function AddCategory(props) {
     <Container>
       <BreadcrumbArea />
       <Typography color="text.primary">
-        Add your Product category and necessary information from here
+        Add your Product and necessary information from here
       </Typography>
       <InputBox>
         <form>
           <Controller
-            name="categoryName"
+            name="name"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
                 margin="normal"
                 fullWidth
-                id="categoryName"
-                placeholder="Category Name"
-                name="categoryName"
+                id="name"
+                placeholder="Product Name"
+                name="name"
                 value={value}
                 onChange={onChange}
                 error={!!error}
@@ -174,15 +192,95 @@ export default function AddCategory(props) {
             )}
             control={control}
             rules={{
-              required: "Please add category name",
+              required: "Please Add Product Name",
+            }}
+          />
+          <Controller
+            name="specification"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                margin="normal"
+                fullWidth
+                id="specification"
+                placeholder="Specification"
+                name="specification"
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error?.message ?? ""}
+              />
+            )}
+            control={control}
+            rules={{
+              required: "Please Add Specification",
+            }}
+          />
+          <Controller
+            name="quantity"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                margin="normal"
+                fullWidth
+                id="quantity"
+                placeholder="Quantity"
+                name="quantity"
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error?.message ?? ""}
+              />
+            )}
+            control={control}
+            rules={{
+              required: "Please Add Quantity",
+            }}
+          />
+          <Controller
+            name="price"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                margin="normal"
+                fullWidth
+                id="price"
+                placeholder="Price"
+                name="price"
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error?.message ?? ""}
+              />
+            )}
+            control={control}
+            rules={{
+              required: "Please Add Price",
+            }}
+          />
+          <Controller
+            name="discountPrice"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                margin="normal"
+                fullWidth
+                id="discountPrice"
+                placeholder="Discount Price"
+                name="discountPrice"
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error?.message ?? ""}
+              />
+            )}
+            control={control}
+            rules={{
+              required: "Please Add Discount Price",
             }}
           />
           <Typography color="text.primary" variant="caption" display="block">
-            Category Images
+            Product Images
           </Typography>
           <ImgBox>
             <Controller
-              name="categoryImg"
+              name="img"
               render={({ field: { value } }) => (
                 <>
                   {images == null ? (
@@ -207,9 +305,7 @@ export default function AddCategory(props) {
                         <Grid item xs={1}>
                           {value !== null ? (
                             <>
-                              <DelIcon
-                                onClick={() => setValue("categoryImg", null)}
-                              />
+                              <DelIcon onClick={() => setValue("img", null)} />
                             </>
                           ) : (
                             <></>
@@ -232,7 +328,7 @@ export default function AddCategory(props) {
                               <DelIcon
                                 onClick={() => [
                                   setImages(null),
-                                  setValue("categoryImg", null),
+                                  setValue("img", null),
                                 ]}
                               />
                             </>
@@ -257,9 +353,9 @@ export default function AddCategory(props) {
             loading={loading}
             loadingPosition="end"
             variant="contained"
-            onClick={handleSubmit(handleCategoryData)}
+            onClick={handleSubmit(handleProductData)}
           >
-            {cid ? "Update" : "Add"} Category
+            {cid ? "Update" : "Add"} Product
           </LoadingButton>
         </form>
       </InputBox>
