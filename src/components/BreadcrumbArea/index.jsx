@@ -19,6 +19,7 @@ export default function BreadcrumbArea(props) {
   const [linkAdd, setLinkAdd] = useState();
   const [items, setItems] = useState();
   const [buttonArea, setButtonArea] = useState(false);
+  const [editText, setEditText] = useState(false);
 
   useEffect(() => {
     if (window.location.pathname?.split("/")[1]) {
@@ -43,6 +44,9 @@ export default function BreadcrumbArea(props) {
       setItems(item);
       setButtonArea(false);
       setLinkAdd(item?.split(" ")[1].toLowerCase());
+      if (window.location.search?.split("?")[1] !== undefined) {
+        setEditText(true);
+      }
     }
   }, [search]);
   return (
@@ -88,7 +92,10 @@ export default function BreadcrumbArea(props) {
       ) : (
         <>
           <Grid xs={12}>
-            <Typography variant="h1"> {items} </Typography>
+            <Typography variant="h1">
+              {editText ? "Edit" : "Add"}
+              {" " + linkAdd?.charAt(0).toUpperCase() + linkAdd?.slice(1)}{" "}
+            </Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <MyLink to="/dashboard">Dashboard</MyLink>
               <MyLink to={`/${linkAdd}`}>
@@ -97,7 +104,10 @@ export default function BreadcrumbArea(props) {
                   " " +
                   "List"}
               </MyLink>
-              <Typography>{items}</Typography>
+              <Typography>
+                {editText ? "Edit" : "Add"}
+                {" " + linkAdd?.charAt(0).toUpperCase() + linkAdd?.slice(1)}
+              </Typography>
             </Breadcrumbs>
           </Grid>
         </>

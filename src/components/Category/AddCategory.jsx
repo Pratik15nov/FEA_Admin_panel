@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Box, Typography, TextField, Grid } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
   categoryEditHandler,
   categoryHndlerData,
@@ -12,7 +11,7 @@ import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container, InputBox } from "./Category.style";
+import { Container, InputBox, ImgBox, ImgSize ,DelIcon} from "./Category.style";
 
 export default function AddCategory(props) {
   const [cid, setcid] = useState();
@@ -175,9 +174,7 @@ export default function AddCategory(props) {
           <Typography color="text.primary" variant="caption" display="block">
             Category Images
           </Typography>
-          <Box
-            sx={{ p: 2, border: "1px dashed grey", justifyContent: "center" }}
-          >
+          <ImgBox>
             <Controller
               name="categoryImg"
               render={({ field: { value } }) => (
@@ -188,21 +185,24 @@ export default function AddCategory(props) {
                         <Grid item xs={6}>
                           <DragDrop onDrop={onDrop} accept={"image/*"} />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={5}>
                           {value !== null ? (
                             <>
-                              <Box
+                              <ImgSize
                                 component="img"
                                 src={ENDPOINTURLFORIMG + value}
-                                sx={{
-                                  height: 250,
-                                  width: 250,
-                                }}
                                 alt=""
                               />
-                              <DeleteIcon
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </Grid>
+                        <Grid item xs={1}>
+                          {value !== null ? (
+                            <>
+                              <DelIcon
                                 onClick={() => setValue("categoryImg", null)}
-                                sx={{ cursor: "pointer" }}
                               />
                             </>
                           ) : (
@@ -217,24 +217,17 @@ export default function AddCategory(props) {
                         <Grid item xs={6}>
                           <DragDrop onDrop={onDrop} accept={"image/*"} />
                         </Grid>
-                        <Grid item xs={6}>
-                          <Box
-                            component="img"
-                            src={images}
-                            sx={{
-                              height: 250,
-                              width: 250,
-                            }}
-                            alt=""
-                          />
+                        <Grid item xs={5}>
+                          <ImgSize component="img" src={images} alt="" />
+                        </Grid>
+                        <Grid item xs={1}>
                           {images !== null ? (
                             <>
-                              <DeleteIcon
+                              <DelIcon
                                 onClick={() => [
                                   setImages(null),
                                   setValue("categoryImg", null),
                                 ]}
-                                sx={{ cursor: "pointer" }}
                               />
                             </>
                           ) : (
@@ -251,7 +244,7 @@ export default function AddCategory(props) {
                 required: "Please add category img",
               }}
             />
-          </Box>
+          </ImgBox>
           <br />
           <LoadingButton
             type="submit"
