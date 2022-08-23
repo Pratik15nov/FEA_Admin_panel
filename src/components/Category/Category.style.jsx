@@ -1,4 +1,4 @@
-import { Avatar, Button, styled, Switch, Typography } from "@mui/material";
+import { Avatar, Button, styled, Switch, Typography, Box } from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
@@ -170,4 +170,12 @@ export const IOSSwitch = styled((props) => (
 
 export const MyButton = styled(Button)(({ theme }) => ({
   height: 40,
+}));
+
+export const inputBox = styled(Button)(({ theme }) => ({
+  height: 40,
+}));
+export const Container = styled(Box)(({ theme }) => ({
+  width: "100%",
+  padding: 6,
 }));

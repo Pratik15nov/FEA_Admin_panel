@@ -16,6 +16,7 @@ import {
   ColoumHead,
   MyButton,
   DialogText,
+  Container
 } from "./Category.style";
 import {
   Box,
@@ -194,7 +195,7 @@ export default function Category() {
   };
 
   return (
-    <Box>
+    <Container>
       <BreadcrumbArea captureSearch={captureSearch} breadMsg={breadMsg} />
       <Dialog // open up a dialog box as a confirmation when user clicks on <DeletionIcon/> icon
         open={openAlert}
@@ -235,6 +236,6 @@ export default function Category() {
         // onSelectionModelChange={(itm) => console.log(itm)}
         Property="RowHeaderWidth"
       />
-    </Box>
+    </Container>
   );
 }

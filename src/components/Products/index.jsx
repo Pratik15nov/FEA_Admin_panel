@@ -1,10 +1,10 @@
-import { Box, Typography, Grid, Breadcrumbs } from "@mui/material";
 import BreadcrumbArea from "../BreadcrumbArea";
+import { Container } from "./Products.style";
 const Products = () => {
   return (
-    <Box>
+    <Container>
       <BreadcrumbArea />
-    </Box>
+    </Container>
   );
 };
 
