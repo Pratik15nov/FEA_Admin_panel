@@ -13,6 +13,7 @@ import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
 import { useLocation, useNavigate } from "react-router-dom";
+import BreadcrumbArea from "../BreadcrumbArea";
 
 export default function AddCategory(props) {
   const [cid, setcid] = useState();
@@ -48,7 +49,9 @@ export default function AddCategory(props) {
     if (categoryId) {
       getCategoryData(categoryId);
     }
-    setcid(categoryId); // eslint-disable-next-line
+    setcid(categoryId);
+
+    // eslint-disable-next-line
   }, [search]);
 
   // this function get particular category name and image
@@ -89,7 +92,7 @@ export default function AddCategory(props) {
   const handleCategoryEditData = async (body) => {
     setLoading(true);
     let reqBody;
-    if(file !== null) {
+    if (file !== null) {
       reqBody = new FormData(); //  if passing an image or file with all data use reBody
       reqBody.append("categoryName", body.categoryName);
       reqBody.append("categoryImg", file);
@@ -100,10 +103,7 @@ export default function AddCategory(props) {
         categoryImg: apiImg,
       };
     }
-    const response = await categoryEditHandler(
-      cid,
-      reqBody
-    );
+    const response = await categoryEditHandler(cid, reqBody);
     if (response.success) {
       navigate(`/category`);
       setLoading(false);
@@ -112,22 +112,9 @@ export default function AddCategory(props) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ padding: 2 }}>
-        <Typography variant="h1">{cid ? "Edit" : "Add"} Category </Typography>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Box underline="hover" color="inherit">
-            Category
-          </Box>
-          <Typography sx={{ textDecoration: "none" }}>
-            <Link to="/category" style={{ textDecoration: "none" }}>
-              Category List
-            </Link>
-          </Typography>
-          <Typography color="text.primary">{cid ? "Edit" : "Add"} </Typography>
-        </Breadcrumbs>
-      </Box>
-      <Typography color="text.primary" sx={{ padding: 2 }}>
+    <Box sx={{ width: "100%", padding: 2 }}>
+      <BreadcrumbArea />
+      <Typography color="text.primary">
         Add your Product category and necessary information from here
       </Typography>
       <Box
@@ -175,9 +162,7 @@ export default function AddCategory(props) {
             >
               <Controller
                 name="categoryImg"
-                render={({
-                  field: { value }
-                }) => (
+                render={({ field: { value } }) => (
                   <>
                     {images == null ? (
                       <Box>
