@@ -12,7 +12,7 @@ import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container } from "./Category.style";
+import { Container, InputBox } from "./Category.style";
 
 export default function AddCategory(props) {
   const [cid, setcid] = useState();
@@ -150,14 +150,7 @@ export default function AddCategory(props) {
       <Typography color="text.primary">
         Add your Product category and necessary information from here
       </Typography>
-      <Box
-        sx={{
-          width: "50%",
-          boxShadow: `rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px`,
-          padding: 2,
-          borderRadius: 2,
-        }}
-      >
+      <InputBox>
         <form>
           <Controller
             name="categoryName"
@@ -270,7 +263,7 @@ export default function AddCategory(props) {
             {cid ? "Update" : "Add"} Category
           </LoadingButton>
         </form>
-      </Box>
+      </InputBox>
     </Container>
   );
 }
