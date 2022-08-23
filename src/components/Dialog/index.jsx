@@ -22,7 +22,7 @@ const DialogBox = (props) => {
       <DialogActions>
         <MyButton onClick={props.alertClose}>Disagree</MyButton>
         <MyButton
-          onClick={() => props.onAgree(props.callBackData)}
+          onClick={() => props.onAgree()}
           autoFocus
         >
           Agree

@@ -36,14 +36,14 @@ export default function Category() {
   // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
     {
-      field: "categoryImg",
+      field: "categoryImg", // remember to pass same field -name as mentioned in dataBase
       headerName: <ColoumHead variant="h2">Image</ColoumHead>,
       flex: 1,
       sortable: false,
       renderCell: (params) => (
         <ImageAvatar
           variant="rounded"
-          alt="Product image"
+          alt="Category Image"
           src={ENDPOINTURLFORIMG + params.value}
         />
       ),
@@ -131,9 +131,9 @@ export default function Category() {
   };
 
   // this function handles the onClick event emitted by the <DeletionIcon/>
-  const removeCategory = async (id) => {
+  const removeCategory = async () => {
     try {
-      const response = await categoryDelete(id);
+      const response = await categoryDelete(alertData._id);
       if (response.data.success) {
         setOpenAlert(false);
         setAlertData([]);
@@ -222,12 +222,11 @@ export default function Category() {
             </MyButton>
           </Grid>
         </Grid>
-        <DialogBox  // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
+        <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
           openAlert={openAlert}
           alertClose={alertClose}
           msg={`Are you sure you want to delete CHECK ${alertData.categoryName}  category ?`}
           onAgree={removeCategory}
-          callBackData={alertData._id}
         />
         <TableGrid // its material UI DataGrid to show the category information in a  table structure
           autoHeight={true}

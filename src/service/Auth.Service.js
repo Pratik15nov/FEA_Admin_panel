@@ -27,3 +27,8 @@ export const categoryAddHandler = (body) => {
 export const searchHandlerData = (body) => {
   return post(`${ENDPOINTURL}/category/search`, body);
 };
+
+export const productHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/product/list`, body);
+};
+
