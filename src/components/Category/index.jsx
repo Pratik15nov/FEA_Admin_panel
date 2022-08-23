@@ -16,17 +16,11 @@ import {
   ColoumHead,
   MyButton,
   DialogText,
-  Container
 } from "./Category.style";
-import {
-  Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import BreadcrumbArea from "../BreadcrumbArea";
+import DialogBox from "../Dialog/index";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
@@ -46,14 +40,14 @@ export default function Category() {
   // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
     {
-      field: "categoryImg",
+      field: "categoryImg", // remember to pass same field -name as mentioned in dataBase
       headerName: <ColoumHead variant="h2">Image</ColoumHead>,
       flex: 1,
       sortable: false,
       renderCell: (params) => (
         <ImageAvatar
           variant="rounded"
-          alt="Product image"
+          alt="Category Image"
           src={ENDPOINTURLFORIMG + params.value}
         />
       ),
@@ -136,9 +130,9 @@ export default function Category() {
   };
 
   // this function handles the onClick event emitted by the <DeletionIcon/>
-  const removeCategory = async (id) => {
+  const removeCategory = async () => {
     try {
-      const response = await categoryDelete(id);
+      const response = await categoryDelete(alertData._id);
       if (response.data.success) {
         setOpenAlert(false);
         setAlertData([]);
@@ -197,26 +191,12 @@ export default function Category() {
   return (
     <Container>
       <BreadcrumbArea captureSearch={captureSearch} breadMsg={breadMsg} />
-      <Dialog // open up a dialog box as a confirmation when user clicks on <DeletionIcon/> icon
-        open={openAlert}
-        onClose={alertClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Deletion alert</DialogTitle>
-        <DialogContent>
-          <DialogText>
-            Are you sure you want to delete
-            <b>{alertData.categoryName}</b> category ?
-          </DialogText>
-        </DialogContent>
-        <DialogActions>
-          <MyButton onClick={alertClose}>Disagree</MyButton>
-          <MyButton onClick={() => removeCategory(alertData._id)} autoFocus>
-            Agree
-          </MyButton>
-        </DialogActions>
-      </Dialog>
+      <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
+        openAlert={openAlert}
+        alertClose={alertClose}
+        msg={`Are you sure you want to delete ${alertData.categoryName}  category ?`}
+        onAgree={removeCategory}
+      />
       <TableGrid // its material UI DataGrid to show the category information in a  table structure
         autoHeight={true}
         rows={categoryData}

@@ -9,7 +9,7 @@ import {
   MyLink,
 } from "./Breadcrumbarea.style";
 import SearchIcon from "@mui/icons-material/Search";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function BreadcrumbArea(props) {
   const navigate = useNavigate();
@@ -44,9 +44,6 @@ export default function BreadcrumbArea(props) {
       setItems(item);
       setButtonArea(false);
       setLinkAdd(item?.split(" ")[1].toLowerCase());
-      if (window.location.search?.split("?")[1] !== undefined) {
-        setEditText(true);
-      }
     }
   }, [search]);
   return (
@@ -92,10 +89,7 @@ export default function BreadcrumbArea(props) {
       ) : (
         <>
           <Grid xs={12}>
-            <Typography variant="h1">
-              {editText ? "Edit" : "Add"}
-              {" " + linkAdd?.charAt(0).toUpperCase() + linkAdd?.slice(1)}{" "}
-            </Typography>
+            <Typography variant="h1"> {items} </Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <MyLink to="/dashboard">Dashboard</MyLink>
               <MyLink to={`/${linkAdd}`}>
@@ -104,10 +98,7 @@ export default function BreadcrumbArea(props) {
                   " " +
                   "List"}
               </MyLink>
-              <Typography>
-                {editText ? "Edit" : "Add"}
-                {" " + linkAdd?.charAt(0).toUpperCase() + linkAdd?.slice(1)}
-              </Typography>
+              <Typography>{items}</Typography>
             </Breadcrumbs>
           </Grid>
         </>
