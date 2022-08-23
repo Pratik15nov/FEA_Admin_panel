@@ -1,6 +1,25 @@
-import { Box, Typography, Grid, Breadcrumbs } from "@mui/material";
+import { Typography, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  productHandlerData,
+  productEditHandler,
+} from "../../service/Auth.Service";
+import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
+import {
+  Container,
+  TableGrid,
+  ImageAvatar,
+  IOSSwitch,
+  UpdateIcon,
+  DeletionIcon,
+  ColoumHead,
+  RowName,
+} from "./Products.style";
 import BreadcrumbArea from "../BreadcrumbArea";
+import DialogBox from "../Dialog";
+import { useNavigate } from "react-router";
 const Products = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -45,7 +64,7 @@ const Products = () => {
       field: "img",
       headerName: <ColoumHead variant="h2">Image</ColoumHead>,
       flex: 1,
-      width:200,
+      width: 200,
       sortable: false,
       renderCell: (params) => (
         <ImageAvatar
@@ -121,7 +140,9 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => (
         <Box>
-          <UpdateIcon onClick={() => console.log(params)} />
+          <UpdateIcon
+            onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
+          />
           {params.row.isActive ? (
             <>
               &nbsp;&nbsp;
