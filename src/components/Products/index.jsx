@@ -183,7 +183,7 @@ const Products = () => {
   return (
     <Container>
       <BreadcrumbArea />
-    </Box>
+    </Container>
   );
 };
 
