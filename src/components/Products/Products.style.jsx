@@ -10,7 +10,6 @@ export const Container = styled(Box)(({ theme }) => ({
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
   overflow:"scroll",
-  overflow:"scroll",
   " &.MuiDataGrid-root .MuiDataGrid-cell": {
    color:"pink"
   },
