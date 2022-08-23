@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { productHandlerData } from "../../service/Auth.Service";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import { Container, TableGrid, ImageAvatar } from "./Products.style";
+import BreadcrumbArea from "../BreadcrumbArea";
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState([]);
@@ -55,6 +56,7 @@ const Products = () => {
 
   return (
     <Container>
+        <BreadcrumbArea />
       <TableGrid // its material UI DataGrid to show the category information in a  table structure
         autoHeight={true}
         rows={productData}
@@ -75,6 +77,7 @@ const Products = () => {
         Property="RowHeaderWidth"
       />
     </Container>
+    
   );
 };
 

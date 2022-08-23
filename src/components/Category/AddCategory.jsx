@@ -13,6 +13,7 @@ import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
 import { useLocation, useNavigate } from "react-router-dom";
+import BreadcrumbArea from "../BreadcrumbArea";
 
 export default function AddCategory(props) {
   const [cid, setcid] = useState();
@@ -48,7 +49,9 @@ export default function AddCategory(props) {
     if (categoryId) {
       getCategoryData(categoryId);
     }
-    setcid(categoryId); // eslint-disable-next-line
+    setcid(categoryId);
+
+    // eslint-disable-next-line
   }, [search]);
 
   // this function get particular category name and image
@@ -71,63 +74,61 @@ export default function AddCategory(props) {
     },
   });
 
-  //this function used for submit category details
-  const handleCategoryAddData = async (body) => {
-    setLoading(true);
-    const reqBody = new FormData();
-    reqBody.append("categoryName", body.categoryName);
-    reqBody.append("categoryImg", file);
-    const response = await categoryAddHandler(reqBody);
-    if (response.success) {
-      navigate(`/category`);
-      setLoading(false);
-      props.getValue(true, `${response.message}`);
-    }
-  };
-
   // it can be use for edit categories details
-  const handleCategoryEditData = async (body) => {
+  const handleCategoryData = async (body) => {
     setLoading(true);
-    let reqBody;
-    if(file !== null) {
-      reqBody = new FormData(); //  if passing an image or file with all data use reBody
-      reqBody.append("categoryName", body.categoryName);
-      reqBody.append("categoryImg", file);
-    } else {
-      // if not passing any imge or file pass  data normally like Body
-      reqBody = {
-        categoryName: body.categoryName,
-        categoryImg: apiImg,
-      };
-    }
-    const response = await categoryEditHandler(
-      cid,
-      reqBody
-    );
-    if (response.success) {
-      navigate(`/category`);
-      setLoading(false);
-      props.getValue(true, `${response.message}`);
+    try {
+      if (cid) {
+        let reqBody;
+        try {
+          if (file !== null) {
+            reqBody = new FormData(); //  if passing an image or file with all data use reBody
+            reqBody.append("categoryName", body.categoryName);
+            reqBody.append("categoryImg", file);
+          } else {
+            // if not passing any imge or file pass  data normally like Body
+            reqBody = {
+              categoryName: body.categoryName,
+              categoryImg: apiImg,
+            };
+          }
+        } catch (error) {
+          alert(error);
+        }
+        const response = await categoryEditHandler(cid, reqBody);
+        try {
+          if (response.success) {
+            navigate(`/category`);
+            setLoading(false);
+            props.getValue(true, `${response.message}`);
+          }
+        } catch (error) {
+          alert(error);
+        }
+      } else {
+        const reqBody = new FormData();
+        reqBody.append("categoryName", body.categoryName);
+        reqBody.append("categoryImg", file);
+        const response = await categoryAddHandler(reqBody);
+        try {
+          if (response.success) {
+            navigate(`/category`);
+            setLoading(false);
+            props.getValue(true, `${response.message}`);
+          }
+        } catch (error) {
+          alert(error);
+        }
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ padding: 2 }}>
-        <Typography variant="h1">{cid ? "Edit" : "Add"} Category </Typography>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Box underline="hover" color="inherit">
-            Category
-          </Box>
-          <Typography sx={{ textDecoration: "none" }}>
-            <Link to="/category" style={{ textDecoration: "none" }}>
-              Category List
-            </Link>
-          </Typography>
-          <Typography color="text.primary">{cid ? "Edit" : "Add"} </Typography>
-        </Breadcrumbs>
-      </Box>
-      <Typography color="text.primary" sx={{ padding: 2 }}>
+    <Box sx={{ width: "100%", padding: 2 }}>
+      <BreadcrumbArea />
+      <Typography color="text.primary">
         Add your Product category and necessary information from here
       </Typography>
       <Box
@@ -175,9 +176,7 @@ export default function AddCategory(props) {
             >
               <Controller
                 name="categoryImg"
-                render={({
-                  field: { value }
-                }) => (
+                render={({ field: { value } }) => (
                   <>
                     {images == null ? (
                       <Box>
@@ -249,30 +248,16 @@ export default function AddCategory(props) {
                 }}
               />
             </Box>
-
             <br />
-            {cid ? (
-              <LoadingButton
-                type="submit"
-                loading={loading}
-                loadingPosition="end"
-                variant="contained"
-                onClick={handleSubmit(handleCategoryEditData)}
-              >
-                Update Category
-              </LoadingButton>
-            ) : (
-              <LoadingButton
-                type="submit"
-                endIcon={<AddIcon />}
-                loading={loading}
-                loadingPosition="end"
-                variant="contained"
-                onClick={handleSubmit(handleCategoryAddData)}
-              >
-                Add Category
-              </LoadingButton>
-            )}
+            <LoadingButton
+              type="submit"
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleSubmit(handleCategoryData)}
+            >
+              {cid ? "Update" : "Add"} Category
+            </LoadingButton>
           </form>
         </Box>
       </Box>

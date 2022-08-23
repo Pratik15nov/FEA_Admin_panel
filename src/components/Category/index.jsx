@@ -14,24 +14,26 @@ import {
   TableGrid,
   CategoryName,
   ColoumHead,
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
-  MyButton,
 } from "./Category.style";
-import SearchIcon from "@mui/icons-material/Search";
-import { Box, Grid, Breadcrumbs, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
-import DialogBox from "../Dialog";
+import BreadcrumbArea from "../BreadcrumbArea";
+import DialogBox from "../Dialog/index";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
-
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
+  const [breadMsg, setBreadMsg] = useState();
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    setBreadMsg("Category");
+    getCategoryData(); // eslint-disable-next-line
+  }, [page]);
 
   // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
@@ -96,11 +98,6 @@ export default function Category() {
       ),
     },
   ];
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    getCategoryData(); // eslint-disable-next-line
-  }, [page]);
 
   const handleAlert = (data) => {
     setAlertData(data);
@@ -190,64 +187,33 @@ export default function Category() {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ padding: 2 }}>
-        <Grid container sx={{ paddingBottom: "20px" }}>
-          <Grid xs={7}>
-            <Typography variant="h1"> Category </Typography>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Box underline="hover" color="inherit">
-                Category
-              </Box>
-              <Typography>Category List</Typography>
-            </Breadcrumbs>
-          </Grid>
-          <Grid xs={3}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
-              />
-            </Search>
-          </Grid>
-          <Grid xs={2}>
-            <MyButton
-              variant="contained"
-              onClick={() => navigate(`/category/add`)} // this navigates to a new component to add the new categories
-            >
-              Add Category
-            </MyButton>
-          </Grid>
-        </Grid>
-        <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
-          openAlert={openAlert}
-          alertClose={alertClose}
-          msg={`Are you sure you want to delete CHECK ${alertData.categoryName}  category ?`}
-          onAgree={removeCategory}
-        />
-        <TableGrid // its material UI DataGrid to show the category information in a  table structure
-          autoHeight={true}
-          rows={categoryData}
-          columns={columns}
-          loading={loading}
-          pageSize={10}
-          rowCount={totalCount}
-          rowsPerPageOptions={[10]}
-          checkboxSelection={true}
-          getRowId={(row) => row._id}
-          disableSelectionOnClick
-          pagination
-          paginationMode="server"
-          onPageChange={(page, detail) => {
-            setPage(page + 1);
-          }}
-          // onSelectionModelChange={(itm) => console.log(itm)}
-          Property="RowHeaderWidth"
-        />
-      </Box>
+    <Box>
+      <BreadcrumbArea captureSearch={captureSearch} breadMsg={breadMsg} />
+      <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
+        openAlert={openAlert}
+        alertClose={alertClose}
+        msg={`Are you sure you want to delete CHECK ${alertData.categoryName}  category ?`}
+        onAgree={removeCategory}
+      />
+      <TableGrid // its material UI DataGrid to show the category information in a  table structure
+        autoHeight={true}
+        rows={categoryData}
+        columns={columns}
+        loading={loading}
+        pageSize={10}
+        rowCount={totalCount}
+        rowsPerPageOptions={[10]}
+        checkboxSelection={true}
+        getRowId={(row) => row._id}
+        disableSelectionOnClick
+        pagination
+        paginationMode="server"
+        onPageChange={(page, detail) => {
+          setPage(page + 1);
+        }}
+        // onSelectionModelChange={(itm) => console.log(itm)}
+        Property="RowHeaderWidth"
+      />
     </Box>
   );
 }
