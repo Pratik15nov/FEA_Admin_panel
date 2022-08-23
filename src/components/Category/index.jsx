@@ -14,6 +14,7 @@ import {
   TableGrid,
   CategoryName,
   ColoumHead,
+  Container,
 } from "./Category.style";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
@@ -187,12 +188,12 @@ export default function Category() {
   };
 
   return (
-    <Box>
+    <Container>
       <BreadcrumbArea captureSearch={captureSearch} breadMsg={breadMsg} />
       <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}
-        msg={`Are you sure you want to delete CHECK ${alertData.categoryName}  category ?`}
+        msg={`Are you sure you want to delete ${alertData.categoryName}  category ?`}
         onAgree={removeCategory}
       />
       <TableGrid // its material UI DataGrid to show the category information in a  table structure
@@ -214,6 +215,6 @@ export default function Category() {
         // onSelectionModelChange={(itm) => console.log(itm)}
         Property="RowHeaderWidth"
       />
-    </Box>
+    </Container>
   );
 }

@@ -32,3 +32,6 @@ export const productHandlerData = (body) => {
   return post(`${ENDPOINTURL}/product/list`, body);
 };
 
+export const productEditHandler = (id, body) => {
+  return patch(`${ENDPOINTURL}/product/${id}`, body);
+};

@@ -9,7 +9,7 @@ import {
   MyLink,
 } from "./Breadcrumbarea.style";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 
 export default function BreadcrumbArea(props) {
   const navigate = useNavigate();

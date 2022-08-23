@@ -1,9 +1,14 @@
-import { Avatar, Button, styled, Switch, Typography } from "@mui/material";
+import { Avatar, Box, Button, styled, Switch, Typography } from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
 import InputBase from "@mui/material/InputBase";
 import { alpha } from "@mui/material/styles";
+
+export const Container = styled(Box)(({ theme }) => ({
+  width: "100%",
+  padding: 6,
+}));
 
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
