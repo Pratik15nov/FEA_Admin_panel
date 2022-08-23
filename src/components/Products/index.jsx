@@ -1,4 +1,4 @@
-import { Typography, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
   productHandlerData,
@@ -106,7 +106,7 @@ const Products = () => {
       flex: 1,
       sortable: false,
       renderCell: (params) => (
-        <RowName>Rs&nbsp;{params.row.discountPrice}</RowName>
+        <RowName>Rs&nbsp;{params.row.discountPrice}.00</RowName>
       ),
     },
     {
@@ -204,6 +204,31 @@ const Products = () => {
   return (
     <Container>
       <BreadcrumbArea />
+      <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
+        openAlert={openAlert}
+        alertClose={alertClose}
+        msg={`Are you sure you want to delete ${alertData.name}  product ?`}
+        onAgree={removeProduct}
+      />
+      <TableGrid // its material UI DataGrid to show the category information in a  table structure
+        autoHeight={true}
+        rows={productData}
+        columns={columns}
+        loading={loading}
+        pageSize={10}
+        rowCount={totalCount}
+        rowsPerPageOptions={[10]}
+        checkboxSelection={true}
+        getRowId={(row) => row._id}
+        disableSelectionOnClick
+        pagination
+        paginationMode="server"
+        onPageChange={(page, detail) => {
+          setPage(page + 1);
+        }}
+        // onSelectionModelChange={(itm) => console.log(itm)}
+        Property="RowHeaderWidth"
+      />
     </Container>
   );
 };

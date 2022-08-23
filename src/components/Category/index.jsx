@@ -14,8 +14,7 @@ import {
   TableGrid,
   CategoryName,
   ColoumHead,
-  MyButton,
-  DialogText,
+  Container,
 } from "./Category.style";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router";

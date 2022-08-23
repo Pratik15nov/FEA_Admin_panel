@@ -136,7 +136,7 @@ export default function AddProducts(props) {
         const response = await productEditHandler(cid, reqBody);
         try {
           if (response.success) {
-            // navigate(`/products`);
+            navigate(`/products`);
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }

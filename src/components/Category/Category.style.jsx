@@ -1,10 +1,10 @@
-import { Avatar, Button, styled, Switch, Typography } from "@mui/material";
+import { Avatar, Button, styled, Switch, Typography ,Box} from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
 import InputBase from "@mui/material/InputBase";
 import { alpha } from "@mui/material/styles";
-
+import DeleteIcon from '@mui/icons-material/Delete';
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,

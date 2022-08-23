@@ -27,3 +27,17 @@ export const categoryAddHandler = (body) => {
 export const searchHandlerData = (body) => {
   return post(`${ENDPOINTURL}/category/search`, body);
 };
+
+export const productEditHandler = (id, body) => {
+  return patch(`${ENDPOINTURL}/product/${id}`, body);
+};
+
+export const ProductDataHndlerData = (id) => {
+  return get(`${ENDPOINTURL}/product/${id}`);
+};
+export const productAddHandler = (body) => {
+  return post(`${ENDPOINTURL}/product`, body);
+};
+export const productHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/product/list`, body);
+};
