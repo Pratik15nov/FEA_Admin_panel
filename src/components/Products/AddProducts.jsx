@@ -1,23 +1,30 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Typography, TextField, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import {
   productEditHandler,
   ProductDataHndlerData,
   productAddHandler,
+  categoryHandlerData,
 } from "../../service/Auth.Service";
-import { ENDPOINTURLFORIMG } from "../../utils/Helper";
+import { ENDPOINTURLFORIMG, listBody } from "../../utils/Helper";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
+import FormHelperText from "@mui/material/FormHelperText";
+
 import {
   Container,
   InputBox,
   ImgBox,
   ImgSize,
   DelIcon,
+  InputField,
 } from "./Products.style";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 export default function AddProducts(props) {
   const [cid, setcid] = useState();
@@ -28,6 +35,7 @@ export default function AddProducts(props) {
   const [file, setFile] = useState(null);
   const [apiImg, setApiImg] = useState(null);
   const navigate = useNavigate();
+  const [categoryList, setCategoryList] = useState([]);
 
   //use for images manually upload and drop
   const onDrop = useCallback((acceptedFiles) => {
@@ -71,8 +79,23 @@ export default function AddProducts(props) {
       alert(error);
     }
     setcid(productId);
+    categoryListData();
     // eslint-disable-next-line
   }, [search]);
+
+  const categoryListData = async () => {
+    try {
+      const response = await categoryHandlerData(listBody({ perPage: 1000 }));
+
+      if (response.success) {
+        setCategoryList(response?.list);
+      } else {
+        setCategoryList([]);
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   const ProductData = async (productId) => {
     const response = await ProductDataHndlerData(productId);
@@ -86,6 +109,7 @@ export default function AddProducts(props) {
           price: response.price,
           discountPrice: response.discountPrice,
           img: response.img,
+          categoryId: response.categoryId,
         });
       }
     } catch (error) {
@@ -101,6 +125,7 @@ export default function AddProducts(props) {
       price: null,
       discountPrice: null,
       img: null,
+      categoryId: null,
     },
   });
 
@@ -118,6 +143,7 @@ export default function AddProducts(props) {
             reqBody.append("quantity", body.quantity);
             reqBody.append("price", body.price);
             reqBody.append("discountPrice", body.discountPrice);
+            reqBody.append("categoryId", body.categoryId);
             reqBody.append("productImg", file);
           } else {
             // if not passing any imge or file pass  data normally like Body
@@ -128,6 +154,7 @@ export default function AddProducts(props) {
               price: body.price,
               discountPrice: body.discountPrice,
               productImg: apiImg,
+              categoryId: body.categoryId,
             };
           }
         } catch (error) {
@@ -151,10 +178,12 @@ export default function AddProducts(props) {
         reqBody.append("price", body.price);
         reqBody.append("discountPrice", body.discountPrice);
         reqBody.append("productImg", file);
+        reqBody.append("categoryId", body.categoryId);
+
         const response = await productAddHandler(reqBody);
         try {
           if (response.success) {
-            // navigate(`/products`);
+            navigate(`/products`);
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }
@@ -170,15 +199,18 @@ export default function AddProducts(props) {
   return (
     <Container>
       <BreadcrumbArea />
-      <Typography color="text.primary">
-        Add your Product and necessary information from here
-      </Typography>
       <InputBox>
         <form>
+          <Typography variant="h3" gutterBottom>
+            Add your Product and necessary information from here
+          </Typography>
+          <Typography color="text.primary" variant="subtitle2">
+            Product Name
+          </Typography>
           <Controller
             name="name"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
+              <InputField
                 margin="normal"
                 fullWidth
                 id="name"
@@ -192,13 +224,62 @@ export default function AddProducts(props) {
             )}
             control={control}
             rules={{
-              required: "Please Add Product Name",
+              required: "Please Add product name",
+              maxLength: {
+                value: 12,
+                message: "Cannot be longer than 12 characters",
+              },
+              pattern: {
+                value: /\S/,
+                message: "Only words are allowed",
+              },
+              minLength: {
+                value: 4,
+                message: "Cannot be smaller than 4 characters",
+              },
             }}
           />
+
+          <Typography color="text.primary" variant="subtitle2">
+            Product Category
+          </Typography>
+          <Controller
+            name="categoryId"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <FormControl fullWidth>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="categoryId"
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message ?? ""}
+                >
+                  {categoryList.map((card) => {
+                    return (
+                      <MenuItem key={card.BreadcrumbAreakey} value={card._id}>
+                        {card.categoryName}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+                <FormHelperText error={error}>
+                  {error?.message ?? ""}
+                </FormHelperText>
+              </FormControl>
+            )}
+            control={control}
+            rules={{
+              required: "Select one Category",
+            }}
+          />
+          <Typography color="text.primary" variant="subtitle2">
+            Product Specification
+          </Typography>
           <Controller
             name="specification"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
+              <InputField
                 margin="normal"
                 fullWidth
                 id="specification"
@@ -213,12 +294,27 @@ export default function AddProducts(props) {
             control={control}
             rules={{
               required: "Please Add Specification",
+              maxLength: {
+                value: 12,
+                message: "Cannot be longer than 12 characters",
+              },
+              pattern: {
+                value: /\S/,
+                message: "Only words are allowed",
+              },
+              minLength: {
+                value: 4,
+                message: "Cannot be smaller than 4 characters",
+              },
             }}
           />
+          <Typography color="text.primary" variant="subtitle2">
+            Product Quantity
+          </Typography>
           <Controller
             name="quantity"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
+              <InputField
                 margin="normal"
                 fullWidth
                 id="quantity"
@@ -233,12 +329,23 @@ export default function AddProducts(props) {
             control={control}
             rules={{
               required: "Please Add Quantity",
+              maxLength: {
+                value: 10,
+                message: "Cannot be longer than 12 characters",
+              },
+              pattern: {
+                value: /^[1-9]\d*(\d+)?$/i,
+                message: "only numbers are allowed",
+              },
             }}
           />
+          <Typography color="text.primary" variant="subtitle2">
+            Product Price
+          </Typography>
           <Controller
             name="price"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
+              <InputField
                 margin="normal"
                 fullWidth
                 id="price"
@@ -253,12 +360,23 @@ export default function AddProducts(props) {
             control={control}
             rules={{
               required: "Please Add Price",
+              maxLength: {
+                value: 10,
+                message: "Cannot be longer than 12 characters",
+              },
+              pattern: {
+                value: /^[1-9]\d*(\d+)?$/i,
+                message: "only numbers are allowed",
+              },
             }}
           />
+          <Typography color="text.primary" variant="subtitle2">
+            Discount Price
+          </Typography>
           <Controller
             name="discountPrice"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
+              <InputField
                 margin="normal"
                 fullWidth
                 id="discountPrice"
@@ -273,18 +391,27 @@ export default function AddProducts(props) {
             control={control}
             rules={{
               required: "Please Add Discount Price",
+              maxLength: {
+                value: 10,
+                message: "Cannot be longer than 12 characters",
+              },
+              pattern: {
+                value: /^[1-9]\d*(\d+)?$/i,
+                message: "only numbers are allowed",
+              },
             }}
           />
-          <Typography color="text.primary" variant="caption" display="block">
-            Product Images
+          <Typography color="text.primary" variant="subtitle2">
+            Product Image
           </Typography>
-          <ImgBox>
+          <ImgBox >
             <Controller
               name="img"
-              render={({ field: { value } }) => (
+              render={({ field: { value }, fieldState: { error } }) => (
                 <>
                   {images == null ? (
                     <Box>
+                      <FormHelperText  error={error}>{error?.message ?? ""}</FormHelperText>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <DragDrop onDrop={onDrop} accept={"image/*"} />
@@ -343,7 +470,10 @@ export default function AddProducts(props) {
               )}
               control={control}
               rules={{
-                required: "Please add category img",
+                required: {
+                  value: " ",
+                  message: "Upload one image",
+                },
               }}
             />
           </ImgBox>

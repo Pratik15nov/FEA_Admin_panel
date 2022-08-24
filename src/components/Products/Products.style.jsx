@@ -1,4 +1,4 @@
-import { Avatar, Box, styled, Switch, Typography } from "@mui/material";
+import { Avatar, Box, styled, Switch, Typography ,TextField} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
@@ -158,4 +158,9 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
   borderRadius: 16,
   backgroundColor: alpha(theme.palette.custom.error, 1),
   cursor: "pointer",
+}));
+
+export const InputField = styled(TextField)(({ theme }) => ({
+  marginTop: 10,
+  marginBottom: 10,
 }));

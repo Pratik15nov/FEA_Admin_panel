@@ -21,30 +21,33 @@ export default function BreadcrumbArea(props) {
   const [editText, setEditText] = useState(false);
 
   useEffect(() => {
-    if (window.location.pathname?.split("/")[1]) {
-      let item = window.location.pathname
+    if (location.pathname?.split("/")[1]) {
+      let item = location.pathname
         .split("/")[1]
         .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
       setItems(item);
-      setLink(window.location.pathname);
+      setLink(location.pathname);
       setButtonArea(true);
     } else {
       setItems(null);
     }
-    if (window.location.pathname?.split("/")[2]) {
+    if (location.pathname?.split("/")[2]) {
       let item =
-        window.location.pathname
+        location.pathname
           .split("/")[2]
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase())) +
         " " +
-        window.location.pathname
+        location.pathname
           .split("/")[1]
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
       setItems(item);
       setButtonArea(false);
       setLinkAdd(item?.split(" ")[1].toLowerCase());
-      setEditText(true);
-    }
+
+      if (location?.search.split("?")[1] !== undefined) {
+        setEditText(true);
+      }
+    }// eslint-disable-next-line
   }, [search]);
   return (
     <Grid container sx={{ paddingBottom: "20px" }}>
