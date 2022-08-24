@@ -404,14 +404,16 @@ export default function AddProducts(props) {
           <Typography color="text.primary" variant="subtitle2">
             Product Image
           </Typography>
-          <ImgBox >
+          <ImgBox>
             <Controller
               name="img"
               render={({ field: { value }, fieldState: { error } }) => (
                 <>
                   {images == null ? (
                     <Box>
-                      <FormHelperText  error={error}>{error?.message ?? ""}</FormHelperText>
+                      <FormHelperText error={error}>
+                        {error?.message ?? ""}
+                      </FormHelperText>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <DragDrop onDrop={onDrop} accept={"image/*"} />
