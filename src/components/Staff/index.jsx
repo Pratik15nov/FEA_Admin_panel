@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
 import BreadcrumbArea from "../BreadcrumbArea";
 import { connect } from "react-redux";
+import { Container } from "./Staff.style";
 
 const mapStateToProps = (state) => {
   return { articles: state.articles };
@@ -8,14 +8,14 @@ const mapStateToProps = (state) => {
 
 const ConnectedList = (props) => {
   return (
-    <Box>
+    <Container>
       <BreadcrumbArea />
       <ul>
         {props.articles?.map((el) => (
           <li key={el.id}>{el.title}</li>
         ))}
       </ul>
-    </Box>
+    </Container>
   );
 };
 

@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
 import BreadcrumbArea from "../BreadcrumbArea";
+import { Container } from "./Orders.style";
 const Orders = () => {
   return (
-    <Box>
+    <Container>
       <BreadcrumbArea />
-    </Box>
+    </Container>
   );
 };
 

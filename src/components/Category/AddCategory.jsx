@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Typography,  TextField, Grid } from "@mui/material";
+import { Box, Typography, TextField, Grid } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
-import DeleteIcon from "@mui/icons-material/Delete";
-
 import {
   categoryEditHandler,
   categoryHndlerData,
@@ -11,9 +9,15 @@ import {
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 import LoadingButton from "@mui/lab/LoadingButton";
-
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
+import {
+  Container,
+  InputBox,
+  ImgBox,
+  ImgSize,
+  DelIcon,
+} from "./Category.style";
 
 export default function AddCategory(props) {
   const [cid, setcid] = useState();
@@ -41,16 +45,32 @@ export default function AddCategory(props) {
 
   useEffect(() => {
     let categoryId;
-    if (search.split("=").length > 0) {
-      categoryId = search.split("=")[1];
-    } else {
-      categoryId = "";
+    try {
+      if (search.split("=").length > 0) {
+        categoryId = search.split("=")[1];
+      } else {
+        categoryId = "";
+      }
+    } catch (error) {
+      alert(error);
     }
-    if (categoryId) {
-      getCategoryData(categoryId);
+    try {
+      if (search.split("=").length > 0) {
+        categoryId = search.split("=")[1];
+      } else {
+        categoryId = "";
+      }
+    } catch (error) {
+      alert(error);
+    }
+    try {
+      if (categoryId) {
+        getCategoryData(categoryId);
+      }
+    } catch (error) {
+      alert(error);
     }
     setcid(categoryId);
-
     // eslint-disable-next-line
   }, [search]);
 
@@ -58,11 +78,15 @@ export default function AddCategory(props) {
   const getCategoryData = async (categoryId) => {
     const response = await categoryHndlerData(categoryId);
     setApiImg(response.categoryImg);
-    if (response) {
-      reset({
-        categoryName: response.categoryName,
-        categoryImg: response.categoryImg,
-      });
+    try {
+      if (response) {
+        reset({
+          categoryName: response.categoryName,
+          categoryImg: response.categoryImg,
+        });
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 
@@ -126,141 +150,119 @@ export default function AddCategory(props) {
   };
 
   return (
-    <Box sx={{ width: "100%", padding: 2 }}>
+    <Container>
       <BreadcrumbArea />
       <Typography color="text.primary">
         Add your Product category and necessary information from here
       </Typography>
-      <Box
-        sx={{
-          padding: 2,
-        }}
-      >
-        <Box
-          sx={{
-            width: "50%",
-            boxShadow: `rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px`,
-            padding: 2,
-            borderRadius: 2,
-          }}
-        >
-          <form>
+      <InputBox>
+        <form>
+          <Controller
+            name="categoryName"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                margin="normal"
+                fullWidth
+                id="categoryName"
+                placeholder="Category Name"
+                name="categoryName"
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error?.message ?? ""}
+              />
+            )}
+            control={control}
+            rules={{
+              required: "Please add category name",
+            }}
+          />
+          <Typography color="text.primary" variant="caption" display="block">
+            Category Images
+          </Typography>
+          <ImgBox>
             <Controller
-              name="categoryName"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="categoryName"
-                  placeholder="Category Name"
-                  name="categoryName"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
-                />
+              name="categoryImg"
+              render={({ field: { value } }) => (
+                <>
+                  {images == null ? (
+                    <Box>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <DragDrop onDrop={onDrop} accept={"image/*"} />
+                        </Grid>
+                        <Grid item xs={5}>
+                          {value !== null ? (
+                            <>
+                              <ImgSize
+                                component="img"
+                                src={ENDPOINTURLFORIMG + value}
+                                alt=""
+                              />
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </Grid>
+                        <Grid item xs={1}>
+                          {value !== null ? (
+                            <>
+                              <DelIcon
+                                onClick={() => setValue("categoryImg", null)}
+                              />
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  ) : (
+                    <>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <DragDrop onDrop={onDrop} accept={"image/*"} />
+                        </Grid>
+                        <Grid item xs={5}>
+                          <ImgSize component="img" src={images} alt="" />
+                        </Grid>
+                        <Grid item xs={1}>
+                          {images !== null ? (
+                            <>
+                              <DelIcon
+                                onClick={() => [
+                                  setImages(null),
+                                  setValue("categoryImg", null),
+                                ]}
+                              />
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </>
+                  )}
+                </>
               )}
               control={control}
               rules={{
-                required: "Please add category name",
+                required: "Please add category img",
               }}
             />
-            <Typography color="text.primary" variant="caption" display="block">
-              Category Images
-            </Typography>
-            <Box
-              sx={{ p: 2, border: "1px dashed grey", justifyContent: "center" }}
-            >
-              <Controller
-                name="categoryImg"
-                render={({ field: { value } }) => (
-                  <>
-                    {images == null ? (
-                      <Box>
-                        <Grid container spacing={2}>
-                          <Grid item xs={6}>
-                            <DragDrop onDrop={onDrop} accept={"image/*"} />
-                          </Grid>
-                          <Grid item xs={6}>
-                            {value !== null ? (
-                              <>
-                                <Box
-                                  component="img"
-                                  src={ENDPOINTURLFORIMG + value}
-                                  sx={{
-                                    height: 250,
-                                    width: 250,
-                                  }}
-                                  alt=""
-                                />
-                                <DeleteIcon
-                                  onClick={() => setValue("categoryImg", null)}
-                                  sx={{ cursor: "pointer" }}
-                                />
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    ) : (
-                      <>
-                        <Grid container spacing={2}>
-                          <Grid item xs={6}>
-                            <DragDrop onDrop={onDrop} accept={"image/*"} />
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Box
-                              component="img"
-                              src={images}
-                              sx={{
-                                height: 250,
-                                width: 250,
-                              }}
-                              alt=""
-                            />
-                            {images !== null ? (
-                              <>
-                                <DeleteIcon
-                                  onClick={() => [
-                                    setImages(null),
-                                    setValue("categoryImg", null),
-                                  ]}
-                                  sx={{ cursor: "pointer" }}
-                                />
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </Grid>
-                        </Grid>
-                      </>
-                    )}
-                  </>
-                )}
-                control={control}
-                rules={{
-                  required: "Please add category img",
-                }}
-              />
-            </Box>
-            <br />
-            <LoadingButton
-              type="submit"
-              loading={loading}
-              loadingPosition="end"
-              variant="contained"
-              onClick={handleSubmit(handleCategoryData)}
-            >
-              {cid ? "Update" : "Add"} Category
-            </LoadingButton>
-          </form>
-        </Box>
-      </Box>
-    </Box>
+          </ImgBox>
+          <br />
+          <LoadingButton
+            type="submit"
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={handleSubmit(handleCategoryData)}
+          >
+            {cid ? "Update" : "Add"} Category
+          </LoadingButton>
+        </form>
+      </InputBox>
+    </Container>
   );
 }

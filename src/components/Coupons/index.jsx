@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
 import BreadcrumbArea from "../BreadcrumbArea";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { addArticle } from "../../js/actions";
+import { Container } from "./Coupons.style";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -22,7 +22,7 @@ const ConnectedForm = () => {
     setTitle(" ");
   };
   return (
-    <Box>
+    <Container>
       <BreadcrumbArea />
       <form onSubmit={handleSubmit}>
         <div>
@@ -31,7 +31,7 @@ const ConnectedForm = () => {
         </div>
         <button type="submit">SAVE</button>
       </form>
-    </Box>
+    </Container>
   );
 };
 

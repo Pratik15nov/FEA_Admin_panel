@@ -14,6 +14,7 @@ import Category from "./components/Category";
 import AddCategory from "./components/Category/AddCategory";
 import CustomSnackbar from "./components/Snackbar";
 import { useState } from "react";
+import AddProducts from "./components/Products/AddProducts";
 
 function App() {
   const [message, setMessage] = useState(" ");
@@ -77,7 +78,7 @@ function App() {
               </Layout>
             }
           />
-           <Route
+          <Route
             exact
             path="/coupons"
             element={
@@ -86,7 +87,7 @@ function App() {
               </Layout>
             }
           />
-           <Route
+          <Route
             exact
             path="/staff"
             element={
@@ -101,6 +102,15 @@ function App() {
             element={
               <Layout>
                 <AddCategory getValue={getValue} />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/products/add"
+            element={
+              <Layout>
+                <AddProducts getValue={getValue} />
               </Layout>
             }
           />

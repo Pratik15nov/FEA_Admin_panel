@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Box, Grid, Breadcrumbs, Typography } from "@mui/material";
 import {
   Search,
@@ -9,7 +8,7 @@ import {
   MyLink,
 } from "./Breadcrumbarea.style";
 import SearchIcon from "@mui/icons-material/Search";
-import {useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function BreadcrumbArea(props) {
   const navigate = useNavigate();
@@ -19,31 +18,36 @@ export default function BreadcrumbArea(props) {
   const [linkAdd, setLinkAdd] = useState();
   const [items, setItems] = useState();
   const [buttonArea, setButtonArea] = useState(false);
+  const [editText, setEditText] = useState(false);
 
   useEffect(() => {
-    if (window.location.pathname?.split("/")[1]) {
-      let item = window.location.pathname
+    if (location.pathname?.split("/")[1]) {
+      let item = location.pathname
         .split("/")[1]
         .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
       setItems(item);
-      setLink(window.location.pathname);
+      setLink(location.pathname);
       setButtonArea(true);
     } else {
       setItems(null);
     }
-    if (window.location.pathname?.split("/")[2]) {
+    if (location.pathname?.split("/")[2]) {
       let item =
-        window.location.pathname
+        location.pathname
           .split("/")[2]
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase())) +
         " " +
-        window.location.pathname
+        location.pathname
           .split("/")[1]
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
       setItems(item);
       setButtonArea(false);
       setLinkAdd(item?.split(" ")[1].toLowerCase());
-    }
+
+      if (location?.search.split("?")[1] !== undefined) {
+        setEditText(true);
+      }
+    }// eslint-disable-next-line
   }, [search]);
   return (
     <Grid container sx={{ paddingBottom: "20px" }}>
@@ -88,7 +92,10 @@ export default function BreadcrumbArea(props) {
       ) : (
         <>
           <Grid xs={12}>
-            <Typography variant="h1"> {items} </Typography>
+            <Typography variant="h1">
+              {editText ? "Edit" : "Add"}
+              {" " + items?.split(" ")[1]}
+            </Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <MyLink to="/dashboard">Dashboard</MyLink>
               <MyLink to={`/${linkAdd}`}>
@@ -97,7 +104,10 @@ export default function BreadcrumbArea(props) {
                   " " +
                   "List"}
               </MyLink>
-              <Typography>{items}</Typography>
+              <Typography>
+                {editText ? "Edit" : "Add"}
+                {" " + items?.split(" ")[1]}
+              </Typography>
             </Breadcrumbs>
           </Grid>
         </>

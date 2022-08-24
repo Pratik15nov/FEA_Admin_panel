@@ -28,11 +28,10 @@ export default function Category() {
   const [alertData, setAlertData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
-  const [breadMsg, setBreadMsg] = useState();
+
 
   const navigate = useNavigate();
   useEffect(() => {
-    setBreadMsg("Category");
     getCategoryData(); // eslint-disable-next-line
   }, [page]);
 
@@ -189,7 +188,7 @@ export default function Category() {
 
   return (
     <Container>
-      <BreadcrumbArea captureSearch={captureSearch} breadMsg={breadMsg} />
+      <BreadcrumbArea captureSearch={captureSearch} />
       <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}
