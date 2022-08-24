@@ -3,7 +3,7 @@ import { Box, Typography, Grid } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import {
-  productEditHandler,
+  productEditHandlerdata,
   ProductDataHndlerData,
   productAddHandler,
   categoryHandlerData,
@@ -160,7 +160,7 @@ export default function AddProducts(props) {
         } catch (error) {
           alert(error);
         }
-        const response = await productEditHandler(cid, reqBody);
+        const response = await productEditHandlerdata(cid, reqBody);
         try {
           if (response.success) {
             navigate(`/products`);

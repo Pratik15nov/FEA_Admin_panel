@@ -28,8 +28,12 @@ export const searchHandlerData = (body) => {
   return post(`${ENDPOINTURL}/category/search`, body);
 };
 
-export const productEditHandler = (id, body) => {
+export const productEditHandlerdata = (id, body) => {
   return patch(`${ENDPOINTURL}/product/${id}`, body);
+};
+
+export const productEditHandler = (id, body) => {
+  return put(`${ENDPOINTURL}/product/${id}`, body);
 };
 
 export const ProductDataHndlerData = (id) => {
