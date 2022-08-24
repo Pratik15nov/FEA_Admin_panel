@@ -87,7 +87,7 @@ export const put = async (url, data) => {
     .then((res) => {
       if (res.status === 200) {
         if (res.data?.success) {
-          return res.data?.data.list ? res.data?.data : res.data;
+          return res.data?.data.list ? res.data?.data.list : res.data;
         } else {
           return [];
         }

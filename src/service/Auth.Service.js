@@ -33,5 +33,9 @@ export const productHandlerData = (body) => {
 };
 
 export const productEditHandler = (id, body) => {
-  return patch(`${ENDPOINTURL}/product/${id}`, body);
+  return put(`${ENDPOINTURL}/product/${id}`, body);
+};
+
+export const searchProductData = (body) => {
+  return post(`${ENDPOINTURL}/product/search`, body);
 };

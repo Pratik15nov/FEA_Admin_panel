@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   productHandlerData,
   productEditHandler,
+  searchProductData,
 } from "../../service/Auth.Service";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
@@ -26,12 +27,10 @@ const Products = () => {
   const [page, setPage] = useState(1);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
-  console.log("alertData: ", alertData);
-
   useEffect(() => {
     getProductData(); // eslint-disable-next-line
   }, [page]);
-
+  // this function works to get the data from databse
   const getProductData = async () => {
     setLoading(true);
     try {
@@ -43,7 +42,6 @@ const Products = () => {
           ...obj?.categoryId,
           ...obj,
         }));
-        //  console.log('Updatedata: ', Updatedata);
         if (totalCount === 0) {
           setTotalCount(response.count);
         }
@@ -57,8 +55,7 @@ const Products = () => {
       setLoading(false);
     }
   };
-  console.log("DATA", productData);
-
+  // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
     {
       field: "img",
@@ -71,7 +68,6 @@ const Products = () => {
           variant="rounded"
           alt="Product image"
           src={ENDPOINTURLFORIMG + params.value}
-          onClick={() => console.log(params)}
         />
       ),
     },
@@ -98,7 +94,13 @@ const Products = () => {
       headerName: <ColoumHead variant="h2">Price</ColoumHead>,
       flex: 1,
       sortable: false,
-      renderCell: (params) => <RowName>Rs&nbsp;{params.row.price}</RowName>,
+      renderCell: (params) => (
+        <RowName>
+          {Number.isInteger(params.row.price)
+            ? `Rs${" "}${params.row.price}.00`
+            : `Rs${" "}${params.row.price.toFixed(2)}`}
+        </RowName>
+      ),
     },
     {
       field: "discountPrice",
@@ -106,7 +108,11 @@ const Products = () => {
       flex: 1,
       sortable: false,
       renderCell: (params) => (
-        <RowName>Rs&nbsp;{params.row.discountPrice}</RowName>
+        <RowName>
+          {Number.isInteger(params.row.discountPrice)
+            ? `Rs${" "}${params.row.discountPrice}.00`
+            : `Rs${" "}${params.row.discountPrice.toFixed(2)}`}
+        </RowName>
       ),
     },
     {
@@ -155,7 +161,7 @@ const Products = () => {
       ),
     },
   ];
-
+  // this function handles the toggle of Status
   const handleToggleStatus = async (id, value) => {
     const body = {
       isActive: value,
@@ -172,17 +178,17 @@ const Products = () => {
       alert(err);
     }
   };
-
+  // this function handles the opening of dialog box
   const handleAlert = (data) => {
     setAlertData(data);
     setOpenAlert(true);
   };
-
+  // this function handles the closing of dialog box
   const alertClose = () => {
     setAlertData([]);
     setOpenAlert(false);
   };
-
+  // this function handles the onClick event emitted by the <DeletionIcon/>
   const removeProduct = async () => {
     const body = {
       isActive: false,
@@ -200,10 +206,33 @@ const Products = () => {
       alert(error);
     }
   };
+  // this function captures the values emitted by the search field and updates the table(DataGrid);
+  const captureSearch = async (data) => {
+    const body = {
+      searchText: data,
+    };
 
+    try {
+      if (data.length >= 3) {
+        const response = await searchProductData(body);
+
+        const UpdatedData = response?.data.map((obj) => ({
+          ...obj?.categoryId,
+          ...obj,
+        }));
+
+        setProductData(UpdatedData);
+      }
+      if (data.length === 0) {
+        getProductData();
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
   return (
     <Container>
-      <BreadcrumbArea />
+      <BreadcrumbArea captureSearch={captureSearch} />
       <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}
@@ -232,5 +261,4 @@ const Products = () => {
     </Container>
   );
 };
-
 export default Products;
