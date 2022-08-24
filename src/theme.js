@@ -19,7 +19,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["-apple-syste÷m"].join(","),
+    // fontFamily: ["-apple-syste÷m"].join(","),
     h1: {
       fontSize: "24px",
       fontWeight:600

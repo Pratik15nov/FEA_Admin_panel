@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
   categoryHandlerData,
@@ -17,6 +18,11 @@ import {
   Container,
 } from "./Category.style";
 import { Box } from "@mui/material";
+import {
+  fetchCategoryListSuccess,
+  fetchCategoryListFailure,
+  updatePageNumber,
+} from "../../js/actions";
 import { useNavigate } from "react-router";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog/index";
@@ -26,10 +32,16 @@ export default function Category() {
   const [categoryData, setCategoryData] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(1);
+  // const [totalCount, setTotalCount] = useState(0);
+  // const [page, setPage] = useState(1);
 
+  const categoryList = useSelector((state) => state.category.list);
+  const totalCount = useSelector((state) => state.category.totalCount);
+  const page = useSelector((state) => state.category.page);
 
+  const dispatch = useDispatch();
+
+  console.log("State: ", categoryList);
   const navigate = useNavigate();
   useEffect(() => {
     getCategoryData(); // eslint-disable-next-line
@@ -118,6 +130,7 @@ export default function Category() {
       const response = await categoryStatus(id, body);
 
       if (response.success) {
+        dispatch(fetchCategoryListFailure());
         getCategoryData();
       } else {
         alert("SWITCH IS NOT WORKING");
@@ -134,6 +147,7 @@ export default function Category() {
       if (response.data.success) {
         setOpenAlert(false);
         setAlertData([]);
+        dispatch(fetchCategoryListFailure());
         getCategoryData();
       } else {
         alert("DELETION NOT WORKING");
@@ -147,17 +161,21 @@ export default function Category() {
   const getCategoryData = async () => {
     setLoading(true);
     try {
-      const response = await categoryHandlerData(
-        listBody({ where: null, perPage: 10, page: page })
-      );
+      if (categoryList.length === 0) {
+        const response = await categoryHandlerData(
+          listBody({ where: null, perPage: 10, page: page })
+        );
 
-      if (response.success) {
-        if (totalCount === 0) {
-          setTotalCount(response.count);
+        if (response.success) {
+          // if (totalCount === 0) {
+          //   setTotalCount(response.count);
+          // }
+          dispatch(fetchCategoryListSuccess(response));
+          // setCategoryData(response?.list);
+        } else {
+          dispatch(fetchCategoryListFailure());
+          // setCategoryData([]);
         }
-        setCategoryData(response?.list);
-      } else {
-        setCategoryData([]);
       }
     } catch (err) {
       alert(err);
@@ -179,6 +197,7 @@ export default function Category() {
         setCategoryData(response?.data);
       }
       if (data.length === 0) {
+        dispatch(fetchCategoryListFailure());
         getCategoryData();
       }
     } catch (error) {
@@ -197,7 +216,7 @@ export default function Category() {
       />
       <TableGrid // its material UI DataGrid to show the category information in a  table structure
         autoHeight={true}
-        rows={categoryData}
+        rows={categoryList}
         columns={columns}
         loading={loading}
         pageSize={10}
@@ -209,7 +228,7 @@ export default function Category() {
         pagination
         paginationMode="server"
         onPageChange={(page, detail) => {
-          setPage(page + 1);
+          dispatch(updatePageNumber(page + 1));
         }}
         // onSelectionModelChange={(itm) => console.log(itm)}
         Property="RowHeaderWidth"

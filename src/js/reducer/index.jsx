@@ -1,15 +1,7 @@
-import { ADD_ARTICLE } from "../constants/action-types";
+import categoryReducer from './category.reducer';
+import productReducer from './product.reducer';
 
-const initialState = {
-  articles: [],
-};
-function rootReducer(state = initialState, action) {
-  if (action.type === ADD_ARTICLE) {
-    return Object.assign({}, state, {
-      articles: state.articles.concat(action.payload),
-    });
-  }
-  return state;
+export const rootReducer = {
+  category: categoryReducer,
+  product: productReducer
 }
-
-export default rootReducer;
