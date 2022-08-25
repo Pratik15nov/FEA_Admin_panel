@@ -22,6 +22,7 @@ import {
   fetchCategoryList,
   categoryStatusChange,
   onDeletion,
+  onSearch,
   fetchCategoryListSuccess,
   fetchCategoryListFailure,
   updatePageNumber,
@@ -130,7 +131,13 @@ export default function Category() {
       isActive: value,
     };
     try {
-      dispatch(categoryStatusChange({id: id, body, defaultPayload: listBody({ where: null, perPage: 10, page: page })}));
+      dispatch(
+        categoryStatusChange({
+          id: id,
+          body,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
       // const response = await categoryStatus(id, body);
 
       // if (response.success) {
@@ -147,7 +154,12 @@ export default function Category() {
   // this function handles the onClick event emitted by the <DeletionIcon/>
   const removeCategory = async () => {
     try {
-      dispatch(onDeletion({id:alertData._id,defaultPayload:listBody({ where: null, perPage: 10, page: page })}));
+      dispatch(
+        onDeletion({
+          id: alertData._id,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
       setOpenAlert(false);
       // const response = await categoryDelete(alertData._id);
       // if (response.data.success) {
@@ -168,7 +180,9 @@ export default function Category() {
     setLoading(true);
     try {
       if (categoryList.length === 0) {
-        dispatch(fetchCategoryList(listBody({ where: null, perPage: 10, page: page })));
+        dispatch(
+          fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
+        );
         // const response = await categoryHandlerData(
         //   listBody({ where: null, perPage: 10, page: page })
         // );
@@ -199,13 +213,22 @@ export default function Category() {
 
     try {
       if (data.length >= 3) {
-        const response = await searchHandlerData(body);
+        dispatch(
+          onSearch({
+            body,
+            defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+          })
+        );
+        // const response = await searchHandlerData(body);
 
-        setCategoryData(response?.data);
+        // setCategoryData(response?.data);
       }
       if (data.length === 0) {
-        dispatch(fetchCategoryListFailure());
-        getCategoryData();
+        // dispatch(fetchCategoryListFailure());
+        // getCategoryData();
+        dispatch(
+          fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
+        );
       }
     } catch (error) {
       alert(error);

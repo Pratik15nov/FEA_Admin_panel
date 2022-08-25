@@ -12,6 +12,9 @@ export function onDeletion(payload) {
 export function onSearch(payload) {
   return { type: "ON_SEARCH", payload };
 }
+export function fetchSearchSuccess(payload) {
+  return { type: "FETCH_SEARCH_SUCCESS", payload };
+}
 
 export function fetchCategoryListFailure() {
   return { type: "FETCH_CATEGORY_FAILURE" };

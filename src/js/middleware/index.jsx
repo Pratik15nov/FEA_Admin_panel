@@ -2,11 +2,13 @@ import {
   categoryHandlerData,
   categoryStatus,
   categoryDelete,
+  searchHandlerData,
 } from "../../service/Auth.Service";
 import {
   fetchCategoryList,
   fetchCategoryListFailure,
   fetchCategoryListSuccess,
+  fetchSearchSuccess,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -45,10 +47,27 @@ export const loggerMiddleware = (store) => (next) => (action) => {
       case "ON_DELETION":
         categoryDelete(action.payload.id)
           .then((res) => {
-            if (res.success) {
+            if (res.status === 200) {
               store.dispatch(fetchCategoryList(action.payload.defaultPayload));
             } else {
               alert("RESPONSE:FALSE => DELETION NOT CHANGED");
+              store.dispatch(fetchCategoryList(action.payload.defaultPayload));
+            }
+          })
+          .catch((error) => {
+            alert("ERROR OCCURED");
+            store.dispatch(fetchCategoryListFailure());
+          });
+        break;
+      case "ON_SEARCH":
+        searchHandlerData(action.payload.body)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchSearchSuccess(res.data));
+            } else if (res.success === false) {
+              store.dispatch(fetchCategoryListFailure());
+            } else {
+              alert("RESPONSE:FALSE => SEARCH NOT WORKING");
               store.dispatch(fetchCategoryList(action.payload.defaultPayload));
             }
           })
