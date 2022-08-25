@@ -43,7 +43,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(fetchCategoryListFailure());
           });
         break;
-      
 
       default:
         return next(action);
