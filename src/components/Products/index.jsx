@@ -38,7 +38,7 @@ const Products = () => {
   const totalCount = useSelector((state) => state.product.totalCount);
   const page = useSelector((state) => state.product.page);
   const dispatch = useDispatch();
-  console.log("State: ", productList);
+  console.log("Product_State: ", productList);
 
   useEffect(() => {
     getProductData(); // eslint-disable-next-line
@@ -238,6 +238,8 @@ const Products = () => {
         const response = await searchProductData(body);
 
         setProductData(response?.data);
+        
+        console.log(response?.data);
       }
       if (data.length === 0) {
         dispatch(fetchProductListFailure());
