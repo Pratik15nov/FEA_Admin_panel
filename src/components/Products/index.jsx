@@ -217,9 +217,11 @@ const Products = () => {
             defaultPayload: listBody({ where: null, perPage: 10, page: page }),
           })
         );
-      } else {
-        dispatch(fetchProductListFailure());
-        getProductData();
+      }
+      if (data.length === 0) {
+        dispatch(
+          fetchProductList(listBody({ where: null, perPage: 10, page: page }))
+        );
       }
     } catch (error) {
       alert(error);

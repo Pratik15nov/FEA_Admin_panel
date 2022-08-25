@@ -2,12 +2,6 @@ import { React, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
-  categoryHandlerData,
-  categoryStatus,
-  searchHandlerData,
-  categoryDelete,
-} from "../../service/Auth.Service";
-import {
   ImageAvatar,
   UpdateIcon,
   DeletionIcon,
@@ -23,8 +17,6 @@ import {
   categoryStatusChange,
   onDeletion,
   onSearch,
-  fetchCategoryListSuccess,
-  fetchCategoryListFailure,
   updatePageNumber,
 } from "../../js/actions";
 import { useNavigate } from "react-router";
@@ -33,7 +25,7 @@ import DialogBox from "../Dialog/index";
 
 export default function Category() {
   const [loading, setLoading] = useState(false);
-  const [categoryData, setCategoryData] = useState([]);
+  // const [categoryData, setCategoryData] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
   // const [totalCount, setTotalCount] = useState(0);
