@@ -22,6 +22,7 @@ import {
   fetchCategoryList,
   categoryStatusChange,
   onDeletion,
+  onSearch,
   fetchCategoryListSuccess,
   fetchCategoryListFailure,
   updatePageNumber,
@@ -212,13 +213,22 @@ export default function Category() {
 
     try {
       if (data.length >= 3) {
-        const response = await searchHandlerData(body);
+        dispatch(
+          onSearch({
+            body,
+            defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+          })
+        );
+        // const response = await searchHandlerData(body);
 
-        setCategoryData(response?.data);
+        // setCategoryData(response?.data);
       }
       if (data.length === 0) {
-        dispatch(fetchCategoryListFailure());
-        getCategoryData();
+        // dispatch(fetchCategoryListFailure());
+        // getCategoryData();
+        dispatch(
+          fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
+        );
       }
     } catch (error) {
       alert(error);

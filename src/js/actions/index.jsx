@@ -1,16 +1,3 @@
-export function updatePageNumber(payload) {
-  return { type: "UPDATE_PAGE_NUMBER", payload };
-}
-
-export function onSearch(payload) {
-  return { type: "ON_SEARCH", payload };
-}
-
-//Category
-export function onDeletion(payload) {
-  return { type: "ON_DELETION", payload };
-}
-
 export function fetchCategoryList(payload) {
   return { type: "FETCH_CATEGORY", payload };
 }
@@ -19,6 +6,17 @@ export function categoryStatusChange(payload) {
   return { type: "CHANGE_CATEGORY_STATUS", payload };
 }
 
+export function onDeletion(payload) {
+  return { type: "ON_DELETION", payload };
+}
+export function onSearch(payload) {
+  return { type: "ON_SEARCH", payload };
+}
+export function fetchSearchSuccess(payload) {
+  return { type: "FETCH_SEARCH_SUCCESS", payload };
+}
+
+>>>>>>> 17bc952318abadda4b7ce4caaefc90c9b03337cf
 export function fetchCategoryListFailure() {
   return { type: "FETCH_CATEGORY_FAILURE" };
 }
