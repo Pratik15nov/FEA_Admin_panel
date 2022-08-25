@@ -19,6 +19,9 @@ import {
 } from "./Category.style";
 import { Box } from "@mui/material";
 import {
+  fetchCategoryList,
+  categoryStatusChange,
+  onDeletion,
   fetchCategoryListSuccess,
   fetchCategoryListFailure,
   updatePageNumber,
@@ -143,15 +146,17 @@ export default function Category() {
   // this function handles the onClick event emitted by the <DeletionIcon/>
   const removeCategory = async () => {
     try {
-      const response = await categoryDelete(alertData._id);
-      if (response.data.success) {
-        setOpenAlert(false);
-        setAlertData([]);
-        dispatch(fetchCategoryListFailure());
-        getCategoryData();
-      } else {
-        alert("DELETION NOT WORKING");
-      }
+      dispatch(onDeletion({id:alertData._id,defaultPayload:listBody({ where: null, perPage: 10, page: page })}));
+      setOpenAlert(false);
+      // const response = await categoryDelete(alertData._id);
+      // if (response.data.success) {
+      //   setOpenAlert(false);
+      //   setAlertData([]);
+      //   dispatch(fetchCategoryListFailure());
+      //   getCategoryData();
+      // } else {
+      //   alert("DELETION NOT WORKING");
+      // }
     } catch (error) {
       alert(error);
     }
