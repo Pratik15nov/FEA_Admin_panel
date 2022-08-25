@@ -6,7 +6,8 @@ import { loggerMiddleware } from "../middleware";
 
 const reducer = combineReducers(rootReducer);
 // const middleware = applyMiddleware(loggerMiddleware);
-const middleware = (getDefaultMiddleware) => getDefaultMiddleware().concat(loggerMiddleware)
+const middleware = (getDefaultMiddleware) =>
+  getDefaultMiddleware().concat(loggerMiddleware);
 
 const store = configureStore({
   reducer,
