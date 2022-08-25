@@ -1,10 +1,16 @@
 import { Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   productHandlerData,
   productEditHandler,
   searchProductData,
 } from "../../service/Auth.Service";
+import {
+  fetchProductListSuccess,
+  fetchProductListFailure,
+  updatePageNumber,
+} from "../../js/actions";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
   Container,
@@ -23,31 +29,41 @@ const Products = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(1);
+  // const [totalCount, setTotalCount] = useState(0);
+  // const [page, setPage] = useState(1);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
+
+  const productList = useSelector((state) => state.product.list);
+  const totalCount = useSelector((state) => state.product.totalCount);
+  const page = useSelector((state) => state.product.page);
+  const dispatch = useDispatch();
+  console.log("State: ", productList);
+
   useEffect(() => {
     getProductData(); // eslint-disable-next-line
   }, [page]);
+
   // this function works to get the data from databse
+
   const getProductData = async () => {
     setLoading(true);
     try {
-      const response = await productHandlerData(
-        listBody({ where: null, perPage: 10, page: page })
-      );
-      if (response.success) {
-        const UpdatedData = response?.list.map((obj) => ({
-          ...obj?.categoryId,
-          ...obj,
-        }));
-        if (totalCount === 0) {
-          setTotalCount(response.count);
+      if (productList.length === 0) {
+        const response = await productHandlerData(
+          listBody({ where: null, perPage: 10, page: page })
+        );
+
+        if (response.success) {
+          // if (totalCount === 0) {
+          //   setTotalCount(response.count);
+          // }
+          dispatch(fetchProductListSuccess(response));
+          // setCategoryData(response?.list);
+        } else {
+          dispatch(fetchProductListFailure());
+          // setCategoryData([]);
         }
-        setProductData(UpdatedData);
-      } else {
-        setProductData([]);
       }
     } catch (err) {
       alert(err);
@@ -55,6 +71,7 @@ const Products = () => {
       setLoading(false);
     }
   };
+
   // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
     {
@@ -85,7 +102,9 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => (
         <RowName>
-          {params.row.categoryName ? params.row.categoryName : "unspecified"}
+          {params.row.categoryId.categoryName
+            ? params.row.categoryId.categoryName
+            : "unspecified"}
         </RowName>
       ),
     },
@@ -170,6 +189,7 @@ const Products = () => {
       const response = await productEditHandler(id, body);
 
       if (response.success) {
+        dispatch(fetchProductListFailure());
         getProductData();
       } else {
         alert("SWITCH IS NOT WORKING");
@@ -199,6 +219,7 @@ const Products = () => {
         setOpenAlert(false);
         setAlertData([]);
         getProductData();
+        dispatch(fetchProductListFailure());
       } else {
         alert("DELETION NOT WORKING");
       }
@@ -216,14 +237,10 @@ const Products = () => {
       if (data.length >= 3) {
         const response = await searchProductData(body);
 
-        const UpdatedData = response?.data.map((obj) => ({
-          ...obj?.categoryId,
-          ...obj,
-        }));
-
-        setProductData(UpdatedData);
+        setProductData(response?.data);
       }
       if (data.length === 0) {
+        dispatch(fetchProductListFailure());
         getProductData();
       }
     } catch (error) {
@@ -241,7 +258,7 @@ const Products = () => {
       />
       <TableGrid // its material UI DataGrid to show the category information in a  table structure
         autoHeight={true}
-        rows={productData}
+        rows={productList}
         columns={columns}
         loading={loading}
         pageSize={10}
@@ -253,7 +270,7 @@ const Products = () => {
         pagination
         paginationMode="server"
         onPageChange={(page, detail) => {
-          setPage(page + 1);
+          dispatch(updatePageNumber(page + 1));
         }}
         // onSelectionModelChange={(itm) => console.log(itm)}
         Property="RowHeaderWidth"

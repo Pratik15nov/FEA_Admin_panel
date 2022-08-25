@@ -9,3 +9,11 @@ export function fetchCategoryListSuccess(payload) {
 export function updatePageNumber(payload) {
   return { type: "UPDATE_PAGE_NUMBER", payload };
 }
+
+export function fetchProductListFailure() {
+  return { type: "FETCH_PRODUCT_FAILURE" };
+}
+
+export function fetchProductListSuccess(payload) {
+  return { type: "FETCH_PRODUCT_SUCCESS", payload };
+}
