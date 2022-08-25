@@ -1,9 +1,16 @@
 export function fetchCategoryList(payload) {
-  return { type: 'FETCH_CATEGORY', payload};
+  return { type: "FETCH_CATEGORY", payload };
 }
 
 export function categoryStatusChange(payload) {
-  return { type: 'CHANGE_CATEGORY_STATUS', payload};
+  return { type: "CHANGE_CATEGORY_STATUS", payload };
+}
+
+export function onDeletion(payload) {
+  return { type: "ON_DELETION", payload };
+}
+export function onSearch(payload) {
+  return { type: "ON_SEARCH", payload };
 }
 
 export function fetchCategoryListFailure() {
