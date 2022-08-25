@@ -130,14 +130,21 @@ export default function Category() {
       isActive: value,
     };
     try {
-      const response = await categoryStatus(id, body);
+      dispatch(
+        categoryStatusChange({
+          id: id,
+          body,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
+      // const response = await categoryStatus(id, body);
 
-      if (response.success) {
-        dispatch(fetchCategoryListFailure());
-        getCategoryData();
-      } else {
-        alert("SWITCH IS NOT WORKING");
-      }
+      // if (response.success) {
+      //   dispatch(fetchCategoryListFailure());
+      //   getCategoryData();
+      // } else {
+      //   alert("SWITCH IS NOT WORKING");
+      // }
     } catch (err) {
       alert(err);
     }
@@ -146,7 +153,12 @@ export default function Category() {
   // this function handles the onClick event emitted by the <DeletionIcon/>
   const removeCategory = async () => {
     try {
-      dispatch(onDeletion({id:alertData._id,defaultPayload:listBody({ where: null, perPage: 10, page: page })}));
+      dispatch(
+        onDeletion({
+          id: alertData._id,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
       setOpenAlert(false);
       // const response = await categoryDelete(alertData._id);
       // if (response.data.success) {
@@ -167,20 +179,23 @@ export default function Category() {
     setLoading(true);
     try {
       if (categoryList.length === 0) {
-        const response = await categoryHandlerData(
-          listBody({ where: null, perPage: 10, page: page })
+        dispatch(
+          fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
         );
+        // const response = await categoryHandlerData(
+        //   listBody({ where: null, perPage: 10, page: page })
+        // );
 
-        if (response.success) {
-          // if (totalCount === 0) {
-          //   setTotalCount(response.count);
-          // }
-          dispatch(fetchCategoryListSuccess(response));
-          // setCategoryData(response?.list);
-        } else {
-          dispatch(fetchCategoryListFailure());
-          // setCategoryData([]);
-        }
+        // if (response.success) {
+        //   // if (totalCount === 0) {
+        //   //   setTotalCount(response.count);
+        //   // }
+        //   dispatch(fetchCategoryListSuccess(response));
+        //   // setCategoryData(response?.list);
+        // } else {
+        //   dispatch(fetchCategoryListFailure());
+        //   // setCategoryData([]);
+        // }
       }
     } catch (err) {
       alert(err);
