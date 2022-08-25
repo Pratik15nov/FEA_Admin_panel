@@ -19,8 +19,6 @@ import {
 } from "./Category.style";
 import { Box } from "@mui/material";
 import {
-  fetchCategoryList,
-  categoryStatusChange,
   fetchCategoryListSuccess,
   fetchCategoryListFailure,
   updatePageNumber,
@@ -129,15 +127,14 @@ export default function Category() {
       isActive: value,
     };
     try {
-      dispatch(categoryStatusChange({id: id, body, defaultPayload: listBody({ where: null, perPage: 10, page: page })}));
-      // const response = await categoryStatus(id, body);
+      const response = await categoryStatus(id, body);
 
-      // if (response.success) {
-      //   dispatch(fetchCategoryListFailure());
-      //   getCategoryData();
-      // } else {
-      //   alert("SWITCH IS NOT WORKING");
-      // }
+      if (response.success) {
+        dispatch(fetchCategoryListFailure());
+        getCategoryData();
+      } else {
+        alert("SWITCH IS NOT WORKING");
+      }
     } catch (err) {
       alert(err);
     }
@@ -165,21 +162,20 @@ export default function Category() {
     setLoading(true);
     try {
       if (categoryList.length === 0) {
-        dispatch(fetchCategoryList(listBody({ where: null, perPage: 10, page: page })));
-        // const response = await categoryHandlerData(
-        //   listBody({ where: null, perPage: 10, page: page })
-        // );
+        const response = await categoryHandlerData(
+          listBody({ where: null, perPage: 10, page: page })
+        );
 
-        // if (response.success) {
-        //   // if (totalCount === 0) {
-        //   //   setTotalCount(response.count);
-        //   // }
-        //   dispatch(fetchCategoryListSuccess(response));
-        //   // setCategoryData(response?.list);
-        // } else {
-        //   dispatch(fetchCategoryListFailure());
-        //   // setCategoryData([]);
-        // }
+        if (response.success) {
+          // if (totalCount === 0) {
+          //   setTotalCount(response.count);
+          // }
+          dispatch(fetchCategoryListSuccess(response));
+          // setCategoryData(response?.list);
+        } else {
+          dispatch(fetchCategoryListFailure());
+          // setCategoryData([]);
+        }
       }
     } catch (err) {
       alert(err);

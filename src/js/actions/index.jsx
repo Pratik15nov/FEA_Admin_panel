@@ -18,6 +18,16 @@ export function updatePageNumber(payload) {
   return { type: "UPDATE_PAGE_NUMBER", payload };
 }
 
+//Product
+
+export function fetchProductList(payload) {
+  return { type: 'FETCH_PRODUCT', payload};
+}
+
+export function productStatusChange(payload) {
+  return { type: 'CHANGE_PRODUCT_STATUS', payload};
+}
+
 export function fetchProductListFailure() {
   return { type: "FETCH_PRODUCT_FAILURE" };
 }

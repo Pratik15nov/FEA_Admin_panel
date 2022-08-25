@@ -238,7 +238,7 @@ const Products = () => {
         const response = await searchProductData(body);
 
         setProductData(response?.data);
-        
+
         console.log(response?.data);
       }
       if (data.length === 0) {
