@@ -32,10 +32,9 @@ export const productEditHandlerdata = (id, body) => {
   return patch(`${ENDPOINTURL}/product/${id}`, body);
 };
 
-export const productEditHandler = (id, body) => {
+export const productStatus = (id, body) => {
   return put(`${ENDPOINTURL}/product/${id}`, body);
 };
-
 export const ProductDataHndlerData = (id) => {
   return get(`${ENDPOINTURL}/product/${id}`);
 };
@@ -45,7 +44,9 @@ export const productAddHandler = (body) => {
 export const productHandlerData = (body) => {
   return post(`${ENDPOINTURL}/product/list`, body);
 };
-
 export const searchProductData = (body) => {
   return post(`${ENDPOINTURL}/product/search`, body);
+};
+export const productDelete = (id) => {
+  return remove(`${ENDPOINTURL}/product/${id}`);
 };
