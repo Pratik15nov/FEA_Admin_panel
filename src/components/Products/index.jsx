@@ -2,14 +2,12 @@ import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
-  productHandlerData,
-  productEditHandler,
-  searchProductData,
-} from "../../service/Auth.Service";
-import {
-  fetchProductListSuccess,
+  fetchProductList,
+  productStatusChange,
   fetchProductListFailure,
   updatePageNumber,
+  onDeletionProduct,
+  onProductSearch,
 } from "../../js/actions";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
@@ -28,7 +26,7 @@ import { useNavigate } from "react-router";
 const Products = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [productData, setProductData] = useState([]);
+  // const [productData, setProductData] = useState([]);
   // const [totalCount, setTotalCount] = useState(0);
   // const [page, setPage] = useState(1);
   const [openAlert, setOpenAlert] = useState(false);
@@ -38,39 +36,14 @@ const Products = () => {
   const totalCount = useSelector((state) => state.product.totalCount);
   const page = useSelector((state) => state.product.page);
   const dispatch = useDispatch();
-  console.log("State: ", productList);
+
+  console.log("Product_State: ", productList);
 
   useEffect(() => {
     getProductData(); // eslint-disable-next-line
   }, [page]);
 
   // this function works to get the data from databse
-
-  const getProductData = async () => {
-    setLoading(true);
-    try {
-      if (productList.length === 0) {
-        const response = await productHandlerData(
-          listBody({ where: null, perPage: 10, page: page })
-        );
-
-        if (response.success) {
-          // if (totalCount === 0) {
-          //   setTotalCount(response.count);
-          // }
-          dispatch(fetchProductListSuccess(response));
-          // setCategoryData(response?.list);
-        } else {
-          dispatch(fetchProductListFailure());
-          // setCategoryData([]);
-        }
-      }
-    } catch (err) {
-      alert(err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
@@ -186,14 +159,21 @@ const Products = () => {
       isActive: value,
     };
     try {
-      const response = await productEditHandler(id, body);
+      dispatch(
+        productStatusChange({
+          id: id,
+          body,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
+      // const response = await productEditHandler(id, body);
 
-      if (response.success) {
-        dispatch(fetchProductListFailure());
-        getProductData();
-      } else {
-        alert("SWITCH IS NOT WORKING");
-      }
+      // if (response.success) {
+      //   dispatch(fetchProductListFailure());
+      //   getProductData();
+      // } else {
+      //   alert("SWITCH IS NOT WORKING");
+      // }
     } catch (err) {
       alert(err);
     }
@@ -210,23 +190,19 @@ const Products = () => {
   };
   // this function handles the onClick event emitted by the <DeletionIcon/>
   const removeProduct = async () => {
-    const body = {
-      isActive: false,
-    };
     try {
-      const response = await productEditHandler(alertData._id, body);
-      if (response.success) {
-        setOpenAlert(false);
-        setAlertData([]);
-        getProductData();
-        dispatch(fetchProductListFailure());
-      } else {
-        alert("DELETION NOT WORKING");
-      }
+      dispatch(
+        onDeletionProduct({
+          id: alertData._id,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
+      setOpenAlert(false);
     } catch (error) {
       alert(error);
     }
   };
+
   // this function captures the values emitted by the search field and updates the table(DataGrid);
   const captureSearch = async (data) => {
     const body = {
@@ -235,28 +211,61 @@ const Products = () => {
 
     try {
       if (data.length >= 3) {
-        const response = await searchProductData(body);
-
-        setProductData(response?.data);
+        dispatch(
+          onProductSearch({
+            body,
+            defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+          })
+        );
       }
       if (data.length === 0) {
-        dispatch(fetchProductListFailure());
-        getProductData();
+        dispatch(
+          fetchProductList(listBody({ where: null, perPage: 10, page: page }))
+        );
       }
     } catch (error) {
       alert(error);
     }
   };
+
+  const getProductData = async () => {
+    setLoading(true);
+    try {
+      if (productList.length === 0) {
+        dispatch(
+          fetchProductList(listBody({ where: null, perPage: 10, page: page }))
+        );
+        // const response = await productHandlerData(
+        //   listBody({ where: null, perPage: 10, page: page })
+        // );
+
+        // if (response.success) {
+        //   // if (totalCount === 0) {
+        //   //   setTotalCount(response.count);
+        //   // }
+        //   dispatch(fetchProductListSuccess(response));
+        //   // setProductData(response?.list);
+        // } else {
+        //   dispatch(fetchProductListFailure());
+        //   // setProductData([]);
+        // }
+      }
+    } catch (err) {
+      alert(err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Container>
       <BreadcrumbArea captureSearch={captureSearch} />
-      <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
+      <DialogBox // to open the dialogBox as confirmation for the deletion of Product after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}
         msg={`Are you sure you want to delete ${alertData.name}  product ?`}
         onAgree={removeProduct}
       />
-      <TableGrid // its material UI DataGrid to show the category information in a  table structure
+      <TableGrid // its material UI DataGrid to show the Product information in a  table structure
         autoHeight={true}
         rows={productList}
         columns={columns}
