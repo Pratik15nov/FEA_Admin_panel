@@ -20,7 +20,7 @@ import {
   fetchSearchSuccess,
   pageNumber,
   categoryPageNumber,
-  fetchProductSearchSuccess
+  fetchProductSearchSuccess,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -32,15 +32,14 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchCategoryListSuccess(res));
-              // store.dispatch(setSearchValuesCategory(action.payload.body.searchText))
-             
             } else {
               store.dispatch(fetchCategoryListFailure());
+              alert("FETCH_CATEGORY => RESPONSE => FALSE");
             }
           })
           .catch((err) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchCategoryListFailure());
+            alert("ERROR OCCURED WHILE FETCH_CATEGORY DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -54,13 +53,13 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             if (res.success) {
               store.dispatch(fetchCategoryList(action.payload.defaultPayload));
             } else {
-              alert("RESPONSE:FALSE => STATUS NOT CHANGED");
               store.dispatch(fetchCategoryList(action.payload.defaultPayload));
+              alert("CHANGE_CATEGORY_STATUS => RESPONSE => FALSE");
             }
           })
           .catch((err) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchCategoryListFailure());
+            alert("ERROR OCCURED WHILE CHANGE_CATEGORY_STATUS DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -73,13 +72,13 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             if (res.status === 200) {
               store.dispatch(fetchCategoryList(action.payload.defaultPayload));
             } else {
-              alert("RESPONSE:FALSE => DELETION NOT CHANGED");
               store.dispatch(fetchCategoryList(action.payload.defaultPayload));
+              alert("ON_DELETION => RESPONSE => FALSE");
             }
           })
           .catch((error) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchCategoryListFailure());
+            alert("ERROR OCCURED WHILE ON_DELETION DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -91,17 +90,16 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchSearchSuccess(res.data));
-              // store.dispatch(setSearchValuesCategory(action.payload.body.searchText))
             } else if (res.success === false) {
               store.dispatch(fetchCategoryListFailure());
             } else {
-              alert("RESPONSE:FALSE => SEARCH NOT WORKING");
               store.dispatch(fetchCategoryList(action.payload.defaultPayload));
+              alert("ON_SEARCH => RESPONSE => FALSE");
             }
           })
           .catch((error) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchCategoryListFailure());
+            alert("ERROR OCCURED WHILE ON_SEARCH DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -115,15 +113,15 @@ export const loggerMiddleware = (store) => (next) => (action) => {
               store.dispatch(fetchProductSearchSuccess(res.data));
             } else if (res.success === false) {
               store.dispatch(fetchProductListFailure());
-              // alert("RESPONSE:FALSE => STATUS NOT CHANGED");
+              alert("ON_SEARCH_PRODUCT => RESPONSE => FALSE");
             } else {
-              // alert("RESPONSE:FALSE => SEARCH NOT WORKING");
               store.dispatch(fetchProductList(action.payload.defaultPayload));
+              alert("ON_SEARCH_PRODUCT => RESPONSE => ERROR");
             }
           })
           .catch((error) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchProductListFailure());
+            alert("ERROR OCCURED WHILE ON_SEARCH_PRODUCT DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -137,11 +135,12 @@ export const loggerMiddleware = (store) => (next) => (action) => {
               store.dispatch(fetchProductListSuccess(res));
             } else {
               store.dispatch(fetchProductListFailure());
+              alert("FETCH_PRODUCT => RESPONSE => FALSE");
             }
           })
           .catch((err) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchProductListFailure());
+            alert("ERROR OCCURED WHILE FETCH_PRODUCT DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -155,13 +154,13 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             if (res.success) {
               store.dispatch(fetchProductList(action.payload.defaultPayload));
             } else {
-              alert("RESPONSE:FALSE => STATUS NOT CHANGED");
               store.dispatch(fetchProductList(action.payload.defaultPayload));
+              alert("CHANGE_PRODUCT_STATUS => RESPONSE => FALSE");
             }
           })
           .catch((err) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchProductListFailure());
+            alert("ERROR OCCURED WHILE CHANGE_PRODUCT_STATUS DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -174,13 +173,13 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             if (res.status === 200) {
               store.dispatch(fetchProductList(action.payload.defaultPayload));
             } else {
-              alert("RESPONSE:FALSE => DELETION NOT CHANGED");
               store.dispatch(fetchProductList(action.payload.defaultPayload));
+              alert("ON_DELETION_PRODUCT => RESPONSE => FALSE");
             }
           })
           .catch((error) => {
-            alert("ERROR OCCURED");
             store.dispatch(fetchProductListFailure());
+            alert("ERROR OCCURED WHILE ON_DELETION_PRODUCT DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -191,17 +190,17 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         console.log("PAGE", action.payload.pagination.page);
         productHandlerData(action.payload)
           .then((res) => {
-            console.log("res: ", res);
             if (res.success) {
               store.dispatch(fetchProductListSuccess(res));
               store.dispatch(pageNumber(action.payload.pagination.page));
             } else {
               store.dispatch(fetchProductListFailure());
+              alert("LOAD_PAGINATION => RESPONSE => FALSE");
             }
           })
           .catch((err) => {
-            alert("ERROR OCCURED IN LOAD_PAGINATION");
             store.dispatch(fetchProductListFailure());
+            alert("ERROR OCCURED WHILE LOAD_PAGINATION DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
@@ -211,7 +210,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         categoryHandlerData(action.payload)
           .then((res) => {
-            console.log("res: ", res);
             if (res.success) {
               store.dispatch(fetchCategoryListSuccess(res));
               store.dispatch(
@@ -219,17 +217,17 @@ export const loggerMiddleware = (store) => (next) => (action) => {
               );
             } else {
               store.dispatch(fetchCategoryListFailure());
+              alert("LOAD_CATEGORY_PAGINATION => RESPONSE => FALSE");
             }
           })
           .catch((err) => {
-            alert("ERROR OCCURED IN LOAD_CATEGORY_PAGINATION");
             store.dispatch(fetchCategoryListFailure());
+            alert("ERROR OCCURED WHILE LOAD_CATEGORY_PAGINATION DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
           });
         break;
-
       default:
         return next(action);
     }

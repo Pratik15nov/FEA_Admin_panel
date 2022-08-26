@@ -30,27 +30,18 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Products = () => {
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(false);
-  // const [productData, setProductData] = useState([]);
-  // const [totalCount, setTotalCount] = useState(0);
-  // const [page, setPage] = useState(1);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
-
   const productList = useSelector((state) => state.product.list);
+  console.log("productList: ", productList);
   const totalCount = useSelector((state) => state.product.totalCount);
   const page = useSelector((state) => state.product.page);
   const loading = useSelector((state) => state.common.loading);
   const dispatch = useDispatch();
 
-  console.log("Product_State: ", productList);
-
   useEffect(() => {
     getProductData(); // eslint-disable-next-line
   }, [page]);
-
-  // this function works to get the data from databse
-
   // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
     {
@@ -81,10 +72,9 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => (
         <RowName>
-          {params.row.name}
-          {/* {params.row.categoryId.categoryName
+          {params.row.categoryId?.categoryName
             ? params.row.categoryId.categoryName
-            : "unspecified"} */}
+            : "unspecified"}
         </RowName>
       ),
     },
@@ -177,14 +167,6 @@ const Products = () => {
           }),
         })
       );
-      // const response = await productEditHandler(id, body);
-
-      // if (response.success) {
-      //   dispatch(fetchProductListFailure());
-      //   getProductData();
-      // } else {
-      //   alert("SWITCH IS NOT WORKING");
-      // }
     } catch (err) {
       alert(err);
     }
@@ -213,13 +195,11 @@ const Products = () => {
       alert(error);
     }
   };
-
   // this function captures the values emitted by the search field and updates the table(DataGrid);
   const captureSearch = async (data) => {
     const body = {
       searchText: data,
     };
-
     try {
       if (data.length >= 3) {
         dispatch(
@@ -238,37 +218,19 @@ const Products = () => {
       alert(error);
     }
   };
-
   const getProductData = async () => {
-    // setLoading(true);
     try {
       if (productList.length === 0) {
         dispatch(
           fetchProductList(listBody({ where: null, perPage: 10, page: page }))
         );
-        // const response = await productHandlerData(
-        //   listBody({ where: null, perPage: 10, page: page })
-        // );
-
-        // if (response.success) {
-        //   // if (totalCount === 0) {
-        //   //   setTotalCount(response.count);
-        //   // }
-        //   dispatch(fetchProductListSuccess(response));
-        //   // setProductData(response?.list);
-        // } else {
-        //   dispatch(fetchProductListFailure());
-        //   // setProductData([]);
-        // }
       }
     } catch (err) {
       alert(err);
     } finally {
-      // setLoading(false);
     }
   };
   const initPagination = (p) => {
-    console.log("p: ", p);
     try {
       dispatch(
         loadingPagination(listBody({ where: null, perPage: 10, page: p + 1 }))
