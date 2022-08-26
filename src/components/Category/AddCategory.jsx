@@ -163,11 +163,15 @@ export default function AddCategory(props) {
   return (
     <Container>
       <BreadcrumbArea />
-      <Typography color="text.primary">
-        Add your Product category and necessary information from here
-      </Typography>
+
       <InputBox>
+        <Typography color="text.primary">
+          Add your Product category and necessary information from here
+        </Typography>
         <form>
+          <Typography color="text.primary" variant="subtitle2">
+            Category Name
+          </Typography>
           <Controller
             name="categoryName"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
@@ -188,8 +192,8 @@ export default function AddCategory(props) {
               required: "Please add category name",
             }}
           />
-          <Typography color="text.primary" variant="caption" display="block">
-            Category Images
+          <Typography color="text.primary" variant="subtitle2">
+            Category Image
           </Typography>
           <ImgBox>
             <Controller

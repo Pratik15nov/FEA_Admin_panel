@@ -162,7 +162,7 @@ export const ImgSize = styled(Box)(({ theme }) => ({
   height: 200,
   width: 200,
   boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;`,
-  borderRadius: 20,
+  borderRadius: 10,
 }));
 
 export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
@@ -172,6 +172,7 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.custom.error, 1),
   cursor: "pointer",
   fontSize: 20,
+  color: "white",
 }));
 
 export const InputField = styled(TextField)(({ theme }) => ({
@@ -226,6 +227,9 @@ export const MyButton = styled(Button)(({ theme }) => ({
 }));
 export const BottomButton = styled(LoadingButton)(({ theme }) => ({
   marginRight: 20,
+  height: 40,
+  fontFamily: theme.typography.fontFamily,
+  textTransform: "capitalize",
 }));
 export const SelectField = styled(Select)(({ theme }) => ({
   "& .MuiOutlinedInput-input": {

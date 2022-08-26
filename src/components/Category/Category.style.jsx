@@ -167,6 +167,8 @@ export const IOSSwitch = styled((props) => (
 
 export const MyButton = styled(Button)(({ theme }) => ({
   height: 40,
+  fontFamily: theme.typography.fontFamily,
+  textTransform: "capitalize",
 }));
 
 export const InputBox = styled(Box)(({ theme }) => ({
@@ -201,6 +203,7 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
 }));
 export const BottomButton = styled(LoadingButton)(({ theme }) => ({
   marginRight: 20,
-}))
-
-
+  height: 40,
+  fontFamily: theme.typography.fontFamily,
+  textTransform: "capitalize",
+}));
