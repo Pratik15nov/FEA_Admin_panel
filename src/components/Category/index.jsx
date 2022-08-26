@@ -252,7 +252,6 @@ export default function Category() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              defaultValue={`${searchValue}`}
               onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
             />
           </Search>
