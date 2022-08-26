@@ -50,3 +50,11 @@ export function onDeletionProduct(payload) {
 export function onProductSearch(payload) {
   return { type: "ON_SEARCH_PRODUCT", payload };
 }
+
+export function fetchProductSearchSuccess(payload) {
+  return { type: "FETCH_PRODUCT_SEARCH_SUCCESS", payload };
+}
+
+export function setSearchValuesCategory(payload) {
+  return { type: "SEARCH_VALUE_CATEGORY", payload };
+}

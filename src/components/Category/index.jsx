@@ -10,17 +10,23 @@ import {
   CategoryName,
   ColoumHead,
   Container,
+  Search,
+  SearchIconWrapper,
+  StyledInputBase,
+  MyButton,
 } from "./Category.style";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import {
   fetchCategoryList,
   categoryStatusChange,
   onDeletion,
   onSearch,
   updatePageNumber,
+  fetchCategoryListFailure,
 } from "../../js/actions";
 import { useNavigate } from "react-router";
 import BreadcrumbArea from "../BreadcrumbArea";
+import SearchIcon from "@mui/icons-material/Search";
 import DialogBox from "../Dialog/index";
 
 export default function Category() {
@@ -28,12 +34,15 @@ export default function Category() {
   // const [categoryData, setCategoryData] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
+  // const [searchValue, setSearchValue] = useState("");
   // const [totalCount, setTotalCount] = useState(0);
   // const [page, setPage] = useState(1);
 
   const categoryList = useSelector((state) => state.category.list);
   const totalCount = useSelector((state) => state.category.totalCount);
   const page = useSelector((state) => state.category.page);
+  const searchValue = useSelector((state) => state.category.searchValue);
+  console.log("VALUE", searchValue);
 
   const dispatch = useDispatch();
 
@@ -199,18 +208,21 @@ export default function Category() {
 
   // this function captures the values emitted by the search field and updates the table(DataGrid);
   const captureSearch = async (data) => {
+    // setSearchValue(data);
     const body = {
       searchText: data,
     };
 
     try {
       if (data.length >= 3) {
+        dispatch(fetchCategoryListFailure());
         dispatch(
           onSearch({
             body,
             defaultPayload: listBody({ where: null, perPage: 10, page: page }),
           })
         );
+
         // const response = await searchHandlerData(body);
 
         // setCategoryData(response?.data);
@@ -226,10 +238,34 @@ export default function Category() {
       alert(error);
     }
   };
+  console.log(searchValue);
 
   return (
     <Container>
-      <BreadcrumbArea captureSearch={captureSearch} />
+      <Grid container sx={{ paddingBottom: "20px" }}>
+        <BreadcrumbArea />
+
+        <Grid xs={3}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              defaultValue={`${searchValue}`}
+              onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
+            />
+          </Search>
+        </Grid>
+        <Grid xs={2}>
+          <MyButton
+            variant="contained"
+            onClick={() => navigate(`/category/add`)} // this navigates to a new component to add the new categories
+          >
+            Add Category
+          </MyButton>
+        </Grid>
+      </Grid>
       <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}

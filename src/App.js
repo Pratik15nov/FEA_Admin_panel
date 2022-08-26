@@ -16,7 +16,12 @@ import CustomSnackbar from "./components/Snackbar";
 import { useState } from "react";
 import AddProducts from "./components/Products/AddProducts";
 
+
 function App() {
+
+
+
+
   const [message, setMessage] = useState(" ");
   const [msgData, setMsgData] = useState(false);
 

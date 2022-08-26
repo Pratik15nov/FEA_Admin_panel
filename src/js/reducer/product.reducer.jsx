@@ -17,7 +17,7 @@ function productReducer(state = initialState, action) {
       };
     case "UPDATE_PRODCUT_PAGE_NUMBER":
       return { ...state, page: action.payload };
-    case "FETCH_SEARCH_SUCCESS":
+    case "FETCH_PRODUCT_SEARCH_SUCCESS":
       return { ...state, list: action.payload };
     default:
       return state;

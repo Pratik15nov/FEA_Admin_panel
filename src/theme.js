@@ -19,10 +19,10 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["-apple-syste÷m"].join(","),
+    fontFamily: ['"Apple Color Emoji"'].join(","),
     h1: {
       fontSize: "24px",
-      fontWeight:600
+      fontWeight: 600,
     },
     h2: {
       fontSize: "20px",

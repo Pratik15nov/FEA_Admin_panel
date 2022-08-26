@@ -9,7 +9,6 @@ import {
   categoryHandlerData,
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG, listBody } from "../../utils/Helper";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -21,6 +20,7 @@ import {
   ImgSize,
   DelIcon,
   InputField,
+  BottomButton
 } from "./Products.style";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -198,7 +198,9 @@ export default function AddProducts(props) {
 
   return (
     <Container>
-      <BreadcrumbArea />
+      <Grid container sx={{ paddingBottom: "20px" }}>
+        <BreadcrumbArea />
+      </Grid>
       <InputBox>
         <form>
           <Typography variant="h3" gutterBottom>
@@ -480,7 +482,7 @@ export default function AddProducts(props) {
             />
           </ImgBox>
           <br />
-          <LoadingButton
+          <BottomButton
             type="submit"
             loading={loading}
             loadingPosition="end"
@@ -488,7 +490,8 @@ export default function AddProducts(props) {
             onClick={handleSubmit(handleProductData)}
           >
             {cid ? "Update" : "Add"} Product
-          </LoadingButton>
+          </BottomButton>
+          <BottomButton variant="contained" onClick={() => navigate("/products")}>Back</BottomButton>
         </form>
       </InputBox>
     </Container>

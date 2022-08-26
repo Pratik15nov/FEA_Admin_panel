@@ -8,7 +8,6 @@ import {
   categoryAddHandler,
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG } from "../../utils/Helper";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
 import {
@@ -17,6 +16,7 @@ import {
   ImgBox,
   ImgSize,
   DelIcon,
+  BottomButton,
 } from "./Category.style";
 
 export default function AddCategory(props) {
@@ -252,7 +252,7 @@ export default function AddCategory(props) {
             />
           </ImgBox>
           <br />
-          <LoadingButton
+          <BottomButton
             type="submit"
             loading={loading}
             loadingPosition="end"
@@ -260,7 +260,13 @@ export default function AddCategory(props) {
             onClick={handleSubmit(handleCategoryData)}
           >
             {cid ? "Update" : "Add"} Category
-          </LoadingButton>
+          </BottomButton>
+          <BottomButton
+            variant="contained"
+            onClick={() => navigate("/category")}
+          >
+            Back
+          </BottomButton>
         </form>
       </InputBox>
     </Container>

@@ -3,6 +3,7 @@ const initialState = {
   totalCount: 0,
   page: 1,
   perPage: 10,
+  searchValue:'',
 };
 
 function categoryReducer(state = initialState, action) {
@@ -19,6 +20,8 @@ function categoryReducer(state = initialState, action) {
       return { ...state, list: action.payload };
     case "UPDATE_PAGE_NUMBER":
       return { ...state, page: action.payload };
+      case "SEARCH_VALUE_CATEGORY":
+      return { ...state, searchValue: action.payload !==  null ? action.payload: null };
     default:
       return state;
   }
