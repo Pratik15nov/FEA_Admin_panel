@@ -224,6 +224,8 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 export const MyButton = styled(Button)(({ theme }) => ({
   height: 40,
+  fontFamily: theme.typography.fontFamily,
+  textTransform: "capitalize",
 }));
 export const BottomButton = styled(LoadingButton)(({ theme }) => ({
   marginRight: 20,
