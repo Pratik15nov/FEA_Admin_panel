@@ -50,3 +50,26 @@ export const searchProductData = (body) => {
 export const productDelete = (id) => {
   return remove(`${ENDPOINTURL}/product/${id}`);
 };
+
+export const customersEditHandlerdata = (id, body) => {
+  return patch(`${ENDPOINTURL}/user/${id}`, body);
+};
+export const customersStatus = (id, body) => {
+  return put(`${ENDPOINTURL}/user/${id}`, body);
+};
+export const customersDataHndlerData = (id) => {
+  return get(`${ENDPOINTURL}/user/${id}`);
+};
+export const customersAddHandler = (body) => {
+  return post(`${ENDPOINTURL}/user`, body);
+};
+export const customersHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/user/list`, body);
+};
+export const searchCustomersData = (body) => {
+  return post(`${ENDPOINTURL}/user/search`, body);
+};
+export const customersDelete = (id) => {
+  return remove(`${ENDPOINTURL}/user/${id}`);
+};
+
