@@ -17,27 +17,20 @@ import {
   categoryStatusChange,
   onDeletion,
   onSearch,
-  updatePageNumber,
+  loadingCategoryPagination,
 } from "../../js/actions";
 import { useNavigate } from "react-router";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog/index";
 
 export default function Category() {
-  const [loading, setLoading] = useState(false);
-  // const [categoryData, setCategoryData] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
-  // const [totalCount, setTotalCount] = useState(0);
-  // const [page, setPage] = useState(1);
-
   const categoryList = useSelector((state) => state.category.list);
   const totalCount = useSelector((state) => state.category.totalCount);
   const page = useSelector((state) => state.category.page);
-
+  const loading = useSelector((state) => state.common.loading);
   const dispatch = useDispatch();
-
-  console.log("State: ", categoryList);
   const navigate = useNavigate();
   useEffect(() => {
     getCategoryData(); // eslint-disable-next-line
@@ -106,17 +99,14 @@ export default function Category() {
       ),
     },
   ];
-
   const handleAlert = (data) => {
     setAlertData(data);
     setOpenAlert(true);
   };
-
   const alertClose = () => {
     setAlertData([]);
     setOpenAlert(false);
   };
-
   // this function handles the toggle of Status
   const handleToggleStatus = async (id, value) => {
     const body = {
@@ -130,19 +120,10 @@ export default function Category() {
           defaultPayload: listBody({ where: null, perPage: 10, page: page }),
         })
       );
-      // const response = await categoryStatus(id, body);
-
-      // if (response.success) {
-      //   dispatch(fetchCategoryListFailure());
-      //   getCategoryData();
-      // } else {
-      //   alert("SWITCH IS NOT WORKING");
-      // }
     } catch (err) {
       alert(err);
     }
   };
-
   // this function handles the onClick event emitted by the <DeletionIcon/>
   const removeCategory = async () => {
     try {
@@ -153,56 +134,27 @@ export default function Category() {
         })
       );
       setOpenAlert(false);
-      // const response = await categoryDelete(alertData._id);
-      // if (response.data.success) {
-      //   setOpenAlert(false);
-      //   setAlertData([]);
-      //   dispatch(fetchCategoryListFailure());
-      //   getCategoryData();
-      // } else {
-      //   alert("DELETION NOT WORKING");
-      // }
     } catch (error) {
       alert(error);
     }
   };
-
   //  this API  fetches the data  from databse according to pagination
   const getCategoryData = async () => {
-    setLoading(true);
     try {
       if (categoryList.length === 0) {
         dispatch(
           fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
         );
-        // const response = await categoryHandlerData(
-        //   listBody({ where: null, perPage: 10, page: page })
-        // );
-
-        // if (response.success) {
-        //   // if (totalCount === 0) {
-        //   //   setTotalCount(response.count);
-        //   // }
-        //   dispatch(fetchCategoryListSuccess(response));
-        //   // setCategoryData(response?.list);
-        // } else {
-        //   dispatch(fetchCategoryListFailure());
-        //   // setCategoryData([]);
-        // }
       }
     } catch (err) {
       alert(err);
-    } finally {
-      setLoading(false);
     }
   };
-
   // this function captures the values emitted by the search field and updates the table(DataGrid);
   const captureSearch = async (data) => {
     const body = {
       searchText: data,
     };
-
     try {
       if (data.length >= 3) {
         dispatch(
@@ -211,13 +163,8 @@ export default function Category() {
             defaultPayload: listBody({ where: null, perPage: 10, page: page }),
           })
         );
-        // const response = await searchHandlerData(body);
-
-        // setCategoryData(response?.data);
       }
       if (data.length === 0) {
-        // dispatch(fetchCategoryListFailure());
-        // getCategoryData();
         dispatch(
           fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
         );
@@ -226,7 +173,18 @@ export default function Category() {
       alert(error);
     }
   };
-
+  // this funnction handles the pagination
+  const initPagination = (p) => {
+    try {
+      dispatch(
+        loadingCategoryPagination(
+          listBody({ where: null, perPage: 10, page: p + 1 })
+        )
+      );
+    } catch (error) {
+      alert(error);
+    }
+  };
   return (
     <Container>
       <BreadcrumbArea captureSearch={captureSearch} />
@@ -249,9 +207,7 @@ export default function Category() {
         disableSelectionOnClick
         pagination
         paginationMode="server"
-        onPageChange={(page, detail) => {
-          dispatch(updatePageNumber(page + 1));
-        }}
+        onPageChange={initPagination}
         // onSelectionModelChange={(itm) => console.log(itm)}
         Property="RowHeaderWidth"
       />

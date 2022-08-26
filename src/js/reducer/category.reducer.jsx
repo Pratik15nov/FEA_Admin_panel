@@ -15,10 +15,10 @@ function categoryReducer(state = initialState, action) {
         list: action.payload.list,
         totalCount: action.payload.count,
       };
+    case "CATEGORY_PAGE_NUMBER":
+      return { ...state, page: action.payload };
     case "FETCH_SEARCH_SUCCESS":
       return { ...state, list: action.payload };
-    case "UPDATE_PAGE_NUMBER":
-      return { ...state, page: action.payload };
     default:
       return state;
   }

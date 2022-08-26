@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import {
   fetchProductList,
   productStatusChange,
-  fetchProductListFailure,
-  updatePageNumber,
   onDeletionProduct,
   onProductSearch,
+  loadingPagination,
 } from "../../js/actions";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import {
@@ -25,7 +24,7 @@ import DialogBox from "../Dialog";
 import { useNavigate } from "react-router";
 const Products = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   // const [productData, setProductData] = useState([]);
   // const [totalCount, setTotalCount] = useState(0);
   // const [page, setPage] = useState(1);
@@ -35,6 +34,7 @@ const Products = () => {
   const productList = useSelector((state) => state.product.list);
   const totalCount = useSelector((state) => state.product.totalCount);
   const page = useSelector((state) => state.product.page);
+  const loading = useSelector((state) => state.common.loading);
   const dispatch = useDispatch();
 
   console.log("Product_State: ", productList);
@@ -75,9 +75,10 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => (
         <RowName>
-          {params.row.categoryId.categoryName
+          {params.row.name}
+          {/* {params.row.categoryId.categoryName
             ? params.row.categoryId.categoryName
-            : "unspecified"}
+            : "unspecified"} */}
         </RowName>
       ),
     },
@@ -163,7 +164,11 @@ const Products = () => {
         productStatusChange({
           id: id,
           body,
-          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+          defaultPayload: listBody({
+            where: null,
+            perPage: 10,
+            page: page,
+          }),
         })
       );
       // const response = await productEditHandler(id, body);
@@ -229,7 +234,7 @@ const Products = () => {
   };
 
   const getProductData = async () => {
-    setLoading(true);
+    // setLoading(true);
     try {
       if (productList.length === 0) {
         dispatch(
@@ -253,7 +258,17 @@ const Products = () => {
     } catch (err) {
       alert(err);
     } finally {
-      setLoading(false);
+      // setLoading(false);
+    }
+  };
+  const initPagination = (p) => {
+    console.log("p: ", p);
+    try {
+      dispatch(
+        loadingPagination(listBody({ where: null, perPage: 10, page: p + 1 }))
+      );
+    } catch (error) {
+      alert(error);
     }
   };
   return (
@@ -276,11 +291,8 @@ const Products = () => {
         checkboxSelection={true}
         getRowId={(row) => row._id}
         disableSelectionOnClick
-        pagination
         paginationMode="server"
-        onPageChange={(page, detail) => {
-          dispatch(updatePageNumber(page + 1));
-        }}
+        onPageChange={initPagination}
         // onSelectionModelChange={(itm) => console.log(itm)}
         Property="RowHeaderWidth"
       />

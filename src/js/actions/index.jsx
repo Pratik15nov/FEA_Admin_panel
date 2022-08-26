@@ -1,8 +1,27 @@
+export function loadingStart() {
+  return { type: 'FETCH_DATA_START'};
+}
+
+export function loadingStop() {
+  return { type: 'FETCH_DATA_STOP'};
+}
+
 export function fetchCategoryList(payload) {
   return { type: "FETCH_CATEGORY", payload };
 }
-export function updatePageNumber(payload) {
-  return { type: "UPDATE_PAGE_NUMBER", payload };
+export function loadingPagination(payload) {
+  return { type: "LOAD_PAGINATION", payload };
+}
+
+export function loadingCategoryPagination(payload) {
+  return { type: "LOAD_CATEGORY_PAGINATION", payload };
+}
+
+export function pageNumber(payload) {
+  return { type: "PAGE_NUMBER", payload };
+}
+export function categoryPageNumber(payload) {
+  return { type: "CATEGORY_PAGE_NUMBER", payload };
 }
 export function categoryStatusChange(payload) {
   return { type: "CHANGE_CATEGORY_STATUS", payload };
