@@ -8,7 +8,6 @@ import {
   categoryAddHandler,
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG } from "../../utils/Helper";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
 import {
@@ -17,7 +16,11 @@ import {
   ImgBox,
   ImgSize,
   DelIcon,
+  BottomButton,
 } from "./Category.style";
+import { fetchCategoryList } from "../../js/actions";
+import { useDispatch } from "react-redux";
+import { listBody } from "../../utils/Helper";
 
 export default function AddCategory(props) {
   const [cid, setcid] = useState();
@@ -27,6 +30,8 @@ export default function AddCategory(props) {
   const [images, setImages] = useState(null);
   const [file, setFile] = useState(null);
   const [apiImg, setApiImg] = useState(null);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   //use for images manually upload and drop
@@ -123,6 +128,9 @@ export default function AddCategory(props) {
         try {
           if (response.success) {
             navigate(`/category`);
+            dispatch(
+              fetchCategoryList(listBody({ where: null, perPage: 10, page: 1 }))
+            );
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }
@@ -137,6 +145,9 @@ export default function AddCategory(props) {
         try {
           if (response.success) {
             navigate(`/category`);
+            dispatch(
+              fetchCategoryList(listBody({ where: null, perPage: 10, page: 1 }))
+            );
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }
@@ -252,7 +263,7 @@ export default function AddCategory(props) {
             />
           </ImgBox>
           <br />
-          <LoadingButton
+          <BottomButton
             type="submit"
             loading={loading}
             loadingPosition="end"
@@ -260,7 +271,13 @@ export default function AddCategory(props) {
             onClick={handleSubmit(handleCategoryData)}
           >
             {cid ? "Update" : "Add"} Category
-          </LoadingButton>
+          </BottomButton>
+          <BottomButton
+            variant="contained"
+            onClick={() => navigate("/category")}
+          >
+            Back
+          </BottomButton>
         </form>
       </InputBox>
     </Container>

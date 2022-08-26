@@ -3,6 +3,7 @@ const initialState = {
   totalCount: 0,
   page: 1,
   perPage: 10,
+  searchValue:'',
 };
 
 function categoryReducer(state = initialState, action) {

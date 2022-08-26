@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
@@ -18,10 +18,16 @@ import {
   DeletionIcon,
   ColoumHead,
   RowName,
+  Search,
+  SearchIconWrapper,
+  StyledInputBase,
+  MyButton,
 } from "./Products.style";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog";
 import { useNavigate } from "react-router";
+import SearchIcon from "@mui/icons-material/Search";
+
 const Products = () => {
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
@@ -273,7 +279,30 @@ const Products = () => {
   };
   return (
     <Container>
-      <BreadcrumbArea captureSearch={captureSearch} />
+      <Grid container sx={{ paddingBottom: "20px" }}>
+        <BreadcrumbArea />
+
+        <Grid xs={3}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
+            />
+          </Search>
+        </Grid>
+        <Grid xs={2}>
+          <MyButton
+            variant="contained"
+            onClick={() => navigate(`/products/add`)} // this navigates to a new component to add the new categories
+          >
+            Add Product
+          </MyButton>
+        </Grid>
+      </Grid>
+      {/* <BreadcrumbArea captureSearch={captureSearch} /> */}
       <DialogBox // to open the dialogBox as confirmation for the deletion of Product after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}

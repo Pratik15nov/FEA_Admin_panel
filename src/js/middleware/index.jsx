@@ -20,6 +20,7 @@ import {
   fetchSearchSuccess,
   pageNumber,
   categoryPageNumber,
+  fetchProductSearchSuccess
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -31,6 +32,8 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchCategoryListSuccess(res));
+              // store.dispatch(setSearchValuesCategory(action.payload.body.searchText))
+             
             } else {
               store.dispatch(fetchCategoryListFailure());
             }
@@ -88,6 +91,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchSearchSuccess(res.data));
+              // store.dispatch(setSearchValuesCategory(action.payload.body.searchText))
             } else if (res.success === false) {
               store.dispatch(fetchCategoryListFailure());
             } else {
@@ -108,11 +112,12 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         searchProductData(action.payload.body)
           .then((res) => {
             if (res.success) {
-              store.dispatch(fetchSearchSuccess(res.data));
+              store.dispatch(fetchProductSearchSuccess(res.data));
             } else if (res.success === false) {
               store.dispatch(fetchProductListFailure());
+              // alert("RESPONSE:FALSE => STATUS NOT CHANGED");
             } else {
-              alert("RESPONSE:FALSE => SEARCH NOT WORKING");
+              // alert("RESPONSE:FALSE => SEARCH NOT WORKING");
               store.dispatch(fetchProductList(action.payload.defaultPayload));
             }
           })

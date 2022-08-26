@@ -33,10 +33,15 @@ import {
   ListIcon,
   ListText,
 } from "./Layout.style";
+import { useDispatch } from "react-redux";
+import { fetchCategoryList,fetchProductList } from "../../js/actions";
+import { listBody } from "../../utils/Helper";
 
 export default function MiniDrawer(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -90,7 +95,17 @@ export default function MiniDrawer(props) {
               <ListText>Dashboard</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/products")}>
+          <ListItem
+            disablePadding
+            onClick={() => [
+              navigate("/products"),
+              dispatch(
+                fetchProductList(
+                  listBody({ where: null, perPage: 10, page: 1 })
+                )
+              ),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <InventoryIcon />
@@ -98,7 +113,17 @@ export default function MiniDrawer(props) {
               <ListText>Products</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/category")}>
+          <ListItem
+            disablePadding
+            onClick={() => [
+              navigate("/category"),
+              dispatch(
+                fetchCategoryList(
+                  listBody({ where: null, perPage: 10, page: 1 })
+                )
+              ),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <CategoryIcon />

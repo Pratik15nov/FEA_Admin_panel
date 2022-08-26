@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Breadcrumbs, Typography } from "@mui/material";
-import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
-  MyButton,
-  MyLink,
-} from "./Breadcrumbarea.style";
-import SearchIcon from "@mui/icons-material/Search";
-import { useLocation, useNavigate } from "react-router-dom";
+import { MyLink } from "./Breadcrumbarea.style";
+import { useLocation } from "react-router-dom";
 
 export default function BreadcrumbArea(props) {
-  const navigate = useNavigate();
   const location = useLocation();
   const { search } = location;
-  const [link, setLink] = useState();
   const [linkAdd, setLinkAdd] = useState();
   const [items, setItems] = useState();
   const [buttonArea, setButtonArea] = useState(false);
@@ -26,7 +17,7 @@ export default function BreadcrumbArea(props) {
         .split("/")[1]
         .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
       setItems(item);
-      setLink(location.pathname);
+
       setButtonArea(true);
     } else {
       setItems(null);
@@ -47,10 +38,10 @@ export default function BreadcrumbArea(props) {
       if (location?.search.split("?")[1] !== undefined) {
         setEditText(true);
       }
-    }// eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [search]);
   return (
-    <Grid container sx={{ paddingBottom: "20px" }}>
+    <>
       {buttonArea ? (
         <>
           <Grid xs={7}>
@@ -68,25 +59,6 @@ export default function BreadcrumbArea(props) {
               </Box>
               <Typography>{items} List</Typography>
             </Breadcrumbs>
-          </Grid>
-          <Grid xs={3}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                onChange={(e) => props.captureSearch(e.target.value)} // its a text field user for searching the category
-              />
-            </Search>
-          </Grid>
-          <Grid xs={2}>
-            <MyButton
-              variant="contained"
-              onClick={() => navigate(`${link}/add`)} // this navigates to a new component to add the new categories
-            >
-              Add {items}
-            </MyButton>
           </Grid>
         </>
       ) : (
@@ -112,6 +84,6 @@ export default function BreadcrumbArea(props) {
           </Grid>
         </>
       )}
-    </Grid>
+    </>
   );
 }

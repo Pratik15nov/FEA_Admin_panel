@@ -9,11 +9,9 @@ import {
   categoryHandlerData,
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG, listBody } from "../../utils/Helper";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
 import FormHelperText from "@mui/material/FormHelperText";
-
 import {
   Container,
   InputBox,
@@ -21,10 +19,13 @@ import {
   ImgSize,
   DelIcon,
   InputField,
+  BottomButton,
+  SelectField,
 } from "./Products.style";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import { fetchProductList } from "../../js/actions";
+import { useDispatch } from "react-redux";
 
 export default function AddProducts(props) {
   const [cid, setcid] = useState();
@@ -36,6 +37,7 @@ export default function AddProducts(props) {
   const [apiImg, setApiImg] = useState(null);
   const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState([]);
+  const dispatch = useDispatch();
 
   //use for images manually upload and drop
   const onDrop = useCallback((acceptedFiles) => {
@@ -164,6 +166,9 @@ export default function AddProducts(props) {
         try {
           if (response.success) {
             navigate(`/products`);
+            dispatch(
+              fetchProductList(listBody({ where: null, perPage: 10, page: 1 }))
+            );
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }
@@ -184,6 +189,9 @@ export default function AddProducts(props) {
         try {
           if (response.success) {
             navigate(`/products`);
+            dispatch(
+              fetchProductList(listBody({ where: null, perPage: 10, page: 1 }))
+            );
             setLoading(false);
             props.getValue(true, `${response.message}`);
           }
@@ -198,9 +206,12 @@ export default function AddProducts(props) {
 
   return (
     <Container>
-      <BreadcrumbArea />
-      <InputBox>
-        <form>
+      <Grid container sx={{ paddingBottom: "20px" }}>
+        <BreadcrumbArea />
+      </Grid>
+
+      <Grid container>
+        <InputBox item xs={6} md={6}>
           <Typography variant="h3" gutterBottom>
             Add your Product and necessary information from here
           </Typography>
@@ -239,7 +250,6 @@ export default function AddProducts(props) {
               },
             }}
           />
-
           <Typography color="text.primary" variant="subtitle2">
             Product Category
           </Typography>
@@ -247,7 +257,7 @@ export default function AddProducts(props) {
             name="categoryId"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <FormControl fullWidth>
-                <Select
+                <SelectField
                   labelId="demo-simple-select-label"
                   id="categoryId"
                   value={value}
@@ -262,7 +272,7 @@ export default function AddProducts(props) {
                       </MenuItem>
                     );
                   })}
-                </Select>
+                </SelectField>
                 <FormHelperText error={error}>
                   {error?.message ?? ""}
                 </FormHelperText>
@@ -340,7 +350,7 @@ export default function AddProducts(props) {
             }}
           />
           <Typography color="text.primary" variant="subtitle2">
-            Product Price
+            Product Price {"(Rs)"}
           </Typography>
           <Controller
             name="price"
@@ -370,8 +380,10 @@ export default function AddProducts(props) {
               },
             }}
           />
+        </InputBox>
+        <InputBox item xs={6} md={5}>
           <Typography color="text.primary" variant="subtitle2">
-            Discount Price
+            Discount Price {"(Rs)"}
           </Typography>
           <Controller
             name="discountPrice"
@@ -480,7 +492,7 @@ export default function AddProducts(props) {
             />
           </ImgBox>
           <br />
-          <LoadingButton
+          <BottomButton
             type="submit"
             loading={loading}
             loadingPosition="end"
@@ -488,9 +500,15 @@ export default function AddProducts(props) {
             onClick={handleSubmit(handleProductData)}
           >
             {cid ? "Update" : "Add"} Product
-          </LoadingButton>
-        </form>
-      </InputBox>
+          </BottomButton>
+          <BottomButton
+            variant="contained"
+            onClick={() => navigate("/products")}
+          >
+            Back
+          </BottomButton>
+        </InputBox>
+      </Grid>
     </Container>
   );
 }

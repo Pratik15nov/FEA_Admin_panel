@@ -1,9 +1,21 @@
-import { Avatar, Box, styled, Switch, Typography ,TextField} from "@mui/material";
+import {
+  Avatar,
+  Box,
+  styled,
+  Switch,
+  Typography,
+  TextField,
+  InputBase,
+  Button,
+  Select,
+  Grid,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { alpha } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export const Container = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -11,7 +23,7 @@ export const Container = styled(Box)(({ theme }) => ({
 }));
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
-  overflow: "scroll", // eslint-disable-next-line 
+  overflow: "scroll", // eslint-disable-next-line
   overflow: "scroll",
   " &.MuiDataGrid-root .MuiDataGrid-cell": {
     color: "pink",
@@ -133,16 +145,17 @@ export const RowName = styled(Typography)(({ theme }) => ({
     color: "black",
   },
 }));
-export const InputBox = styled(Box)(({ theme }) => ({
-  width: "50%",
+export const InputBox = styled(Grid)(({ theme }) => ({
   boxShadow: `rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;`,
-  padding: 20,
-  borderRadius: 5,
+  padding: 25,
+  borderRadius: 10,
+  marginRight: 20,
 }));
 
 export const ImgBox = styled(Box)(({ theme }) => ({
   padding: 20,
-  border: "1px solid gray",
+  border: "1px solid #c4c4c4",
+  borderRadius: 5,
 }));
 
 export const ImgSize = styled(Box)(({ theme }) => ({
@@ -153,14 +166,71 @@ export const ImgSize = styled(Box)(({ theme }) => ({
 }));
 
 export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
-  padding: 6,
+  padding: 4,
   boxShadow: `rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;`,
-  borderRadius: 16,
+  borderRadius: 50,
   backgroundColor: alpha(theme.palette.custom.error, 1),
   cursor: "pointer",
+  fontSize: 20,
 }));
 
 export const InputField = styled(TextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-input": {
+    height: "1em",
+  },
+  marginTop: 10,
+  marginBottom: 10,
+  // height: "1em",
+}));
+export const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  color: "white",
+  backgroundColor: alpha(theme.palette.primary.main, 1),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.primary.main, 0.25),
+    color: "black",
+  },
+  marginRight: theme.spacing(1),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
+export const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+}));
+export const MyButton = styled(Button)(({ theme }) => ({
+  height: 40,
+}));
+export const BottomButton = styled(LoadingButton)(({ theme }) => ({
+  marginRight: 20,
+}));
+export const SelectField = styled(Select)(({ theme }) => ({
+  "& .MuiOutlinedInput-input": {
+    height: "1em",
+  },
   marginTop: 10,
   marginBottom: 10,
 }));

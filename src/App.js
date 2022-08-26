@@ -19,7 +19,6 @@ import AddProducts from "./components/Products/AddProducts";
 function App() {
   const [message, setMessage] = useState(" ");
   const [msgData, setMsgData] = useState(false);
-
   const getValue = (open, msg) => {
     setMessage(msg);
     setMsgData(open);

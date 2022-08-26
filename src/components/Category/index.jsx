@@ -10,17 +10,23 @@ import {
   CategoryName,
   ColoumHead,
   Container,
+  Search,
+  SearchIconWrapper,
+  StyledInputBase,
+  MyButton,
 } from "./Category.style";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import {
   fetchCategoryList,
   categoryStatusChange,
   onDeletion,
   onSearch,
   loadingCategoryPagination,
+  fetchCategoryListFailure,
 } from "../../js/actions";
 import { useNavigate } from "react-router";
 import BreadcrumbArea from "../BreadcrumbArea";
+import SearchIcon from "@mui/icons-material/Search";
 import DialogBox from "../Dialog/index";
 
 export default function Category() {
@@ -152,11 +158,13 @@ export default function Category() {
   };
   // this function captures the values emitted by the search field and updates the table(DataGrid);
   const captureSearch = async (data) => {
+    // setSearchValue(data);
     const body = {
       searchText: data,
     };
     try {
       if (data.length >= 3) {
+        dispatch(fetchCategoryListFailure());
         dispatch(
           onSearch({
             body,
@@ -187,7 +195,29 @@ export default function Category() {
   };
   return (
     <Container>
-      <BreadcrumbArea captureSearch={captureSearch} />
+      <Grid container sx={{ paddingBottom: "20px" }}>
+        <BreadcrumbArea />
+
+        <Grid xs={3}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
+            />
+          </Search>
+        </Grid>
+        <Grid xs={2}>
+          <MyButton
+            variant="contained"
+            onClick={() => navigate(`/category/add`)} // this navigates to a new component to add the new categories
+          >
+            Add Category
+          </MyButton>
+        </Grid>
+      </Grid>
       <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}
