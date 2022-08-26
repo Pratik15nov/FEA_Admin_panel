@@ -211,7 +211,7 @@ export default function AddProducts(props) {
       </Grid>
 
       <Grid container>
-        <InputBox item xs={6} md={6}>
+        <InputBox item xs={6} md={7}>
           <Typography variant="h3" gutterBottom>
             Add your Product and necessary information from here
           </Typography>
@@ -381,7 +381,7 @@ export default function AddProducts(props) {
             }}
           />
         </InputBox>
-        <InputBox item xs={6} md={5}>
+        <InputBox item md={4}>
           <Typography color="text.primary" variant="subtitle2">
             Discount Price {"(Rs)"}
           </Typography>
@@ -427,10 +427,14 @@ export default function AddProducts(props) {
                         {error?.message ?? ""}
                       </FormHelperText>
                       <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <DragDrop onDrop={onDrop} accept={"image/*"} />
-                        </Grid>
-                        <Grid item xs={5}>
+                        {value == null ? (
+                          <Grid item xs={12}>
+                            <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          </Grid>
+                        ) : (
+                          <></>
+                        )}
+                        <Grid item xs={12}>
                           {value !== null ? (
                             <>
                               <ImgSize
@@ -442,8 +446,6 @@ export default function AddProducts(props) {
                           ) : (
                             <></>
                           )}
-                        </Grid>
-                        <Grid item xs={1}>
                           {value !== null ? (
                             <>
                               <DelIcon onClick={() => setValue("img", null)} />
@@ -458,12 +460,14 @@ export default function AddProducts(props) {
                     <>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
-                          <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          {images == null ? (
+                            <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          ) : (
+                            <></>
+                          )}
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={12}>
                           <ImgSize component="img" src={images} alt="" />
-                        </Grid>
-                        <Grid item xs={1}>
                           {images !== null ? (
                             <>
                               <DelIcon

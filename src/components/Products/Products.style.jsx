@@ -173,6 +173,8 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
   cursor: "pointer",
   fontSize: 20,
   color: "white",
+  marginBottom: 170,
+  marginLeft: 10,
 }));
 
 export const InputField = styled(TextField)(({ theme }) => ({
