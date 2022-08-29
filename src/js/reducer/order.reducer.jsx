@@ -5,23 +5,23 @@ const initialState = {
   perPage: 10,
 };
 
-function categoryReducer(state = initialState, action) {
+function orderReducer(state = initialState, action) {
   switch (action.type) {
-    case "FETCH_CATEGORY_FAILURE":
+    case "FETCH_ORDER_FAILURE":
       return { ...state, list: [] };
-    case "FETCH_CATEGORY_SUCCESS":
+    case "FETCH_ORDER_SUCCESS":
       return {
         ...state,
         list: action.payload.list,
         totalCount: action.payload.count,
       };
-    case "CATEGORY_PAGE_NUMBER":
+    case "ORDER_PAGE_NUMBER":
       return { ...state, page: action.payload };
-    case "FETCH_SEARCH_SUCCESS":
+    case "ORDER_SEARCH_SUCCESS":
       return { ...state, list: action.payload };
     default:
       return state;
   }
 }
 
-export default categoryReducer;
+export default orderReducer;

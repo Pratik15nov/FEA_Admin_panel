@@ -7,6 +7,7 @@ import {
   productStatus,
   productDelete,
   searchHandlerData,
+  orderHandlerData,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -21,6 +22,8 @@ import {
   pageNumber,
   categoryPageNumber,
   fetchProductSearchSuccess,
+  fetchOrderListSuccess,
+  fetchOrderListFailure,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -223,6 +226,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchCategoryListFailure());
             alert("ERROR OCCURED WHILE LOAD_CATEGORY_PAGINATION DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_ORDER":
+        store.dispatch(loadingStart());
+        orderHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchOrderListSuccess(res));
+            } else {
+              store.dispatch(fetchOrderListFailure());
+              alert("FETCH_ORDER => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE FETCH_ORDER DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

@@ -77,3 +77,26 @@ export function fetchProductSearchSuccess(payload) {
 export function setSearchValuesCategory(payload) {
   return { type: "SEARCH_VALUE_CATEGORY", payload };
 }
+
+// Order
+
+export function fetchOrderListFailure() {
+  return { type: "FETCH_ORDER_FAILURE" };
+}
+
+export function fetchOrderListSuccess(payload) {
+  return { type: "FETCH_ORDER_SUCCESS", payload };
+}
+
+export function orderPageNumber(payload) {
+  return { type: "ORDER_PAGE_NUMBER", payload };
+}
+
+export function fetchOrderSearchSuccess(payload) {
+  return { type: "ORDER_SEARCH_SUCCESS", payload };
+}
+
+
+export function fetchOrderList(payload) {
+  return { type: "FETCH_ORDER", payload };
+}

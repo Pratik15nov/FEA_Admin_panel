@@ -50,3 +50,7 @@ export const searchProductData = (body) => {
 export const productDelete = (id) => {
   return remove(`${ENDPOINTURL}/product/${id}`);
 };
+
+export const orderHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/order/list`, body);
+};
