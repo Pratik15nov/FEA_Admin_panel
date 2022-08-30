@@ -20,24 +20,25 @@ import {
   OrderStatusPlaced,
   OrderStatusReceived,
   OrderStatusDispatched,
+  OrderStatusCancel,
 } from "./Orders.style";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
 import { listBody } from "../../utils/Helper";
 import {
-  fetchOrderList,
+  fetchOrderCustomersList,
   sendOrderUpdationCustomers,
-  loadPaginationOrder,
+  loadPaginationOrderCustomers
 } from "../../js/actions";
 import { OrderStatusDialog } from "./OrderStatusDialog";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
-const CustomersOrders = () => {
+const Orders = () => {
   const [open, setOpen] = useState(false);
   const [dialogData, setDialogdata] = useState([]);
+  const [cid, setcid] = useState();
   const location = useLocation();
   const { search } = location;
   const handleClickOpen = (data) => {
@@ -66,14 +67,14 @@ const CustomersOrders = () => {
     setOpen(false);
   };
 
-  const orderList = useSelector((state) => state.order.list);
+  const orderList = useSelector((state) => state.ordercustomers.list);
   // console.log("orderList: ", orderList);
-  const page = useSelector((state) => state.order.page);
-  const totalCount = useSelector((state) => state.order.totalCount);
+  const page = useSelector((state) => state.ordercustomers.page);
+  const totalCount = useSelector((state) => state.ordercustomers.totalCount);
   const loading = useSelector((state) => state.common.loading);
   const dispatch = useDispatch();
+  console.log(orderList)
   useEffect(() => {
-    // eslint-disable-next-line
     let userId;
     try {
       if (search.split("=").length > 0) {
@@ -100,16 +101,15 @@ const CustomersOrders = () => {
     } catch (error) {
       alert(error);
     }
-
+    setcid(userId);
+    // eslint-disable-next-line
   }, [search]);
 
-  const getOrderData = (id) => {
 
+  const getOrderData = (id) => {
     try {
       dispatch(
-        fetchOrderList(listBody({
-          where: { "userId": id }, perPage: 10, page: page
-        }))
+        fetchOrderCustomersList(listBody({ where: { "userId": id }, perPage: 10, page: page }))
       );
     } catch (error) {
       alert(error);
@@ -214,6 +214,14 @@ const CustomersOrders = () => {
                     DISPATCHED
                   </OrderStatusDispatched>
                 );
+              case "CANCEL":
+                return (
+                  <OrderStatusCancel
+                    onClick={() => handleClickOpen(params.row)}
+                  >
+                    CANCEL
+                  </OrderStatusCancel>
+                );
 
               default:
                 return <OrderStatusPlaced>N/A</OrderStatusPlaced>;
@@ -277,7 +285,7 @@ const CustomersOrders = () => {
   const initPagination = (p) => {
     try {
       dispatch(
-        loadPaginationOrder(listBody({ where: null, perPage: 10, page: p + 1 }))
+        loadPaginationOrderCustomers(listBody({ where: null, perPage: 10, page: p + 1 }))
       );
     } catch (error) {
       alert(error);
@@ -327,4 +335,4 @@ const CustomersOrders = () => {
   );
 };
 
-export default CustomersOrders;
+export default Orders;

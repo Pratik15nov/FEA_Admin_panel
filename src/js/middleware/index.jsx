@@ -36,7 +36,9 @@ import {
   fetchOrderList,
   orderPageNumber,
   customersPageNumber,
-  orderCustomersPageNumber
+  orderCustomersPageNumber,
+  fetchOrderCustomersListSuccess,
+  fetchOrderCustomersList
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -263,6 +265,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+      case "FETCH_ORDER_CUSTOMERS":
+        store.dispatch(loadingStart());
+        orderHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchOrderCustomersListSuccess(res));
+            } else {
+              store.dispatch(fetchOrderListFailure());
+              alert("FETCH_ORDER => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE FETCH_ORDER DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
       case "ON_SEARCH_CUSTOMERS":
         store.dispatch(loadingStart());
         searchCustomersData(action.payload.body)
@@ -388,7 +409,8 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         orderUpdateData(action.payload.id, action.payload.body)
           .then((res) => {
             if (res.success) {
-              store.dispatch(fetchOrderList(action.payload.defaultPayload));
+              store.dispatch(fetchOrderCustomersList(action.payload.defaultPayload));
+              store.dispatch(orderCustomersPageNumber(action.payload.pagination.page));
             } else {
               store.dispatch(fetchOrderListFailure());
               alert("ORDER_UPDATION_CUSTOMERS => RESPONSE => FALSE");
@@ -422,12 +444,13 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
-        case "LOAD_PAGINATION_ORDER_CUSTOMERS":
+      case "LOAD_PAGINATION_ORDER_CUSTOMERS":
         store.dispatch(loadingStart());
         orderHandlerData(action.payload)
           .then((res) => {
+            console.log(res)
             if (res.success) {
-              store.dispatch(fetchOrderListSuccess(res));
+              store.dispatch(fetchOrderCustomersListSuccess(res));
               store.dispatch(orderCustomersPageNumber(action.payload.pagination.page));
             } else {
               store.dispatch(fetchOrderListFailure());

@@ -90,12 +90,15 @@ export function fetchOrderListFailure() {
 export function fetchOrderListSuccess(payload) {
   return { type: "FETCH_ORDER_SUCCESS", payload };
 }
+export function fetchOrderCustomersListSuccess(payload) {
+  return { type: "FETCH_ORDER_CUSTOMERS_SUCCESS", payload };
+}
 
 export function orderPageNumber(payload) {
   return { type: "ORDER_PAGE_NUMBER", payload };
 }
 export function orderCustomersPageNumber(payload) {
-  return { type: "LOAD_PAGINATION_ORDER_CUSTOMERS", payload };
+  return { type: "ORDER_CUSTOMERS_PAGE_NUMBER", payload };
 }
 
 export function fetchOrderSearchSuccess(payload) {
@@ -104,9 +107,15 @@ export function fetchOrderSearchSuccess(payload) {
 export function loadPaginationOrder(payload) {
   return { type: "LOAD_PAGINATION_ORDER", payload };
 }
+export function loadPaginationOrderCustomers(payload) {
+  return { type: "LOAD_PAGINATION_ORDER_CUSTOMERS", payload };
+}
 
 export function fetchOrderList(payload) {
   return { type: "FETCH_ORDER", payload };
+}
+export function fetchOrderCustomersList(payload) {
+  return { type: "FETCH_ORDER_CUSTOMERS", payload };
 }
 export function sendOrderUpdation(payload) {
   return { type: "ORDER_UPDATION", payload };

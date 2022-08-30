@@ -236,3 +236,15 @@ export const HtmlTooltip = styled(({ className, ...props }) => (
     border: "1px solid #dadde9",
   },
 }));
+export const OrderStatusCancel = styled("span")(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: 900,
+  color: "black",
+  backgroundColor: "#ff7a7ad1",
+  borderRadius: "6px",
+  padding: "7px",
+  "&:hover": {
+    color: "black",
+  },
+}));
