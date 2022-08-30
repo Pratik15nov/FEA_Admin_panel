@@ -23,6 +23,7 @@ export const Container = styled(Box)(({ theme }) => ({
 }));
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
+  width: "auto",
   overflow: "scroll", // eslint-disable-next-line
   overflow: "scroll",
   " &.MuiDataGrid-root .MuiDataGrid-cell": {
@@ -153,16 +154,17 @@ export const InputBox = styled(Grid)(({ theme }) => ({
 }));
 
 export const ImgBox = styled(Box)(({ theme }) => ({
-  padding: 20,
-  border: "1px solid #c4c4c4",
-  borderRadius: 5,
+  padding: 21,
+}));
+
+export const MainBox = styled(Box)(({ theme }) => ({
 }));
 
 export const ImgSize = styled(Box)(({ theme }) => ({
   height: 200,
   width: 200,
   boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;`,
-  borderRadius: 10,
+  borderRadius: 100,
 }));
 
 export const DelIcon = styled(DeleteIcon)(({ theme }) => ({

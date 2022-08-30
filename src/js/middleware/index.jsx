@@ -15,6 +15,9 @@ import {
   searchCustomersData,
   customersDelete,
   orderUpdateData,
+  // customersEditHandlerdata,
+  // customersDataHndlerData,
+  customersHandler,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -286,8 +289,9 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         break;
       case "FETCH_CUSTOMERS":
         store.dispatch(loadingStart());
-        customersHandlerData(action.payload)
+        customersHandler(action.payload)
           .then((res) => {
+            
             if (res) {
               store.dispatch(fetchCustomersListSuccess(res));
             } else {
@@ -345,7 +349,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
       case "LOAD_PAGINATION_CUSTOMERS":
         store.dispatch(loadingStart());
         console.log("PAGE", action.payload.pagination.page);
-        customersHandlerData(action.payload)
+        customersHandler(action.payload)
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchCustomersListSuccess(res));

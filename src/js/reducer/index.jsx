@@ -12,3 +12,4 @@ export const rootReducer = {
   product: productReducer,
   customers: customersReducer,
 };
+
