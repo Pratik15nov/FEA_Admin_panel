@@ -21,7 +21,8 @@ import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
-  ImageAvatar
+  ImageAvatar,
+  ViewIcon
 } from "./Customers.style";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog";
@@ -47,15 +48,29 @@ const Customers = () => {
     {
       field: "avatar",
       headerName: <ColoumHead variant="h2">Profile Img</ColoumHead>,
-      flex: 1, 
+      flex: 1,
       sortable: false,
       maxWidth: 100,
       renderCell: (params) => (
         <ImageAvatar
-        variant="rounded"
-        alt="Category Image"
-        src={ENDPOINTURLFORIMG + params.row.userImg}
-      />
+          variant="rounded"
+          alt="Category Image"
+          src={ENDPOINTURLFORIMG + params.row.userImg}
+        />
+      ),
+    },
+    {
+      field: "joiningdate",
+      headerName: <ColoumHead variant="h2">Joining Date</ColoumHead>,
+      flex: 1,
+      sortable: false,
+
+      renderCell: (params) => (
+        <RowName>
+          {params.row.createdAt.substring(8, 10)}{"/"}
+          {params.row.createdAt.substring(5, 7)}{"/"}
+          {params.row.createdAt.substring(0, 4)}
+        </RowName>
       ),
     },
     {
@@ -63,7 +78,7 @@ const Customers = () => {
       headerName: <ColoumHead variant="h2">Name</ColoumHead>,
       flex: 1,
       sortable: false,
-      maxWidth: 400,
+      maxWidth: 350,
       renderCell: (params) => (
         <RowName>
           {params.row.firstName} {params.row.lastName}
@@ -76,7 +91,7 @@ const Customers = () => {
       headerName: <ColoumHead variant="h2">Email</ColoumHead>,
       flex: 1,
       sortable: false,
-      minWidth: 350,
+      minWidth: 300,
       renderCell: (params) => <RowName>{params.row.email}</RowName>,
     },
     {
@@ -114,10 +129,12 @@ const Customers = () => {
           <UpdateIcon
             onClick={() => navigate(`/customers/add?cid=${params.row._id}`)}
           />
+          <ViewIcon onClick={() => navigate(`/customers?cid=${params.row._id}`)} />
           {params.row.isActive ? (
             <>
               &nbsp;&nbsp;
               <DeletionIcon onClick={() => handleAlert(params.row)} />
+
             </>
           ) : (
             <></>
@@ -173,7 +190,7 @@ const Customers = () => {
   };
 
   const captureSearch = async (data) => {
-    console.log("check",typeof data)
+    console.log("check", typeof data)
     if (data) {
       if (data.length >= 3) {
         const body = {
@@ -193,7 +210,7 @@ const Customers = () => {
       }
     } else {
       if (data.length >= 10) {
-        
+
         const body = {
           searchText: data
         };
@@ -210,11 +227,6 @@ const Customers = () => {
         );
       }
     }
-
-
-
-
-
   };
   const getCustomersData = async () => {
     try {

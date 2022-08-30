@@ -15,6 +15,8 @@ import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTo
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { alpha } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+import RemoveRedEyeTwoToneIcon from "@mui/icons-material/RemoveRedEyeTwoTone";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 export const Container = styled(Box)(({ theme }) => ({
@@ -243,4 +245,9 @@ export const SelectField = styled(Select)(({ theme }) => ({
   },
   marginTop: 10,
   marginBottom: 10,
+}));
+
+export const ViewIcon = styled(RemoveRedEyeTwoToneIcon)(({ theme }) => ({
+  color: "black",
+  marginBottom: 5,
 }));
