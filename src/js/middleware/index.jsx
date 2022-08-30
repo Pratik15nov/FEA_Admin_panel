@@ -14,6 +14,7 @@ import {
   customersHandlerData,
   searchCustomersData,
   customersDelete,
+  orderUpdateData,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -34,6 +35,7 @@ import {
   fetchCustomersList,
   fetchCustomersListFailure,
   fetchCustomersListSuccess,
+  fetchOrderList,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -361,6 +363,34 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+      //
+
+      case "ORDER_UPDATION":
+        store.dispatch(loadingStart());
+        console.log("action.payload.id", action.payload.id);
+        console.log("action.payload.body", action.payload.body);
+        console.log(
+          "action.payload.defaultPayload",
+          action.payload.defaultPayload
+        );
+        orderUpdateData(action.payload.id, action.payload.body)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchOrderList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchOrderListFailure());
+              alert("ORDER_UPDATION => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE ORDER_UPDATION DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+
       default:
         return next(action);
     }

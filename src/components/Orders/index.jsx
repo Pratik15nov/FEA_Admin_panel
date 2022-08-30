@@ -24,7 +24,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
-import { fetchOrderList } from "../../js/actions";
+import { fetchOrderList, sendOrderUpdation } from "../../js/actions";
 import { OrderStatusDialog } from "./OrderStatusDialog";
 import { useState } from "react";
 
@@ -38,6 +38,24 @@ const Orders = () => {
   };
 
   const handleClose = (value) => {
+    console.log("VALUE", value);
+    console.log("VALUE_ID", value.id);
+    console.log("VALUE_STATUS", value.orderStatus);
+    const body = {
+      orderStatus: value.orderStatus,
+    };
+    dispatch(
+      sendOrderUpdation({
+        id: value.id,
+        body,
+        defaultPayload: listBody({
+          where: null,
+          perPage: 10,
+          page: page,
+        }),
+      })
+    );
+
     setOpen(false);
   };
 

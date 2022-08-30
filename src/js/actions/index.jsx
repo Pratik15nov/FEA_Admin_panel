@@ -100,6 +100,9 @@ export function fetchOrderSearchSuccess(payload) {
 export function fetchOrderList(payload) {
   return { type: "FETCH_ORDER", payload };
 }
+export function sendOrderUpdation(payload) {
+  return { type: "ORDER_UPDATION", payload };
+}
 //Customers
 export function fetchCustomersList(payload) {
   return { type: "FETCH_CUSTOMERS", payload };

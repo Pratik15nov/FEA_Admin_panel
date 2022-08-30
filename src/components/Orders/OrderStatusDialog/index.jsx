@@ -6,8 +6,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
+import { sendOrderUpdation } from "../../../js/actions";
 
 export function OrderStatusDialog(props) {
+
+
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       RadioGroup: "",
@@ -19,9 +22,17 @@ export function OrderStatusDialog(props) {
   }, [props.dialogData.orderStatus]);
 
   console.log("PROPS", props.dialogData.orderStatus);
+
   const handleClose = (data) => {
-    console.log("data: ", data);
-    props.onClose(props.selectedValue);
+    const body = {
+      id: props.dialogData._id,
+      orderStatus: data.RadioGroup,
+    };
+    // dispatch(sendOrderUpdation(body));
+    // console.log("body: ", body);
+
+    console.log("data: ", data.RadioGroup);
+    props.onClose(body);
   };
   return (
     <Dialog onClose={handleClose} open={props.open}>

@@ -76,3 +76,6 @@ export const customersDelete = (id) => {
   return remove(`${ENDPOINTURL}/user/${id}`);
 };
 
+export const orderUpdateData = (id, body) => {
+  return patch(`${ENDPOINTURL}/order/${id}`, body);
+};
