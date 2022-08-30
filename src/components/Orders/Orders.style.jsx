@@ -4,6 +4,7 @@ import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTo
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import CurrencyRupeeSharpIcon from "@mui/icons-material/CurrencyRupeeSharp";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+import RemoveRedEyeTwoToneIcon from "@mui/icons-material/RemoveRedEyeTwoTone";
 import { alpha } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
@@ -92,12 +93,36 @@ export const Price = styled(Typography)(({ theme }) => ({
     color: "black",
   },
 }));
-export const OrderStatus = styled("span")(({ theme }) => ({
+export const OrderStatusPlaced = styled("span")(({ theme }) => ({
   cursor: "pointer",
   fontSize: "12px",
   fontWeight: 400,
-  color: "#006400",
-  backgroundColor: "#92f592",
+  color: "black",
+  backgroundColor: "#ffff0096",
+  borderRadius: "6px",
+  padding: "7px",
+  "&:hover": {
+    color: "black",
+  },
+}));
+export const OrderStatusDispatched = styled("span")(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: 400,
+  color: "black",
+  backgroundColor: "#ffc073db",
+  borderRadius: "6px",
+  padding: "7px",
+  "&:hover": {
+    color: "black",
+  },
+}));
+export const OrderStatusReceived = styled("span")(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: 400,
+  color: "black",
+  backgroundColor: "#9bff9d",
   borderRadius: "6px",
   padding: "7px",
   "&:hover": {

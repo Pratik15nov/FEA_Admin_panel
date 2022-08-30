@@ -8,15 +8,10 @@ import {
   productDelete,
   searchHandlerData,
   orderHandlerData,
-  customersEditHandlerdata,
   customersStatus,
-  customersDataHndlerData,
-  customersHandlerData,
   searchCustomersData,
   customersDelete,
   orderUpdateData,
-  // customersEditHandlerdata,
-  // customersDataHndlerData,
   customersHandler,
 } from "../../service/Auth.Service";
 import {
@@ -39,6 +34,7 @@ import {
   fetchCustomersListFailure,
   fetchCustomersListSuccess,
   fetchOrderList,
+  orderPageNumber,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -291,7 +287,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         customersHandler(action.payload)
           .then((res) => {
-            
             if (res) {
               store.dispatch(fetchCustomersListSuccess(res));
             } else {
@@ -367,16 +362,8 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
-      //
-
       case "ORDER_UPDATION":
         store.dispatch(loadingStart());
-        console.log("action.payload.id", action.payload.id);
-        console.log("action.payload.body", action.payload.body);
-        console.log(
-          "action.payload.defaultPayload",
-          action.payload.defaultPayload
-        );
         orderUpdateData(action.payload.id, action.payload.body)
           .then((res) => {
             if (res.success) {
@@ -394,7 +381,26 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
-
+      case "LOAD_PAGINATION_ORDER":
+        store.dispatch(loadingStart());
+        orderHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchOrderListSuccess(res));
+              store.dispatch(orderPageNumber(action.payload.pagination.page));
+            } else {
+              store.dispatch(fetchOrderListFailure());
+              alert("LOAD_PAGINATION_ORDER => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE LOAD_PAGINATION_ORDER DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
       default:
         return next(action);
     }

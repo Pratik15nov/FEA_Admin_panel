@@ -1,16 +1,18 @@
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
 import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-
 import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
-import { sendOrderUpdation } from "../../../js/actions";
+import {
+  DialogBox,
+  DialogTitleBar,
+  FormLabelControl,
+  RadioButtonGroup,
+  CustomButton,
+  FormContainer,
+  CancelIcon,
+  Title,
+} from "./OrderStatusDialog.style";
 
 export function OrderStatusDialog(props) {
-
-
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       RadioGroup: "",
@@ -18,52 +20,51 @@ export function OrderStatusDialog(props) {
   });
 
   useEffect(() => {
-    reset({ RadioGroup: props.dialogData.orderStatus });
+    reset({ RadioGroup: props.dialogData.orderStatus }); // eslint-disable-next-line
   }, [props.dialogData.orderStatus]);
-
-  console.log("PROPS", props.dialogData.orderStatus);
 
   const handleClose = (data) => {
     const body = {
       id: props.dialogData._id,
       orderStatus: data.RadioGroup,
     };
-    // dispatch(sendOrderUpdation(body));
-    // console.log("body: ", body);
-
-    console.log("data: ", data.RadioGroup);
     props.onClose(body);
   };
   return (
-    <Dialog onClose={handleClose} open={props.open}>
-      <DialogTitle>OrderStatus</DialogTitle>
+    <DialogBox onClose={handleClose} open={props.open}>
+      <DialogTitleBar>
+        <Title>OrderStatus</Title>
+        <CancelIcon onClick={()=>props.handleCancelIcon()} />
+      </DialogTitleBar>
 
-      <form onSubmit={handleSubmit(handleClose)}>
+      <FormContainer onSubmit={handleSubmit(handleClose)}>
         <Controller
           render={({ field }) => (
-            <RadioGroup aria-label="orderStatus" {...field}>
-              <FormControlLabel
+            <RadioButtonGroup aria-label="orderStatus" {...field}>
+              <FormLabelControl
                 value="PLACED"
                 control={<Radio />}
                 label="PLACED"
               />
-              <FormControlLabel
+              <FormLabelControl
                 value="DISPATCHED"
                 control={<Radio />}
                 label="DISPATCHED"
               />
-              <FormControlLabel
+              <FormLabelControl
                 value="RECEIVED"
                 control={<Radio />}
                 label="RECEIVED"
               />
-            </RadioGroup>
+            </RadioButtonGroup>
           )}
           name="RadioGroup"
           control={control}
         />
-        <button type="submit">submit</button>
-      </form>
-    </Dialog>
+        <CustomButton variant={"contained"} type="submit">
+          submit
+        </CustomButton>
+      </FormContainer>
+    </DialogBox>
   );
 }

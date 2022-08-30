@@ -95,7 +95,9 @@ export function orderPageNumber(payload) {
 export function fetchOrderSearchSuccess(payload) {
   return { type: "ORDER_SEARCH_SUCCESS", payload };
 }
-
+export function loadPaginationOrder(payload) {
+  return { type: "LOAD_PAGINATION_ORDER", payload };
+}
 
 export function fetchOrderList(payload) {
   return { type: "FETCH_ORDER", payload };
