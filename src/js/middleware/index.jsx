@@ -31,6 +31,7 @@ import {
   fetchCustomersList,
   fetchCustomersListFailure,
   fetchCustomersListSuccess,
+  customersPageNumber
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -327,7 +328,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchCustomersListSuccess(res));
-              store.dispatch(pageNumber(action.payload.pagination.page));
+              store.dispatch(customersPageNumber(action.payload.pagination.page));
             } else {
               store.dispatch(fetchCustomersListFailure());
               alert("LOAD_PAGINATION => RESPONSE => FALSE");
