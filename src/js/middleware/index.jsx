@@ -8,6 +8,12 @@ import {
   productDelete,
   searchHandlerData,
   orderHandlerData,
+  customersEditHandlerdata,
+  customersStatus,
+  customersDataHndlerData,
+  customersHandlerData,
+  searchCustomersData,
+  customersDelete,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -18,12 +24,16 @@ import {
   fetchProductListFailure,
   fetchProductList,
   fetchProductListSuccess,
+  fetchProductSearchSuccess,
   fetchSearchSuccess,
   pageNumber,
   categoryPageNumber,
-  fetchProductSearchSuccess,
   fetchOrderListSuccess,
   fetchOrderListFailure,
+  fetchCustomersSearchSuccess,
+  fetchCustomersList,
+  fetchCustomersListFailure,
+  fetchCustomersListSuccess,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -245,6 +255,107 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchOrderListFailure());
             alert("ERROR OCCURED WHILE FETCH_ORDER DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "ON_SEARCH_CUSTOMERS":
+        store.dispatch(loadingStart());
+        searchCustomersData(action.payload.body)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchCustomersSearchSuccess(res.data));
+            } else if (res.success === false) {
+              store.dispatch(fetchCustomersListFailure());
+              alert("ON_SEARCH_CUSTOMERS => RESPONSE => FALSE");
+            } else {
+              store.dispatch(fetchCustomersList(action.payload.defaultPayload));
+              alert("ON_SEARCH_CUSTOMERS => RESPONSE => ERROR");
+            }
+          })
+          .catch((error) => {
+            store.dispatch(fetchCustomersListFailure());
+            alert("ERROR OCCURED WHILE ON_SEARCH_CUSTOMERS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_CUSTOMERS":
+        store.dispatch(loadingStart());
+        customersHandlerData(action.payload)
+          .then((res) => {
+            if (res) {
+              store.dispatch(fetchCustomersListSuccess(res));
+            } else {
+              store.dispatch(fetchCustomersListFailure());
+              alert("FETCH_CUSTOMERS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchCustomersListFailure());
+            alert("ERROR OCCURED WHILE FETCH_CUSTOMERS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "CHANGE_CUSTOMERS_STATUS":
+        store.dispatch(loadingStart());
+        customersStatus(action.payload.id, action.payload.body)
+          .then((res) => {
+            console.log(res);
+            if (res) {
+              store.dispatch(fetchCustomersList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchCustomersList(action.payload.defaultPayload));
+              alert("CHANGE_CUSTOMERS_STATUS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchCustomersListFailure());
+            alert("ERROR OCCURED WHILE CHANGE_CUSTOMERS_STATUS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "ON_DELETION_CUSTOMERS":
+        store.dispatch(loadingStart());
+        customersDelete(action.payload.id)
+          .then((res) => {
+            if (res.status === 200) {
+              store.dispatch(fetchCustomersList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchCustomersList(action.payload.defaultPayload));
+              alert("ON_DELETION_CUSTOMERS => RESPONSE => FALSE");
+            }
+          })
+          .catch((error) => {
+            store.dispatch(fetchCustomersListFailure());
+            alert("ERROR OCCURED WHILE ON_DELETION_CUSTOMERS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "LOAD_PAGINATION_CUSTOMERS":
+        store.dispatch(loadingStart());
+        console.log("PAGE", action.payload.pagination.page);
+        customersHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchCustomersListSuccess(res));
+              store.dispatch(pageNumber(action.payload.pagination.page));
+            } else {
+              store.dispatch(fetchCustomersListFailure());
+              alert("LOAD_PAGINATION => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchCustomersListFailure());
+            alert("ERROR OCCURED WHILE LOAD_PAGINATION DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

@@ -100,3 +100,29 @@ export function fetchOrderSearchSuccess(payload) {
 export function fetchOrderList(payload) {
   return { type: "FETCH_ORDER", payload };
 }
+//Customers
+export function fetchCustomersList(payload) {
+  return { type: "FETCH_CUSTOMERS", payload };
+}
+export function customersStatusChange(payload) {
+  return { type: "CHANGE_CUSTOMERS_STATUS", payload };
+}
+export function onCustomersSearch(payload) {
+  return { type: "ON_SEARCH_CUSTOMERS", payload };
+}
+export function onCustomersloadingPagination(payload) {
+  return { type: "LOAD_PAGINATION_CUSTOMERS", payload };
+}
+export function fetchCustomersListSuccess(payload) {
+  return { type: "FETCH_CUSTOMERS_SUCCESS", payload };
+}
+export function onDeletionCustomers(payload) {
+  return { type: "ON_DELETION_CUSTOMERS", payload };
+}
+
+export function fetchCustomersSearchSuccess(payload) {
+  return { type: "FETCH_CUSTOMERS_SEARCH_SUCCESS", payload };
+}
+export function fetchCustomersListFailure() {
+  return { type: "FETCH_CUSTOMERS_FAILURE" };
+}
