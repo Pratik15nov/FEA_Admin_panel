@@ -20,6 +20,7 @@ import {
   OrderStatusPlaced,
   OrderStatusReceived,
   OrderStatusDispatched,
+  OrderStatusCancel,
 } from "./Orders.style";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
@@ -180,6 +181,14 @@ const Orders = () => {
                   >
                     DISPATCHED
                   </OrderStatusDispatched>
+                );
+              case "CANCEL":
+                return (
+                  <OrderStatusCancel
+                    onClick={() => handleClickOpen(params.row)}
+                  >
+                    CANCEL
+                  </OrderStatusCancel>
                 );
 
               default:

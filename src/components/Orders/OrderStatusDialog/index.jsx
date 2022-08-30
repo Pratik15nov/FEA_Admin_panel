@@ -56,6 +56,11 @@ export function OrderStatusDialog(props) {
                 control={<Radio />}
                 label="RECEIVED"
               />
+               <FormLabelControl
+                value="CANCEL"
+                control={<Radio />}
+                label="CANCEL"
+              />
             </RadioButtonGroup>
           )}
           name="RadioGroup"
