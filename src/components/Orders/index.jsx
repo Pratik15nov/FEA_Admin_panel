@@ -41,9 +41,9 @@ const Orders = () => {
     setOpen(true);
     setDialogdata(data);
   };
-const handleCancelIcon = () => {
-  setOpen(false);
-}
+  const handleCancelIcon = () => {
+    setOpen(false);
+  };
   const handleClose = (value) => {
     const body = {
       orderStatus: value.orderStatus,

@@ -96,7 +96,7 @@ export const Price = styled(Typography)(({ theme }) => ({
 export const OrderStatusPlaced = styled("span")(({ theme }) => ({
   cursor: "pointer",
   fontSize: "12px",
-  fontWeight: 400,
+  fontWeight: 900,
   color: "black",
   backgroundColor: "#ffff0096",
   borderRadius: "6px",
@@ -108,7 +108,7 @@ export const OrderStatusPlaced = styled("span")(({ theme }) => ({
 export const OrderStatusDispatched = styled("span")(({ theme }) => ({
   cursor: "pointer",
   fontSize: "12px",
-  fontWeight: 400,
+  fontWeight: 900,
   color: "black",
   backgroundColor: "#ffc073db",
   borderRadius: "6px",
@@ -120,7 +120,7 @@ export const OrderStatusDispatched = styled("span")(({ theme }) => ({
 export const OrderStatusReceived = styled("span")(({ theme }) => ({
   cursor: "pointer",
   fontSize: "12px",
-  fontWeight: 400,
+  fontWeight: 900,
   color: "black",
   backgroundColor: "#9bff9d",
   borderRadius: "6px",
