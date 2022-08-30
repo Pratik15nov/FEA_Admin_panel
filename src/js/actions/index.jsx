@@ -94,6 +94,9 @@ export function fetchOrderListSuccess(payload) {
 export function orderPageNumber(payload) {
   return { type: "ORDER_PAGE_NUMBER", payload };
 }
+export function orderCustomersPageNumber(payload) {
+  return { type: "LOAD_PAGINATION_ORDER_CUSTOMERS", payload };
+}
 
 export function fetchOrderSearchSuccess(payload) {
   return { type: "ORDER_SEARCH_SUCCESS", payload };
@@ -107,6 +110,9 @@ export function fetchOrderList(payload) {
 }
 export function sendOrderUpdation(payload) {
   return { type: "ORDER_UPDATION", payload };
+}
+export function sendOrderUpdationCustomers(payload) {
+  return { type: "ORDER_UPDATION_CUSTOMERS", payload };
 }
 //Customers
 export function fetchCustomersList(payload) {

@@ -129,7 +129,7 @@ const Customers = () => {
           <UpdateIcon
             onClick={() => navigate(`/customers/add?cid=${params.row._id}`)}
           />
-          <ViewIcon onClick={() => navigate(`/customers?cid=${params.row._id}`)} />
+          <ViewIcon onClick={() => navigate(`/customerorders?cid=${params.row._id}`)} />
           {params.row.isActive ? (
             <>
               &nbsp;&nbsp;

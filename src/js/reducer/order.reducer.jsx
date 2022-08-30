@@ -15,6 +15,8 @@ function orderReducer(state = initialState, action) {
         list: action.payload.list,
         totalCount: action.payload.count,
       };
+    case "LOAD_PAGINATION_ORDER_CUSTOMERS":
+      return { ...state, page: action.payload };
     case "ORDER_PAGE_NUMBER":
       return { ...state, page: action.payload };
     case "ORDER_SEARCH_SUCCESS":
