@@ -129,6 +129,18 @@ export const OrderStatusReceived = styled("span")(({ theme }) => ({
     color: "black",
   },
 }));
+export const OrderStatusCancel = styled("span")(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: 900,
+  color: "black",
+  backgroundColor: "#ff7a7ad1",
+  borderRadius: "6px",
+  padding: "7px",
+  "&:hover": {
+    color: "black",
+  },
+}));
 export const NoItems = styled("span")(({ theme }) => ({
   fontSize: "12px",
   fontWeight: 400,
