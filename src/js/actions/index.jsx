@@ -1,7 +1,6 @@
 export function loadingStart() {
   return { type: "FETCH_DATA_START" };
 }
-
 export function loadingStop() {
   return { type: "FETCH_DATA_STOP" };
 }
@@ -22,6 +21,9 @@ export function pageNumber(payload) {
 }
 export function categoryPageNumber(payload) {
   return { type: "CATEGORY_PAGE_NUMBER", payload };
+}
+export function customersPageNumber(payload) {
+  return { type: "PAGE_NUMBER_CUSTOMERS", payload };
 }
 export function categoryStatusChange(payload) {
   return { type: "CHANGE_CATEGORY_STATUS", payload };

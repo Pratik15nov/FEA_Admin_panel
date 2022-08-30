@@ -60,11 +60,11 @@ export const customersStatus = (id, body) => {
 export const customersDataHndlerData = (id) => {
   return get(`${ENDPOINTURL}/user/${id}`);
 };
-export const customersAddHandler = (body) => {
-  return post(`${ENDPOINTURL}/user`, body);
-};
-export const customersHandlerData = (body) => {
+export const customersHandler = (body) => {
   return post(`${ENDPOINTURL}/user/list`, body);
+};
+export const customersHandlerData = (id) => {
+  return get(`${ENDPOINTURL}/user/${id}`);
 };
 export const searchCustomersData = (body) => {
   return post(`${ENDPOINTURL}/user/search`, body);

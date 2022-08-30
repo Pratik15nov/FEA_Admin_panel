@@ -7,10 +7,10 @@ import {
   productStatus,
   productDelete,
   searchHandlerData,
-  customersEditHandlerdata,
+  // customersEditHandlerdata,
   customersStatus,
-  customersDataHndlerData,
-  customersHandlerData,
+  // customersDataHndlerData,
+  customersHandler,
   searchCustomersData,
   customersDelete,
 } from "../../service/Auth.Service";
@@ -31,6 +31,7 @@ import {
   fetchCustomersList,
   fetchCustomersListFailure,
   fetchCustomersListSuccess,
+  customersPageNumber
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -263,7 +264,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         break;
       case "FETCH_CUSTOMERS":
         store.dispatch(loadingStart());
-        customersHandlerData(action.payload)
+        customersHandler(action.payload)
           .then((res) => {
             
             if (res) {
@@ -323,11 +324,11 @@ export const loggerMiddleware = (store) => (next) => (action) => {
       case "LOAD_PAGINATION_CUSTOMERS":
         store.dispatch(loadingStart());
         console.log("PAGE", action.payload.pagination.page);
-        customersHandlerData(action.payload)
+        customersHandler(action.payload)
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchCustomersListSuccess(res));
-              store.dispatch(pageNumber(action.payload.pagination.page));
+              store.dispatch(customersPageNumber(action.payload.pagination.page));
             } else {
               store.dispatch(fetchCustomersListFailure());
               alert("LOAD_PAGINATION => RESPONSE => FALSE");
