@@ -16,14 +16,31 @@ import {
   Price,
   OrderStatus,
   NoItems,
+  RupeeIcon,
+  MoreOptionIcon,
+  HtmlTooltip,
 } from "./Orders.style";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listBody, ENDPOINTURLFORIMG } from "../../utils/Helper";
 import { fetchOrderList } from "../../js/actions";
+import { OrderStatusDialog } from "./OrderStatusDialog";
+import { useState } from "react";
 
 const Orders = () => {
+  const [open, setOpen] = useState(false);
+  const [dialogData, setDialogdata] = useState([]);
+
+  const handleClickOpen = (data) => {
+    setOpen(true);
+    setDialogdata(data);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+
   const orderList = useSelector((state) => state.order.list);
   console.log("orderList: ", orderList);
   const page = useSelector((state) => state.order.page);
@@ -42,6 +59,9 @@ const Orders = () => {
     } catch (error) {
       alert(error);
     }
+  };
+  const currencyFormat = (num) => {
+    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
 
   const columns = [
@@ -94,11 +114,15 @@ const Orders = () => {
       flex: 1,
       sortable: true,
       renderCell: (params) => (
-        <Price>
-           {Number.isInteger(params.row.totalPrice)
-            ? `Rs${" "}${params.row.totalPrice}.00`
-            : `Rs${" "}${params.row.totalPrice.toFixed(2)}`}
-        </Price>
+        <>
+          <RupeeIcon />
+          &nbsp;
+          <Price>
+            {params.row?.totalPrice
+              ? `${currencyFormat(params.row.totalPrice)}`
+              : `N/A`}
+          </Price>
+        </>
       ),
     },
     {
@@ -107,9 +131,17 @@ const Orders = () => {
       flex: 1,
       sortable: true,
       renderCell: (params) => (
-        <OrderStatus>
-          {params.row?.orderStatus ? params.row?.orderStatus : "unspecified"}
-        </OrderStatus>
+        <>
+          {/* <MoreOptionIcon onClick={() => console.log("HELLLowdn")} /> */}
+
+          <HtmlTooltip placement="top" title={`click to chnage status`}>
+            <OrderStatus onClick={() => handleClickOpen(params.row)}>
+              {params.row?.orderStatus
+                ? params.row?.orderStatus
+                : "unspecified"}
+            </OrderStatus>
+          </HtmlTooltip>
+        </>
       ),
     },
     {
@@ -154,9 +186,13 @@ const Orders = () => {
 
   return (
     <Container>
+      <OrderStatusDialog
+        dialogData={dialogData}
+        open={open}
+        onClose={handleClose}
+      />
       <Grid container sx={{ paddingBottom: "20px" }}>
         <BreadcrumbArea />
-
         <Grid xs={5}>
           <Search>
             <SearchIconWrapper>

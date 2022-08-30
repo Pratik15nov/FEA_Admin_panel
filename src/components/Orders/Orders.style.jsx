@@ -2,8 +2,11 @@ import { styled, Box, Typography, InputBase } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
+import CurrencyRupeeSharpIcon from "@mui/icons-material/CurrencyRupeeSharp";
 import RemoveRedEyeTwoToneIcon from "@mui/icons-material/RemoveRedEyeTwoTone";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import { alpha } from "@mui/material/styles";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
 export const Container = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -91,6 +94,7 @@ export const Price = styled(Typography)(({ theme }) => ({
   },
 }));
 export const OrderStatus = styled("span")(({ theme }) => ({
+  cursor: "pointer",
   fontSize: "12px",
   fontWeight: 400,
   color: "#006400",
@@ -139,6 +143,22 @@ export const ViewIcon = styled(RemoveRedEyeTwoToneIcon)(({ theme }) => ({
     color: "black",
   },
 }));
+export const RupeeIcon = styled(CurrencyRupeeSharpIcon)(({ theme }) => ({
+  fontSize: "larger",
+  color: "black",
+  "&:hover": {
+    color: "black",
+  },
+}));
+
+export const MoreOptionIcon = styled(MoreVertOutlinedIcon)(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "x-large",
+  color: "black",
+  "&:hover": {
+    color: "red",
+  },
+}));
 
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -178,5 +198,17 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up("md")]: {
       width: "20ch",
     },
+  },
+}));
+
+export const HtmlTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#f5f5f9",
+    color: "rgba(0, 0, 0, 0.87)",
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(12),
+    border: "1px solid #dadde9",
   },
 }));
