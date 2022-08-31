@@ -4,5 +4,6 @@ import {
 } from "@mui/material";
 export const CardFrist = styled(Card)(({ theme }) => ({
     backgroundColor: "#FA58B6",
-    padding:20
+    padding:20,
+
 }));
