@@ -9,46 +9,47 @@ import {
   MasterConatiner,
   TopTextStyle,
   CustomDivider,
-  HeadLabel,
+  StyledTableCell,
+  StyledTableRow,
+  TableBox,
+  TableTitleGrid,
+  TableArea,
+  RightBox,
+  BoxTable,
+  TablePlot,
+  BoxTableBody,
+  BoxTableRow,
+  BoxTableCell,
+  CancelIcon,
+  TitleContainerBox,
+  TitleTag,
 } from "./OrderView.style";
-import { Box, Divider, Typography } from "@mui/material";
-// bjbj
-import Table from "@mui/material/Table";
+import { Box, Divider } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-  width: "20%",
-}));
+function createData(data, answer) {
+  return { data, answer };
+}
 
 export default function OrderView(props) {
+  const rows = [
+    createData("Order Subtotal", "₹ LOGICS"),
+    createData("Promocode:", `${props.viewdata?.promocodeId?.couponcode}`),
+    createData("Discount Price", `₹ ${props.viewdata?.discountPrice}`),
+    createData("Tax (SGST+ CGST)	", "₹ LOGICS"),
+    createData("Shipping Charge", "₹ LOGICS"),
+    createData("Total Amount", `₹ ${props.viewdata?.totalPrice?.toFixed(2)}`),
+  ];
+
   const handleClose = () => {
     props.handleCloseView();
   };
   console.log("PROPS", props.viewdata);
+
   return (
     <div>
       <DialogContainer
@@ -59,7 +60,10 @@ export default function OrderView(props) {
         aria-describedby="scroll-dialog-description"
       >
         <TitleBox id="scroll-dialog-title">
-          <b>Order Details</b>
+          <TitleContainerBox>
+            <TitleTag>Order Details</TitleTag>
+            <CancelIcon onClick={() => handleClose()} />
+          </TitleContainerBox>
         </TitleBox>
         <ContentBox dividers={"paper"}>
           <ContentText id="scroll-dialog-description" tabIndex={-1}>
@@ -101,18 +105,18 @@ export default function OrderView(props) {
                 {props.viewdata?.addressId?.label?.toUpperCase()}
                 <br />
               </TopTextStyle>
+              <TableTitleGrid xs={12}> Cart Details</TableTitleGrid>
               <Divider />
-              {/* <Typography> DIVEDER HERE </Typography> */}
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 500 }}>
+              <TableBox component={Paper}>
+                <TableArea>
                   <TableHead>
                     <TableRow>
                       <StyledTableCell>Product Name</StyledTableCell>
                       <StyledTableCell align="right">Quantity</StyledTableCell>
-                      <StyledTableCell align="right">Price</StyledTableCell>
                       <StyledTableCell align="right">
                         Discount Price
                       </StyledTableCell>
+                      <StyledTableCell align="right">Price</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -125,70 +129,51 @@ export default function OrderView(props) {
                           {row.quantity}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {row.productId?.price}
+                          {row.productId?.discountPrice}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {row.productId?.discountPrice}
+                          {row.productId?.price}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
                   </TableBody>
-                </Table>
-              </TableContainer>
-              <Grid container spacing={1}>
+                </TableArea>
+              </TableBox>
+              <Grid container spacing={2} sx={{ marginTop: "5px" }}>
                 <Grid item xs={6}>
-                  Additional Information:
+                  <b> Additional Information</b>:
                   <br />
                   Dear Consumer, the bill payment will reflect in next 48 hours
                   or in the next billing cycle, at your service provider end.
                   Please contact paytm customer support for any queries
                   regarding this order.
+                  <br />
+                  <b>Note</b>:<br />
+                  This is invoice is only a confirmation of the receipt of the
+                  amount paid against for the service as described above.
+                  Subject to terms and conditions mentioned at Shoppy
                 </Grid>
-                <Grid item xs={6} sx={{ display: "block" }}>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Order-SubTotal</span>
-                    <span>"logics"</span>
-                  </Box>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Promo-code:</span>
-                    <span>{props.viewdata?.promocodeId?.couponcode}</span>
-                  </Box>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Discount-Price</span>
-                    <span>{props.viewdata?.discountPrice}</span>
-                  </Box>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Tax (SGST+ CGST)</span>
-                    <span>"logics"</span>
-                  </Box>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Shipping Charge</span>
-                    <span>"logics"</span>
-                  </Box>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Total Amount</span>
-                    <span>{props.viewdata?.totalPrice?.toFixed(2)}</span>
-                  </Box>
-                </Grid>
+                <RightBox item xs={6} sx={{ display: "block" }}>
+                  <BoxTable component={Paper}>
+                    <TablePlot aria-label="simple table">
+                      <BoxTableBody>
+                        {rows.map((row) => (
+                          <BoxTableRow key={row.data}>
+                            <BoxTableCell component="th" scope="row">
+                              {" "}
+                              {row.data}
+                            </BoxTableCell>
+                            <BoxTableCell align="right">
+                              {" "}
+                              {row.answer}
+                            </BoxTableCell>
+                          </BoxTableRow>
+                        ))}
+                      </BoxTableBody>
+                    </TablePlot>
+                  </BoxTable>
+                </RightBox>
               </Grid>
-              <Box>
-                Note: <br />
-                This is invoice is only a confirmation of the receipt of the
-                amount paid against for the service as described above. Subject
-                to terms and conditions mentioned at Shoppy
-              </Box>
             </MasterConatiner>
           </ContentText>
         </ContentBox>
