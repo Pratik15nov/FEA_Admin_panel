@@ -28,6 +28,7 @@ import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog";
 import { useNavigate } from "react-router";
 import SearchIcon from "@mui/icons-material/Search";
+import Tooltip from '@mui/material/Tooltip';
 
 const Customers = () => {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ const Customers = () => {
       headerName: <ColoumHead variant="h2">Email</ColoumHead>,
       flex: 1,
       sortable: false,
-      minWidth: 300,
+      minWidth: 275,
       renderCell: (params) => <RowName>{params.row.email}</RowName>,
     },
     {
@@ -99,7 +100,7 @@ const Customers = () => {
       headerName: <ColoumHead variant="h2">PhoneNumber</ColoumHead>,
       flex: 1,
       sortable: false,
-      minWidth: 200,
+      minWidth: 150,
       renderCell: (params) => <RowName>{params.row.phoneNumber}</RowName>,
     },
     {
@@ -128,8 +129,8 @@ const Customers = () => {
         <Box>
           <UpdateIcon
             onClick={() => navigate(`/customers/add?cid=${params.row._id}`)}
-          />
-          <ViewIcon onClick={() => navigate(`/customerorders?cid=${params.row._id}`)} />
+          /> <Tooltip placement="top" title="View Orders">
+            <ViewIcon onClick={() => navigate(`/customerorders?cid=${params.row._id}`)} /></Tooltip>
           {params.row.isActive ? (
             <>
               &nbsp;&nbsp;

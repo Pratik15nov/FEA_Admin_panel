@@ -118,7 +118,7 @@ export const IOSSwitch = styled((props) => (
 
 export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "x-large",
   color: "#65c466",
   "&:hover": {
     color: "black",
@@ -126,7 +126,7 @@ export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
 }));
 export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "x-large",
   color: "red",
   "&:hover": {
     color: "black",
@@ -140,7 +140,7 @@ export const ColoumHead = styled(Typography)(({ theme }) => ({
 }));
 
 export const RowName = styled(Typography)(({ theme }) => ({
-  fontSize: "18px",
+  fontSize: "16px",
   fontWeight: 400,
   color: "black",
 
@@ -175,7 +175,7 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
   borderRadius: 50,
   backgroundColor: alpha(theme.palette.custom.error, 1),
   cursor: "pointer",
-  fontSize: 20,
+  fontSize: 16,
   color: "white",
   marginBottom: 170,
   marginLeft: 10,
@@ -249,5 +249,6 @@ export const SelectField = styled(Select)(({ theme }) => ({
 
 export const ViewIcon = styled(RemoveRedEyeTwoToneIcon)(({ theme }) => ({
   color: "black",
-  marginBottom: 5,
+  marginBottom: 2,
+  cursor: "pointer",
 }));

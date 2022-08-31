@@ -6,7 +6,8 @@ import Avatar from "@mui/material/Avatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
-
+import { withStyles } from "@material-ui/core/styles";
+import MuiListItem from "@material-ui/core/ListItem";
 const openedMixin = (theme) => ({
   width: 240,
   transition: theme.transitions.create("width", {
@@ -145,7 +146,42 @@ const ListText = styled(ListItemText)(({ theme }) => ({
 const mainListIcon = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
+const ListItem = withStyles({
+  root: {
+    "& .css-61mavj-MuiButtonBase-root-MuiListItemButton-root": {
+      padding: "1px"
+    },
+    "&$selected": {
+      backgroundColor: "#1a1a40",
+      color: "white",
+      borderTopRightRadius: "20px",
+      borderBottomRightRadius: "20px",
+      "& .MuiListItemIcon-root": {
+        color: "white"
+      },
+      "& .MuiTypography-root": {
+        color: "white"
+      }
+    },
+    "&$selected:hover": {
+      borderTopRightRadius: "20px",
+      borderBottomRightRadius: "20px",
+      backgroundColor: "#b7dfff",
+      "& .MuiTypography-root": {
+        color: "black"
+      }, "& .MuiListItemIcon-root": {
+        color: "black"
+      }
 
+    },
+    "&:hover": {
+      borderTopRightRadius: "20px",
+      borderBottomRightRadius: "20px",
+      backgroundColor: "#b7dfff",
+    }
+  },
+  selected: {}
+})(MuiListItem);
 export {
   Customsidebar,
   DrawerHeader,
@@ -159,4 +195,5 @@ export {
   ListIcon,
   ListText,
   mainListIcon,
+  ListItem,
 };

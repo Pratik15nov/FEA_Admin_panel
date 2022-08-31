@@ -16,7 +16,6 @@ import {
   Price,
   NoItems,
   RupeeIcon,
-  // HtmlTooltip,
   OrderStatusPlaced,
   OrderStatusReceived,
   OrderStatusDispatched,
@@ -37,8 +36,8 @@ import { useLocation } from "react-router-dom";
 
 const Orders = () => {
   const [open, setOpen] = useState(false);
+  const [cid, setCid] = useState();
   const [dialogData, setDialogdata] = useState([]);
-  const [cid, setcid] = useState();
   const location = useLocation();
   const { search } = location;
   const handleClickOpen = (data) => {
@@ -57,7 +56,7 @@ const Orders = () => {
         id: value.id,
         body,
         defaultPayload: listBody({
-          where: null,
+          where: { "userId": cid },
           perPage: 10,
           page: page,
         }),
@@ -101,7 +100,8 @@ const Orders = () => {
     } catch (error) {
       alert(error);
     }
-    setcid(userId);
+    setCid(userId);
+
     // eslint-disable-next-line
   }, [search]);
 
@@ -267,6 +267,7 @@ const Orders = () => {
           // onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
           />
           &nbsp;&nbsp;&nbsp;
+
           <ViewIcon />
           {params.row.isActive ? (
             <>
@@ -285,7 +286,7 @@ const Orders = () => {
   const initPagination = (p) => {
     try {
       dispatch(
-        loadPaginationOrderCustomers(listBody({ where: null, perPage: 10, page: p + 1 }))
+        loadPaginationOrderCustomers(listBody({ where: { "userId": cid }, perPage: 10, page: p + 1 }))
       );
     } catch (error) {
       alert(error);

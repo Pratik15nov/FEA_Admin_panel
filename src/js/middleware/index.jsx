@@ -8,6 +8,7 @@ import {
   productDelete,
   searchHandlerData,
   orderHandlerData,
+  orderCustomersHandlerData,
   customersStatus,
   customersHandler,
   searchCustomersData,
@@ -267,8 +268,9 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         break;
       case "FETCH_ORDER_CUSTOMERS":
         store.dispatch(loadingStart());
-        orderHandlerData(action.payload)
+        orderCustomersHandlerData(action.payload)
           .then((res) => {
+            console.log(res)
             if (res.success) {
               store.dispatch(fetchOrderCustomersListSuccess(res));
             } else {
@@ -409,8 +411,8 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         orderUpdateData(action.payload.id, action.payload.body)
           .then((res) => {
             if (res.success) {
+              console.log(res)
               store.dispatch(fetchOrderCustomersList(action.payload.defaultPayload));
-              store.dispatch(orderCustomersPageNumber(action.payload.pagination.page));
             } else {
               store.dispatch(fetchOrderListFailure());
               alert("ORDER_UPDATION_CUSTOMERS => RESPONSE => FALSE");

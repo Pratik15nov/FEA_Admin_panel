@@ -54,6 +54,10 @@ export const productDelete = (id) => {
 export const orderHandlerData = (body) => {
   return post(`${ENDPOINTURL}/order/list`, body);
 };
+
+export const orderCustomersHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/order/list`, body);
+};
 export const customersEditHandlerdata = (id, body) => {
   return patch(`${ENDPOINTURL}/user/${id}`, body);
 };

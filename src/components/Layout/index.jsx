@@ -4,7 +4,6 @@ import {
   Toolbar,
   List,
   Divider,
-  ListItem,
   ListItemButton,
   CardHeader,
 } from "@mui/material";
@@ -32,16 +31,20 @@ import {
   AvatarHeader,
   ListIcon,
   ListText,
+  ListItem
 } from "./Layout.style";
 import { useDispatch } from "react-redux";
-import { fetchCategoryList,fetchProductList } from "../../js/actions";
+import { fetchCategoryList, fetchProductList } from "../../js/actions";
 import { listBody } from "../../utils/Helper";
-
 export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
 
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -87,7 +90,7 @@ export default function MiniDrawer(props) {
         </AvatarHeader>
         <Divider />
         <List>
-          <ListItem disablePadding onClick={() => navigate("/dashboard")}>
+          <ListItem disablePadding selected={selectedIndex === 0} onClick={(event) => [navigate("/dashboard"), handleListItemClick(event, 0)]}>
             <ListItemButton>
               <ListIcon>
                 <GridViewIcon />
@@ -97,15 +100,12 @@ export default function MiniDrawer(props) {
           </ListItem>
           <ListItem
             disablePadding
-            onClick={() => [
-              navigate("/products"),
-              dispatch(
-                fetchProductList(
-                  listBody({ where: null, perPage: 10, page: 1 })
-                )
-              ),
-            ]}
-          >
+            selected={selectedIndex === 1} onClick={(event) => [navigate("/products"), handleListItemClick(event, 1), dispatch(
+              fetchProductList(
+                listBody({ where: null, perPage: 10, page: 1 })
+              )
+            )]}>
+
             <ListItemButton>
               <ListIcon>
                 <InventoryIcon />
@@ -115,8 +115,10 @@ export default function MiniDrawer(props) {
           </ListItem>
           <ListItem
             disablePadding
-            onClick={() => [
+            selected={selectedIndex === 2}
+            onClick={(event) => [
               navigate("/category"),
+              handleListItemClick(event, 2),
               dispatch(
                 fetchCategoryList(
                   listBody({ where: null, perPage: 10, page: 1 })
@@ -131,7 +133,7 @@ export default function MiniDrawer(props) {
               <ListText>Category</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/customers")}>
+          <ListItem disablePadding selected={selectedIndex === 3} onClick={(event) => [navigate("/customers"), handleListItemClick(event, 3)]}>
             <ListItemButton>
               <ListIcon>
                 <PeopleAltIcon />
@@ -139,7 +141,7 @@ export default function MiniDrawer(props) {
               <ListText>Customers</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/orders")}>
+          <ListItem disablePadding selected={selectedIndex === 4} onClick={(event) => [navigate("/orders"), handleListItemClick(event, 4)]}>
             <ListItemButton>
               <ListIcon>
                 <ViewQuiltRoundedIcon />
@@ -147,7 +149,7 @@ export default function MiniDrawer(props) {
               <ListText>Orders</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/coupons")}>
+          <ListItem disablePadding selected={selectedIndex === 5} onClick={(event) => [navigate("/coupons"), handleListItemClick(event, 5)]}>
             <ListItemButton>
               <ListIcon>
                 <DiscountRoundedIcon />
@@ -155,7 +157,7 @@ export default function MiniDrawer(props) {
               <ListText>Coupons</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/staff")}>
+          <ListItem disablePadding selected={selectedIndex === 6} onClick={(event) => [navigate("/staff"), handleListItemClick(event, 6)]}>
             <ListItemButton>
               <ListIcon>
                 <LocalLibraryRoundedIcon />
@@ -163,7 +165,7 @@ export default function MiniDrawer(props) {
               <ListText>All Staff</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding onClick={() => navigate("/")}>
+          <ListItem disablePadding >
             <ListItemButton>
               <ListIcon>
                 <SettingsSuggestRoundedIcon />
