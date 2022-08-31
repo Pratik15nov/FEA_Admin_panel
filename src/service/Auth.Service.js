@@ -83,3 +83,27 @@ export const customersDelete = (id) => {
 export const orderUpdateData = (id, body) => {
   return patch(`${ENDPOINTURL}/order/${id}`, body);
 };
+
+
+
+
+//COUPONS
+export const couponsHandler = (body) => {
+  return post(`${ENDPOINTURL}/promocode/list`, body);
+};
+export const couponsStatus = (id, body) => {
+  return patch(`${ENDPOINTURL}/promocode/${id}`, body);
+};
+export const couponsDelete = (id) => {
+  return remove(`${ENDPOINTURL}/promocode/${id}`);
+};
+export const couponsHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/promocode/list`, body);
+};
+export const couponsAddHandler = (body) => {
+  return post(`${ENDPOINTURL}/promocode`, body);
+};
+
+export const couponsEditHandler = (id,body) => {
+  return patch(`${ENDPOINTURL}/promocode/${id}`, body);
+};
