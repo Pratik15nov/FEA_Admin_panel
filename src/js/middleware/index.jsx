@@ -8,6 +8,7 @@ import {
   productDelete,
   searchHandlerData,
   orderHandlerData,
+  orderCustomersHandlerData,
   customersStatus,
   customersHandler,
   searchCustomersData,
@@ -35,7 +36,10 @@ import {
   fetchCustomersListSuccess,
   fetchOrderList,
   orderPageNumber,
-  customersPageNumber
+  customersPageNumber,
+  orderCustomersPageNumber,
+  fetchOrderCustomersListSuccess,
+  fetchOrderCustomersList
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -262,6 +266,26 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+      case "FETCH_ORDER_CUSTOMERS":
+        store.dispatch(loadingStart());
+        orderCustomersHandlerData(action.payload)
+          .then((res) => {
+            console.log(res)
+            if (res.success) {
+              store.dispatch(fetchOrderCustomersListSuccess(res));
+            } else {
+              store.dispatch(fetchOrderListFailure());
+              alert("FETCH_ORDER => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE FETCH_ORDER DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
       case "ON_SEARCH_CUSTOMERS":
         store.dispatch(loadingStart());
         searchCustomersData(action.payload.body)
@@ -382,6 +406,26 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+      case "ORDER_UPDATION_CUSTOMERS":
+        store.dispatch(loadingStart());
+        orderUpdateData(action.payload.id, action.payload.body)
+          .then((res) => {
+            if (res.success) {
+              console.log(res)
+              store.dispatch(fetchOrderCustomersList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchOrderListFailure());
+              alert("ORDER_UPDATION_CUSTOMERS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE ORDER_UPDATION_CUSTOMERS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
       case "LOAD_PAGINATION_ORDER":
         store.dispatch(loadingStart());
         orderHandlerData(action.payload)
@@ -389,6 +433,27 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             if (res.success) {
               store.dispatch(fetchOrderListSuccess(res));
               store.dispatch(orderPageNumber(action.payload.pagination.page));
+            } else {
+              store.dispatch(fetchOrderListFailure());
+              alert("LOAD_PAGINATION_ORDER => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE LOAD_PAGINATION_ORDER DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "LOAD_PAGINATION_ORDER_CUSTOMERS":
+        store.dispatch(loadingStart());
+        orderHandlerData(action.payload)
+          .then((res) => {
+            console.log(res)
+            if (res.success) {
+              store.dispatch(fetchOrderCustomersListSuccess(res));
+              store.dispatch(orderCustomersPageNumber(action.payload.pagination.page));
             } else {
               store.dispatch(fetchOrderListFailure());
               alert("LOAD_PAGINATION_ORDER => RESPONSE => FALSE");

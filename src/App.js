@@ -16,6 +16,7 @@ import CustomSnackbar from "./components/Snackbar";
 import { useState } from "react";
 import AddProducts from "./components/Products/AddProducts";
 import UpdateCustomers from "./components/Customers/updatecustomers";
+import CustomersOrders from "./components/Customers-orders";
 
 function App() {
   const [message, setMessage] = useState(" ");
@@ -75,6 +76,15 @@ function App() {
             element={
               <Layout>
                 <Orders />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/customerorders"
+            element={
+              <Layout>
+                <CustomersOrders />
               </Layout>
             }
           />
