@@ -149,3 +149,23 @@ export function fetchCustomersSearchSuccess(payload) {
 export function fetchCustomersListFailure() {
   return { type: "FETCH_CUSTOMERS_FAILURE" };
 }
+//coupons
+
+export function fetchCouponsList(payload) {
+  return { type: "FETCH_COUPONS", payload };
+}
+export function fetchCouponsListSuccess(payload) {
+  return { type: "FETCH_COUPONS_SUCCESS", payload };
+}
+export function couponsStatusChange(payload) {
+  return { type: "CHANGE_COUPONS_STATUS", payload };
+}
+export function onDeletionCoupons(payload) {
+  return { type: "ON_DELETION_COUPONS", payload };
+}
+export function onCouponsloadingPagination(payload) {
+  return { type: "LOAD_PAGINATION_COUPONS", payload };
+}
+export function pageNumberCoupons(payload) {
+  return { type: "PAGE_NUMBER_COUPONS", payload };
+}

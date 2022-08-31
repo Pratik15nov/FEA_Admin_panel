@@ -14,6 +14,9 @@ import {
   searchCustomersData,
   customersDelete,
   orderUpdateData,
+  couponsHandler,
+  couponsStatus,
+  couponsDelete
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -39,7 +42,10 @@ import {
   customersPageNumber,
   orderCustomersPageNumber,
   fetchOrderCustomersListSuccess,
-  fetchOrderCustomersList
+  fetchOrderCustomersList,
+  fetchCouponsListSuccess,
+  fetchCouponsList,
+  pageNumberCoupons
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -462,6 +468,86 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchOrderListFailure());
             alert("ERROR OCCURED WHILE LOAD_PAGINATION_ORDER DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+
+      case "FETCH_COUPONS":
+        store.dispatch(loadingStart());
+        couponsHandler(action.payload)
+          .then((res) => {
+            if (res) {
+              store.dispatch(fetchCouponsListSuccess(res));
+            } else {
+              store.dispatch(fetchCustomersListFailure());
+              alert("FETCH_COUPONS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchCustomersListFailure());
+            alert("ERROR OCCURED WHILE FETCH_COUPONS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "CHANGE_COUPONS_STATUS":
+        store.dispatch(loadingStart());
+        couponsStatus(action.payload.id, action.payload.body)
+          .then((res) => {
+            console.log(res);
+            if (res.success) {
+              store.dispatch(fetchCouponsList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchCouponsList(action.payload.defaultPayload));
+              alert("CHANGE_COUPONS_STATUS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchCategoryListFailure());
+            alert("ERROR OCCURED WHILE CHANGE_COUPONS_STATUS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "ON_DELETION_COUPONS":
+        store.dispatch(loadingStart());
+        couponsDelete(action.payload.id)
+          .then((res) => {
+            if (res.status === 200) {
+              store.dispatch(fetchCouponsList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchCouponsList(action.payload.defaultPayload));
+              alert("ON_DELETION_COUPONS => RESPONSE => FALSE");
+            }
+          })
+          .catch((error) => {
+            store.dispatch(fetchCategoryListFailure());
+            alert("ERROR OCCURED WHILE ON_DELETION_COUPONS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "LOAD_PAGINATION_COUPONS":
+        store.dispatch(loadingStart());
+        console.log("PAGE", action.payload.pagination.page);
+        couponsHandler(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchCouponsListSuccess(res));
+              store.dispatch(pageNumberCoupons(action.payload.pagination.page));
+            } else {
+              store.dispatch(fetchProductListFailure());
+              alert("LOAD_PAGINATION_COUPONS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchProductListFailure());
+            alert("ERROR OCCURED WHILE LOAD_PAGINATION_COUPONS DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
