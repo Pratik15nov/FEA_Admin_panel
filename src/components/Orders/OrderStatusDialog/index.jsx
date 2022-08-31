@@ -23,21 +23,21 @@ export function OrderStatusDialog(props) {
     reset({ RadioGroup: props.dialogData.orderStatus }); // eslint-disable-next-line
   }, [props.dialogData.orderStatus]);
 
-  const handleClose = (data) => {
+  const handleSend = (data) => {
     const body = {
       id: props.dialogData._id,
       orderStatus: data.RadioGroup,
     };
-    props.onClose(body);
+    props.onSubmission(body);
   };
   return (
-    <DialogBox onClose={handleClose} open={props.open}>
+    <DialogBox onClose={() => props.handleCancelIcon()} open={props.open} >
       <DialogTitleBar>
         <Title>OrderStatus</Title>
         <CancelIcon onClick={()=>props.handleCancelIcon()} />
       </DialogTitleBar>
 
-      <FormContainer onSubmit={handleSubmit(handleClose)}>
+      <FormContainer onSubmit={handleSubmit(handleSend)}>
         <Controller
           render={({ field }) => (
             <RadioButtonGroup aria-label="orderStatus" {...field}>

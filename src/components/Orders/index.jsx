@@ -33,19 +33,21 @@ import {
 } from "../../js/actions";
 import { OrderStatusDialog } from "./OrderStatusDialog";
 import { useState } from "react";
+import OrderView from "./OrderView";
 
 const Orders = () => {
   const [open, setOpen] = useState(false);
   const [dialogData, setDialogdata] = useState([]);
 
   const handleClickOpen = (data) => {
+    console.log("DATA", data);
     setOpen(true);
     setDialogdata(data);
   };
   const handleCancelIcon = () => {
     setOpen(false);
   };
-  const handleClose = (value) => {
+  const handleSubmit = (value) => {
     const body = {
       orderStatus: value.orderStatus,
     };
@@ -62,6 +64,16 @@ const Orders = () => {
     );
 
     setOpen(false);
+  };
+  const [view, setView] = useState(false);
+  const [viewdata, setViewData] = useState([]);
+  const handleView = (data) => {
+    setViewData(data);
+    setView(true);
+  };
+  const handleCloseView = (data) => {
+    setViewData([]);
+    setView(false);
   };
 
   const orderList = useSelector((state) => state.order.list);
@@ -235,7 +247,7 @@ const Orders = () => {
           // onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
           />
           &nbsp;&nbsp;&nbsp;
-          <ViewIcon />
+          <ViewIcon onClick={() => handleView(params.row)} />
           {params.row.isActive ? (
             <>
               &nbsp;&nbsp;&nbsp;
@@ -263,10 +275,15 @@ const Orders = () => {
   return (
     <Container>
       <OrderStatusDialog
-        dialogData={dialogData}
         open={open}
-        onClose={handleClose}
+        dialogData={dialogData}
+        onSubmission={handleSubmit}
         handleCancelIcon={handleCancelIcon}
+      />
+      <OrderView
+        view={view}
+        handleCloseView={handleCloseView}
+        viewdata={viewdata}
       />
       <Grid container sx={{ paddingBottom: "20px" }}>
         <BreadcrumbArea />
