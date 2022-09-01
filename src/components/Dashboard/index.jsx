@@ -40,10 +40,10 @@ export default function Dashboard() {
         </Grid>
       </CardFrist>
     </Grid>
-    <Grid xs={3}>
+    <Grid xs={4}>
       <CardFrist sx={{ minWidth: 275 }}>
         <CardContent>
-          
+
         </CardContent>
         <CardActions>
           <Button size="small">Learn More</Button>
@@ -51,16 +51,64 @@ export default function Dashboard() {
       </CardFrist>
     </Grid>
 
-  </Grid>
-    <Grid  >
-      <Grid xs={3}>
+  </Grid >
+    <Grid container >
+      <Grid xs={4}>
+        <Grid container>
+          <Grid container xs={8}>
+            <CardContent>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Product Sold
+              </Typography>
+              <Typography variant="h5" component="div">
+                Welcome back!
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                Best seller of the month You have done 57.6% more sales today.
+              </Typography>
+            </CardContent>
 
+          </Grid>
+          <Grid container xs={4}></Grid>
+        </Grid>
       </Grid>
-      <Grid xs={3}>
+      <Grid xs={4}>
+        <Grid container>
+          <Grid container xs={8}>
+            <CardContent>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Total Balance
+              </Typography>
+              <Typography variant="h5" component="div">
+                Welcome back!
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                Best seller of the month You have done 57.6% more sales today.
+              </Typography>
+            </CardContent>
 
+          </Grid>
+          <Grid container xs={4}></Grid>
+        </Grid>
       </Grid>
-      <Grid xs={3}>
+      <Grid xs={4}>
+        <Grid container>
+          <Grid container xs={8}>
+            <CardContent>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Sales Profit
+              </Typography>
+              <Typography variant="h5" component="div">
+                Welcome back!
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                Best seller of the month You have done 57.6% more sales today.
+              </Typography>
+            </CardContent>
 
+          </Grid>
+          <Grid container xs={4}></Grid>
+        </Grid>
       </Grid>
 
     </Grid></MainBody>
