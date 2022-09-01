@@ -24,26 +24,50 @@ import {
   TitleContainerBox,
   TitleTag,
 } from "./OrderView.style";
-import { Box, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 
 function createData(data, answer) {
   return { data, answer };
 }
 
 export default function OrderView(props) {
+  const [subTotal, setSubTotal] = useState([]);
+
   const rows = [
-    createData("Order Subtotal", "₹ LOGICS"),
+    createData("Order Subtotal", `₹ ${subTotal}`),
     createData("Promocode:", `${props.viewdata?.promocodeId?.couponcode}`),
     createData("Discount Price", `₹ ${props.viewdata?.discountPrice}`),
-    createData("Tax (SGST+ CGST)	", "₹ LOGICS"),
-    createData("Shipping Charge", "₹ LOGICS"),
-    createData("Total Amount", `₹ ${props.viewdata?.totalPrice?.toFixed(2)}`),
+    createData(
+      "Tax (SGST+ CGST)	",
+      `₹ ${Number((subTotal / 100) * 18)?.toFixed(2)}`
+    ),
+    createData("Shipping Charge", `${subTotal > 500 ? "Free" : "₹ 500"}`),
+    createData(
+      "Total Amount",
+      `₹ ${
+        subTotal > 500
+          ? Number(subTotal + (subTotal / 100) * 18)?.toFixed(2)
+          : Number(subTotal + 500 + (subTotal / 100) * 18)?.toFixed(2)
+      }`
+    ),
   ];
+
+  useEffect(() => {
+    console.log(props.viewdata?.cartdetail);
+    let data = 0;
+    props.viewdata?.cartdetail?.filter((value) => {
+      data = data + value?.productId?.discountPrice * value?.quantity;
+    });
+    setSubTotal(data);
+    console.log("data: ", data);
+    console.log("subTotal: ", subTotal); // eslint-disable-next-line
+  }, [props.viewdata]);
 
   const handleClose = () => {
     props.handleCloseView();
@@ -129,10 +153,10 @@ export default function OrderView(props) {
                           {row.quantity}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {row.productId?.discountPrice}
+                          {"₹"}&nbsp;{row.productId?.discountPrice}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {row.productId?.price}
+                          {"₹"}&nbsp;{row.productId?.price}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
