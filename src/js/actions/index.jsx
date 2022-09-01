@@ -83,6 +83,10 @@ export function setSearchValuesCategory(payload) {
 
 // Order
 
+export function onOrderSearch(payload) {
+  return { type: "ON_SEARCH_ORDER", payload };
+}
+
 export function fetchOrderListFailure() {
   return { type: "FETCH_ORDER_FAILURE" };
 }

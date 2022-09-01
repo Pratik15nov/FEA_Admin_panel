@@ -107,3 +107,7 @@ export const couponsAddHandler = (body) => {
 export const couponsEditHandler = (id,body) => {
   return patch(`${ENDPOINTURL}/promocode/${id}`, body);
 };
+
+export const searchOrderData = (body) => {
+  return post(`${ENDPOINTURL}/order/search`, body);
+};

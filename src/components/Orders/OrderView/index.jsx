@@ -47,15 +47,8 @@ export default function OrderView(props) {
       "Tax (SGST+ CGST)	",
       `₹ ${Number((subTotal / 100) * 18)?.toFixed(2)}`
     ),
-    createData("Shipping Charge", `${subTotal > 500 ? "Free" : "₹ 500"}`),
-    createData(
-      "Total Amount",
-      `₹ ${
-        subTotal > 500
-          ? Number(subTotal + (subTotal / 100) * 18)?.toFixed(2)
-          : Number(subTotal + 500 + (subTotal / 100) * 18)?.toFixed(2)
-      }`
-    ),
+    createData("Shipping Charge", `${subTotal > 500 ? "Free" : "₹ 40"}`),
+    createData("Total Amount", `₹ ${props.viewdata?.totalPrice}`),
   ];
 
   useEffect(() => {
@@ -140,7 +133,7 @@ export default function OrderView(props) {
                       <StyledTableCell align="right">
                         Discount Price
                       </StyledTableCell>
-                      <StyledTableCell align="right">Price</StyledTableCell>
+                      <StyledTableCell align="right">Total</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -156,7 +149,8 @@ export default function OrderView(props) {
                           {"₹"}&nbsp;{row.productId?.discountPrice}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {"₹"}&nbsp;{row.productId?.price}
+                          {"₹"}&nbsp;
+                          {row?.quantity * row.productId?.discountPrice}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}

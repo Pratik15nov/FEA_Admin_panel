@@ -16,7 +16,8 @@ import {
   orderUpdateData,
   couponsHandler,
   couponsStatus,
-  couponsDelete
+  couponsDelete,
+  searchOrderData,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -45,7 +46,8 @@ import {
   fetchOrderCustomersList,
   fetchCouponsListSuccess,
   fetchCouponsList,
-  pageNumberCoupons
+  pageNumberCoupons,
+  fetchOrderSearchSuccess,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -276,7 +278,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         orderCustomersHandlerData(action.payload)
           .then((res) => {
-            console.log(res)
+            console.log(res);
             if (res.success) {
               store.dispatch(fetchOrderCustomersListSuccess(res));
             } else {
@@ -379,7 +381,9 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .then((res) => {
             if (res.success) {
               store.dispatch(fetchCustomersListSuccess(res));
-              store.dispatch(customersPageNumber(action.payload.pagination.page));
+              store.dispatch(
+                customersPageNumber(action.payload.pagination.page)
+              );
             } else {
               store.dispatch(fetchCustomersListFailure());
               alert("LOAD_PAGINATION => RESPONSE => FALSE");
@@ -417,8 +421,10 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         orderUpdateData(action.payload.id, action.payload.body)
           .then((res) => {
             if (res.success) {
-              console.log(res)
-              store.dispatch(fetchOrderCustomersList(action.payload.defaultPayload));
+              console.log(res);
+              store.dispatch(
+                fetchOrderCustomersList(action.payload.defaultPayload)
+              );
             } else {
               store.dispatch(fetchOrderListFailure());
               alert("ORDER_UPDATION_CUSTOMERS => RESPONSE => FALSE");
@@ -456,10 +462,12 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         orderHandlerData(action.payload)
           .then((res) => {
-            console.log(res)
+            console.log(res);
             if (res.success) {
               store.dispatch(fetchOrderCustomersListSuccess(res));
-              store.dispatch(orderCustomersPageNumber(action.payload.pagination.page));
+              store.dispatch(
+                orderCustomersPageNumber(action.payload.pagination.page)
+              );
             } else {
               store.dispatch(fetchOrderListFailure());
               alert("LOAD_PAGINATION_ORDER => RESPONSE => FALSE");
@@ -548,6 +556,29 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchProductListFailure());
             alert("ERROR OCCURED WHILE LOAD_PAGINATION_COUPONS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      ///
+      case "ON_SEARCH_ORDER":
+        store.dispatch(loadingStart());
+        searchOrderData(action.payload.body)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchOrderSearchSuccess(res.data));
+            } else if (res.success === false) {
+              store.dispatch(fetchOrderListFailure());
+              alert("ON_SEARCH_PRODUCT => RESPONSE => FALSE");
+            } else {
+              store.dispatch(fetchOrderList(action.payload.defaultPayload));
+              alert("ON_SEARCH_PRODUCT => RESPONSE => ERROR");
+            }
+          })
+          .catch((error) => {
+            store.dispatch(fetchOrderListFailure());
+            alert("ERROR OCCURED WHILE ON_SEARCH_PRODUCT DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

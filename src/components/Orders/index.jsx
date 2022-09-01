@@ -30,6 +30,7 @@ import {
   fetchOrderList,
   sendOrderUpdation,
   loadPaginationOrder,
+  onOrderSearch,
 } from "../../js/actions";
 import { OrderStatusDialog } from "./OrderStatusDialog";
 import { useState } from "react";
@@ -101,13 +102,13 @@ const Orders = () => {
 
   const columns = [
     {
-      field: "orderId",
-      headerName: <ColoumHead variant="h2">OrderId</ColoumHead>,
+      field: "PaymentId",
+      headerName: <ColoumHead variant="h2">PaymentId</ColoumHead>,
       flex: 1,
       sortable: true,
       renderCell: (params) => (
         <OrderId>
-          {params.row?._id ? params.row._id.slice(0, 10) : "unspecified"}
+          {params.row?.paymentId ? params.row.paymentId.slice(0, 10) : "unspecified"}
         </OrderId>
       ),
     },
@@ -271,6 +272,28 @@ const Orders = () => {
       alert(error);
     }
   };
+  const captureSearch = async (data) => {
+    const body = {
+      searchText: data,
+    };
+    try {
+      if (data.length >= 3) {
+        dispatch(
+          onOrderSearch({
+            body,
+            defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+          })
+        );
+      }
+      if (data.length === 0) {
+        dispatch(
+          fetchOrderList(listBody({ where: null, perPage: 10, page: page }))
+        );
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <Container>
@@ -293,8 +316,8 @@ const Orders = () => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
-              // onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
+              placeholder="Search by PaymentId..."
+              onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
             />
           </Search>
         </Grid>
