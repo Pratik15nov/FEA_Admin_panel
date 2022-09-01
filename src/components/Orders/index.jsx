@@ -108,7 +108,9 @@ const Orders = () => {
       sortable: true,
       renderCell: (params) => (
         <OrderId>
-          {params.row?.paymentId ? params.row.paymentId.slice(0, 10) : "unspecified"}
+          {params.row?.paymentId
+            ? params.row.paymentId.slice(0, 10)
+            : "unspecified"}
         </OrderId>
       ),
     },

@@ -28,11 +28,12 @@ export const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 export const Actions = styled(DialogActions)(({ theme }) => ({
-  justifyContent: "flex-start",
+  justifyContent:"space-between",
   background: "#1a1a40",
 }));
 export const ContentBox = styled(DialogContent)(({ theme }) => ({
-  background: "#b7dfff",
+  // background: "#b7dfff",
+  background: "white",
 }));
 export const TitleBox = styled(DialogTitle)(({ theme }) => ({
   background: "#1a1a40",

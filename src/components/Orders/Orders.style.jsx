@@ -153,21 +153,25 @@ export const NoItems = styled("span")(({ theme }) => ({
 }));
 
 export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
-  cursor: "pointer",
+  // cursor: "pointer",
+  cursor: "not-allowed",
   fontSize: "x-large",
   // fontSize: "xx-large",
-  color: "#65c466",
-  "&:hover": {
-    color: "black",
-  },
+  // color: "#65c466",
+  color: "grey",
+  // "&:hover": {
+  //   color: "black",
+  // },
 }));
 export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
-  cursor: "pointer",
+  // cursor: "pointer",
+  cursor: "not-allowed",
   fontSize: "x-large",
-  color: "red",
-  "&:hover": {
-    color: "black",
-  },
+  color: "grey",
+  // color: "red",
+  // "&:hover": {
+  //   color: "black",
+  // },
 }));
 
 export const ViewIcon = styled(RemoveRedEyeTwoToneIcon)(({ theme }) => ({
