@@ -15,7 +15,6 @@ export const Container = styled(Box)(({ theme }) => ({
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
   overflow: "scroll", // eslint-disable-next-line
-  overflow: "scroll",
   " &.MuiDataGrid-root .MuiDataGrid-cell": {
     color: "pink",
   },
@@ -129,6 +128,18 @@ export const OrderStatusReceived = styled("span")(({ theme }) => ({
     color: "black",
   },
 }));
+export const OrderStatusCancel = styled("span")(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: 900,
+  color: "black",
+  backgroundColor: "#ff7a7ad1",
+  borderRadius: "6px",
+  padding: "7px",
+  "&:hover": {
+    color: "black",
+  },
+}));
 export const NoItems = styled("span")(({ theme }) => ({
   fontSize: "12px",
   fontWeight: 400,
@@ -142,21 +153,25 @@ export const NoItems = styled("span")(({ theme }) => ({
 }));
 
 export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
-  cursor: "pointer",
+  // cursor: "pointer",
+  cursor: "not-allowed",
   fontSize: "x-large",
   // fontSize: "xx-large",
-  color: "#65c466",
-  "&:hover": {
-    color: "black",
-  },
+  // color: "#65c466",
+  color: "grey",
+  // "&:hover": {
+  //   color: "black",
+  // },
 }));
 export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
-  cursor: "pointer",
+  // cursor: "pointer",
+  cursor: "not-allowed",
   fontSize: "x-large",
-  color: "red",
-  "&:hover": {
-    color: "black",
-  },
+  color: "grey",
+  // color: "red",
+  // "&:hover": {
+  //   color: "black",
+  // },
 }));
 
 export const ViewIcon = styled(RemoveRedEyeTwoToneIcon)(({ theme }) => ({
@@ -234,17 +249,5 @@ export const HtmlTooltip = styled(({ className, ...props }) => (
     maxWidth: 220,
     fontSize: theme.typography.pxToRem(12),
     border: "1px solid #dadde9",
-  },
-}));
-export const OrderStatusCancel = styled("span")(({ theme }) => ({
-  cursor: "pointer",
-  fontSize: "12px",
-  fontWeight: 900,
-  color: "black",
-  backgroundColor: "#ff7a7ad1",
-  borderRadius: "6px",
-  padding: "7px",
-  "&:hover": {
-    color: "black",
   },
 }));
