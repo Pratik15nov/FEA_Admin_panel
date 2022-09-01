@@ -3,7 +3,13 @@ import {
     styled,
 } from "@mui/material";
 export const CardFrist = styled(Card)(({ theme }) => ({
-    backgroundColor: "#FA58B6",
-    padding:20,
-
+    backgroundColor: theme.palette.secondary.main,
+    padding: 20,
+    fontFamily: theme.typography.fontFamily,
+    borderRadius: 15,
+    margin:5
+}));
+export const MainBody = styled(Card)(({ theme }) => ({
+    padding: 10,
+    boxShadow: "none"
 }));
