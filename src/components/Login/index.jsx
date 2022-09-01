@@ -20,7 +20,7 @@ const Login = () => {
   const handleLogin = (body) => {
     try {
       if (
-        body.email === "vansh.forntendarmy@gmail.com" &&
+        body.email === "vansh.frontendarmy@gmail.com" &&
         body.password === "V@nsh12345"
       ) {
         navigate("/dashboard");
