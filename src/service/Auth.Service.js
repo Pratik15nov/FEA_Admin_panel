@@ -84,9 +84,6 @@ export const orderUpdateData = (id, body) => {
   return patch(`${ENDPOINTURL}/order/${id}`, body);
 };
 
-
-
-
 //COUPONS
 export const couponsHandler = (body) => {
   return post(`${ENDPOINTURL}/promocode/list`, body);
@@ -104,10 +101,22 @@ export const couponsAddHandler = (body) => {
   return post(`${ENDPOINTURL}/promocode`, body);
 };
 
-export const couponsEditHandler = (id,body) => {
+export const couponsEditHandler = (id, body) => {
   return patch(`${ENDPOINTURL}/promocode/${id}`, body);
 };
 
 export const searchOrderData = (body) => {
   return post(`${ENDPOINTURL}/order/search`, body);
 };
+
+//CHECKING SETTINGS
+
+export const loginCheck = (body) => {
+  return post(`${ENDPOINTURL}/adminUser/signin`, body);
+};
+
+export const afterLoginCheck = (body) => {
+  return post(`${ENDPOINTURL}/adminUser/check`, body);
+};
+
+//CEHCKING DONE

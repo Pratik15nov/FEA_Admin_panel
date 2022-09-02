@@ -18,6 +18,7 @@ import AddProducts from "./components/Products/AddProducts";
 import UpdateCustomers from "./components/Customers/updatecustomers";
 import CustomersOrders from "./components/Customers-orders";
 import AddCoupons from "./components/Coupons/Editcoupons";
+import Settings from "./components/settings";
 
 function App() {
   const [message, setMessage] = useState(" ");
@@ -140,6 +141,15 @@ function App() {
             element={
               <Layout>
                 <AddCoupons getValue={getValue} />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/settings"
+            element={
+              <Layout>
+                <Settings />
               </Layout>
             }
           />

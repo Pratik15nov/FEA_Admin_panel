@@ -62,9 +62,22 @@ export const patch = async (url, data) => {
     });
 };
 
+export function authHeader() {
+  // return authorization header with basic auth credentials
+  let user = localStorage.getItem("dataToken");
+  console.log('user: ', user);
+
+  if (user) {
+    return { headers: {"Authorization" : `Bearer ${user}`} }
+    // return { Authorization: `Bearer ${user.token}` };
+  } else {
+    return {};
+  }
+}
+
 export const post = async (url, data) => {
   return await axios
-    .post(url, data)
+    .post(url, data, authHeader())
     .then((res) => {
       if (res.status === 200) {
         if (res.data?.success) {
