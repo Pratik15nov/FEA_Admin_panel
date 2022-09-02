@@ -8,24 +8,32 @@ import {
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-import {
-  Container,
-  InputBox,
-  BottomButton,
-} from "./Staff.style";
+import { Container, InputBox, BottomButton } from "./Staff.style";
 import { fetchCategoryList } from "../../js/actions";
 import { useDispatch } from "react-redux";
 import { listBody } from "../../utils/Helper";
 import { Checkbox } from "@material-ui/core";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Badge from "./badge";
 
-const userData = [
-  { name: "Dashboard" },
-  { name: "Products" },
-  { name: "Category" },
-  { name: "Customers" },
-  { name: "Coupons" },
-  { name: "Staff" },
-  { name: "Orders" }
+function createData(name, view, edit, add, deleted) {
+  return { name, view, edit, add, deleted };
+}
+
+const rows = [
+  createData("Dashboard", false, false, false, false),
+  createData("Products", false, false, false, false),
+  createData("Category", false, false, false, false),
+  createData("Customers", false, false, false, false),
+  createData("Orders", false, false, false, false),
+  createData("Coupons", false, false, false, false),
+  createData("Staff", false, false, false, false),
 ];
 
 export default function AddRole(props) {
@@ -33,13 +41,13 @@ export default function AddRole(props) {
   const location = useLocation();
   const { search } = location;
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
-
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
-
+  const [checkbox, setCheckbox] = useState([]);
+  const [rightList, setRightList] = useState(rows);
+  console.log("MAINDATA", checkbox);
   //use for images manually upload and drop
-
 
   useEffect(() => {
     let roleId;
@@ -69,28 +77,30 @@ export default function AddRole(props) {
       alert(error);
     }
     setcid(roleId);
-    setUsers(userData);
+    setCheckbox(rows);
     // eslint-disable-next-line
   }, [search]);
-  const [users, setUsers] = useState([]);
-  console.log(users);
 
-  const handleChange = (e) => {
-    const { name, checked } = e.target;
-    if (name === "allSelect") {
-      let tempUser = users.map((user) => {
-        return { ...user, isChecked: checked };
-      });
-      setUsers(tempUser);
-    } else {
-      let tempUser = users.map((user) =>
-        user.name === name ? { ...user, isChecked: checked } : user
-      );
-      setUsers(tempUser);
-    }
+  const handleChange = (field, value, index) => {
+    rightList[index][field] = value;
+
+    // rows[index][field] = value;
+    setRightList(rightList);
+    // const { name, checked } = e?.target;
+
+    // let data = checkbox.map(
+    //   (checkboxdata) => console.log("checkboxdata", checkboxdata),
+    //   console.log("name", name)
+
+    // checkboxdata.name === name
+    //   ? { ...checkboxdata, isChecked: !checked }
+    //   : checkboxdata
+    // );
+    console.log("ROW NAME", rightList);
+    // setCheckbox(data);
+    // console.log("AFFER", data);
   };
 
-  // this function get particular category name and image
   const getRoleData = async (roleId) => {
     const response = await categoryHndlerData(roleId);
     try {
@@ -116,18 +126,13 @@ export default function AddRole(props) {
   // it can be use for edit categories details
   const handleCategoryData = async (body) => {
     setLoading(true);
-
   };
-
-
-
 
   return (
     <Container>
       <BreadcrumbArea />
 
       <InputBox>
-
         <form>
           <Typography color="text.primary" variant="subtitle2">
             Role Name
@@ -152,37 +157,77 @@ export default function AddRole(props) {
               required: "Please add role name",
             }}
           />
+          <br />
           <Typography color="text.primary" variant="subtitle2">
-            Choose View Option
+            Role Rights
           </Typography>
-          <Controller
-            name="categoryName"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <Checkbox
-                name="allSelect"
-                // checked={
-                //   users.filter((user) => user?.isChecked !== true).length < 1
-                // }
-                color="default"
-                checked={!users.some((user) => user?.isChecked !== true)}
-                onChange={handleChange}
-              />)}
-            control={control}
-            rules={{
-              required: "Please add role name",
-            }}
-          />
-          {users.map((user, index) => (
-            <Box key={index}>
-              <Checkbox
-                name={user.name}
-                checked={user?.isChecked || false}
-                onChange={handleChange}
-                color="default"
-              />
-              <label className="form-check-label ms-2">{user.name}</label>
-            </Box>
-          ))}
+          <br />
+          <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Choose</TableCell>
+                  <TableCell>View</TableCell>
+                  <TableCell>Edit</TableCell>
+                  <TableCell>Add</TableCell>
+                  <TableCell>Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rightList.map((row, index) => (
+                  <TableRow key={index}>
+                    <Badge
+                      name="allSelect"
+                      show={show}
+                      row={row}
+                      setShow={setShow}
+                      onChange={handleChange}
+                    />
+                    <TableCell>
+                      <Checkbox
+                        name={row.name}
+                        value={row.view}
+                        onChange={(e) =>
+                          handleChange("view", e.target.checked, index)
+                        }
+                        color="default"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Checkbox
+                        name={row.name}
+                        value={row.edit}
+                        onChange={(e) =>
+                          handleChange("edit", e.target.checked, index)
+                        }
+                        color="default"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Checkbox
+                        name={row.name}
+                        value={row.add}
+                        onChange={(e) =>
+                          handleChange("add", e.target.checked, index)
+                        }
+                        color="default"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Checkbox
+                        name={row.name}
+                        value={row.deleted}
+                        onChange={(e) =>
+                          handleChange("deleted", e.target.checked, index)
+                        }
+                        color="default"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <br />
           <BottomButton
             type="submit"
@@ -193,14 +238,10 @@ export default function AddRole(props) {
           >
             {cid ? "Update" : "Add"} Role
           </BottomButton>
-          <BottomButton
-            variant="contained"
-            onClick={() => navigate("/staff")}
-          >
+          <BottomButton variant="contained" onClick={() => navigate("/staff")}>
             Back
           </BottomButton>
         </form>
-
       </InputBox>
     </Container>
   );
