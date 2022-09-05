@@ -20,7 +20,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Badge from "./badge";
+import Chip from "@mui/material/Chip";
+import { IndeterminateCheckBox } from "@mui/icons-material";
+import Grid from "@mui/material/Grid";
 
 function createData(name, view, edit, add, deleted) {
   return { name, view, edit, add, deleted };
@@ -44,9 +46,8 @@ export default function AddRole(props) {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-  const [checkbox, setCheckbox] = useState([]);
   const [rightList, setRightList] = useState(rows);
-  console.log("MAINDATA", checkbox);
+
   //use for images manually upload and drop
 
   useEffect(() => {
@@ -77,30 +78,43 @@ export default function AddRole(props) {
       alert(error);
     }
     setcid(roleId);
-    setCheckbox(rows);
+
     // eslint-disable-next-line
   }, [search]);
 
   const handleChange = (field, value, index) => {
     rightList[index][field] = value;
-
-    // rows[index][field] = value;
     setRightList(rightList);
-    // const { name, checked } = e?.target;
-
-    // let data = checkbox.map(
-    //   (checkboxdata) => console.log("checkboxdata", checkboxdata),
-    //   console.log("name", name)
-
-    // checkboxdata.name === name
-    //   ? { ...checkboxdata, isChecked: !checked }
-    //   : checkboxdata
-    // );
-    console.log("ROW NAME", rightList);
-    // setCheckbox(data);
-    // console.log("AFFER", data);
+    console.log("FINALLIST", rightList);
+    setShow(false);
   };
+  const allhandleChange = (field, value, index) => {
+    let tempData = rightList[index];
+    tempData = {
+      ...tempData,
+      add: value,
+      deleted: value,
+      edit: value,
+      view: value,
+    };
 
+    rightList[index] = tempData;
+    // rightList[index].add = value;
+    // rightList[index].deleted = value;
+    // rightList[index].edit = value;
+    // rightList[index].view = value;
+    // rightList[index] = {
+    //   ...rightList[index],
+    //   view: value,
+    //   edit: value,
+    //   add: value,
+    //   deleted: value,
+    // };
+    setRightList(rightList);
+    console.log("FINALLIST", rightList);
+    setShow(false);
+  };
+  // console.log("FINALLIST", rightList);
   const getRoleData = async (roleId) => {
     const response = await categoryHndlerData(roleId);
     try {
@@ -174,17 +188,44 @@ export default function AddRole(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rightList.map((row, index) => (
-                  <TableRow key={index}>
-                    <Badge
-                      name="allSelect"
-                      show={show}
-                      row={row}
-                      setShow={setShow}
-                      onChange={handleChange}
-                    />
+                {rightList?.map((row, index) => (
+                  <TableRow key={`tableRow_${index}`}>
+                    <TableCell
+                      width="50%"
+                      onMouseOver={() => setShow(index)}
+                      onMouseOut={() => setShow()}
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                          {row.name}
+                        </Grid>
+                        <Grid item xs={8}>
+                          {show === index ? (
+                            <Box key={index}>
+                              <Chip
+                                onClick={() =>
+                                  allhandleChange(row.name, true, index)
+                                }
+                                label="All Check"
+                                variant="outlined"
+                              />
+                              <Chip
+                                onClick={(e) =>
+                                  allhandleChange(row.name, false, index)
+                                }
+                                label="None"
+                                variant="outlined"
+                              />
+                            </Box>
+                          ) : (
+                            <></>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </TableCell>
                     <TableCell>
                       <Checkbox
+                        checked={row.view}
                         name={row.name}
                         value={row.view}
                         onChange={(e) =>
@@ -195,6 +236,7 @@ export default function AddRole(props) {
                     </TableCell>
                     <TableCell>
                       <Checkbox
+                        checked={row.edit}
                         name={row.name}
                         value={row.edit}
                         onChange={(e) =>
@@ -205,6 +247,7 @@ export default function AddRole(props) {
                     </TableCell>
                     <TableCell>
                       <Checkbox
+                        checked={row.add}
                         name={row.name}
                         value={row.add}
                         onChange={(e) =>
@@ -215,6 +258,7 @@ export default function AddRole(props) {
                     </TableCell>
                     <TableCell>
                       <Checkbox
+                        checked={row.deleted}
                         name={row.name}
                         value={row.deleted}
                         onChange={(e) =>
