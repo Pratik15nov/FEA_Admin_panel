@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Typography, TextField, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
-  categoryEditHandler,
+  // categoryEditHandler,
   categoryHndlerData,
-  categoryAddHandler,
+  // categoryAddHandler,
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
 import { Container, InputBox, BottomButton } from "./Rights.style";
-import { fetchCategoryList } from "../../js/actions";
-import { useDispatch } from "react-redux";
-import { listBody } from "../../utils/Helper";
+// import { fetchCategoryList } from "../../js/actions";
+// import { useDispatch } from "react-redux";
+// import { listBody } from "../../utils/Helper";
 import { Checkbox } from "@material-ui/core";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -21,21 +21,21 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Chip from "@mui/material/Chip";
-import { IndeterminateCheckBox } from "@mui/icons-material";
+// import { IndeterminateCheckBox } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
 
-function createData(name, view, edit, add, deleted) {
-  return { name, view, edit, add, deleted };
+function createData(name, view, edit, add, deleted, id) {
+  return { name, view, edit, add, deleted, id };
 }
 
 const rows = [
-  createData("Dashboard", false, false, false, false),
-  createData("Products", false, false, false, false),
-  createData("Category", false, false, false, false),
-  createData("Customers", false, false, false, false),
-  createData("Orders", false, false, false, false),
-  createData("Coupons", false, false, false, false),
-  createData("Staff", false, false, false, false),
+  createData("Dashboard", false, false, false, false, 0),
+  createData("Products", false, false, false, false, 1),
+  createData("Category", false, false, false, false, 2),
+  createData("Customers", false, false, false, false, 3),
+  createData("Orders", false, false, false, false, 4),
+  createData("Coupons", false, false, false, false, 5),
+  createData("Staff", false, false, false, false, 6),
 ];
 
 export default function AddRights(props) {
@@ -43,8 +43,8 @@ export default function AddRights(props) {
   const location = useLocation();
   const { search } = location;
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
+  // const dispatch = useDispatch();
+  const [show, setShow] = useState();
   const navigate = useNavigate();
   const [rightList, setRightList] = useState(rows);
 
@@ -86,9 +86,9 @@ export default function AddRights(props) {
     rightList[index][field] = value;
     setRightList(rightList);
     console.log("FINALLIST", rightList);
-    setShow(false);
+    setShow();
   };
-  const allhandleChange = (field, value, index) => {
+  const allhandleChange = (value, index) => {
     let tempData = rightList[index];
     tempData = {
       ...tempData,
@@ -97,22 +97,10 @@ export default function AddRights(props) {
       edit: value,
       view: value,
     };
-
     rightList[index] = tempData;
-    // rightList[index].add = value;
-    // rightList[index].deleted = value;
-    // rightList[index].edit = value;
-    // rightList[index].view = value;
-    // rightList[index] = {
-    //   ...rightList[index],
-    //   view: value,
-    //   edit: value,
-    //   add: value,
-    //   deleted: value,
-    // };
     setRightList(rightList);
     console.log("FINALLIST", rightList);
-    setShow(false);
+    setShow();
   };
   // console.log("FINALLIST", rightList);
   const getRoleData = async (roleId) => {
@@ -129,7 +117,6 @@ export default function AddRights(props) {
     }
   };
 
-  // this function used for after submit form create object and then update functionality this value change from api value
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       categoryName: null,
@@ -137,7 +124,6 @@ export default function AddRights(props) {
     },
   });
 
-  // it can be use for edit categories details
   const handleCategoryData = async (body) => {
     setLoading(true);
   };
@@ -188,31 +174,29 @@ export default function AddRights(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rightList?.map((row, index) => (
-                  <TableRow key={`tableRow_${index}`}>
-                    <TableCell
-                      width="50%"
-                      onMouseOver={() => setShow(index)}
-                      onMouseOut={() => setShow()}
-                    >
+                {rightList?.map((row) => (
+                  <TableRow
+                    key={`tableRow_${row.id}`}
+                    onMouseOver={() => setShow(row.id)}
+                    onMouseOut={() => setShow()}
+                  >
+                    <TableCell width="50%">
                       <Grid container spacing={2}>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           {row.name}
                         </Grid>
                         <Grid item xs={8}>
-                          {show === index ? (
-                            <Box key={index}>
+                          {show === row.id ? (
+                            <Box key={row.id}>
                               <Chip
-                                onClick={() =>
-                                  allhandleChange(row.name, true, index)
-                                }
+                                onClick={() => allhandleChange(true, row.id)}
+                                size="small"
                                 label="All Check"
                                 variant="outlined"
                               />
                               <Chip
-                                onClick={(e) =>
-                                  allhandleChange(row.name, false, index)
-                                }
+                                onClick={(e) => allhandleChange(false, row.id)}
+                                size="small"
                                 label="None"
                                 variant="outlined"
                               />
@@ -229,7 +213,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.view}
                         onChange={(e) =>
-                          handleChange("view", e.target.checked, index)
+                          handleChange("view", e.target.checked, row.id)
                         }
                         color="default"
                       />
@@ -240,7 +224,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.edit}
                         onChange={(e) =>
-                          handleChange("edit", e.target.checked, index)
+                          handleChange("edit", e.target.checked, row.id)
                         }
                         color="default"
                       />
@@ -251,7 +235,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.add}
                         onChange={(e) =>
-                          handleChange("add", e.target.checked, index)
+                          handleChange("add", e.target.checked, row.id)
                         }
                         color="default"
                       />
@@ -262,7 +246,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.deleted}
                         onChange={(e) =>
-                          handleChange("deleted", e.target.checked, index)
+                          handleChange("deleted", e.target.checked, row.id)
                         }
                         color="default"
                       />
