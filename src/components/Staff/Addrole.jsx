@@ -44,7 +44,7 @@ export default function AddRole(props) {
   const { search } = location;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState();
   const navigate = useNavigate();
   const [rightList, setRightList] = useState(rows);
 
@@ -86,7 +86,7 @@ export default function AddRole(props) {
     rightList[index][field] = value;
     setRightList(rightList);
     console.log("FINALLIST", rightList);
-    setShow(false);
+    setShow();
   };
   const allhandleChange = (field, value, index) => {
     let tempData = rightList[index];
@@ -112,7 +112,7 @@ export default function AddRole(props) {
     // };
     setRightList(rightList);
     console.log("FINALLIST", rightList);
-    setShow(false);
+    setShow();
   };
   // console.log("FINALLIST", rightList);
   const getRoleData = async (roleId) => {
@@ -196,7 +196,7 @@ export default function AddRole(props) {
                       onMouseOut={() => setShow()}
                     >
                       <Grid container spacing={2}>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           {row.name}
                         </Grid>
                         <Grid item xs={8}>
@@ -206,6 +206,7 @@ export default function AddRole(props) {
                                 onClick={() =>
                                   allhandleChange(row.name, true, index)
                                 }
+                                size="small"
                                 label="All Check"
                                 variant="outlined"
                               />
@@ -213,6 +214,7 @@ export default function AddRole(props) {
                                 onClick={(e) =>
                                   allhandleChange(row.name, false, index)
                                 }
+                                size="small"
                                 label="None"
                                 variant="outlined"
                               />

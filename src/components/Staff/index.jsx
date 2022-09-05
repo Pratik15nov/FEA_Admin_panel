@@ -29,7 +29,7 @@ import BreadcrumbArea from "../BreadcrumbArea";
 import SearchIcon from "@mui/icons-material/Search";
 import DialogBox from "../Dialog/index";
 
-export default function Category() {
+export default function Staff() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
   const categoryList = useSelector((state) => state.category.list);
