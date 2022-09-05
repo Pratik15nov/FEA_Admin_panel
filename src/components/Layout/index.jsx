@@ -154,7 +154,6 @@ export default function MiniDrawer(props) {
             subheader="Admin"
             sx={{ padding: 1 }}
           />
-
           <mainListIcon onClick={() => setOpen(false)}>
             <KeyboardDoubleArrowLeftIcon />
           </mainListIcon>
@@ -162,24 +161,41 @@ export default function MiniDrawer(props) {
         <Divider />
 
         <List>
-          {RouteList.map((r, index) => (
-            <ListItem
-              key={index}
-              disablePadding
-              selected={selectedIndex === index}
-              onClick={(event) => [
-                navigate(r.path),
-                handleListItemClick(event, index),
-              ]}
-            >
-              <ListItemButton>
-                <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
-                <ListText>
-                  {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
-                </ListText>
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {RouteList.filter((r) => r.fieldName !== "settings").map(
+            (r, index) => (
+              <ListItem
+                key={index}
+                disablePadding
+                selected={selectedIndex === index}
+                onClick={(event) => [
+                  navigate(r.path),
+                  handleListItemClick(event, index),
+                ]}
+              >
+                <ListItemButton>
+                  <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
+                  <ListText>
+                    {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
+                  </ListText>
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 9999999999}
+            onClick={(event) => [
+              navigate("/settings"),
+              handleListItemClick(event, 9999999999),
+            ]}
+          >
+            <ListItemButton>
+              <ListIcon>
+                <SettingsSuggestRoundedIcon />
+              </ListIcon>
+              <ListText>Settings</ListText>
+            </ListItemButton>
+          </ListItem>
         </List>
 
         {/* <List>

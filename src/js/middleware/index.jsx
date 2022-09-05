@@ -19,6 +19,8 @@ import {
   couponsDelete,
   searchOrderData,
   layoutHandlerData,
+  roleHandlerData,
+ 
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -51,6 +53,8 @@ import {
   fetchOrderSearchSuccess,
   fetchRoutingListSuccess,
   fetchRoutingListFailure,
+  fetchRoleListSuccess,
+  fetchRoleListFailure,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -601,6 +605,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchRoutingListFailure());
             alert("ERROR OCCURED WHILE FETCH_ROUTES DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_ROLE":
+        store.dispatch(loadingStart());
+        roleHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchRoleListSuccess(res));
+            } else {
+              store.dispatch(fetchRoleListFailure());
+              alert("FETCH_ROLE => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchRoleListFailure());
+            alert("ERROR OCCURED WHILE FETCH_ROLE DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

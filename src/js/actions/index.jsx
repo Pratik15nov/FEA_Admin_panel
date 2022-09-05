@@ -184,7 +184,19 @@ export function fetchRoutingListFailure() {
   return { type: "FETCH_ROUTES_FAILURE" };
 }
 
-
 export function fetchRoutingListSuccess(payload) {
   return { type: "FETCH_ROUTES_SUCCESS", payload };
+}
+
+// ROLE
+
+export function fetchRoleList(payload) {
+  return { type: "FETCH_ROLE", payload };
+}
+export function fetchRoleListSuccess(payload) {
+  return { type: "FETCH_ROLE_SUCCESS", payload };
+}
+
+export function fetchRoleListFailure() {
+  return { type: "FETCH_ROLE_FAILURE" };
 }

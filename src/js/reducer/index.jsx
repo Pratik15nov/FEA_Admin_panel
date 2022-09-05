@@ -6,6 +6,7 @@ import orderCustomersReducer from "./ordercustomers.reducer";
 import couponsReducer from "./coupons.reducer";
 import customersReducer from "./customers.reducer";
 import layoutFetchRoutes from "./layout.reducer";
+import roleReducer from "./role.reducer";
 
 export const rootReducer = {
   order: orderReducer,
@@ -16,4 +17,5 @@ export const rootReducer = {
   ordercustomers: orderCustomersReducer,
   coupons: couponsReducer,
   layout: layoutFetchRoutes,
+  role: roleReducer,
 };

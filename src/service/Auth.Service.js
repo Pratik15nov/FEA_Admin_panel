@@ -126,3 +126,7 @@ export const afterLoginCheck = (body) => {
 export const layoutHandlerData = (body) => {
   return post(`${ENDPOINTURL}/Menu/list`, body);
 };
+
+export const roleHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/role/list`, body);
+};
