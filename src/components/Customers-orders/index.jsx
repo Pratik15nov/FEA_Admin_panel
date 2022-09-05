@@ -16,6 +16,7 @@ import {
   Price,
   NoItems,
   RupeeIcon,
+  // HtmlTooltip,
   OrderStatusPlaced,
   OrderStatusReceived,
   OrderStatusDispatched,
@@ -28,26 +29,30 @@ import { listBody } from "../../utils/Helper";
 import {
   fetchOrderCustomersList,
   sendOrderUpdationCustomers,
-  loadPaginationOrderCustomers
+  loadPaginationOrderCustomers,
+  onOrderSearch,
 } from "../../js/actions";
 import { OrderStatusDialog } from "./OrderStatusDialog";
 import { useState } from "react";
+import OrderView from "./OrderView";
 import { useLocation } from "react-router-dom";
+
 
 const Orders = () => {
   const [open, setOpen] = useState(false);
-  const [cid, setCid] = useState();
   const [dialogData, setDialogdata] = useState([]);
+  const [cid, setcid] = useState();
   const location = useLocation();
   const { search } = location;
   const handleClickOpen = (data) => {
+    console.log("DATA", data);
     setOpen(true);
     setDialogdata(data);
   };
   const handleCancelIcon = () => {
     setOpen(false);
   };
-  const handleClose = (value) => {
+  const handleSubmit = (value) => {
     const body = {
       orderStatus: value.orderStatus,
     };
@@ -65,6 +70,16 @@ const Orders = () => {
 
     setOpen(false);
   };
+  const [view, setView] = useState(false);
+  const [viewdata, setViewData] = useState([]);
+  const handleView = (data) => {
+    setViewData(data);
+    setView(true);
+  };
+  const handleCloseView = (data) => {
+    setViewData([]);
+    setView(false);
+  };
 
   const orderList = useSelector((state) => state.ordercustomers.list);
   // console.log("orderList: ", orderList);
@@ -72,44 +87,42 @@ const Orders = () => {
   const totalCount = useSelector((state) => state.ordercustomers.totalCount);
   const loading = useSelector((state) => state.common.loading);
   const dispatch = useDispatch();
-  console.log(orderList)
   useEffect(() => {
-    let userId;
+    let cId;
     try {
       if (search.split("=").length > 0) {
-        userId = search.split("=")[1];
+        cId = search.split("=")[1];
       } else {
-        userId = "";
+        cId = "";
       }
     } catch (error) {
       alert(error);
     }
     try {
       if (search.split("=").length > 0) {
-        userId = search.split("=")[1];
+        cId = search.split("=")[1];
       } else {
-        userId = "";
+        cId = "";
       }
     } catch (error) {
       alert(error);
     }
     try {
-      if (userId) {
-        getOrderData(userId);
+      if (cId) {
+        setcid(cId);
+        getOrderData(cId);
       }
     } catch (error) {
       alert(error);
     }
-    setCid(userId);
 
-    // eslint-disable-next-line
+    getOrderData(); // eslint-disable-next-line
   }, [search]);
 
-
-  const getOrderData = (id) => {
+  const getOrderData = (cId) => {
     try {
       dispatch(
-        fetchOrderCustomersList(listBody({ where: { "userId": id }, perPage: 10, page: page }))
+        fetchOrderCustomersList(listBody({ where: { "userId": cId }, perPage: 10, page: page }))
       );
     } catch (error) {
       alert(error);
@@ -121,13 +134,15 @@ const Orders = () => {
 
   const columns = [
     {
-      field: "orderId",
-      headerName: <ColoumHead variant="h2">OrderId</ColoumHead>,
+      field: "PaymentId",
+      headerName: <ColoumHead variant="h2">PaymentId</ColoumHead>,
       flex: 1,
       sortable: true,
       renderCell: (params) => (
         <OrderId>
-          {params.row?._id ? params.row._id.slice(0, 10) : "unspecified"}
+          {params.row?.paymentId
+            ? params.row.paymentId.slice(0, 10)
+            : "unspecified"}
         </OrderId>
       ),
     },
@@ -267,8 +282,7 @@ const Orders = () => {
           // onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
           />
           &nbsp;&nbsp;&nbsp;
-
-          <ViewIcon />
+          <ViewIcon onClick={() => handleView(params.row)} />
           {params.row.isActive ? (
             <>
               &nbsp;&nbsp;&nbsp;
@@ -292,14 +306,41 @@ const Orders = () => {
       alert(error);
     }
   };
+  const captureSearch = async (data) => {
+    const body = {
+      searchText: data,
+    };
+    try {
+      if (data.length >= 3) {
+        dispatch(
+          onOrderSearch({
+            body,
+            defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+          })
+        );
+      }
+      if (data.length === 0) {
+        dispatch(
+          fetchOrderCustomersList(listBody({ where: null, perPage: 10, page: page }))
+        );
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <Container>
       <OrderStatusDialog
-        dialogData={dialogData}
         open={open}
-        onClose={handleClose}
+        dialogData={dialogData}
+        onSubmission={handleSubmit}
         handleCancelIcon={handleCancelIcon}
+      />
+      <OrderView
+        view={view}
+        handleCloseView={handleCloseView}
+        viewdata={viewdata}
       />
       <Grid container sx={{ paddingBottom: "20px" }}>
         <BreadcrumbArea />
@@ -309,8 +350,8 @@ const Orders = () => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
-            // onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
+              placeholder="Search by PaymentId..."
+              onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
             />
           </Search>
         </Grid>

@@ -1,7 +1,7 @@
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container } from "./Staff.style";
+import { Container } from "./Menu.style";
 
-const Staff = () => {
+const Menu = () => {
   return (
     <>
       <Container>
@@ -11,4 +11,4 @@ const Staff = () => {
   );
 };
 
-export default Staff;
+export default Menu;

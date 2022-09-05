@@ -20,6 +20,9 @@ import ViewQuiltRoundedIcon from "@mui/icons-material/ViewQuiltRounded";
 import DiscountRoundedIcon from "@mui/icons-material/DiscountRounded";
 import LocalLibraryRoundedIcon from "@mui/icons-material/LocalLibraryRounded";
 import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { useNavigate } from "react-router";
 import {
   AppBar,
@@ -96,6 +99,12 @@ export default function MiniDrawer(props) {
             return <LocalLibraryRoundedIcon />;
           case "settings":
             return <SettingsSuggestRoundedIcon />;
+          case "menu":
+            return <WidgetsIcon />;
+          case "rights":
+            return <AdminPanelSettingsIcon />;
+          case "role":
+            return <ManageAccountsIcon />;
           default:
             return <GridViewIcon />;
         }

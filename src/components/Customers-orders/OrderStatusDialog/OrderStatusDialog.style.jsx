@@ -14,11 +14,16 @@ export const DialogTitleBar = styled(DialogTitle)(({ theme }) => ({
 export const FormLabelControl = styled(FormControlLabel)(({ theme }) => ({
   marginLeft: "0px",
   marginRight: "0px",
+  "&:hover": {
+    background: " #1a1a4094",
+    color: "white",
+  },
 }));
 export const RadioButtonGroup = styled(RadioGroup)(({ theme }) => ({}));
 export const CustomButton = styled(Button)(({ theme }) => ({
   marginLeft: "39px",
   marginBottom: "12px",
+  marginTop:"5px",
 }));
 
 export const FormContainer = styled("form")(({ theme }) => ({
