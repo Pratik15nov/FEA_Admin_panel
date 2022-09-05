@@ -6,6 +6,7 @@ import InputBase from "@mui/material/InputBase";
 import { alpha } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Chip from "@mui/material/Chip";
 
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -209,4 +210,10 @@ export const BottomButton = styled(LoadingButton)(({ theme }) => ({
 }));
 export const Checkboxtext = styled(Box)(({ theme }) => ({
   fontFamily: theme.typography.caption,
+}));
+
+export const Allcheck = styled(Chip)(({ theme }) => ({
+  fontFamily: theme.typography.caption,
+
+  
 }));

@@ -8,7 +8,7 @@ import {
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container, InputBox, BottomButton } from "./Rights.style";
+import { Container, InputBox, BottomButton, Allcheck } from "./Rights.style";
 // import { fetchCategoryList } from "../../js/actions";
 // import { useDispatch } from "react-redux";
 // import { listBody } from "../../utils/Helper";
@@ -20,9 +20,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Chip from "@mui/material/Chip";
 // import { IndeterminateCheckBox } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
+import { useMemo } from "react";
+import { useCallback } from "react";
 
 function createData(name, view, edit, add, deleted, id) {
   return { name, view, edit, add, deleted, id };
@@ -82,24 +83,35 @@ export default function AddRights(props) {
     // eslint-disable-next-line
   }, [search]);
 
+  // const setDataHandler = (data) => {
+  //   console.log("Data", data);
+  //   setRightList(data);
+  // };
+
+  const setDataHandler = useCallback((data)=>{
+    console.log("DATA",data);
+    setRightList(data ? data :rows);
+  },[rightList]);
+  
   const handleChange = (field, value, index) => {
     rightList[index][field] = value;
-    setRightList(rightList);
+    setDataHandler(rightList);
     console.log("FINALLIST", rightList);
-    setShow();
   };
-  const allhandleChange = (value, index) => {
+  const allhandleChange = (field, value, index) => {
     let tempData = rightList[index];
     tempData = {
-      ...tempData,
+      name: field,
       add: value,
       deleted: value,
       edit: value,
       view: value,
+      id: index,
     };
     rightList[index] = tempData;
-    setRightList(rightList);
-    console.log("FINALLIST", rightList);
+    // console.log("tempData", tempData);
+    setDataHandler(rightList);
+    // console.log("FINALLIST", rightList);
     setShow();
   };
   // console.log("FINALLIST", rightList);
@@ -131,7 +143,6 @@ export default function AddRights(props) {
   return (
     <Container>
       <BreadcrumbArea />
-
       <InputBox>
         <form>
           <Typography color="text.primary" variant="subtitle2">
@@ -174,36 +185,45 @@ export default function AddRights(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
+                {console.log("rightList", rightList)}
                 {rightList?.map((row) => (
-                  <TableRow
-                    key={`tableRow_${row.id}`}
-                    onMouseOver={() => setShow(row.id)}
-                    onMouseOut={() => setShow()}
-                  >
+                  <TableRow key={`tableRow_${row.id}`}>
                     <TableCell width="50%">
-                      <Grid container spacing={2}>
-                        <Grid item xs={3}>
+                      <Grid
+                        container
+                        spacing={2}
+                        // onMouseOver={() => (
+                        //   setShow(row.id), console.log("OVER")
+
+                        // )}
+                        // onMouseOut={() => (setShow(), console.log("OUT"))}
+                      >
+                        <Grid item xs={4}>
                           {row.name}
                         </Grid>
-                        <Grid item xs={8}>
-                          {show === row.id ? (
-                            <Box key={row.id}>
-                              <Chip
-                                onClick={() => allhandleChange(true, row.id)}
-                                size="small"
-                                label="All Check"
-                                variant="outlined"
-                              />
-                              <Chip
-                                onClick={(e) => allhandleChange(false, row.id)}
-                                size="small"
-                                label="None"
-                                variant="outlined"
-                              />
-                            </Box>
-                          ) : (
+                        <Grid item xs={7}>
+                          {/* {show === row.id ? ( */}
+                          <Box key={row.id}>
+                            <Allcheck
+                              onClick={() =>
+                                allhandleChange(row.name, true, row.id)
+                              }
+                              size="small"
+                              label="All Check"
+                              variant="outlined"
+                            />
+                            <Allcheck
+                              onClick={() =>
+                                allhandleChange(row.name, false, row.id)
+                              }
+                              size="small"
+                              label="None"
+                              variant="outlined"
+                            />
+                          </Box>
+                          {/* ) : (
                             <></>
-                          )}
+                          )} */}
                         </Grid>
                       </Grid>
                     </TableCell>
@@ -215,7 +235,7 @@ export default function AddRights(props) {
                         onChange={(e) =>
                           handleChange("view", e.target.checked, row.id)
                         }
-                        color="default"
+                        color="secondary"
                       />
                     </TableCell>
                     <TableCell>
@@ -226,7 +246,7 @@ export default function AddRights(props) {
                         onChange={(e) =>
                           handleChange("edit", e.target.checked, row.id)
                         }
-                        color="default"
+                        color="secondary"
                       />
                     </TableCell>
                     <TableCell>
@@ -237,7 +257,7 @@ export default function AddRights(props) {
                         onChange={(e) =>
                           handleChange("add", e.target.checked, row.id)
                         }
-                        color="default"
+                        color="secondary"
                       />
                     </TableCell>
                     <TableCell>
@@ -248,7 +268,7 @@ export default function AddRights(props) {
                         onChange={(e) =>
                           handleChange("deleted", e.target.checked, row.id)
                         }
-                        color="default"
+                        color="secondary"
                       />
                     </TableCell>
                   </TableRow>
