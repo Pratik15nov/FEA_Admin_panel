@@ -20,6 +20,9 @@ import ViewQuiltRoundedIcon from "@mui/icons-material/ViewQuiltRounded";
 import DiscountRoundedIcon from "@mui/icons-material/DiscountRounded";
 import LocalLibraryRoundedIcon from "@mui/icons-material/LocalLibraryRounded";
 import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { useNavigate } from "react-router";
 import {
   AppBar,
@@ -31,20 +34,88 @@ import {
   AvatarHeader,
   ListIcon,
   ListText,
-  ListItem
+  ListItem,
 } from "./Layout.style";
-import { useDispatch } from "react-redux";
-import { fetchCategoryList, fetchProductList } from "../../js/actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCategoryList,
+  fetchProductList,
+  fetchRoutingList,
+} from "../../js/actions";
 import { listBody } from "../../utils/Helper";
+import { useEffect } from "react";
+
 export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
 
+  const page = useSelector((state) => state.layout.page);
+  const RouteList = useSelector((state) => state.layout.list);
+  console.log("RouteList: ", RouteList);
+  useEffect(() => {
+    getRoutes(); // eslint-disable-next-line
+  }, []);
+
+  const getRoutes = () => {
+    try {
+      dispatch(
+        fetchRoutingList(
+          listBody({
+            where: null,
+            perPage: 10000,
+            page: page,
+            sortBy: "createdAt",
+          })
+        )
+      );
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
+
+  const giveIcons = (name) => {
+    try {
+      if (name) {
+        switch (name) {
+          case "dashboard":
+            return <GridViewIcon />;
+          case "products":
+            return <InventoryIcon />;
+          case "category":
+            return <CategoryIcon />;
+          case "customers":
+            return <PeopleAltIcon />;
+          case "orders":
+            return <ViewQuiltRoundedIcon />;
+          case "coupons":
+            return <DiscountRoundedIcon />;
+          case "staff":
+            return <LocalLibraryRoundedIcon />;
+          case "settings":
+            return <SettingsSuggestRoundedIcon />;
+          case "menu":
+            return <WidgetsIcon />;
+          case "rights":
+            return <AdminPanelSettingsIcon />;
+          case "role":
+            return <ManageAccountsIcon />;
+          default:
+            return <GridViewIcon />;
+        }
+      } else {
+        <GridViewIcon />;
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -89,8 +160,37 @@ export default function MiniDrawer(props) {
           </mainListIcon>
         </AvatarHeader>
         <Divider />
+
         <List>
-          <ListItem disablePadding selected={selectedIndex === 0} onClick={(event) => [navigate("/dashboard"), handleListItemClick(event, 0)]}>
+          {RouteList.map((r, index) => (
+            <ListItem
+              key={index}
+              disablePadding
+              selected={selectedIndex === index}
+              onClick={(event) => [
+                navigate(r.path),
+                handleListItemClick(event, index),
+              ]}
+            >
+              <ListItemButton>
+                <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
+                <ListText>
+                  {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
+                </ListText>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+
+        {/* <List>
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 0}
+            onClick={(event) => [
+              navigate("/dashboard"),
+              handleListItemClick(event, 0),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <GridViewIcon />
@@ -100,12 +200,17 @@ export default function MiniDrawer(props) {
           </ListItem>
           <ListItem
             disablePadding
-            selected={selectedIndex === 1} onClick={(event) => [navigate("/products"), handleListItemClick(event, 1), dispatch(
-              fetchProductList(
-                listBody({ where: null, perPage: 10, page: 1 })
-              )
-            )]}>
-
+            selected={selectedIndex === 1}
+            onClick={(event) => [
+              navigate("/products"),
+              handleListItemClick(event, 1),
+              dispatch(
+                fetchProductList(
+                  listBody({ where: null, perPage: 10, page: 1 })
+                )
+              ),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <InventoryIcon />
@@ -133,7 +238,14 @@ export default function MiniDrawer(props) {
               <ListText>Category</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding selected={selectedIndex === 3} onClick={(event) => [navigate("/customers"), handleListItemClick(event, 3)]}>
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 3}
+            onClick={(event) => [
+              navigate("/customers"),
+              handleListItemClick(event, 3),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <PeopleAltIcon />
@@ -141,7 +253,14 @@ export default function MiniDrawer(props) {
               <ListText>Customers</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding selected={selectedIndex === 4} onClick={(event) => [navigate("/orders"), handleListItemClick(event, 4)]}>
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 4}
+            onClick={(event) => [
+              navigate("/orders"),
+              handleListItemClick(event, 4),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <ViewQuiltRoundedIcon />
@@ -149,7 +268,14 @@ export default function MiniDrawer(props) {
               <ListText>Orders</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding selected={selectedIndex === 5} onClick={(event) => [navigate("/coupons"), handleListItemClick(event, 5)]}>
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 5}
+            onClick={(event) => [
+              navigate("/coupons"),
+              handleListItemClick(event, 5),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <DiscountRoundedIcon />
@@ -157,7 +283,14 @@ export default function MiniDrawer(props) {
               <ListText>Coupons</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding selected={selectedIndex === 6} onClick={(event) => [navigate("/staff"), handleListItemClick(event, 6)]}>
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 6}
+            onClick={(event) => [
+              navigate("/staff"),
+              handleListItemClick(event, 6),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <LocalLibraryRoundedIcon />
@@ -165,7 +298,14 @@ export default function MiniDrawer(props) {
               <ListText>All Staff</ListText>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding >
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 7}
+            onClick={(event) => [
+              navigate("/settings"),
+              handleListItemClick(event, 7),
+            ]}
+          >
             <ListItemButton>
               <ListIcon>
                 <SettingsSuggestRoundedIcon />
@@ -173,7 +313,7 @@ export default function MiniDrawer(props) {
               <ListText>Setting</ListText>
             </ListItemButton>
           </ListItem>
-        </List>
+        </List> */}
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>

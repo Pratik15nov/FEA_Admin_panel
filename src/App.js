@@ -18,7 +18,14 @@ import AddProducts from "./components/Products/AddProducts";
 import UpdateCustomers from "./components/Customers/updatecustomers";
 import CustomersOrders from "./components/Customers-orders";
 import AddCoupons from "./components/Coupons/Editcoupons";
-import AddRole from "./components/Staff/Addrole";
+import Settings from "./components/settings";
+//import AddRole from "./components/Staff/Addrole";
+import AddRights from "./components/Rights/Addrole";
+
+//
+import Menu from "./components/Menu";
+import Rights from "./components/Rights";
+import Role from "./components/Role";
 
 function App() {
   const [message, setMessage] = useState(" ");
@@ -146,10 +153,46 @@ function App() {
           />
           <Route
             exact
-            path="/staff/add"
+            path="/settings"
             element={
               <Layout>
-                <AddRole getValue={getValue} />
+                <Settings />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/menu"
+            element={
+              <Layout>
+                <Menu />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/rights"
+            element={
+              <Layout>
+                <Rights />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/role"
+            element={
+              <Layout>
+                <Role />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/rights/add"
+            element={
+              <Layout>
+                <AddRights getValue={getValue} />
               </Layout>
             }
           />

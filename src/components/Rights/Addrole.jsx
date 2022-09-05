@@ -8,7 +8,7 @@ import {
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container, InputBox, BottomButton } from "./Staff.style";
+import { Container, InputBox, BottomButton } from "./Rights.style";
 import { fetchCategoryList } from "../../js/actions";
 import { useDispatch } from "react-redux";
 import { listBody } from "../../utils/Helper";
@@ -38,7 +38,7 @@ const rows = [
   createData("Staff", false, false, false, false),
 ];
 
-export default function AddRole(props) {
+export default function AddRights(props) {
   const [cid, setcid] = useState();
   const location = useLocation();
   const { search } = location;
@@ -284,7 +284,7 @@ export default function AddRole(props) {
           >
             {cid ? "Update" : "Add"} Role
           </BottomButton>
-          <BottomButton variant="contained" onClick={() => navigate("/staff")}>
+          <BottomButton variant="contained" onClick={() => navigate("/rights")}>
             Back
           </BottomButton>
         </form>
