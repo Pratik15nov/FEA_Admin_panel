@@ -18,6 +18,7 @@ import {
   couponsStatus,
   couponsDelete,
   searchOrderData,
+  layoutHandlerData,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -48,6 +49,8 @@ import {
   fetchCouponsList,
   pageNumberCoupons,
   fetchOrderSearchSuccess,
+  fetchRoutingListSuccess,
+  fetchRoutingListFailure,
 } from "../actions";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
@@ -579,6 +582,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((error) => {
             store.dispatch(fetchOrderListFailure());
             alert("ERROR OCCURED WHILE ON_SEARCH_PRODUCT DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_ROUTES":
+        store.dispatch(loadingStart());
+        layoutHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchRoutingListSuccess(res));
+            } else {
+              store.dispatch(fetchRoutingListFailure());
+              alert("FETCH_ROUTES => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchRoutingListFailure());
+            alert("ERROR OCCURED WHILE FETCH_ROUTES DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

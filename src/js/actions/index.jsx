@@ -173,3 +173,18 @@ export function onCouponsloadingPagination(payload) {
 export function pageNumberCoupons(payload) {
   return { type: "PAGE_NUMBER_COUPONS", payload };
 }
+
+// LAYOUT ROUTING
+
+export function fetchRoutingList(payload) {
+  return { type: "FETCH_ROUTES", payload };
+}
+
+export function fetchRoutingListFailure() {
+  return { type: "FETCH_ROUTES_FAILURE" };
+}
+
+
+export function fetchRoutingListSuccess(payload) {
+  return { type: "FETCH_ROUTES_SUCCESS", payload };
+}

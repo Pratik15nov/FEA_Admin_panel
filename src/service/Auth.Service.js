@@ -120,3 +120,9 @@ export const afterLoginCheck = (body) => {
 };
 
 //CEHCKING DONE
+
+// ************
+
+export const layoutHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/Menu/list`, body);
+};

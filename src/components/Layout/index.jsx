@@ -33,18 +33,80 @@ import {
   ListText,
   ListItem,
 } from "./Layout.style";
-import { useDispatch } from "react-redux";
-import { fetchCategoryList, fetchProductList } from "../../js/actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCategoryList,
+  fetchProductList,
+  fetchRoutingList,
+} from "../../js/actions";
 import { listBody } from "../../utils/Helper";
+import { useEffect } from "react";
+
 export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
 
+  const page = useSelector((state) => state.layout.page);
+  const RouteList = useSelector((state) => state.layout.list);
+  console.log("RouteList: ", RouteList);
+  useEffect(() => {
+    getRoutes(); // eslint-disable-next-line
+  }, []);
+
+  const getRoutes = () => {
+    try {
+      dispatch(
+        fetchRoutingList(
+          listBody({
+            where: null,
+            perPage: 10000,
+            page: page,
+            sortBy: "createdAt",
+          })
+        )
+      );
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
+
+  const giveIcons = (name) => {
+    try {
+      if (name) {
+        switch (name) {
+          case "dashboard":
+            return <GridViewIcon />;
+          case "products":
+            return <InventoryIcon />;
+          case "category":
+            return <CategoryIcon />;
+          case "customers":
+            return <PeopleAltIcon />;
+          case "orders":
+            return <ViewQuiltRoundedIcon />;
+          case "coupons":
+            return <DiscountRoundedIcon />;
+          case "staff":
+            return <LocalLibraryRoundedIcon />;
+          case "settings":
+            return <SettingsSuggestRoundedIcon />;
+          default:
+            return <GridViewIcon />;
+        }
+      } else {
+        <GridViewIcon />;
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -89,7 +151,29 @@ export default function MiniDrawer(props) {
           </mainListIcon>
         </AvatarHeader>
         <Divider />
+
         <List>
+          {RouteList.map((r, index) => (
+            <ListItem
+              key={index}
+              disablePadding
+              selected={selectedIndex === index}
+              onClick={(event) => [
+                navigate(r.path),
+                handleListItemClick(event, index),
+              ]}
+            >
+              <ListItemButton>
+                <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
+                <ListText>
+                  {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
+                </ListText>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+
+        {/* <List>
           <ListItem
             disablePadding
             selected={selectedIndex === 0}
@@ -220,7 +304,7 @@ export default function MiniDrawer(props) {
               <ListText>Setting</ListText>
             </ListItemButton>
           </ListItem>
-        </List>
+        </List> */}
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>

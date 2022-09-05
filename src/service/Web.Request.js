@@ -1,8 +1,23 @@
 import axios from "axios";
 
+// THIS FUNCTION IS TO GET AND SET TOKENS
+export function authHeader() {
+  // return authorization header with basic auth credentials
+  let user = localStorage.getItem("dataToken");
+  console.log("user: ", user);
+
+  if (user) {
+    return { headers: { Authorization: `Bearer ${user}` } };
+    // return { Authorization: `Bearer ${user.token}` };
+  } else {
+    return {};
+  }
+}
+// **************************************
+
 export const get = async (url) => {
   const response = await axios
-    .get(url)
+    .get(url, authHeader())
     .then((res) => {
       if (res.status === 200) {
         if (res.data?.success) {
@@ -21,7 +36,7 @@ export const get = async (url) => {
 
 export const remove = async (url, data) => {
   const response = await axios
-    .delete(url, data)
+    .delete(url, data, authHeader())
     .then((res) => {
       return res;
     })
@@ -45,7 +60,7 @@ export const remove = async (url, data) => {
 
 export const patch = async (url, data) => {
   return await axios
-    .patch(url, data)
+    .patch(url, data, authHeader())
     .then((res) => {
       if (res.status === 200) {
         if (res.data?.success) {
@@ -61,19 +76,6 @@ export const patch = async (url, data) => {
       // return err?.response?.data;
     });
 };
-
-export function authHeader() {
-  // return authorization header with basic auth credentials
-  let user = localStorage.getItem("dataToken");
-  console.log('user: ', user);
-
-  if (user) {
-    return { headers: {"Authorization" : `Bearer ${user}`} }
-    // return { Authorization: `Bearer ${user.token}` };
-  } else {
-    return {};
-  }
-}
 
 export const post = async (url, data) => {
   return await axios
@@ -96,7 +98,7 @@ export const post = async (url, data) => {
 
 export const put = async (url, data) => {
   return await axios
-    .put(url, data)
+    .put(url, data, authHeader())
     .then((res) => {
       if (res.status === 200) {
         if (res.data?.success) {
