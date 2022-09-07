@@ -2,13 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Typography, TextField, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
-  // categoryEditHandler,
-  categoryHndlerData,
-  // categoryAddHandler,
+  rightsHandler,
+  rightsHandlerData,
+  rightsupdateHandlerData,
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container, InputBox, BottomButton, Allcheck } from "./Rights.style";
+import {
+  Container,
+  InputBox,
+  BottomButton,
+  Allcheck,
+  SelectField,
+} from "./Rights.style";
 // import { fetchCategoryList } from "../../js/actions";
 // import { useDispatch } from "react-redux";
 // import { listBody } from "../../utils/Helper";
@@ -20,27 +26,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-// import { IndeterminateCheckBox } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
-import { useMemo } from "react";
-import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { roleHandler } from "../../service/Auth.Service";
+import { listBody } from "../../utils/Helper";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
 
-function createData(name, view, edit, add, deleted, id) {
-  return { name, view, edit, add, deleted, id };
+function createData(name, view, edit, add, deleted) {
+  return { name, view, edit, add, deleted };
 }
-
 const rows = [
-  createData("Dashboard", false, false, false, false, 0),
-  createData("Products", false, false, false, false, 1),
-  createData("Category", false, false, false, false, 2),
-  createData("Customers", false, false, false, false, 3),
-  createData("Orders", false, false, false, false, 4),
-  createData("Coupons", false, false, false, false, 5),
-  createData("Staff", false, false, false, false, 6),
+  createData("Dashboard", false, false, false, false),
+  createData("Products", false, false, false, false),
+  createData("Category", false, false, false, false),
+  createData("Customers", false, false, false, false),
+  createData("Orders", false, false, false, false),
+  createData("Coupons", false, false, false, false),
+  createData("Staff", false, false, false, false),
 ];
-
 export default function AddRights(props) {
   const [cid, setcid] = useState();
+  const [roleId, setRoleId] = useState();
   const location = useLocation();
   const { search } = location;
   const [loading, setLoading] = useState(false);
@@ -48,7 +56,8 @@ export default function AddRights(props) {
   const [show, setShow] = useState();
   const navigate = useNavigate();
   const [rightList, setRightList] = useState(rows);
-
+  const [roleList, setRoleList] = useState([]);
+  const dispatch = useDispatch();
   //use for images manually upload and drop
 
   useEffect(() => {
@@ -71,16 +80,9 @@ export default function AddRights(props) {
     } catch (error) {
       alert(error);
     }
-    try {
-      if (roleId) {
-        getRoleData(roleId);
-      }
-    } catch (error) {
-      alert(error);
-    }
-    setcid(roleId);
 
-    // eslint-disable-next-line
+    setcid(roleId);
+    roleListData(roleId);
   }, [search]);
 
   // const setDataHandler = (data) => {
@@ -88,57 +90,110 @@ export default function AddRights(props) {
   //   setRightList(data);
   // };
 
-  const setDataHandler = useCallback((data)=>{
-    console.log("DATA",data);
-    setRightList(data ? data :rows);
-  },[rightList]);
-  
+  // const setDataHandler = useCallback(
+  //   (data) => {
+  //     setRightList(data ? data : rows);
+  //   },
+  //   [rightList]
+  // );
+
   const handleChange = (field, value, index) => {
     rightList[index][field] = value;
-    setDataHandler(rightList);
-    console.log("FINALLIST", rightList);
+    setRightList(rightList);
   };
   const allhandleChange = (field, value, index) => {
+    console.log(field);
     let tempData = rightList[index];
     tempData = {
-      name: field,
-      add: value,
-      deleted: value,
-      edit: value,
       view: value,
-      id: index,
+      edit: value,
+      deleted: value,
+      add: value,
     };
     rightList[index] = tempData;
-    // console.log("tempData", tempData);
-    setDataHandler(rightList);
-    // console.log("FINALLIST", rightList);
-    setShow();
+    setRightList(rightList);
   };
-  // console.log("FINALLIST", rightList);
-  const getRoleData = async (roleId) => {
-    const response = await categoryHndlerData(roleId);
-    try {
-      if (response) {
-        reset({
-          categoryName: response.categoryName,
-          categoryImg: response.categoryImg,
-        });
+
+  const roleListData = async (roleId) => {
+    if (!roleId) {
+      try {
+        const response = await roleHandler(
+          listBody({ where: { taken: false }, perPage: 1000 })
+        );
+
+        if (response.success) {
+          setRoleList(response?.list);
+        } else {
+          setRoleList([]);
+        }
+      } catch (err) {
+        alert(err);
       }
-    } catch (error) {
-      alert(error);
+    } else {
+      try {
+        const response = await roleHandler(
+          listBody({ where: null, perPage: 1000 })
+        );
+        const responses = await rightsHandlerData(
+          listBody({ where: { roleId: roleId }, perPage: 1000 })
+        );
+
+        if (response.success) {
+          setRoleList(response?.list);
+          reset({ roleId: response?.list[0]._id });
+          setRightList(responses.list[0].rights);
+          setRoleId(responses.list[0]._id);
+        } else {
+          setRoleList([]);
+        }
+      } catch (err) {
+        alert(err);
+      }
+    }
+  };
+
+  const rightsData = async (body) => {
+    setLoading(true);
+    if (!cid) {
+      try {
+        const reqbody = {
+          roleId: body.roleId,
+          rights: rightList,
+          taken: true,
+        };
+        console.log("updatedlist", rightList);
+        const response = await rightsHandler(reqbody);
+
+        if (response.success) {
+          setLoading(false);
+          // navigate("/rights");
+        }
+      } catch (err) {
+        alert(err);
+      }
+    } else {
+      try {
+        const reqbody = {
+          rights: rightList,
+        };
+        console.log("updatedlist", rightList);
+        const response = await rightsupdateHandlerData(roleId, reqbody);
+
+        if (response.success) {
+          setLoading(false);
+          // navigate("/rights");
+        }
+      } catch (err) {
+        alert(err);
+      }
     }
   };
 
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
-      categoryName: null,
-      categoryImg: null,
+      roleId: null,
     },
   });
-
-  const handleCategoryData = async (body) => {
-    setLoading(true);
-  };
 
   return (
     <Container>
@@ -148,24 +203,34 @@ export default function AddRights(props) {
           <Typography color="text.primary" variant="subtitle2">
             Role Name
           </Typography>
+
           <Controller
-            name="categoryName"
+            name="roleId"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                id="categoryName"
-                placeholder="Role Name"
-                name="categoryName"
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message ?? ""}
-              />
+              <FormControl fullWidth>
+                <SelectField
+                  id="roleId"
+                  onChange={onChange}
+                  value={value}
+                  fullWidth
+                  placeholder="Coupon type"
+                >
+                  {roleList.map((card) => {
+                    return (
+                      <MenuItem key={card._id} value={card._id}>
+                        {card.roleName}
+                      </MenuItem>
+                    );
+                  })}
+                </SelectField>
+                <FormHelperText error={error}>
+                  {error?.message ?? ""}
+                </FormHelperText>
+              </FormControl>
             )}
             control={control}
             rules={{
-              required: "Please add role name",
+              required: "Select one role",
             }}
           />
           <br />
@@ -186,8 +251,8 @@ export default function AddRights(props) {
               </TableHead>
               <TableBody>
                 {console.log("rightList", rightList)}
-                {rightList?.map((row) => (
-                  <TableRow key={`tableRow_${row.id}`}>
+                {rightList.map((row, index) => (
+                  <TableRow key={`tableRow_${index}`}>
                     <TableCell width="50%">
                       <Grid
                         container
@@ -203,19 +268,15 @@ export default function AddRights(props) {
                         </Grid>
                         <Grid item xs={7}>
                           {/* {show === row.id ? ( */}
-                          <Box key={row.id}>
+                          <Box key={index}>
                             <Allcheck
-                              onClick={() =>
-                                allhandleChange(row.name, true, row.id)
-                              }
+                              onClick={() => allhandleChange(row, true, index)}
                               size="small"
                               label="All Check"
                               variant="outlined"
                             />
                             <Allcheck
-                              onClick={() =>
-                                allhandleChange(row.name, false, row.id)
-                              }
+                              onClick={() => allhandleChange(row, false, index)}
                               size="small"
                               label="None"
                               variant="outlined"
@@ -233,7 +294,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.view}
                         onChange={(e) =>
-                          handleChange("view", e.target.checked, row.id)
+                          handleChange("view", e.target.checked, index, row)
                         }
                         color="secondary"
                       />
@@ -244,7 +305,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.edit}
                         onChange={(e) =>
-                          handleChange("edit", e.target.checked, row.id)
+                          handleChange("edit", e.target.checked, index, row)
                         }
                         color="secondary"
                       />
@@ -255,7 +316,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.add}
                         onChange={(e) =>
-                          handleChange("add", e.target.checked, row.id)
+                          handleChange("add", e.target.checked, index, row)
                         }
                         color="secondary"
                       />
@@ -266,7 +327,7 @@ export default function AddRights(props) {
                         name={row.name}
                         value={row.deleted}
                         onChange={(e) =>
-                          handleChange("deleted", e.target.checked, row.id)
+                          handleChange("deleted", e.target.checked, index, row)
                         }
                         color="secondary"
                       />
@@ -278,13 +339,12 @@ export default function AddRights(props) {
           </TableContainer>
           <br />
           <BottomButton
-            type="submit"
             loading={loading}
             loadingPosition="end"
             variant="contained"
-            onClick={handleSubmit(handleCategoryData)}
+            onClick={handleSubmit(rightsData)}
           >
-            {cid ? "Update" : "Add"} Role
+            {cid ? "Update" : "Add"} Rights
           </BottomButton>
           <BottomButton variant="contained" onClick={() => navigate("/rights")}>
             Back

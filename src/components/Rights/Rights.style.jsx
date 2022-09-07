@@ -1,4 +1,4 @@
-import { Avatar, Button, styled, Switch, Typography, Box } from "@mui/material";
+import { Avatar, Button, styled, Switch, Typography, Box,Select } from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
@@ -216,4 +216,20 @@ export const Allcheck = styled(Chip)(({ theme }) => ({
   fontFamily: theme.typography.caption,
 
   
+}));
+export const SelectField = styled(Select)(({ theme }) => ({
+  "& .MuiOutlinedInput-input": {
+    height: "1em",
+  },
+  marginTop: 10,
+  marginBottom: 10,
+}));
+export const RowName = styled(Typography)(({ theme }) => ({
+  fontSize: "18px",
+  fontWeight: 400,
+  color: "black",
+
+  "&:hover": {
+    color: "black",
+  },
 }));

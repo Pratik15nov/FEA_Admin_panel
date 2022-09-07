@@ -7,7 +7,7 @@ import {
   DeletionIcon,
   IOSSwitch,
   TableGrid,
-  CategoryName,
+  RowName,
   ColoumHead,
   Container,
   Search,
@@ -17,12 +17,12 @@ import {
 } from "./Rights.style";
 import { Box, Grid } from "@mui/material";
 import {
-  fetchCategoryList,
-  categoryStatusChange,
-  onDeletion,
-  onSearch,
-  loadingCategoryPagination,
-  fetchCategoryListFailure,
+  fetchRightsList,
+  rightsStatusChange,
+  onDeletionRights,
+  onRightsSearch,
+  rightsCategoryPagination,
+  fetchRightsListFailure,
 } from "../../js/actions";
 import { useNavigate } from "react-router";
 import BreadcrumbArea from "../BreadcrumbArea";
@@ -32,57 +32,27 @@ import DialogBox from "../Dialog/index";
 export default function Rights() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
-  const categoryList = useSelector((state) => state.category.list);
-  const totalCount = useSelector((state) => state.category.totalCount);
-  const page = useSelector((state) => state.category.page);
+  const rightsList = useSelector((state) => state.rights.list);
+  const totalCount = useSelector((state) => state.rights.count);
+  const page = useSelector((state) => state.rights.page);
   const loading = useSelector((state) => state.common.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
-    getCategoryData(); // eslint-disable-next-line
+    getRightsData(); // eslint-disable-next-line
   }, [page]);
 
   // this coloum makes sures that what types of Table Head we want to apply to our table(DataGrid)
   const columns = [
     {
-      field: "categoryImg", // remember to pass same field -name as mentioned in dataBase
-      headerName: <ColoumHead variant="h2">Image</ColoumHead>,
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => (
-        <ImageAvatar
-          variant="rounded"
-          alt="Category Image"
-          src={ENDPOINTURLFORIMG + params.value}
-        />
-      ),
-    },
-    {
-      field: "categoryName",
-      headerName: <ColoumHead variant="h2">Categories</ColoumHead>,
+      field: "roleName",
+      headerName: <ColoumHead variant="h2">Rolename</ColoumHead>,
       flex: 1,
       sortable: true,
-      renderCell: (params) => (
-        <CategoryName>{params.row.categoryName}</CategoryName>
-      ),
+      renderCell: (params) => <RowName>{params.row.roleId.roleName}</RowName>,
     },
-    {
-      field: "isActive",
-      headerName: <ColoumHead variant="h2">Status</ColoumHead>,
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <IOSSwitch
-            sx={{ m: 1 }}
-            checked={params.row?.isActive}
-            onChange={(e) => {
-              handleToggleStatus(params.row._id, e.target.checked);
-            }}
-          />
-        );
-      },
-    },
+
     {
       field: "actions",
       headerName: <ColoumHead variant="h2">Actions</ColoumHead>,
@@ -91,9 +61,9 @@ export default function Rights() {
       renderCell: (params) => (
         <Box>
           <UpdateIcon
-            onClick={() => navigate(`/category/add?cid=${params.row._id}`)}
+            onClick={() => navigate(`/rights/add?cid=${params.row.roleId._id}`)}
           />
-          {params.row.isActive ? (
+          {params.row.roleId.isActive ? (
             <>
               &nbsp;&nbsp;
               <DeletionIcon onClick={() => handleAlert(params.row)} />
@@ -120,7 +90,7 @@ export default function Rights() {
     };
     try {
       dispatch(
-        categoryStatusChange({
+        rightsStatusChange({
           id: id,
           body,
           defaultPayload: listBody({ where: null, perPage: 10, page: page }),
@@ -131,10 +101,10 @@ export default function Rights() {
     }
   };
   // this function handles the onClick event emitted by the <DeletionIcon/>
-  const removeCategory = async () => {
+  const removeRights = async () => {
     try {
       dispatch(
-        onDeletion({
+        onDeletionRights({
           id: alertData._id,
           defaultPayload: listBody({ where: null, perPage: 10, page: page }),
         })
@@ -145,11 +115,11 @@ export default function Rights() {
     }
   };
   //  this API  fetches the data  from databse according to pagination
-  const getCategoryData = async () => {
+  const getRightsData = async () => {
     try {
-      if (categoryList.length === 0) {
+      if (rightsList.length === 0) {
         dispatch(
-          fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
+          fetchRightsList(listBody({ where: null, perPage: 10, page: page }))
         );
       }
     } catch (err) {
@@ -164,9 +134,9 @@ export default function Rights() {
     };
     try {
       if (data.length >= 3) {
-        dispatch(fetchCategoryListFailure());
+        dispatch(fetchRightsListFailure());
         dispatch(
-          onSearch({
+          onRightsSearch({
             body,
             defaultPayload: listBody({ where: null, perPage: 10, page: page }),
           })
@@ -174,7 +144,7 @@ export default function Rights() {
       }
       if (data.length === 0) {
         dispatch(
-          fetchCategoryList(listBody({ where: null, perPage: 10, page: page }))
+          fetchRightsList(listBody({ where: null, perPage: 10, page: page }))
         );
       }
     } catch (error) {
@@ -185,7 +155,7 @@ export default function Rights() {
   const initPagination = (p) => {
     try {
       dispatch(
-        loadingCategoryPagination(
+        rightsCategoryPagination(
           listBody({ where: null, perPage: 10, page: p + 1 })
         )
       );
@@ -205,7 +175,7 @@ export default function Rights() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the category
+              onChange={(e) => captureSearch(e.target.value)} // its a text field user for searching the rights
             />
           </Search>
         </Grid>
@@ -218,15 +188,15 @@ export default function Rights() {
           </MyButton>
         </Grid>
       </Grid>
-      <DialogBox // to open the dialogBox as confirmation for the deletion of category after clicking on the <DeletionIcon/>
+      <DialogBox // to open the dialogBox as confirmation for the deletion of rights after clicking on the <DeletionIcon/>
         openAlert={openAlert}
         alertClose={alertClose}
-        msg={`Are you sure you want to delete ${alertData.categoryName}  category ?`}
-        onAgree={removeCategory}
+        msg={`Are you sure you want to delete ${alertData.rightsName}  rights ?`}
+        onAgree={removeRights}
       />
-      {/* <TableGrid // its material UI DataGrid to show the category information in a  table structure
+      <TableGrid // its material UI DataGrid to show the rights information in a  table structure
         autoHeight={true}
-        rows={categoryList}
+        rows={rightsList}
         columns={columns}
         loading={loading}
         pageSize={10}
@@ -238,9 +208,8 @@ export default function Rights() {
         pagination
         paginationMode="server"
         onPageChange={initPagination}
-        // onSelectionModelChange={(itm) => console.log(itm)}
         Property="RowHeaderWidth"
-      /> */}
+      />
     </Container>
   );
 }
