@@ -8,6 +8,7 @@ import customersReducer from "./customers.reducer";
 import layoutFetchRoutes from "./layout.reducer";
 import roleReducer from "./role.reducer";
 import menuReducer from "./menu.reducer";
+import staffReducer from "./staff.reducer";
 
 export const rootReducer = {
   order: orderReducer,
@@ -20,4 +21,5 @@ export const rootReducer = {
   layout: layoutFetchRoutes,
   role: roleReducer,
   menu: menuReducer,
+  staff: staffReducer,
 };

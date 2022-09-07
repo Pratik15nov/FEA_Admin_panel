@@ -25,6 +25,7 @@ import {
   searchRoleData,
   menuHandlerData,
   updateMenuHandlerData,
+  staffHandlerData,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -66,6 +67,8 @@ import {
   fetchMenuListFailure,
   fetchMenuList,
   fetchRoutingList,
+  fetchStaffListSuccess,
+  fetchStaffListFailure,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -770,6 +773,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(fetchMenuListFailure());
             console.error(err);
             alert("ERROR OCCURED WHILE UPDATE_MENU DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_STAFF":
+        store.dispatch(loadingStart());
+        staffHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchStaffListSuccess(res));
+            } else {
+              store.dispatch(fetchStaffListFailure());
+              alert("FETCH_STAFF => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchStaffListFailure());
+            alert("ERROR OCCURED WHILE FETCH_STAFF DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

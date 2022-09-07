@@ -238,3 +238,16 @@ export function fetchMenuListFailure() {
 export function updateMenuData(payload) {
   return { type: "UPDATE_MENU", payload };
 }
+
+// staff
+
+export function fetchStaffList(payload) {
+  return { type: "FETCH_STAFF", payload };
+}
+export function fetchStaffListSuccess(payload) {
+  return { type: "FETCH_STAFF_SUCCESS", payload };
+}
+
+export function fetchStaffListFailure() {
+  return { type: "FETCH_STAFF_FAILURE" };
+}

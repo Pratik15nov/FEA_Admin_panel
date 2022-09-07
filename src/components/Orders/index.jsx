@@ -216,15 +216,6 @@ const Orders = () => {
         }
       },
     },
-    // <>
-    //   {/* <HtmlTooltip placement="top" title={`click to chnage status`}>
-    //     <OrderStatusPlaced onClick={() => handleClickOpen(params.row)}>
-    //       {params.row?.orderStatus
-    //         ? params.row?.orderStatus
-    //         : "unspecified"}
-    //     </OrderStatusPlaced>
-    //   </HtmlTooltip> */}
-    // </>
     {
       field: "cartItems",
       headerName: <ColoumHead variant="h2">No/Items</ColoumHead>,

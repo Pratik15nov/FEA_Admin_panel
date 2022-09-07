@@ -21,6 +21,7 @@ import AddCoupons from "./components/Coupons/Editcoupons";
 import Settings from "./components/settings";
 //import AddRole from "./components/Staff/Addrole";
 import AddRights from "./components/Rights/Addrole";
+import AddStaff from "./components/Staff/AddStaff";
 
 //
 import Menu from "./components/Menu";
@@ -148,6 +149,15 @@ function App() {
             element={
               <Layout>
                 <AddCoupons getValue={getValue} />
+              </Layout>
+            }
+          />
+          <Route
+            exact
+            path="/staff/add"
+            element={
+              <Layout>
+                <AddStaff getValue={getValue} />
               </Layout>
             }
           />

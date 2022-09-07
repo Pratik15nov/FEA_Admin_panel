@@ -149,3 +149,8 @@ export const menuHandlerData = (body) => {
 export const updateMenuHandlerData = (id, body) => {
   return put(`${ENDPOINTURL}/menu/${id}`, body);
 };
+
+// staff
+export const staffHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/adminUser/list`, body);
+};
