@@ -29,6 +29,7 @@
     "react-scripts": "5.0.1",
     "react-to-print": "^2.14.7",
     "redux": "^4.2.0",
+    "use-force-update": "^1.0.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

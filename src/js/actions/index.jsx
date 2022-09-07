@@ -200,3 +200,41 @@ export function fetchRoleListSuccess(payload) {
 export function fetchRoleListFailure() {
   return { type: "FETCH_ROLE_FAILURE" };
 }
+
+export function addRoleToData(payload) {
+  return { type: "ADD_ROLE", payload };
+}
+
+export function updateActionRoleData(payload) {
+  return { type: "UPDATE_ROLE", payload };
+}
+
+export function loadPaginationRole(payload) {
+  return { type: "LOAD_PAGINATION_ROLE", payload };
+}
+export function rolePageNumber(payload) {
+  return { type: "ROLE_PAGE_NUMBER", payload };
+}
+
+export function onRoleSearch(payload) {
+  return { type: "ON_SEARCH_ROLE", payload };
+}
+export function fetchRoleSearchSuccess(payload) {
+  return { type: "ROLE_SEARCH_SUCCESS", payload };
+}
+
+// menu
+
+export function fetchMenuList(payload) {
+  return { type: "FETCH_MENU", payload };
+}
+export function fetchMenuListSuccess(payload) {
+  return { type: "FETCH_MENU_SUCCESS", payload };
+}
+
+export function fetchMenuListFailure() {
+  return { type: "FETCH_MENU_FAILURE" };
+}
+export function updateMenuData(payload) {
+  return { type: "UPDATE_MENU", payload };
+}

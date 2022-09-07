@@ -37,11 +37,7 @@ import {
   ListItem,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCategoryList,
-  fetchProductList,
-  fetchRoutingList,
-} from "../../js/actions";
+import { fetchRoutingList } from "../../js/actions";
 import { listBody } from "../../utils/Helper";
 import { useEffect } from "react";
 
@@ -53,7 +49,6 @@ export default function MiniDrawer(props) {
 
   const page = useSelector((state) => state.layout.page);
   const RouteList = useSelector((state) => state.layout.list);
-  console.log("RouteList: ", RouteList);
   useEffect(() => {
     getRoutes(); // eslint-disable-next-line
   }, []);
@@ -63,7 +58,7 @@ export default function MiniDrawer(props) {
       dispatch(
         fetchRoutingList(
           listBody({
-            where: null,
+            where: { isActive: true },
             perPage: 10000,
             page: page,
             sortBy: "createdAt",

@@ -24,12 +24,13 @@ import Chip from "@mui/material/Chip";
 // import { IndeterminateCheckBox } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
 
+
 function createData(name, view, edit, add, deleted, id) {
   return { name, view, edit, add, deleted, id };
 }
 
 const rows = [
-  createData("Dashboard", false, false, false, false, 0),
+  createData("Dashboard", true, false, false, false, 0),
   createData("Products", false, false, false, false, 1),
   createData("Category", false, false, false, false, 2),
   createData("Customers", false, false, false, false, 3),
@@ -38,7 +39,7 @@ const rows = [
   createData("Staff", false, false, false, false, 6),
 ];
 
-export default function AddRights(props) {
+export default function AddRights() {
   const [cid, setcid] = useState();
   const location = useLocation();
   const { search } = location;
@@ -50,43 +51,46 @@ export default function AddRights(props) {
 
   //use for images manually upload and drop
 
-  useEffect(() => {
-    let roleId;
-    try {
-      if (search.split("=").length > 0) {
-        roleId = search.split("=")[1];
-      } else {
-        roleId = "";
-      }
-    } catch (error) {
-      alert(error);
-    }
-    try {
-      if (search.split("=").length > 0) {
-        roleId = search.split("=")[1];
-      } else {
-        roleId = "";
-      }
-    } catch (error) {
-      alert(error);
-    }
-    try {
-      if (roleId) {
-        getRoleData(roleId);
-      }
-    } catch (error) {
-      alert(error);
-    }
-    setcid(roleId);
+  // useEffect(() => {
+  //   let roleId;
+  //   try {
+  //     if (search.split("=").length > 0) {
+  //       roleId = search.split("=")[1];
+  //     } else {
+  //       roleId = "";
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  //   try {
+  //     if (search.split("=").length > 0) {
+  //       roleId = search.split("=")[1];
+  //     } else {
+  //       roleId = "";
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  //   try {
+  //     if (roleId) {
+  //       getRoleData(roleId);
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  //   setcid(roleId);
 
-    // eslint-disable-next-line
-  }, [search]);
+  //   // eslint-disable-next-line
+  // }, [search]);
 
   const handleChange = (field, value, index) => {
+
+    setShow(index);
     rightList[index][field] = value;
     setRightList(rightList);
     console.log("FINALLIST", rightList);
     setShow();
+
   };
   const allhandleChange = (value, index) => {
     let tempData = rightList[index];
@@ -103,19 +107,19 @@ export default function AddRights(props) {
     setShow();
   };
   // console.log("FINALLIST", rightList);
-  const getRoleData = async (roleId) => {
-    const response = await categoryHndlerData(roleId);
-    try {
-      if (response) {
-        reset({
-          categoryName: response.categoryName,
-          categoryImg: response.categoryImg,
-        });
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const getRoleData = async (roleId) => {
+  //   const response = await categoryHndlerData(roleId);
+  //   try {
+  //     if (response) {
+  //       reset({
+  //         categoryName: response.categoryName,
+  //         categoryImg: response.categoryImg,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
@@ -175,17 +179,18 @@ export default function AddRights(props) {
               </TableHead>
               <TableBody>
                 {rightList?.map((row) => (
-                  <TableRow
-                    key={`tableRow_${row.id}`}
-                    onMouseOver={() => setShow(row.id)}
-                    onMouseOut={() => setShow()}
-                  >
+                  <TableRow key={`tableRow_${row.id}`}>
                     <TableCell width="50%">
-                      <Grid container spacing={2}>
-                        <Grid item xs={3}>
+                      <Grid
+                        container
+                        spacing={2}
+                        onMouseOver={() => setShow(row.id)}
+                        onMouseOut={() => setShow()}
+                      >
+                        <Grid item xs={4}>
                           {row.name}
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={7}>
                           {show === row.id ? (
                             <Box key={row.id}>
                               <Chip
@@ -209,7 +214,7 @@ export default function AddRights(props) {
                     </TableCell>
                     <TableCell>
                       <Checkbox
-                        checked={row.view}
+                        defaultChecked={row.view}
                         name={row.name}
                         value={row.view}
                         onChange={(e) =>
