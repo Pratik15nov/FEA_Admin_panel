@@ -8,6 +8,8 @@ import {
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
+import LinearProgress from "@mui/material/LinearProgress";
+
 import {
   Container,
   InputBox,
@@ -48,10 +50,12 @@ const rows = [
 ];
 export default function AddRights(props) {
   const [cid, setcid] = useState();
-  const [roleId, setRoleId] = useState();
+  const [rightId, setRightId] = useState(null);
+  const [roleId, setRoleId] = useState(null);
   const location = useLocation();
   const { search } = location;
   const [loading, setLoading] = useState(false);
+  const [tableLoading, setTableLoading] = useState(false);
   // const dispatch = useDispatch();
   const [show, setShow] = useState();
   const navigate = useNavigate();
@@ -100,11 +104,12 @@ export default function AddRights(props) {
   const handleChange = (field, value, index) => {
     rightList[index][field] = value;
     setRightList(rightList);
+    console.log("ONE", rightList);
   };
   const allhandleChange = (field, value, index) => {
-    console.log(field);
     let tempData = rightList[index];
     tempData = {
+      name: field,
       view: value,
       edit: value,
       deleted: value,
@@ -112,6 +117,7 @@ export default function AddRights(props) {
     };
     rightList[index] = tempData;
     setRightList(rightList);
+    console.log("ALL", rightList);
   };
 
   const roleListData = async (roleId) => {
@@ -120,7 +126,6 @@ export default function AddRights(props) {
         const response = await roleHandler(
           listBody({ where: { taken: false }, perPage: 1000 })
         );
-
         if (response.success) {
           setRoleList(response?.list);
         } else {
@@ -130,21 +135,26 @@ export default function AddRights(props) {
         alert(err);
       }
     } else {
+      setTableLoading(true);
       try {
-        const response = await roleHandler(
-          listBody({ where: null, perPage: 1000 })
-        );
-        const responses = await rightsHandlerData(
+        const response = await roleHandler(listBody({ perPage: 1000 }));
+        const responsess = await rightsHandlerData(
           listBody({ where: { roleId: roleId }, perPage: 1000 })
         );
-
         if (response.success) {
           setRoleList(response?.list);
-          reset({ roleId: response?.list[0]._id });
-          setRightList(responses.list[0].rights);
-          setRoleId(responses.list[0]._id);
         } else {
           setRoleList([]);
+         
+        }
+
+        if (responsess.success) {
+          reset({ roleId: responsess?.list[0].roleId._id });
+          setRightList(responsess?.list[0].rights);
+          setRightId(responsess?.list[0]._id);
+          setTableLoading(false);
+        } else {
+          setRightList([]);
         }
       } catch (err) {
         alert(err);
@@ -161,12 +171,12 @@ export default function AddRights(props) {
           rights: rightList,
           taken: true,
         };
-        console.log("updatedlist", rightList);
+
         const response = await rightsHandler(reqbody);
 
         if (response.success) {
           setLoading(false);
-          // navigate("/rights");
+          navigate("/rights");
         }
       } catch (err) {
         alert(err);
@@ -174,14 +184,16 @@ export default function AddRights(props) {
     } else {
       try {
         const reqbody = {
+          roleId: body.roleId,
           rights: rightList,
+          taken: true,
         };
-        console.log("updatedlist", rightList);
-        const response = await rightsupdateHandlerData(roleId, reqbody);
+
+        const response = await rightsupdateHandlerData(rightId, reqbody);
 
         if (response.success) {
           setLoading(false);
-          // navigate("/rights");
+          navigate("/rights");
         }
       } catch (err) {
         alert(err);
@@ -215,6 +227,7 @@ export default function AddRights(props) {
                   fullWidth
                   placeholder="Coupon type"
                 >
+                  {console.log("FINALLIST", rightList)}
                   {roleList.map((card) => {
                     return (
                       <MenuItem key={card._id} value={card._id}>
@@ -239,6 +252,8 @@ export default function AddRights(props) {
           </Typography>
           <br />
           <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
+            {tableLoading ? <LinearProgress /> : <></>}
+
             <Table>
               <TableHead>
                 <TableRow>
@@ -250,7 +265,6 @@ export default function AddRights(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {console.log("rightList", rightList)}
                 {rightList.map((row, index) => (
                   <TableRow key={`tableRow_${index}`}>
                     <TableCell width="50%">
@@ -270,13 +284,17 @@ export default function AddRights(props) {
                           {/* {show === row.id ? ( */}
                           <Box key={index}>
                             <Allcheck
-                              onClick={() => allhandleChange(row, true, index)}
+                              onClick={() =>
+                                allhandleChange(row.name, true, index)
+                              }
                               size="small"
                               label="All Check"
                               variant="outlined"
                             />
                             <Allcheck
-                              onClick={() => allhandleChange(row, false, index)}
+                              onClick={() =>
+                                allhandleChange(row.name, false, index)
+                              }
                               size="small"
                               label="None"
                               variant="outlined"
