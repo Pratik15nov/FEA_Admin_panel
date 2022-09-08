@@ -626,11 +626,11 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
-        case "FETCH_RIGHTS":
+      case "FETCH_RIGHTS":
         store.dispatch(loadingStart());
         rightsHandlerData(action.payload)
           .then((res) => {
-            console.log(res)
+            // console.log(res);
             if (res.success) {
               store.dispatch(fetchRightsListSuccess(res));
             } else {
@@ -645,6 +645,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .finally(() => {
             store.dispatch(loadingStop());
           });
+        break;
       case "FETCH_ROLE":
         store.dispatch(loadingStart());
         roleHandlerData(action.payload)
@@ -798,9 +799,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
-      // case "CHECKBOCLIST":
-      //   console.log("CHECK",action.payload)
-      //   break;
 
       default:
         return next(action);

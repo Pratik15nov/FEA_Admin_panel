@@ -1,23 +1,62 @@
-function createData(name, view, edit, add, deleted) {
-  return { name, view, edit, add, deleted };
-}
 const initialState = {
   list: [
-    createData("Dashboard", false, false, false, false),
-    createData("Products", false, false, false, false),
-    createData("Category", false, false, false, false),
-    createData("Customers", false, false, false, false),
-    createData("Orders", false, false, false, false),
-    createData("Coupons", false, false, false, false),
-    createData("Staff", false, false, false, false),
+    {
+      name: "Dashboard",
+      view: false,
+      edit: false,
+      add: false,
+      deleted: false,
+    },
+    {
+      name: "Products",
+      view: false,
+      edit: false,
+      add: false,
+      deleted: false,
+    },
+    {
+      name: "Category",
+      view: false,
+      edit: false,
+      add: false,
+      deleted: false,
+    },
+    {
+      name: "Customers",
+      view: false,
+      edit: false,
+      add: false,
+      deleted: false,
+    },
+    {
+      name: "Orders",
+      view: false,
+      edit: false,
+      add: false,
+      deleted: false,
+    },
+    {
+      name: "Coupons",
+      view: false,
+      edit: false,
+      add: false,
+      deleted: false,
+    },
+    {
+      name: "Staff",
+      view: false,
+      edit: false,
+      add: false,
+      deleted: false,
+    },
   ],
 };
 function rightCheckListReducer(state = initialState, action) {
-  
-  switch (action.type) {
-    case "CHECKBOCLIST_SUCCESS":
-      return { ...state, list: [] };
-
+  // console.log("TRACK", action?.payload);
+  // console.log("action?.type", action?.type);
+  switch (action?.type) {
+    case "CHECKBOXLIST_SUCCESS":
+      return { ...state, list: action.payload };
     default:
       return state;
   }

@@ -187,13 +187,6 @@ export function fetchRoutingListFailure() {
 export function fetchRoutingListSuccess(payload) {
   return { type: "FETCH_ROUTES_SUCCESS", payload };
 }
-// export function checkBoxList(payload) {
-//   return { type: "CHECKBOCLIST", payload };
-// }
-
-// export function checkBoxListSuccess(payload) {
-//   return { type: "CHECKBOCLIST_SUCCESS", payload };
-// }
 
 export function fetchRightsList(payload) {
   return { type: "FETCH_RIGHTS", payload };
@@ -271,4 +264,10 @@ export function fetchMenuListFailure() {
 }
 export function updateMenuData(payload) {
   return { type: "UPDATE_MENU", payload };
+}
+
+//CHECKBOX
+export function checkBoxList(payload) {
+  // console.log("payload", payload);
+  return { type: "CHECKBOXLIST_SUCCESS", payload };
 }
