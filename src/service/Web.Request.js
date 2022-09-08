@@ -4,7 +4,7 @@ import axios from "axios";
 export function authHeader() {
   // return authorization header with basic auth credentials
   let user = localStorage.getItem("dataToken");
-  // console.log("user: ", user);
+  console.log("userTOKEnnn", user);
 
   if (user) {
     return { headers: { Authorization: `Bearer ${user}` } };

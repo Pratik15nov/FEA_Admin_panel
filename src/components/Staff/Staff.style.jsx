@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
+import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
+import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 
 export const Container = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -190,4 +192,31 @@ export const PostTag = styled("span")(({ theme }) => ({
   "&:hover": {
     color: "black",
   },
+}));
+
+export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "xx-large",
+  color: "#65c466",
+  "&:hover": {
+    color: "black",
+  },
+}));
+export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "xx-large",
+  color: "red",
+  "&:hover": {
+    color: "#1a1a40",
+  },
+}));
+export const DisableDeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
+  // cursor: "pointer",
+  cursor: "not-allowed",
+  fontSize: "xx-large",
+  color: "grey",
+  // color: "red",
+  // "&:hover": {
+  //   color: "black",
+  // },
 }));

@@ -158,3 +158,7 @@ export const staffHandlerData = (body) => {
 export const addingStaffData = (body) => {
   return post(`${ENDPOINTURL}/adminUser/signup`, body);
 };
+
+export const updateStaffHandlerData = (id, body) => {
+  return put(`${ENDPOINTURL}/adminUser/${id}`, body);
+};

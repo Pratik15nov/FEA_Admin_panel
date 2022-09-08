@@ -255,3 +255,7 @@ export function fetchStaffListFailure() {
 export function addStaffData(payload) {
   return { type: "ADD_STAFF_DATA", payload };
 }
+
+export function updateStaffData(payload) {
+  return { type: "UPDATE_STAFF_STATUS", payload };
+}

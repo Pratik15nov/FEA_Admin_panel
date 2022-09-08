@@ -14,12 +14,15 @@ import {
   IOSSwitch,
   ImageAvatar,
   PostTag,
+  UpdateIcon,
+  DeletionIcon,
+  DisableDeletionIcon,
 } from "./Staff.style";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { listBody } from "../../utils/Helper";
-import { fetchStaffList } from "../../js/actions";
+import { fetchStaffList, updateStaffData } from "../../js/actions";
 import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 
 const Staff = () => {
@@ -43,6 +46,40 @@ const Staff = () => {
       alert(error);
     }
   };
+
+  const handleToggleStatus = async (id, value) => {
+    const body = {
+      isActive: value,
+    };
+    try {
+      dispatch(
+        updateStaffData({
+          id: id,
+          body,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
+    } catch (err) {
+      alert(err);
+    }
+  };
+  const handledelete = (id) => {
+    const body = {
+      isActive: false,
+    };
+    try {
+      dispatch(
+        updateStaffData({
+          id: id,
+          body,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   const columns = [
     {
       field: "Img", // remember to pass same field -name as mentioned in dataBase
@@ -138,9 +175,9 @@ const Staff = () => {
           <IOSSwitch
             sx={{ m: 1 }}
             checked={params.row?.isActive}
-            // onChange={(e) => {
-            //   handleToogleStatus(params.row._id, e.target.checked);
-            // }}
+            onChange={(e) => {
+              handleToggleStatus(params.row._id, e.target.checked);
+            }}
           />
         );
       },
@@ -160,9 +197,29 @@ const Staff = () => {
         </RowName>
       ),
     },
-
-    
-   
+    {
+      field: "actions",
+      headerName: <ColoumHead variant="h2">Actions</ColoumHead>,
+      flex: 1,
+      sortable: false,
+      renderCell: (params) => (
+        <Box>
+          <UpdateIcon
+          // onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
+          />
+          {params.row.isActive ? (
+            <>
+              &nbsp;&nbsp;
+              <DeletionIcon onClick={() => handledelete(params.row._id)} />
+            </>
+          ) : (
+            <>
+              <DisableDeletionIcon />
+            </>
+          )}
+        </Box>
+      ),
+    },
   ];
 
   return (

@@ -27,6 +27,7 @@ import {
   updateMenuHandlerData,
   staffHandlerData,
   addingStaffData,
+  updateStaffHandlerData,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -359,7 +360,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         customersStatus(action.payload.id, action.payload.body)
           .then((res) => {
-
             if (res) {
               store.dispatch(fetchCustomersList(action.payload.defaultPayload));
             } else {
@@ -441,7 +441,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         orderUpdateData(action.payload.id, action.payload.body)
           .then((res) => {
             if (res.success) {
-
               store.dispatch(
                 fetchOrderCustomersList(action.payload.defaultPayload)
               );
@@ -482,7 +481,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         orderHandlerData(action.payload)
           .then((res) => {
-
             if (res.success) {
               store.dispatch(fetchOrderCustomersListSuccess(res));
               store.dispatch(
@@ -525,7 +523,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         couponsStatus(action.payload.id, action.payload.body)
           .then((res) => {
-
             if (res.success) {
               store.dispatch(fetchCouponsList(action.payload.defaultPayload));
             } else {
@@ -667,7 +664,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
 
         updateRoleHandlerData(action.payload.id, action.payload.body)
           .then((res) => {
-
             if (res.success) {
               store.dispatch(fetchRoleList(action.payload.defaultPayload));
             } else {
@@ -748,7 +744,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         updateMenuHandlerData(action.payload.id, action.payload.body)
           .then((res) => {
-
             if (res.success) {
               store.dispatch(fetchMenuList(action.payload.defaultPayload));
               store.dispatch(
@@ -798,7 +793,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         addingStaffData(action.payload.body)
           .then((res) => {
-            console.log(res);
             if (res) {
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
             } else {
@@ -811,6 +805,27 @@ export const loggerMiddleware = (store) => (next) => (action) => {
 
             store.dispatch(fetchStaffListFailure());
             alert("ERROR OCCURED WHILE ADD_STAFF_DATA DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "UPDATE_STAFF_STATUS":
+        store.dispatch(loadingStart());
+        updateStaffHandlerData(action.payload.id, action.payload.body)
+          .then((res) => {
+            if (res) {
+              store.dispatch(fetchStaffList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchStaffList(action.payload.defaultPayload));
+              alert("UPDATE_STAFF_STATUS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+
+            store.dispatch(fetchStaffListFailure());
+            alert("ERROR OCCURED WHILE UPDATE_STAFF_STATUS DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
