@@ -15,7 +15,11 @@ import {
 import { useDemoData } from "@mui/x-data-grid-generator";
 import { useState } from "react";
 import { useEffect } from "react";
+import { LicenseInfo } from "@mui/x-data-grid-pro";
 
+LicenseInfo.setLicenseKey(
+  "7003f52e1358cc619e3d853e94f079a4T1JERVI6NDMxMDAsRVhQSVJZPTE2ODMyOTQ3MTcwMDAsS0VZVkVSU0lPTj0x"
+);
 const Settings = () => {
   //
   const apiRef = useGridApiRef();
@@ -100,7 +104,6 @@ const Settings = () => {
     try {
       const response = await afterLoginCheck(body);
       if (response) {
-
       } else {
         alert("not working");
       }

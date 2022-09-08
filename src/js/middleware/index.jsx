@@ -61,7 +61,6 @@ import {
   fetchOrderSearchSuccess,
   fetchRoutingListSuccess,
   fetchRoutingListFailure,
-  checkBoxListSuccess,
   fetchRightsListSuccess,
   fetchRightsListFailure,
   fetchRoleListSuccess,
