@@ -49,10 +49,6 @@ export default function MiniDrawer(props) {
 
   const page = useSelector((state) => state.layout.page);
   const RouteList = useSelector((state) => state.layout.list);
-<<<<<<< HEAD
- 
-=======
->>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
   useEffect(() => {
     getRoutes(); // eslint-disable-next-line
   }, []);

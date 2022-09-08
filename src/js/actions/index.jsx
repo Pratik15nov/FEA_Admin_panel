@@ -187,7 +187,6 @@ export function fetchRoutingListFailure() {
 export function fetchRoutingListSuccess(payload) {
   return { type: "FETCH_ROUTES_SUCCESS", payload };
 }
-<<<<<<< HEAD
 // export function checkBoxList(payload) {
 //   return { type: "CHECKBOCLIST", payload };
 // }
@@ -222,7 +221,6 @@ export function fetchRightsSearchSuccess(payload) {
 export function rightsCategoryPagination(payload) {
   return { type: "LOAD_CATEGORY_PAGINATION", payload };
 }
-=======
 
 // ROLE
 
@@ -274,4 +272,3 @@ export function fetchMenuListFailure() {
 export function updateMenuData(payload) {
   return { type: "UPDATE_MENU", payload };
 }
->>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f

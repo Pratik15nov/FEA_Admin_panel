@@ -126,7 +126,6 @@ export const afterLoginCheck = (body) => {
 export const layoutHandlerData = (body) => {
   return post(`${ENDPOINTURL}/Menu/list`, body);
 };
-<<<<<<< HEAD
 //ROLE DONE
 
 // ************
@@ -143,8 +142,7 @@ export const rightsHandlerData = (body) => {
   return post(`${ENDPOINTURL}/rights/list`, body);
 };
 export const rightsupdateHandlerData = (cid, body) => {
-  return put(`${ENDPOINTURL}/rights/${cid}`, body);
-=======
+  return put(`${ENDPOINTURL}/rights/${cid}`, body)};
 // role apis
 export const roleHandlerData = (body) => {
   return post(`${ENDPOINTURL}/role/list`, body);
@@ -167,5 +165,4 @@ export const menuHandlerData = (body) => {
 };
 export const updateMenuHandlerData = (id, body) => {
   return put(`${ENDPOINTURL}/menu/${id}`, body);
->>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
 };

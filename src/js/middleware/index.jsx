@@ -19,16 +19,13 @@ import {
   couponsDelete,
   searchOrderData,
   layoutHandlerData,
-<<<<<<< HEAD
-  rightsHandlerData
-=======
+  rightsHandlerData,
   roleHandlerData,
   addRoleHandlerData,
   updateRoleHandlerData,
   searchRoleData,
   menuHandlerData,
   updateMenuHandlerData,
->>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -61,11 +58,9 @@ import {
   fetchOrderSearchSuccess,
   fetchRoutingListSuccess,
   fetchRoutingListFailure,
-<<<<<<< HEAD
   checkBoxListSuccess,
   fetchRightsListSuccess,
-  fetchRightsListFailure
-=======
+  fetchRightsListFailure,
   fetchRoleListSuccess,
   fetchRoleListFailure,
   fetchRoleList,
@@ -75,7 +70,6 @@ import {
   fetchMenuListFailure,
   fetchMenuList,
   fetchRoutingList,
->>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -632,7 +626,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
-<<<<<<< HEAD
         case "FETCH_RIGHTS":
         store.dispatch(loadingStart());
         rightsHandlerData(action.payload)
@@ -648,7 +641,10 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchProductListFailure());
             alert("ERROR OCCURED WHILE FETCH_RIGHTS DISPATCHED ");
-=======
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
       case "FETCH_ROLE":
         store.dispatch(loadingStart());
         roleHandlerData(action.payload)
@@ -797,19 +793,15 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(fetchMenuListFailure());
             console.error(err);
             alert("ERROR OCCURED WHILE UPDATE_MENU DISPATCHED ");
->>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
           })
           .finally(() => {
             store.dispatch(loadingStop());
           });
         break;
-<<<<<<< HEAD
       // case "CHECKBOCLIST":
       //   console.log("CHECK",action.payload)
       //   break;
 
-=======
->>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
       default:
         return next(action);
     }
