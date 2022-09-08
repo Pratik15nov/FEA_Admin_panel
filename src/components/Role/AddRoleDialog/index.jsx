@@ -19,7 +19,6 @@ const AddRoleDialog = (props) => {
 
   const handleLogin = (data) => {
     props.onAgree(data);
-    console.log("data: ", data);
   };
 
   return (

@@ -11,7 +11,6 @@ import { useForm, Controller } from "react-hook-form";
 import { Grid } from "@mui/material";
 
 const UpdateRoleDialog = (props) => {
-  console.log("cehck", props.updateRoleData.roleName);
   const { handleSubmit, control } = useForm({
     defaultValues: {
       roleName: null,
@@ -20,7 +19,6 @@ const UpdateRoleDialog = (props) => {
 
   const handleLogin = (data) => {
     props.onAgree(data);
-    console.log("data: ", data);
   };
 
   return (

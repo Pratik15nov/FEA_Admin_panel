@@ -78,15 +78,13 @@ const Settings = () => {
   //
   const handleLogin = async () => {
     const body = {
-      email: "vanshpanchal132@gmail.com",
-      password: "V@nsh1316",
+      email: "vanshpanchal09@gmail.com",
+      password: "yvAspZZCNh",
     };
     try {
       const response = await loginCheck(body);
       if (response) {
-        console.log(response?.data?.token);
         localStorage.setItem("dataToken", response?.data?.token);
-        console.log("STORED");
       } else {
         alert("not working");
       }
@@ -102,7 +100,7 @@ const Settings = () => {
     try {
       const response = await afterLoginCheck(body);
       if (response) {
-        console.log(response);
+
       } else {
         alert("not working");
       }

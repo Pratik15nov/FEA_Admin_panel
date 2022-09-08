@@ -67,7 +67,6 @@ export default function UpdateCustomers(props) {
   const getCustomersData = async (userId) => {
     const response = await customersHandlerData(userId);
     setApiImg(response.userImg);
-    console.log(response)
     try {
       if (response) {
         reset({

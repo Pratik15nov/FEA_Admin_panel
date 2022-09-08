@@ -35,7 +35,6 @@ const Customers = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
   const customersList = useSelector((state) => state.customers.list);
-  console.log("customersList: ", customersList);
   const totalCount = useSelector((state) => state.customers.totalCount);
   const page = useSelector((state) => state.customers.page);
   const loading = useSelector((state) => state.common.loading);

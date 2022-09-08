@@ -64,15 +64,7 @@ export default function AddProducts(props) {
     } catch (error) {
       alert(error);
     }
-    try {
-      if (search.split("=").length > 0) {
-        productId = search.split("=")[1];
-      } else {
-        productId = "";
-      }
-    } catch (error) {
-      alert(error);
-    }
+
     try {
       if (productId) {
         ProductData(productId);
@@ -80,6 +72,7 @@ export default function AddProducts(props) {
     } catch (error) {
       alert(error);
     }
+
     setcid(productId);
     categoryListData();
     // eslint-disable-next-line
@@ -256,8 +249,9 @@ export default function AddProducts(props) {
           <Controller
             name="categoryId"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <FormControl fullWidth>
+              <>
                 <SelectField
+                  fullWidth
                   labelId="demo-simple-select-label"
                   id="categoryId"
                   value={value}
@@ -276,7 +270,7 @@ export default function AddProducts(props) {
                 <FormHelperText error={error}>
                   {error?.message ?? ""}
                 </FormHelperText>
-              </FormControl>
+              </>
             )}
             control={control}
             rules={{

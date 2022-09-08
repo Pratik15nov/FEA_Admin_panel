@@ -20,7 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Menu = () => {
   const menuList = useSelector((state) => state.menu.list);
-  console.log("menuList: ", menuList);
+
   const page = useSelector((state) => state.menu.page);
   const totalCount = useSelector((state) => state.menu.totalCount);
   const loading = useSelector((state) => state.common.loading);

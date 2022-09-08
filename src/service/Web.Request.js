@@ -4,7 +4,7 @@ import axios from "axios";
 export function authHeader() {
   // return authorization header with basic auth credentials
   let user = localStorage.getItem("dataToken");
-  console.log("user: ", user);
+  // console.log("user: ", user);
 
   if (user) {
     return { headers: { Authorization: `Bearer ${user}` } };
@@ -81,17 +81,23 @@ export const post = async (url, data) => {
   return await axios
     .post(url, data, authHeader())
     .then((res) => {
+      console.log(res);
       if (res.status === 200) {
+        console.log('IF');
         if (res.data?.success) {
+          console.log('Inner IF');
           return res.data?.data.list ? res.data?.data : res.data;
         } else {
+          console.log('Inner Else');
           return [];
         }
       } else {
+        console.log('Outer Else');
         return [];
       }
     })
     .catch((err) => {
+      console.error(err);
       return err?.response?.data;
     });
 };

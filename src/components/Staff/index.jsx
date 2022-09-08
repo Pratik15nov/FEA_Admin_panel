@@ -25,7 +25,6 @@ import { ENDPOINTURLFORIMG } from "../../utils/Helper";
 const Staff = () => {
   const navigate = useNavigate();
   const staffList = useSelector((state) => state.staff.list);
-  console.log("staffList: ", staffList);
   const page = useSelector((state) => state.staff.page);
   const totalCount = useSelector((state) => state.staff.totalCount);
   const loading = useSelector((state) => state.common.loading);

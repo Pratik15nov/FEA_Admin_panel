@@ -33,7 +33,7 @@ const Coupons = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
   const couponsList = useSelector((state) => state.coupons.list);
-  console.log("couponsList: ", couponsList);
+
   const totalCount = useSelector((state) => state.coupons.totalCount);
   const page = useSelector((state) => state.coupons.page);
   const loading = useSelector((state) => state.common.loading);
@@ -191,7 +191,6 @@ const Coupons = () => {
   };
 
   const captureSearch = async (data) => {
-    console.log("check", typeof data)
     if (data) {
       if (data.length >= 3) {
         const body = {

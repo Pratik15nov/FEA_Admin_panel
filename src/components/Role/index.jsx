@@ -31,10 +31,10 @@ const Role = () => {
   const [openAddRole, setOpenAddRole] = useState(false);
   const [updateAddRole, setUpdateAddRole] = useState(false);
   const [updateRoleData, setUpdateRoleData] = useState([]);
-  console.log("updateRoleData: ", updateRoleData);
+
 
   const roleList = useSelector((state) => state.role.list);
-  console.log("roleList: ", roleList);
+
   const page = useSelector((state) => state.role.page);
   const totalCount = useSelector((state) => state.role.totalCount);
   const loading = useSelector((state) => state.common.loading);
@@ -120,7 +120,7 @@ const Role = () => {
   };
 
   const updateRole = (data) => {
-    console.log("UPDATE ROLE ", data);
+
     setUpdateAddRole(false);
     setUpdateRoleData([]);
     const body = {

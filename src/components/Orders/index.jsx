@@ -41,7 +41,6 @@ const Orders = () => {
   const [dialogData, setDialogdata] = useState([]);
 
   const handleClickOpen = (data) => {
-    console.log("DATA", data);
     setOpen(true);
     setDialogdata(data);
   };

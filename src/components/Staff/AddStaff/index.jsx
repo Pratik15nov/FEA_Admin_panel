@@ -1,35 +1,77 @@
 import BreadcrumbArea from "../../BreadcrumbArea";
+import { useState } from "react";
+import { useEffect } from "react";
 import {
   Container,
   InputBox,
   InputField,
   BottomButton,
+  SelectField,
 } from "./AddStaff.style";
 import { Typography, Grid } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { roleHandlerData } from "../../../service/Auth.Service";
+import { listBody } from "../../../utils/Helper";
+import { useDispatch, useSelector } from "react-redux";
+import { addStaffData } from "../../../js/actions";
 
 const AddStaff = () => {
+  const dispatch = useDispatch();
+  const page = useSelector((state) => state.staff.page);
+  const [roleData, setRoleData] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    roleListData();
+  }, []);
+
+  const roleListData = async () => {
+    try {
+      const response = await roleHandlerData(
+        listBody({
+          perPage: 1000,
+        })
+      );
+      if (response.success) {
+        setRoleData(response?.list);
+      } else {
+        setRoleData([]);
+      }
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
+  };
+
   const { handleSubmit, control } = useForm({
     defaultValues: {
       firstName: null,
       lastName: null,
       email: null,
-      password: null,
       phoneNumber: null,
+      role: null,
     },
   });
-  const handleLogin = (body) => {
+  const handleAdd = (body) => {
     try {
-      console.log("body: ", body);
+      dispatch(
+        addStaffData({
+          body,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
+      navigate("/staff");
     } catch (error) {
       alert(error);
     }
   };
+
   return (
     <Container>
-      <form onSubmit={handleSubmit(handleLogin)}>
+      <form onSubmit={handleSubmit(handleAdd)}>
         <Grid container sx={{ paddingBottom: "20px" }}>
           <BreadcrumbArea />
         </Grid>
@@ -143,42 +185,7 @@ const AddStaff = () => {
                 },
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
-              Password
-            </Typography>
-            <Controller
-              name="password"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <InputField
-                  margin="normal"
-                  fullWidth
-                  type={"password"}
-                  id="password"
-                  placeholder="Enter you password"
-                  name="password"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
-                />
-              )}
-              control={control}
-              rules={{
-                minLength: {
-                  value: 5,
-                  message: "Cannot be smaller than 5 characters",
-                },
 
-                pattern: {
-                  value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/,
-                  message:
-                    "must include a lowercase , uppercase, digit and a special character!!!!!",
-                },
-              }}
-            />
             <Typography color="text.primary" variant="subtitle2">
               Contact
             </Typography>
@@ -219,6 +226,43 @@ const AddStaff = () => {
             />
           </InputBox>
           <InputBox item xs={6}>
+            <Typography color="text.primary" variant="subtitle2">
+              User Post
+            </Typography>
+            <Controller
+              name="role"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <SelectField
+                    fullWidth
+                    labelId="demo-simple-select-label"
+                    id="role"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ?? ""}
+                  >
+                    {roleData.map((r) => {
+                      return (
+                        <MenuItem key={r.BreadcrumbAreakey} value={r._id}>
+                          {r.roleName}
+                        </MenuItem>
+                      );
+                    })}
+                  </SelectField>
+                  <FormHelperText error={error}>
+                    {error?.message ?? ""}
+                  </FormHelperText>
+                </>
+              )}
+              control={control}
+              rules={{
+                required: "Select one Post",
+              }}
+            />
             <BottomButton
               type="submit"
               loadingPosition="end"
@@ -226,9 +270,12 @@ const AddStaff = () => {
             >
               Add User
             </BottomButton>
-            <BottomButton variant="contained"
-             onClick={() => navigate("/staff")}
-            >Back</BottomButton>
+            <BottomButton
+              variant="contained"
+              onClick={() => navigate("/staff")}
+            >
+              Back
+            </BottomButton>
           </InputBox>
         </Grid>
       </form>

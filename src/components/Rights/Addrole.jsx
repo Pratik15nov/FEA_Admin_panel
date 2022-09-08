@@ -88,7 +88,6 @@ export default function AddRights() {
     setShow(index);
     rightList[index][field] = value;
     setRightList(rightList);
-    console.log("FINALLIST", rightList);
     setShow();
 
   };
@@ -103,7 +102,6 @@ export default function AddRights() {
     };
     rightList[index] = tempData;
     setRightList(rightList);
-    console.log("FINALLIST", rightList);
     setShow();
   };
   // console.log("FINALLIST", rightList);

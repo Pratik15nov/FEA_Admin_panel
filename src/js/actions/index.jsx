@@ -251,3 +251,7 @@ export function fetchStaffListSuccess(payload) {
 export function fetchStaffListFailure() {
   return { type: "FETCH_STAFF_FAILURE" };
 }
+
+export function addStaffData(payload) {
+  return { type: "ADD_STAFF_DATA", payload };
+}

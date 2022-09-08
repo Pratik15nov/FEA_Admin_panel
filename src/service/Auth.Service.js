@@ -154,3 +154,7 @@ export const updateMenuHandlerData = (id, body) => {
 export const staffHandlerData = (body) => {
   return post(`${ENDPOINTURL}/adminUser/list`, body);
 };
+
+export const addingStaffData = (body) => {
+  return post(`${ENDPOINTURL}/adminUser/signup`, body);
+};

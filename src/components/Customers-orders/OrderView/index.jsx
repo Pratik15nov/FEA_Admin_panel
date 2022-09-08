@@ -64,20 +64,18 @@ export default function OrderView(props) {
   ];
 
   useEffect(() => {
-    console.log(props.viewdata?.cartdetail);
+
     let data = 0;
     props.viewdata?.cartdetail?.filter((value) => {
       data = data + value?.productId?.discountPrice * value?.quantity;
     });
     setSubTotal(data);
-    console.log("data: ", data);
-    console.log("subTotal: ", subTotal); // eslint-disable-next-line
+// eslint-disable-next-line
   }, [props.viewdata]);
 
   const handleClose = () => {
     props.handleCloseView();
   };
-  console.log("PROPS", props.viewdata);
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,

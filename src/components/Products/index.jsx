@@ -33,7 +33,6 @@ const Products = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertData, setAlertData] = useState([]);
   const productList = useSelector((state) => state.product.list);
-  console.log("productList: ", productList);
   const totalCount = useSelector((state) => state.product.totalCount);
   const page = useSelector((state) => state.product.page);
   const loading = useSelector((state) => state.common.loading);
