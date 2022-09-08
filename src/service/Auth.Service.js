@@ -126,6 +126,23 @@ export const afterLoginCheck = (body) => {
 export const layoutHandlerData = (body) => {
   return post(`${ENDPOINTURL}/Menu/list`, body);
 };
+//ROLE DONE
+
+// ************
+
+export const roleHandler = (body) => {
+  return post(`${ENDPOINTURL}/role/list`, body);
+};
+export const rightsHandler = (body) => {
+  return post(`${ENDPOINTURL}/rights`, body);
+};
+
+///RIGHTS
+export const rightsHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/rights/list`, body);
+};
+export const rightsupdateHandlerData = (cid, body) => {
+  return put(`${ENDPOINTURL}/rights/${cid}`, body)};
 // role apis
 export const roleHandlerData = (body) => {
   return post(`${ENDPOINTURL}/role/list`, body);

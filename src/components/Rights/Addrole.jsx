@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Typography, TextField, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
-  // categoryEditHandler,
-  categoryHndlerData,
-  // categoryAddHandler,
+  rightsHandler,
+  rightsHandlerData,
+  rightsupdateHandlerData,
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container, InputBox, BottomButton } from "./Rights.style";
-// import { fetchCategoryList } from "../../js/actions";
-// import { useDispatch } from "react-redux";
-// import { listBody } from "../../utils/Helper";
+import LinearProgress from "@mui/material/LinearProgress";
+
+import {
+  Container,
+  InputBox,
+  BottomButton,
+  Allcheck,
+  SelectField,
+} from "./Rights.style";
 import { Checkbox } from "@material-ui/core";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -20,143 +25,337 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Chip from "@mui/material/Chip";
-// import { IndeterminateCheckBox } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
-
-
-function createData(name, view, edit, add, deleted, id) {
-  return { name, view, edit, add, deleted, id };
-}
-
+import { useDispatch, useSelector } from "react-redux";
+import { roleHandler } from "../../service/Auth.Service";
+import { listBody } from "../../utils/Helper";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import { checkBoxList } from "../../js/actions";
 const rows = [
-  createData("Dashboard", true, false, false, false, 0),
-  createData("Products", false, false, false, false, 1),
-  createData("Category", false, false, false, false, 2),
-  createData("Customers", false, false, false, false, 3),
-  createData("Orders", false, false, false, false, 4),
-  createData("Coupons", false, false, false, false, 5),
-  createData("Staff", false, false, false, false, 6),
+  {
+    name: "Dashboard",
+    view: false,
+    edit: false,
+    add: false,
+    deleted: false,
+  },
+  {
+    name: "Products",
+    view: false,
+    edit: false,
+    add: false,
+    deleted: false,
+  },
+  {
+    name: "Category",
+    view: false,
+    edit: false,
+    add: false,
+    deleted: false,
+  },
+  {
+    name: "Customers",
+    view: false,
+    edit: false,
+    add: false,
+    deleted: false,
+  },
+  {
+    name: "Orders",
+    view: false,
+    edit: false,
+    add: false,
+    deleted: false,
+  },
+  {
+    name: "Coupons",
+    view: false,
+    edit: false,
+    add: false,
+    deleted: false,
+  },
+  {
+    name: "Staff",
+    view: false,
+    edit: false,
+    add: false,
+    deleted: false,
+  },
 ];
-
-export default function AddRights() {
+export default function AddRights(props) {
   const [cid, setcid] = useState();
+  const [rightId, setRightId] = useState(null);
   const location = useLocation();
   const { search } = location;
   const [loading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
+  const [tableLoading, setTableLoading] = useState(false);
+  const dispatch = useDispatch();
   const [show, setShow] = useState();
   const navigate = useNavigate();
   const [rightList, setRightList] = useState(rows);
+  const [roleList, setRoleList] = useState([]);
 
-  //use for images manually upload and drop
+  // const rightList = useSelector((state) => state.rightchecklist.list);
+  useEffect(() => {
+    let roleId;
+    try {
+      if (search.split("=").length > 0) {
+        roleId = search.split("=")[1];
+      } else {
+        roleId = "";
+      }
+    } catch (error) {
+      alert(error);
+    }
+    setcid(roleId);
+    roleListData(roleId);
+  }, [search]);
 
-  // useEffect(() => {
-  //   let roleId;
-  //   try {
-  //     if (search.split("=").length > 0) {
-  //       roleId = search.split("=")[1];
-  //     } else {
-  //       roleId = "";
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  //   try {
-  //     if (search.split("=").length > 0) {
-  //       roleId = search.split("=")[1];
-  //     } else {
-  //       roleId = "";
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  //   try {
-  //     if (roleId) {
-  //       getRoleData(roleId);
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  //   setcid(roleId);
+  // const setDataHandler = (data) => {
+  //   console.log("Data", data);
+  //   setRightList(data);
+  // };
 
-  //   // eslint-disable-next-line
-  // }, [search]);
+  // const setDataHandler = useCallback(
+  //   (data) => {
+  //     setRightList(data ? data : rows);
+  //   },
+  //   [rightList]
+  // );
 
-  const handleChange = (field, value, index) => {
+  // const handleChange = (field, value, index) => {
+  //   rightList[index][field] = value;
+  //   setRightList(rightList);
 
-    setShow(index);
-    rightList[index][field] = value;
-    setRightList(rightList);
-    setShow();
-
-  };
-  const allhandleChange = (value, index) => {
+  //   console.log("ONE", rightList);
+  //   // dispatch(checkBoxList(rightList));
+  // };
+  const allhandleChange = (field, value, index) => {
     let tempData = rightList[index];
     tempData = {
-      ...tempData,
-      add: value,
-      deleted: value,
-      edit: value,
+      name: field,
       view: value,
+      edit: value,
+      deleted: value,
+      add: value,
     };
     rightList[index] = tempData;
     setRightList(rightList);
-    setShow();
+    console.log("ALL", rightList);
+    dispatch(checkBoxList(rightList));
   };
-  // console.log("FINALLIST", rightList);
-  // const getRoleData = async (roleId) => {
-  //   const response = await categoryHndlerData(roleId);
-  //   try {
-  //     if (response) {
-  //       reset({
-  //         categoryName: response.categoryName,
-  //         categoryImg: response.categoryImg,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
 
-  const { handleSubmit, control, reset } = useForm({
+  const roleListData = async (roleId) => {
+    if (!roleId) {
+      try {
+        const response = await roleHandler(
+          listBody({ where: { taken: false }, perPage: 1000 })
+        );
+        if (response.success) {
+          setRoleList(response?.list);
+        } else {
+          setRoleList([]);
+        }
+      } catch (err) {
+        alert(err);
+      }
+    } else {
+      setTableLoading(true);
+      try {
+        const response = await roleHandler(listBody({ perPage: 1000 }));
+        const responsess = await rightsHandlerData(
+          listBody({ where: { roleId: roleId }, perPage: 1000 })
+        );
+        if (response.success) {
+          setRoleList(response?.list);
+        } else {
+          setRoleList([]);
+        }
+
+        if (responsess.success) {
+          reset({
+            roleId: responsess?.list[0].roleId._id,
+            rights: responsess?.list[0].rights,
+          });
+
+          setRightId(responsess?.list[0]._id);
+          setTableLoading(false);
+        } else {
+          setRightList([]);
+        }
+      } catch (err) {
+        alert(err);
+      }
+    }
+  };
+
+  const rightsData = async (body) => {
+    console.log(body);
+    setLoading(true);
+    if (!cid) {
+      try {
+        const reqbody = {
+          roleId: body.roleId,
+          rights: body.rights,
+          taken: true,
+        };
+
+        const response = await rightsHandler(reqbody);
+
+        if (response.success) {
+          setLoading(false);
+          navigate("/rights");
+        }
+      } catch (err) {
+        alert(err);
+      }
+    } else {
+      try {
+        const reqbody = {
+          roleId: body.roleId,
+          rights: body.rights,
+          taken: true,
+        };
+
+        const response = await rightsupdateHandlerData(rightId, reqbody);
+
+        if (response.success) {
+          setLoading(false);
+          navigate("/rights");
+        }
+      } catch (err) {
+        alert(err);
+      }
+    }
+  };
+
+  const { handleSubmit, control, reset, setValue, getValues } = useForm({
     defaultValues: {
-      categoryName: null,
-      categoryImg: null,
+      roleId: null,
+      rights: [],
     },
   });
 
-  const handleCategoryData = async (body) => {
-    setLoading(true);
-  };
+  useEffect(() => {
+    reset({
+      roleId: null,
+      rights: [
+        {
+          name: "Dashboard",
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        },
+        {
+          name: "Products",
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        },
+        {
+          name: "Category",
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        },
+        {
+          name: "Customers",
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        },
+        {
+          name: "Orders",
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        },
+        {
+          name: "Coupons",
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        },
+        {
+          name: "Staff",
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        },
+      ],
+    });
+  }, []);
 
   return (
     <Container>
       <BreadcrumbArea />
-
       <InputBox>
         <form>
           <Typography color="text.primary" variant="subtitle2">
             Role Name
           </Typography>
+
           <Controller
-            name="categoryName"
+            name="roleId"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                id="categoryName"
-                placeholder="Role Name"
-                name="categoryName"
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message ?? ""}
-              />
+              <>
+                {cid ? (
+                  <FormControl fullWidth disabled>
+                    <SelectField
+                      id="roleId"
+                      onChange={onChange}
+                      value={value}
+                      fullWidth
+                      placeholder="Coupon type"
+                    >
+                      {roleList.map((card) => {
+                        return (
+                          <MenuItem key={card._id} value={card._id}>
+                            {card.roleName}
+                          </MenuItem>
+                        );
+                      })}
+                    </SelectField>
+                    <FormHelperText error={error}>
+                      {error?.message ?? ""}
+                    </FormHelperText>
+                  </FormControl>
+                ) : (
+                  <FormControl fullWidth>
+                    <SelectField
+                      id="roleId"
+                      onChange={onChange}
+                      value={value}
+                      fullWidth
+                      placeholder="Coupon type"
+                    >
+                      {roleList.map((card) => {
+                        return (
+                          <MenuItem key={card._id} value={card._id}>
+                            {card.roleName}
+                          </MenuItem>
+                        );
+                      })}
+                    </SelectField>
+                    <FormHelperText error={error}>
+                      {error?.message ?? ""}
+                    </FormHelperText>
+                  </FormControl>
+                )}
+              </>
             )}
             control={control}
             rules={{
-              required: "Please add role name",
+              required: "Select one role",
             }}
           />
           <br />
@@ -165,6 +364,7 @@ export default function AddRights() {
           </Typography>
           <br />
           <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
+            {tableLoading ? <LinearProgress /> : <></>}
             <Table>
               <TableHead>
                 <TableRow>
@@ -176,98 +376,146 @@ export default function AddRights() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rightList?.map((row) => (
-                  <TableRow key={`tableRow_${row.id}`}>
-                    <TableCell width="50%">
-                      <Grid
-                        container
-                        spacing={2}
-                        onMouseOver={() => setShow(row.id)}
-                        onMouseOut={() => setShow()}
-                      >
-                        <Grid item xs={4}>
-                          {row.name}
-                        </Grid>
-                        <Grid item xs={7}>
-                          {show === row.id ? (
-                            <Box key={row.id}>
-                              <Chip
-                                onClick={() => allhandleChange(true, row.id)}
-                                size="small"
-                                label="All Check"
-                                variant="outlined"
-                              />
-                              <Chip
-                                onClick={(e) => allhandleChange(false, row.id)}
-                                size="small"
-                                label="None"
-                                variant="outlined"
-                              />
-                            </Box>
-                          ) : (
-                            <></>
-                          )}
-                        </Grid>
-                      </Grid>
-                    </TableCell>
-                    <TableCell>
-                      <Checkbox
-                        defaultChecked={row.view}
-                        name={row.name}
-                        value={row.view}
-                        onChange={(e) =>
-                          handleChange("view", e.target.checked, row.id)
-                        }
-                        color="default"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Checkbox
-                        checked={row.edit}
-                        name={row.name}
-                        value={row.edit}
-                        onChange={(e) =>
-                          handleChange("edit", e.target.checked, row.id)
-                        }
-                        color="default"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Checkbox
-                        checked={row.add}
-                        name={row.name}
-                        value={row.add}
-                        onChange={(e) =>
-                          handleChange("add", e.target.checked, row.id)
-                        }
-                        color="default"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Checkbox
-                        checked={row.deleted}
-                        name={row.name}
-                        value={row.deleted}
-                        onChange={(e) =>
-                          handleChange("deleted", e.target.checked, row.id)
-                        }
-                        color="default"
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                <Controller
+                  name="rights"
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <>
+                      {value.map((row, index) => (
+                        <TableRow key={`tableRow_${index}`}>
+                          <TableCell
+                            width="50%"
+                            onMouseOver={() => setShow(index)}
+                            onMouseOut={() => setShow()}
+                          >
+                            <Grid container spacing={2}>
+                              <Grid item xs={4}>
+                                {row.name}
+                              </Grid>
+                              <Grid item xs={7}>
+                                {show === index ? (
+                                  <Box key={index}>
+                                    <Allcheck
+                                      onClick={() => {
+                                        let tempData = value[index];
+                                        tempData = {
+                                          name: row.name,
+                                          view: true,
+                                          edit: true,
+                                          deleted: true,
+                                          add: true,
+                                        };
+                                        value[index] = tempData;
+                                        setValue(`rights`, value);
+                                      }}
+                                      size="small"
+                                      label="All Check"
+                                      variant="outlined"
+                                    />
+                                    <Allcheck
+                                      onClick={() => {
+                                        let tempData = value[index];
+                                        tempData = {
+                                          name: row.name,
+                                          view: false,
+                                          edit: false,
+                                          deleted: false,
+                                          add: false,
+                                        };
+                                        value[index] = tempData;
+                                        setValue(`rights`, value);
+                                      }}
+                                      size="small"
+                                      label="None"
+                                      variant="outlined"
+                                    />
+                                  </Box>
+                                ) : (
+                                  <></>
+                                )}
+                              </Grid>
+                            </Grid>
+                          </TableCell>
+                          <TableCell>
+                            <Checkbox
+                              checked={row.view}
+                              name={row.name}
+                              value={row.view}
+                              onChange={(e) => {
+                                const updatedValue = value;
+                                updatedValue[index].view = e.target.checked;
+                                setValue(`rights`, updatedValue);
+                                // handleChange(
+                                //   "view",
+                                //   e.target.checked,
+                                //   index,
+                                //   row
+                                // )
+                              }}
+                              color="secondary"
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Checkbox
+                              checked={row.edit}
+                              name={row.name}
+                              value={row.edit}
+                              onChange={(e) => {
+                                const updatedValue = value;
+                                updatedValue[index].edit = e.target.checked;
+                                setValue(`rights`, updatedValue);
+                              }}
+                              color="secondary"
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Checkbox
+                              checked={row.add}
+                              name={row.name}
+                              value={row.add}
+                              onChange={(e) => {
+                                const updatedValue = value;
+                                updatedValue[index].add = e.target.checked;
+                                setValue(`rights`, updatedValue);
+                              }}
+                              color="secondary"
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Checkbox
+                              checked={row.deleted}
+                              name={row.name}
+                              value={row.deleted}
+                              onChange={(e) => {
+                                const updatedValue = value;
+                                updatedValue[index].deleted = e.target.checked;
+                                setValue(`rights`, updatedValue);
+                              }}
+                              color="secondary"
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </>
+                  )}
+                  control={control}
+                  rules={{
+                    required: "Select one role",
+                  }}
+                />
               </TableBody>
             </Table>
           </TableContainer>
           <br />
           <BottomButton
-            type="submit"
             loading={loading}
             loadingPosition="end"
             variant="contained"
-            onClick={handleSubmit(handleCategoryData)}
+            onClick={handleSubmit(rightsData)}
           >
-            {cid ? "Update" : "Add"} Role
+            {cid ? "Update" : "Add"} Rights
           </BottomButton>
           <BottomButton variant="contained" onClick={() => navigate("/rights")}>
             Back

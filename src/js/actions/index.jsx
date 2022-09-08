@@ -188,6 +188,33 @@ export function fetchRoutingListSuccess(payload) {
   return { type: "FETCH_ROUTES_SUCCESS", payload };
 }
 
+export function fetchRightsList(payload) {
+  return { type: "FETCH_RIGHTS", payload };
+}
+
+export function rightsStatusChange(payload) {
+  return { type: "CHANGE_RIGHTS_STATUS", payload };
+}
+
+export function fetchRightsListFailure() {
+  return { type: "FETCH_RIGHTS_FAILURE" };
+}
+export function fetchRightsListSuccess(payload) {
+  return { type: "FETCH_RIGHTS_SUCCESS", payload };
+}
+export function onDeletionRights(payload) {
+  return { type: "ON_DELETION_RIGHTS", payload };
+}
+export function onRightsSearch(payload) {
+  return { type: "ON_SEARCH_RIGHTS", payload };
+}
+export function fetchRightsSearchSuccess(payload) {
+  return { type: "FETCH_RIGHTS_SEARCH_SUCCESS", payload };
+}
+export function rightsCategoryPagination(payload) {
+  return { type: "LOAD_CATEGORY_PAGINATION", payload };
+}
+
 // ROLE
 
 export function fetchRoleList(payload) {
@@ -258,4 +285,9 @@ export function addStaffData(payload) {
 
 export function updateStaffData(payload) {
   return { type: "UPDATE_STAFF_STATUS", payload };
+}
+//CHECKBOX
+export function checkBoxList(payload) {
+  // console.log("payload", payload);
+  return { type: "CHECKBOXLIST_SUCCESS", payload };
 }

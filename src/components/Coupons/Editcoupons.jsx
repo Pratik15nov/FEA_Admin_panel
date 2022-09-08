@@ -12,9 +12,8 @@ import {
   Container,
   InputBox,
   BottomButton,
-  SelectField
+  SelectField,
 } from "./Coupons.style";
-
 
 import { fetchCouponsList } from "../../js/actions";
 import { useDispatch } from "react-redux";
@@ -65,8 +64,9 @@ export default function AddCoupons(props) {
 
   // this function get particular category name and image
   const getCategoryData = async (couponsId) => {
-
-    const response = await couponsHndlerData((listBody({ where: { "_id": couponsId }, perPage: 10, page: 1 })));
+    const response = await couponsHndlerData(
+      listBody({ where: { _id: couponsId }, perPage: 10, page: 1 })
+    );
 
     try {
       if (response) {
@@ -91,7 +91,6 @@ export default function AddCoupons(props) {
       type: null,
       minvalue: null,
       maxdiscountvalue: null,
-
     },
   });
 
@@ -107,7 +106,7 @@ export default function AddCoupons(props) {
           minvalue: body.minvalue,
           maxdiscountvalue: body.maxdiscountvalue,
         };
-        const response = await couponsEditHandler(cid,reqBody);
+        const response = await couponsEditHandler(cid, reqBody);
         try {
           if (response.success) {
             navigate(`/coupons`);
@@ -154,7 +153,6 @@ export default function AddCoupons(props) {
         Add your Coupons code and necessary information from here
       </Typography>
       <InputBox>
-
         <form>
           <Typography color="text.primary" variant="subtitle2">
             Coupon Name
@@ -220,13 +218,8 @@ export default function AddCoupons(props) {
                   error={!!error}
                   helperText={error?.message ?? ""}
                 >
-                  <MenuItem value="PERCENTAGE">
-                    PERCENTAGE
-                  </MenuItem>
-                  <MenuItem value="FLAT">
-                    FLAT
-                  </MenuItem>
-
+                  <MenuItem value="PERCENTAGE">PERCENTAGE</MenuItem>
+                  <MenuItem value="FLAT">FLAT</MenuItem>
                 </SelectField>
                 <FormHelperText error={error}>
                   {error?.message ?? ""}

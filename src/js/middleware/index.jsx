@@ -19,6 +19,7 @@ import {
   couponsDelete,
   searchOrderData,
   layoutHandlerData,
+  rightsHandlerData,
   roleHandlerData,
   addRoleHandlerData,
   updateRoleHandlerData,
@@ -60,6 +61,9 @@ import {
   fetchOrderSearchSuccess,
   fetchRoutingListSuccess,
   fetchRoutingListFailure,
+  checkBoxListSuccess,
+  fetchRightsListSuccess,
+  fetchRightsListFailure,
   fetchRoleListSuccess,
   fetchRoleListFailure,
   fetchRoleList,
@@ -620,6 +624,26 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+      case "FETCH_RIGHTS":
+        store.dispatch(loadingStart());
+        rightsHandlerData(action.payload)
+          .then((res) => {
+            // console.log(res);
+            if (res.success) {
+              store.dispatch(fetchRightsListSuccess(res));
+            } else {
+              store.dispatch(fetchRightsListFailure());
+              alert("FETCH_RIGHTS => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchProductListFailure());
+            alert("ERROR OCCURED WHILE FETCH_RIGHTS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
       case "FETCH_ROLE":
         store.dispatch(loadingStart());
         roleHandlerData(action.payload)
@@ -831,6 +855,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+
       default:
         return next(action);
     }

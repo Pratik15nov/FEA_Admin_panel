@@ -1,4 +1,4 @@
-import { Avatar, Button, styled, Switch, Typography, Box } from "@mui/material";
+import { Avatar, Button, styled, Switch, Typography, Box,Select } from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
@@ -6,6 +6,7 @@ import InputBase from "@mui/material/InputBase";
 import { alpha } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Chip from "@mui/material/Chip";
 
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -209,4 +210,26 @@ export const BottomButton = styled(LoadingButton)(({ theme }) => ({
 }));
 export const Checkboxtext = styled(Box)(({ theme }) => ({
   fontFamily: theme.typography.caption,
+}));
+
+export const Allcheck = styled(Chip)(({ theme }) => ({
+  fontFamily: theme.typography.caption,
+
+  
+}));
+export const SelectField = styled(Select)(({ theme }) => ({
+  "& .MuiOutlinedInput-input": {
+    height: "1em",
+  },
+  marginTop: 10,
+  marginBottom: 10,
+}));
+export const RowName = styled(Typography)(({ theme }) => ({
+  fontSize: "18px",
+  fontWeight: 400,
+  color: "black",
+
+  "&:hover": {
+    color: "black",
+  },
 }));
