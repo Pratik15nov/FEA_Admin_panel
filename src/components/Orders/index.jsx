@@ -78,7 +78,6 @@ const Orders = () => {
   };
 
   const orderList = useSelector((state) => state.order.list);
-  // console.log("orderList: ", orderList);
   const page = useSelector((state) => state.order.page);
   const totalCount = useSelector((state) => state.order.totalCount);
   const loading = useSelector((state) => state.common.loading);

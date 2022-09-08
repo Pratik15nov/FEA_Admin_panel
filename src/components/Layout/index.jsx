@@ -37,11 +37,7 @@ import {
   ListItem,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCategoryList,
-  fetchProductList,
-  fetchRoutingList,
-} from "../../js/actions";
+import { fetchRoutingList } from "../../js/actions";
 import { listBody } from "../../utils/Helper";
 import { useEffect } from "react";
 
@@ -53,7 +49,10 @@ export default function MiniDrawer(props) {
 
   const page = useSelector((state) => state.layout.page);
   const RouteList = useSelector((state) => state.layout.list);
+<<<<<<< HEAD
  
+=======
+>>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
   useEffect(() => {
     getRoutes(); // eslint-disable-next-line
   }, []);
@@ -63,7 +62,7 @@ export default function MiniDrawer(props) {
       dispatch(
         fetchRoutingList(
           listBody({
-            where: null,
+            where: { isActive: true },
             perPage: 10000,
             page: page,
             sortBy: "createdAt",
@@ -154,7 +153,6 @@ export default function MiniDrawer(props) {
             subheader="Admin"
             sx={{ padding: 1 }}
           />
-
           <mainListIcon onClick={() => setOpen(false)}>
             <KeyboardDoubleArrowLeftIcon />
           </mainListIcon>
@@ -162,24 +160,41 @@ export default function MiniDrawer(props) {
         <Divider />
 
         <List>
-          {RouteList.map((r, index) => (
-            <ListItem
-              key={index}
-              disablePadding
-              selected={selectedIndex === index}
-              onClick={(event) => [
-                navigate(r.path),
-                handleListItemClick(event, index),
-              ]}
-            >
-              <ListItemButton>
-                <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
-                <ListText>
-                  {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
-                </ListText>
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {RouteList.filter((r) => r.fieldName !== "settings").map(
+            (r, index) => (
+              <ListItem
+                key={index}
+                disablePadding
+                selected={selectedIndex === index}
+                onClick={(event) => [
+                  navigate(r.path),
+                  handleListItemClick(event, index),
+                ]}
+              >
+                <ListItemButton>
+                  <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
+                  <ListText>
+                    {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
+                  </ListText>
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
+          <ListItem
+            disablePadding
+            selected={selectedIndex === 9999999999}
+            onClick={(event) => [
+              navigate("/settings"),
+              handleListItemClick(event, 9999999999),
+            ]}
+          >
+            <ListItemButton>
+              <ListIcon>
+                <SettingsSuggestRoundedIcon />
+              </ListIcon>
+              <ListText>Settings</ListText>
+            </ListItemButton>
+          </ListItem>
         </List>
 
         {/* <List>

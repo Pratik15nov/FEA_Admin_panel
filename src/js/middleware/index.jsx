@@ -19,7 +19,16 @@ import {
   couponsDelete,
   searchOrderData,
   layoutHandlerData,
+<<<<<<< HEAD
   rightsHandlerData
+=======
+  roleHandlerData,
+  addRoleHandlerData,
+  updateRoleHandlerData,
+  searchRoleData,
+  menuHandlerData,
+  updateMenuHandlerData,
+>>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -52,10 +61,23 @@ import {
   fetchOrderSearchSuccess,
   fetchRoutingListSuccess,
   fetchRoutingListFailure,
+<<<<<<< HEAD
   checkBoxListSuccess,
   fetchRightsListSuccess,
   fetchRightsListFailure
+=======
+  fetchRoleListSuccess,
+  fetchRoleListFailure,
+  fetchRoleList,
+  rolePageNumber,
+  fetchRoleSearchSuccess,
+  fetchMenuListSuccess,
+  fetchMenuListFailure,
+  fetchMenuList,
+  fetchRoutingList,
+>>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
 } from "../actions";
+import { listBody } from "../../utils/Helper";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
   try {
@@ -610,6 +632,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+<<<<<<< HEAD
         case "FETCH_RIGHTS":
         store.dispatch(loadingStart());
         rightsHandlerData(action.payload)
@@ -625,15 +648,168 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchProductListFailure());
             alert("ERROR OCCURED WHILE FETCH_RIGHTS DISPATCHED ");
+=======
+      case "FETCH_ROLE":
+        store.dispatch(loadingStart());
+        roleHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchRoleListSuccess(res));
+            } else {
+              store.dispatch(fetchRoleListFailure());
+              alert("FETCH_ROLE => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchRoleListFailure());
+            alert("ERROR OCCURED WHILE FETCH_ROLE DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());
           });
         break;
+      case "ADD_ROLE":
+        store.dispatch(loadingStart());
+        console.log("action.payload.body: ", action.payload.body);
+        addRoleHandlerData(action.payload.body)
+          .then((res) => {
+            console.log(res);
+            if (res.success) {
+              store.dispatch(fetchRoleList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchRoleList(action.payload.defaultPayload));
+              alert("ADD_ROLE => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchRoleListFailure());
+            alert("ERROR OCCURED WHILE ADD_ROLE DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "UPDATE_ROLE":
+        store.dispatch(loadingStart());
+        console.log("action.payload.body: ", action.payload.body);
+        updateRoleHandlerData(action.payload.id, action.payload.body)
+          .then((res) => {
+            console.log(res);
+            if (res.success) {
+              store.dispatch(fetchRoleList(action.payload.defaultPayload));
+            } else {
+              store.dispatch(fetchRoleList(action.payload.defaultPayload));
+              alert("UPDATE_ROLE => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchRoleListFailure());
+            alert("ERROR OCCURED WHILE UPDATE_ROLE DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "LOAD_PAGINATION_ROLE":
+        store.dispatch(loadingStart());
+        roleHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchRoleListSuccess(res));
+              store.dispatch(rolePageNumber(action.payload.pagination.page));
+            } else {
+              store.dispatch(fetchRoleListFailure());
+              alert("LOAD_PAGINATION_ROLE => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchRoleListFailure());
+            alert("ERROR OCCURED WHILE LOAD_PAGINATION_ROLE DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "ON_SEARCH_ROLE":
+        store.dispatch(loadingStart());
+        searchRoleData(action.payload.body)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchRoleSearchSuccess(res.data));
+            } else if (res.success === false) {
+              store.dispatch(fetchRoleListFailure());
+              // alert("ON_SEARCH_ROLE => RESPONSE => FALSE");
+            } else {
+              store.dispatch(fetchRoleList(action.payload.defaultPayload));
+              // alert("ON_SEARCH_ROLE => RESPONSE => ERROR");
+            }
+          })
+          .catch((error) => {
+            store.dispatch(fetchRoleListFailure());
+            alert("ERROR OCCURED WHILE ON_SEARCH_ROLE DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_MENU":
+        store.dispatch(loadingStart());
+        menuHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchMenuListSuccess(res));
+            } else {
+              store.dispatch(fetchMenuListFailure());
+              alert("FETCH_MENU => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchMenuListFailure());
+            alert("ERROR OCCURED WHILE FETCH_MENU DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "UPDATE_MENU":
+        store.dispatch(loadingStart());
+        updateMenuHandlerData(action.payload.id, action.payload.body)
+          .then((res) => {
+            console.log(res);
+            if (res.success) {
+              store.dispatch(fetchMenuList(action.payload.defaultPayload));
+              store.dispatch(
+                fetchRoutingList(
+                  listBody({
+                    where: { isActive: true },
+                    perPage: 10000,
+                    page: 1,
+                    sortBy: "createdAt",
+                  })
+                )
+              );
+            } else {
+              store.dispatch(fetchMenuList(action.payload.defaultPayload));
+              alert("UPDATE_MENU => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchMenuListFailure());
+            console.error(err);
+            alert("ERROR OCCURED WHILE UPDATE_MENU DISPATCHED ");
+>>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+<<<<<<< HEAD
       // case "CHECKBOCLIST":
       //   console.log("CHECK",action.payload)
       //   break;
 
+=======
+>>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
       default:
         return next(action);
     }

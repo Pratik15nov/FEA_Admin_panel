@@ -187,6 +187,7 @@ export function fetchRoutingListFailure() {
 export function fetchRoutingListSuccess(payload) {
   return { type: "FETCH_ROUTES_SUCCESS", payload };
 }
+<<<<<<< HEAD
 // export function checkBoxList(payload) {
 //   return { type: "CHECKBOCLIST", payload };
 // }
@@ -221,3 +222,56 @@ export function fetchRightsSearchSuccess(payload) {
 export function rightsCategoryPagination(payload) {
   return { type: "LOAD_CATEGORY_PAGINATION", payload };
 }
+=======
+
+// ROLE
+
+export function fetchRoleList(payload) {
+  return { type: "FETCH_ROLE", payload };
+}
+export function fetchRoleListSuccess(payload) {
+  return { type: "FETCH_ROLE_SUCCESS", payload };
+}
+
+export function fetchRoleListFailure() {
+  return { type: "FETCH_ROLE_FAILURE" };
+}
+
+export function addRoleToData(payload) {
+  return { type: "ADD_ROLE", payload };
+}
+
+export function updateActionRoleData(payload) {
+  return { type: "UPDATE_ROLE", payload };
+}
+
+export function loadPaginationRole(payload) {
+  return { type: "LOAD_PAGINATION_ROLE", payload };
+}
+export function rolePageNumber(payload) {
+  return { type: "ROLE_PAGE_NUMBER", payload };
+}
+
+export function onRoleSearch(payload) {
+  return { type: "ON_SEARCH_ROLE", payload };
+}
+export function fetchRoleSearchSuccess(payload) {
+  return { type: "ROLE_SEARCH_SUCCESS", payload };
+}
+
+// menu
+
+export function fetchMenuList(payload) {
+  return { type: "FETCH_MENU", payload };
+}
+export function fetchMenuListSuccess(payload) {
+  return { type: "FETCH_MENU_SUCCESS", payload };
+}
+
+export function fetchMenuListFailure() {
+  return { type: "FETCH_MENU_FAILURE" };
+}
+export function updateMenuData(payload) {
+  return { type: "UPDATE_MENU", payload };
+}
+>>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f

@@ -122,10 +122,11 @@ export const afterLoginCheck = (body) => {
 //CEHCKING DONE
 
 // ************
-
+// menu apis
 export const layoutHandlerData = (body) => {
   return post(`${ENDPOINTURL}/Menu/list`, body);
 };
+<<<<<<< HEAD
 //ROLE DONE
 
 // ************
@@ -143,4 +144,28 @@ export const rightsHandlerData = (body) => {
 };
 export const rightsupdateHandlerData = (cid, body) => {
   return put(`${ENDPOINTURL}/rights/${cid}`, body);
+=======
+// role apis
+export const roleHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/role/list`, body);
+};
+
+export const addRoleHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/role/`, body);
+};
+export const updateRoleHandlerData = (id, body) => {
+  return put(`${ENDPOINTURL}/role/${id}`, body);
+};
+
+export const searchRoleData = (body) => {
+  return post(`${ENDPOINTURL}/role/search`, body);
+};
+
+// menu
+export const menuHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/Menu/list`, body);
+};
+export const updateMenuHandlerData = (id, body) => {
+  return put(`${ENDPOINTURL}/menu/${id}`, body);
+>>>>>>> b0b6ce7371e24b3c8e87c0edce835f964635eb4f
 };

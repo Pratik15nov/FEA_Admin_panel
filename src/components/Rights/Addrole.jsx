@@ -102,6 +102,8 @@ export default function AddRights(props) {
   // );
 
   const handleChange = (field, value, index) => {
+
+    setShow(index);
     rightList[index][field] = value;
     setRightList(rightList);
     console.log("ONE", rightList);
@@ -308,7 +310,7 @@ export default function AddRights(props) {
                     </TableCell>
                     <TableCell>
                       <Checkbox
-                        checked={row.view}
+                        defaultChecked={row.view}
                         name={row.name}
                         value={row.view}
                         onChange={(e) =>
