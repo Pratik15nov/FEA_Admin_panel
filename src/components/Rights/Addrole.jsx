@@ -32,7 +32,7 @@ import { listBody } from "../../utils/Helper";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
-import { checkBoxList } from "../../js/actions";
+import { fetchRightsList } from "../../js/actions";
 const rows = [
   {
     name: "Dashboard",
@@ -96,8 +96,7 @@ export default function AddRights(props) {
   const navigate = useNavigate();
   const [rightList, setRightList] = useState(rows);
   const [roleList, setRoleList] = useState([]);
-
-  // const rightList = useSelector((state) => state.rightchecklist.list);
+  const page = useSelector((state) => state.rights.page);
   useEffect(() => {
     let roleId;
     try {
@@ -112,40 +111,6 @@ export default function AddRights(props) {
     setcid(roleId);
     roleListData(roleId);
   }, [search]);
-
-  // const setDataHandler = (data) => {
-  //   console.log("Data", data);
-  //   setRightList(data);
-  // };
-
-  // const setDataHandler = useCallback(
-  //   (data) => {
-  //     setRightList(data ? data : rows);
-  //   },
-  //   [rightList]
-  // );
-
-  // const handleChange = (field, value, index) => {
-  //   rightList[index][field] = value;
-  //   setRightList(rightList);
-
-  //   console.log("ONE", rightList);
-  //   // dispatch(checkBoxList(rightList));
-  // };
-  const allhandleChange = (field, value, index) => {
-    let tempData = rightList[index];
-    tempData = {
-      name: field,
-      view: value,
-      edit: value,
-      deleted: value,
-      add: value,
-    };
-    rightList[index] = tempData;
-    setRightList(rightList);
-    console.log("ALL", rightList);
-    dispatch(checkBoxList(rightList));
-  };
 
   const roleListData = async (roleId) => {
     if (!roleId) {
@@ -205,6 +170,9 @@ export default function AddRights(props) {
         const response = await rightsHandler(reqbody);
 
         if (response.success) {
+          dispatch(
+            fetchRightsList(listBody({ where: null, perPage: 10, page: page }))
+          );
           setLoading(false);
           navigate("/rights");
         }
