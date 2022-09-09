@@ -27,7 +27,6 @@ const AddStaff = (props) => {
   const [loading, setLoading] = useState(false);
   const [cid, setcid] = useState();
   const page = useSelector((state) => state.staff.page);
-  const msg = useSelector((state) => state.staff.msg);
   const jumpOnPath = useSelector((state) => state.staff.jumpTo);
   const [roleData, setRoleData] = useState([]);
   const navigate = useNavigate();
@@ -138,9 +137,6 @@ const AddStaff = (props) => {
       } catch (error) {
         alert(error);
       }
-    }
-    if (msg) {
-      props.getValue(true, `${msg}`);
     }
   };
 

@@ -11,7 +11,8 @@ import {
   Container,
   InputBox,
   BottomButton,
-  ImgBox, ImgSize,
+  ImgBox,
+  ImgSize,
   DelIcon,
 } from "./Customers.style";
 import { fetchCustomersList } from "../../js/actions";
@@ -73,7 +74,7 @@ export default function UpdateCustomers(props) {
           firstName: response.firstName,
           lastName: response.lastName,
           phoneNumber: response.phoneNumber,
-          userImg: response.userImg
+          userImg: response.userImg,
         });
       }
     } catch (error) {
@@ -87,12 +88,11 @@ export default function UpdateCustomers(props) {
       firstName: null,
       lastName: null,
       phoneNumber: null,
-      userImg: null
+      userImg: null,
     },
   });
 
   // it can be use for edit categories details
-
 
   const handleCustomersData = async (body) => {
     setLoading(true);
@@ -125,12 +125,10 @@ export default function UpdateCustomers(props) {
           fetchCustomersList(listBody({ where: null, perPage: 10, page: 1 }))
         );
         setLoading(false);
-        props.getValue(true, `${response.message}`);
       }
     } catch (error) {
       alert(error);
     }
-
   };
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -151,19 +149,12 @@ export default function UpdateCustomers(props) {
       <BreadcrumbArea />
       <Grid container>
         <InputBox xs={3}>
-
           <Grid container spacing={2}>
-            <Grid xs={4}>
-
-            </Grid>
+            <Grid xs={4}></Grid>
             <Grid xs={6}>
-              <Typography variant="subtitle1" >
-                Profile Image
-              </Typography>
+              <Typography variant="subtitle1">Profile Image</Typography>
             </Grid>
-            <Grid xs={1}>
-
-            </Grid>
+            <Grid xs={1}></Grid>
           </Grid>
 
           <ImgBox>
@@ -209,7 +200,6 @@ export default function UpdateCustomers(props) {
                           <></>
                         )}
                       </Grid>
-
                     </Box>
                   ) : (
                     <>
@@ -222,7 +212,8 @@ export default function UpdateCustomers(props) {
                           )}
                         </Grid>
                         <Grid item xs={11}>
-                          <ImgSize component="img" src={images} alt="" /></Grid>
+                          <ImgSize component="img" src={images} alt="" />
+                        </Grid>
 
                         {images !== null ? (
                           <Grid item xs={1}>
@@ -236,7 +227,6 @@ export default function UpdateCustomers(props) {
                         ) : (
                           <></>
                         )}
-
                       </Grid>
                     </>
                   )}
@@ -259,7 +249,10 @@ export default function UpdateCustomers(props) {
             </Typography>
             <Controller
               name="firstName"
-              render={({ field: { onChange, value }, fieldState: { error } }) => (
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
                 <TextField
                   margin="normal"
                   fullWidth
@@ -282,7 +275,10 @@ export default function UpdateCustomers(props) {
             </Typography>
             <Controller
               name="lastName"
-              render={({ field: { onChange, value }, fieldState: { error } }) => (
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
                 <TextField
                   margin="normal"
                   fullWidth
@@ -305,7 +301,10 @@ export default function UpdateCustomers(props) {
             </Typography>
             <Controller
               name="phoneNumber"
-              render={({ field: { onChange, value }, fieldState: { error } }) => (
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
                 <TextField
                   margin="normal"
                   fullWidth
@@ -343,9 +342,6 @@ export default function UpdateCustomers(props) {
           </InputBox>
         </Grid>
       </Grid>
-
-
-
     </Container>
   );
 }

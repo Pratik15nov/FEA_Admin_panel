@@ -817,13 +817,14 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         addingStaffData(action.payload.body)
           .then((res) => {
-            if (res) {
+            if (res.success) {
               store.dispatch(addStaffMsg(res.message));
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
               store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });
             } else {
+              console.log(res);
+              store.dispatch(addStaffMsg(res.message));
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
-              alert("ADD_STAFF_DATA => RESPONSE => FALSE");
             }
           })
           .catch((err) => {
@@ -840,13 +841,10 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         updateStaffHandlerData(action.payload.cid, action.payload.body)
           .then((res) => {
-            console.log(res);
-            if (res) {
+            if (res.status === 200) {
               console.log("RESPONSE", res.message);
-              store.dispatch(addStaffMsg(res.message));
-              // jumpOnPath("/staff");
+              store.dispatch({ type: "STAFF_MSG", payload: res.message });
               store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });
-              // store.dispatch(fetchStaffList(action.payload.defaultPayload));
             } else {
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
               alert("ADD_STAFF_DATA => RESPONSE => FALSE");

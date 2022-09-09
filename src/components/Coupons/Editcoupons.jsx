@@ -114,7 +114,6 @@ export default function AddCoupons(props) {
               fetchCouponsList(listBody({ where: null, perPage: 10, page: 1 }))
             );
             setLoading(false);
-            props.getValue(true, `${response.message}`);
           }
         } catch (error) {
           alert(error);
@@ -135,7 +134,6 @@ export default function AddCoupons(props) {
               fetchCouponsList(listBody({ where: null, perPage: 10, page: 1 }))
             );
             setLoading(false);
-            props.getValue(true, `${response.message}`);
           }
         } catch (error) {
           alert(error);

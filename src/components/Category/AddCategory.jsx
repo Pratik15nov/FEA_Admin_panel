@@ -123,7 +123,6 @@ export default function AddCategory(props) {
               fetchCategoryList(listBody({ where: null, perPage: 10, page: 1 }))
             );
             setLoading(false);
-            props.getValue(true, `${response.message}`);
           }
         } catch (error) {
           alert(error);
@@ -140,7 +139,6 @@ export default function AddCategory(props) {
               fetchCategoryList(listBody({ where: null, perPage: 10, page: 1 }))
             );
             setLoading(false);
-            props.getValue(true, `${response.message}`);
           }
         } catch (error) {
           alert(error);

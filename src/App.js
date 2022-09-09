@@ -19,26 +19,13 @@ import UpdateCustomers from "./components/Customers/updatecustomers";
 import CustomersOrders from "./components/Customers-orders";
 import AddCoupons from "./components/Coupons/Editcoupons";
 import Settings from "./components/settings";
-//import AddRole from "./components/Staff/Addrole";
 import AddRights from "./components/Rights/Addrole";
 import AddStaff from "./components/Staff/AddStaff";
-
-//
 import Menu from "./components/Menu";
 import Rights from "./components/Rights";
 import Role from "./components/Role";
 
 function App() {
-  const [message, setMessage] = useState(" ");
-  const [msgData, setMsgData] = useState(false);
-  const getValue = (open, msg) => {
-    setMessage(msg);
-    setMsgData(open);
-    setTimeout(() => {
-      setMsgData(false);
-    }, 3000);
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
@@ -121,7 +108,7 @@ function App() {
             path="/category/add"
             element={
               <Layout>
-                <AddCategory getValue={getValue} />
+                <AddCategory />
               </Layout>
             }
           />
@@ -130,7 +117,7 @@ function App() {
             path="/products/add"
             element={
               <Layout>
-                <AddProducts getValue={getValue} />
+                <AddProducts />
               </Layout>
             }
           />
@@ -139,7 +126,7 @@ function App() {
             path="/customers/add"
             element={
               <Layout>
-                <UpdateCustomers getValue={getValue} />
+                <UpdateCustomers />
               </Layout>
             }
           />
@@ -148,7 +135,7 @@ function App() {
             path="/coupons/add"
             element={
               <Layout>
-                <AddCoupons getValue={getValue} />
+                <AddCoupons />
               </Layout>
             }
           />
@@ -157,7 +144,7 @@ function App() {
             path="/staff/add"
             element={
               <Layout>
-                <AddStaff getValue={getValue} />
+                <AddStaff />
               </Layout>
             }
           />
@@ -166,7 +153,7 @@ function App() {
             path="/settings"
             element={
               <Layout>
-                <Settings getValue={getValue} />
+                <Settings />
               </Layout>
             }
           />
@@ -202,12 +189,12 @@ function App() {
             path="/rights/add"
             element={
               <Layout>
-                <AddRights getValue={getValue} />
+                <AddRights />
               </Layout>
             }
           />
         </Routes>
-        <CustomSnackbar open={msgData} msg={message} />
+        <CustomSnackbar />
       </BrowserRouter>
     </ThemeProvider>
   );

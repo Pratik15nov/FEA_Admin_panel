@@ -163,7 +163,6 @@ export default function AddProducts(props) {
               fetchProductList(listBody({ where: null, perPage: 10, page: 1 }))
             );
             setLoading(false);
-            props.getValue(true, `${response.message}`);
           }
         } catch (error) {
           alert(error);
@@ -186,7 +185,6 @@ export default function AddProducts(props) {
               fetchProductList(listBody({ where: null, perPage: 10, page: 1 }))
             );
             setLoading(false);
-            props.getValue(true, `${response.message}`);
           }
         } catch (error) {
           alert(error);
