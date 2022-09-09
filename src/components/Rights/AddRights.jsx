@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
+  layoutHandlerData,
   rightsHandler,
   rightsHandlerData,
   rightsupdateHandlerData,
@@ -17,7 +18,7 @@ import {
   Allcheck,
   SelectField,
 } from "./Rights.style";
-import { Checkbox } from "@material-ui/core";
+import { Checkbox, MenuList } from "@material-ui/core";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -44,7 +45,7 @@ export default function AddRights(props) {
   const dispatch = useDispatch();
   const [show, setShow] = useState();
   const navigate = useNavigate();
-
+  const [menuList, setMenuList] = useState([]);
   const [roleList, setRoleList] = useState([]);
   const page = useSelector((state) => state.rights.page);
   useEffect(() => {
@@ -59,8 +60,38 @@ export default function AddRights(props) {
       alert(error);
     }
     setcid(roleId);
+    menuListHandler();
     roleListData(roleId); // eslint-disable-next-line
   }, [search]);
+
+  const menuListHandler = async () => {
+    setTableLoading(true);
+    try {
+      const response = await layoutHandlerData(
+        listBody({ where: { isActive: true }, perPage: 1000 })
+      );
+      if (response.success) {
+        setTableLoading(false);
+        setMenuList(response?.list);
+        reset({
+          roleId: null,
+          rights: response?.list.map((card) => {
+            return {
+              name:
+                card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
+              view: false,
+              edit: false,
+              add: false,
+              deleted: false,
+            };
+          }),
+        });
+      } else {
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   const roleListData = async (roleId) => {
     if (!roleId) {
@@ -105,7 +136,6 @@ export default function AddRights(props) {
   };
 
   const rightsData = async (body) => {
-    console.log(body);
     setLoading(true);
     if (!cid) {
       try {
@@ -114,9 +144,7 @@ export default function AddRights(props) {
           rights: body.rights,
           taken: true,
         };
-
         const response = await rightsHandler(reqbody);
-
         if (response.success) {
           dispatch(
             fetchRightsList(listBody({ where: null, perPage: 10, page: page }))
@@ -154,69 +182,11 @@ export default function AddRights(props) {
     },
   });
 
-  useEffect(() => {
-    reset({
-      roleId: null,
-      rights: [
-        {
-          name: "Dashboard",
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        },
-        {
-          name: "Products",
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        },
-        {
-          name: "Category",
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        },
-        {
-          name: "Customers",
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        },
-        {
-          name: "Orders",
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        },
-        {
-          name: "Coupons",
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        },
-        {
-          name: "Staff",
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        },
-      ],
-    }); // eslint-disable-next-line
-  }, []);
-
   return (
     <Container>
       <BreadcrumbArea />
 
       <InputBox>
-       
         <form>
           <Typography color="text.primary" variant="subtitle2">
             Role Name
