@@ -45,7 +45,8 @@ export default function AddRights(props) {
   const dispatch = useDispatch();
   const [show, setShow] = useState();
   const navigate = useNavigate();
-  const [menuList, setMenuList] = useState([]);
+  const [tableShow, setTableShow] = useState(false);
+  console.log(tableShow);
   const [roleList, setRoleList] = useState([]);
   const page = useSelector((state) => state.rights.page);
   useEffect(() => {
@@ -72,7 +73,7 @@ export default function AddRights(props) {
       );
       if (response.success) {
         setTableLoading(false);
-        setMenuList(response?.list);
+
         reset({
           roleId: null,
           rights: response?.list.map((card) => {
@@ -182,6 +183,11 @@ export default function AddRights(props) {
     },
   });
 
+  const tableHandler = (value) => {
+    console.log("CAlled", value);
+    setTableShow(value);
+  };
+
   return (
     <Container>
       <BreadcrumbArea />
@@ -194,208 +200,217 @@ export default function AddRights(props) {
 
           <Controller
             name="roleId"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <>
-                {cid ? (
-                  <FormControl fullWidth disabled>
-                    <SelectField
-                      id="roleId"
-                      onChange={onChange}
-                      value={value}
-                      fullWidth
-                      placeholder="Coupon type"
-                    >
-                      {roleList.map((card) => {
-                        return (
-                          <MenuItem key={card._id} value={card._id}>
-                            {card.roleName}
-                          </MenuItem>
-                        );
-                      })}
-                    </SelectField>
-                    <FormHelperText error={error}>
-                      {error?.message ?? ""}
-                    </FormHelperText>
-                  </FormControl>
-                ) : (
-                  <FormControl fullWidth>
-                    <SelectField
-                      id="roleId"
-                      onChange={onChange}
-                      value={value}
-                      fullWidth
-                      placeholder="Coupon type"
-                    >
-                      {roleList.map((card) => {
-                        return (
-                          <MenuItem key={card._id} value={card._id}>
-                            {card.roleName}
-                          </MenuItem>
-                        );
-                      })}
-                    </SelectField>
-                    <FormHelperText error={error}>
-                      {error?.message ?? ""}
-                    </FormHelperText>
-                  </FormControl>
-                )}
-              </>
-            )}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              console.log("value", value);
+              setTableShow(value ? true : false);
+              return (
+                <>
+                  {cid ? (
+                    <FormControl fullWidth disabled>
+                      <SelectField
+                        id="roleId"
+                        onChange={setTableShow(true)}
+                        value={value}
+                        fullWidth
+                        placeholder="Role type"
+                      >
+                        {roleList.map((card) => {
+                          return (
+                            <MenuItem key={card._id} value={card._id}>
+                              {card.roleName}
+                            </MenuItem>
+                          );
+                        })}
+                      </SelectField>
+                      <FormHelperText error={error}>
+                        {error?.message ?? ""}
+                      </FormHelperText>
+                    </FormControl>
+                  ) : (
+                    <FormControl fullWidth>
+                      <SelectField
+                        id="roleId"
+                        // onChange={[onChange(tableHandler(tr))]}
+                        onChange={onChange}
+                        value={value}
+                        fullWidth
+                        placeholder="Coupon type"
+                      >
+                        {roleList.map((card) => {
+                          return (
+                            <MenuItem key={card._id} value={card._id}>
+                              {card.roleName}
+                            </MenuItem>
+                          );
+                        })}
+                      </SelectField>
+                      <FormHelperText error={error}>
+                        {error?.message ?? ""}
+                      </FormHelperText>
+                    </FormControl>
+                  )}
+                </>
+              );
+            }}
             control={control}
             rules={{
               required: "Select one role",
             }}
           />
           <br />
-          <Typography color="text.primary" variant="subtitle2">
-            Role Rights
-          </Typography>
-          <br />
-          <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
-            {tableLoading ? <LinearProgress /> : <></>}
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Choose</TableCell>
-                  <TableCell>View</TableCell>
-                  <TableCell>Edit</TableCell>
-                  <TableCell>Add</TableCell>
-                  <TableCell>Delete</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <Controller
-                  name="rights"
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <>
-                      {value.map((row, index) => (
-                        <TableRow key={`tableRow_${index}`}>
-                          <TableCell
-                            width="50%"
-                            onMouseOver={() => setShow(index)}
-                            onMouseOut={() => setShow()}
-                          >
-                            <Grid container spacing={2}>
-                              <Grid item xs={4}>
-                                {row.name}
-                              </Grid>
-                              <Grid item xs={7}>
-                                {show === index ? (
-                                  <Box key={index}>
-                                    <Allcheck
-                                      onClick={() => {
-                                        let tempData = value[index];
-                                        tempData = {
-                                          name: row.name,
-                                          view: true,
-                                          edit: true,
-                                          deleted: true,
-                                          add: true,
-                                        };
-                                        value[index] = tempData;
-                                        setValue(`rights`, value);
-                                      }}
-                                      size="small"
-                                      label="All Check"
-                                      variant="outlined"
-                                    />
-                                    <Allcheck
-                                      onClick={() => {
-                                        let tempData = value[index];
-                                        tempData = {
-                                          name: row.name,
-                                          view: false,
-                                          edit: false,
-                                          deleted: false,
-                                          add: false,
-                                        };
-                                        value[index] = tempData;
-                                        setValue(`rights`, value);
-                                      }}
-                                      size="small"
-                                      label="None"
-                                      variant="outlined"
-                                    />
-                                  </Box>
-                                ) : (
-                                  <></>
-                                )}
-                              </Grid>
-                            </Grid>
-                          </TableCell>
-                          <TableCell>
-                            <Checkbox
-                              checked={row.view}
-                              name={row.name}
-                              value={row.view}
-                              onChange={(e) => {
-                                const updatedValue = value;
-                                updatedValue[index].view = e.target.checked;
-                                setValue(`rights`, updatedValue);
-                                // handleChange(
-                                //   "view",
-                                //   e.target.checked,
-                                //   index,
-                                //   row
-                                // )
-                              }}
-                              color="secondary"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Checkbox
-                              checked={row.edit}
-                              name={row.name}
-                              value={row.edit}
-                              onChange={(e) => {
-                                const updatedValue = value;
-                                updatedValue[index].edit = e.target.checked;
-                                setValue(`rights`, updatedValue);
-                              }}
-                              color="secondary"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Checkbox
-                              checked={row.add}
-                              name={row.name}
-                              value={row.add}
-                              onChange={(e) => {
-                                const updatedValue = value;
-                                updatedValue[index].add = e.target.checked;
-                                setValue(`rights`, updatedValue);
-                              }}
-                              color="secondary"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Checkbox
-                              checked={row.deleted}
-                              name={row.name}
-                              value={row.deleted}
-                              onChange={(e) => {
-                                const updatedValue = value;
-                                updatedValue[index].deleted = e.target.checked;
-                                setValue(`rights`, updatedValue);
-                              }}
-                              color="secondary"
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </>
-                  )}
-                  control={control}
-                  rules={{
-                    required: "Select one role",
-                  }}
-                />
-              </TableBody>
-            </Table>
-          </TableContainer>
+
+          {tableShow ? (
+            <>
+              <Typography color="text.primary" variant="subtitle2">
+                Role Rights
+              </Typography>
+              <br />
+              <TableContainer component={Paper} sx={{ maxWidth: 720 }}>
+                {/* {tableLoading ? <LinearProgress /> : <></>} */}
+
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Choose</TableCell>
+                      <TableCell>View</TableCell>
+                      <TableCell>Edit</TableCell>
+                      <TableCell>Add</TableCell>
+                      <TableCell>Delete</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <Controller
+                      name="rights"
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { error },
+                      }) => (
+                        <>
+                          {value.map((row, index) => (
+                            <TableRow key={`tableRow_${index}`}>
+                              <TableCell
+                                width="50%"
+                                onMouseOver={() => setShow(index)}
+                                onMouseOut={() => setShow()}
+                              >
+                                <Grid container spacing={2}>
+                                  <Grid item xs={4}>
+                                    {row.name}
+                                  </Grid>
+                                  <Grid item xs={7}>
+                                    {show === index ? (
+                                      <Box key={index}>
+                                        <Allcheck
+                                          onClick={() => {
+                                            let tempData = value[index];
+                                            tempData = {
+                                              name: row.name,
+                                              view: true,
+                                              edit: true,
+                                              deleted: true,
+                                              add: true,
+                                            };
+                                            value[index] = tempData;
+                                            setValue(`rights`, value);
+                                          }}
+                                          size="small"
+                                          label="All Check"
+                                          variant="outlined"
+                                        />
+                                        <Allcheck
+                                          onClick={() => {
+                                            let tempData = value[index];
+                                            tempData = {
+                                              name: row.name,
+                                              view: false,
+                                              edit: false,
+                                              deleted: false,
+                                              add: false,
+                                            };
+                                            value[index] = tempData;
+                                            setValue(`rights`, value);
+                                          }}
+                                          size="small"
+                                          label="None"
+                                          variant="outlined"
+                                        />
+                                      </Box>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </Grid>
+                                </Grid>
+                              </TableCell>
+                              <TableCell>
+                                <Checkbox
+                                  checked={row.view}
+                                  name={row.name}
+                                  value={row.view}
+                                  onChange={(e) => {
+                                    const updatedValue = value;
+                                    updatedValue[index].view = e.target.checked;
+                                    setValue(`rights`, updatedValue);
+                                  }}
+                                  color="secondary"
+                                />
+                              </TableCell>
+                              <TableCell>
+                                <Checkbox
+                                  checked={row.edit}
+                                  name={row.name}
+                                  value={row.edit}
+                                  onChange={(e) => {
+                                    const updatedValue = value;
+                                    updatedValue[index].edit = e.target.checked;
+                                    setValue(`rights`, updatedValue);
+                                  }}
+                                  color="secondary"
+                                />
+                              </TableCell>
+                              <TableCell>
+                                <Checkbox
+                                  checked={row.add}
+                                  name={row.name}
+                                  value={row.add}
+                                  onChange={(e) => {
+                                    const updatedValue = value;
+                                    updatedValue[index].add = e.target.checked;
+                                    setValue(`rights`, updatedValue);
+                                  }}
+                                  color="secondary"
+                                />
+                              </TableCell>
+                              <TableCell>
+                                <Checkbox
+                                  checked={row.deleted}
+                                  name={row.name}
+                                  value={row.deleted}
+                                  onChange={(e) => {
+                                    const updatedValue = value;
+                                    updatedValue[index].deleted =
+                                      e.target.checked;
+                                    setValue(`rights`, updatedValue);
+                                  }}
+                                  color="secondary"
+                                />
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </>
+                      )}
+                      control={control}
+                      rules={{
+                        required: "Select one role",
+                      }}
+                    />
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          ) : (
+            <></>
+          )}
+
           <br />
           <BottomButton
             loading={loading}
