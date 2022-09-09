@@ -205,7 +205,10 @@ const Staff = () => {
       renderCell: (params) => (
         <Box>
           <UpdateIcon
-          // onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
+            onClick={() => [
+              dispatch({ type: "CLEAR_JUMP_TO_PATH", payload: null }),
+              navigate(`/staff/add?cid=${params.row._id}`),
+            ]}
           />
           {params.row.isActive ? (
             <>
@@ -241,7 +244,10 @@ const Staff = () => {
         <Grid xs={2}>
           <MyButton
             variant="contained"
-            onClick={() => navigate(`/staff/add`)} // this navigates to a new component to add the new categories
+            onClick={() => [
+              dispatch({ type: "CLEAR_JUMP_TO_PATH", payload: null }),
+              navigate(`/staff/add`),
+            ]} // this navigates to a new component to add the new categories
           >
             Add User
           </MyButton>

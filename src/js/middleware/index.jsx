@@ -75,6 +75,7 @@ import {
   fetchStaffListSuccess,
   fetchStaffListFailure,
   fetchStaffList,
+  addStaffMsg,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -817,7 +818,35 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         addingStaffData(action.payload.body)
           .then((res) => {
             if (res) {
+              store.dispatch(addStaffMsg(res.message));
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
+              store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });
+            } else {
+              store.dispatch(fetchStaffList(action.payload.defaultPayload));
+              alert("ADD_STAFF_DATA => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+
+            store.dispatch(fetchStaffListFailure());
+            alert("ERROR OCCURED WHILE ADD_STAFF_DATA DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "UPDATE_STAFF_DATA":
+        store.dispatch(loadingStart());
+        updateStaffHandlerData(action.payload.cid, action.payload.body)
+          .then((res) => {
+            console.log(res);
+            if (res) {
+              console.log("RESPONSE", res.message);
+              store.dispatch(addStaffMsg(res.message));
+              // jumpOnPath("/staff");
+              store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });
+              // store.dispatch(fetchStaffList(action.payload.defaultPayload));
             } else {
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
               alert("ADD_STAFF_DATA => RESPONSE => FALSE");

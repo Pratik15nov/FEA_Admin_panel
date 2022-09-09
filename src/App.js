@@ -166,7 +166,7 @@ function App() {
             path="/settings"
             element={
               <Layout>
-                <Settings />
+                <Settings getValue={getValue} />
               </Layout>
             }
           />

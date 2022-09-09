@@ -5,7 +5,15 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 export default function CustomSnackbar(props) {
-
+  // const [message, setMessage] = React.useState(" ");
+  // const [msgData, setMsgData] = React.useState(false);
+  // const getValue = (open, msg) => {
+  //   setMessage(msg);
+  //   setMsgData(open);
+  //   setTimeout(() => {
+  //     setMsgData(false);
+  // }, 3000);
+  // };
   return (
     <Snackbar
       open={props.open}

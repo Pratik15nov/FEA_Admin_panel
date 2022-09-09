@@ -60,15 +60,6 @@ export default function AddCategory(props) {
       alert(error);
     }
     try {
-      if (search.split("=").length > 0) {
-        categoryId = search.split("=")[1];
-      } else {
-        categoryId = "";
-      }
-    } catch (error) {
-      alert(error);
-    }
-    try {
       if (categoryId) {
         getCategoryData(categoryId);
       }

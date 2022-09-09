@@ -1,7 +1,6 @@
 export function loadingStart() {
   return { type: "FETCH_DATA_START" };
 }
-
 export function loadingStop() {
   return { type: "FETCH_DATA_STOP" };
 }
@@ -271,6 +270,9 @@ export function updateMenuData(payload) {
 export function fetchStaffList(payload) {
   return { type: "FETCH_STAFF", payload };
 }
+export function addStaffMsg(payload) {
+  return { type: "STAFF_MSG", payload };
+}
 export function fetchStaffListSuccess(payload) {
   return { type: "FETCH_STAFF_SUCCESS", payload };
 }
@@ -281,6 +283,9 @@ export function fetchStaffListFailure() {
 
 export function addStaffData(payload) {
   return { type: "ADD_STAFF_DATA", payload };
+}
+export function updateStaff(payload) {
+  return { type: "UPDATE_STAFF_DATA", payload };
 }
 
 export function updateStaffData(payload) {

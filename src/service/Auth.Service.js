@@ -142,7 +142,8 @@ export const rightsHandlerData = (body) => {
   return post(`${ENDPOINTURL}/rights/list`, body);
 };
 export const rightsupdateHandlerData = (cid, body) => {
-  return put(`${ENDPOINTURL}/rights/${cid}`, body)};
+  return put(`${ENDPOINTURL}/rights/${cid}`, body);
+};
 // role apis
 export const roleHandlerData = (body) => {
   return post(`${ENDPOINTURL}/role/list`, body);
@@ -178,4 +179,7 @@ export const addingStaffData = (body) => {
 
 export const updateStaffHandlerData = (id, body) => {
   return put(`${ENDPOINTURL}/adminUser/${id}`, body);
+};
+export const staffDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/adminUser/list`, body);
 };

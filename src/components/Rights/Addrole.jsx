@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, TextField, Box } from "@mui/material";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
   rightsHandler,
@@ -33,57 +33,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import { fetchRightsList } from "../../js/actions";
-const rows = [
-  {
-    name: "Dashboard",
-    view: false,
-    edit: false,
-    add: false,
-    deleted: false,
-  },
-  {
-    name: "Products",
-    view: false,
-    edit: false,
-    add: false,
-    deleted: false,
-  },
-  {
-    name: "Category",
-    view: false,
-    edit: false,
-    add: false,
-    deleted: false,
-  },
-  {
-    name: "Customers",
-    view: false,
-    edit: false,
-    add: false,
-    deleted: false,
-  },
-  {
-    name: "Orders",
-    view: false,
-    edit: false,
-    add: false,
-    deleted: false,
-  },
-  {
-    name: "Coupons",
-    view: false,
-    edit: false,
-    add: false,
-    deleted: false,
-  },
-  {
-    name: "Staff",
-    view: false,
-    edit: false,
-    add: false,
-    deleted: false,
-  },
-];
+
 export default function AddRights(props) {
   const [cid, setcid] = useState();
   const [rightId, setRightId] = useState(null);
@@ -94,7 +44,7 @@ export default function AddRights(props) {
   const dispatch = useDispatch();
   const [show, setShow] = useState();
   const navigate = useNavigate();
-  const [rightList, setRightList] = useState(rows);
+
   const [roleList, setRoleList] = useState([]);
   const page = useSelector((state) => state.rights.page);
   useEffect(() => {
@@ -109,7 +59,7 @@ export default function AddRights(props) {
       alert(error);
     }
     setcid(roleId);
-    roleListData(roleId);
+    roleListData(roleId); // eslint-disable-next-line
   }, [search]);
 
   const roleListData = async (roleId) => {
@@ -147,8 +97,6 @@ export default function AddRights(props) {
 
           setRightId(responsess?.list[0]._id);
           setTableLoading(false);
-        } else {
-          setRightList([]);
         }
       } catch (err) {
         alert(err);
@@ -199,7 +147,7 @@ export default function AddRights(props) {
     }
   };
 
-  const { handleSubmit, control, reset, setValue, getValues } = useForm({
+  const { handleSubmit, control, reset, setValue } = useForm({
     defaultValues: {
       roleId: null,
       rights: [],
@@ -260,13 +208,15 @@ export default function AddRights(props) {
           deleted: false,
         },
       ],
-    });
+    }); // eslint-disable-next-line
   }, []);
 
   return (
     <Container>
       <BreadcrumbArea />
+
       <InputBox>
+       
         <form>
           <Typography color="text.primary" variant="subtitle2">
             Role Name
