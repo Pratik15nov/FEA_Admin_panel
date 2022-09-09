@@ -27,7 +27,6 @@ function staffReducer(state = initialState, action) {
     case "STAFF_SEARCH_SUCCESS":
       return { ...state, list: action.payload };
     case "STAFF_MSG":
-      console.log("USERMSG", action.payload);
       return { ...state, msg: action.payload };
     default:
       return state;

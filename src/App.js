@@ -19,7 +19,7 @@ import UpdateCustomers from "./components/Customers/updatecustomers";
 import CustomersOrders from "./components/Customers-orders";
 import AddCoupons from "./components/Coupons/Editcoupons";
 import Settings from "./components/settings";
-import AddRights from "./components/Rights/Addrole";
+import AddRights from "./components/Rights/AddRights";
 import AddStaff from "./components/Staff/AddStaff";
 import Menu from "./components/Menu";
 import Rights from "./components/Rights";
