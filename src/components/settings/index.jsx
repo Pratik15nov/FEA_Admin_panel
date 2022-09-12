@@ -41,7 +41,7 @@ const Settings = () => {
     const column = gridVisibleColumnDefinitionsSelector(apiRef)[colIndex];
     apiRef.current.setCellFocus(id, column.field);
   }, [apiRef, coordinates]);
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const handleClick = (position) => () => {
     const maxRowIndex = gridVisibleRowCountSelector(apiRef) - 1;
     const maxColIndex = gridVisibleColumnDefinitionsSelector(apiRef).length - 1;
@@ -121,13 +121,13 @@ const Settings = () => {
       <Container>
         <BreadcrumbArea />
       </Container>
-      <Button variant="outlined" size="large" onClick={handleLogin}>
+      {/* <Button variant="outlined" size="large" onClick={handleLogin}>
         LOGIN
       </Button>
 
       <Button variant="outlined" size="large" onClick={handleCheck}>
         CHECK
-      </Button>
+      </Button> */}
       <Box sx={{ height: 400 }}>
         <DataGridPro
           apiRef={apiRef}
