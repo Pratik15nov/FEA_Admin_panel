@@ -6,6 +6,8 @@ import {
   Divider,
   ListItemButton,
   CardHeader,
+  Grid,
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
@@ -31,10 +33,11 @@ import {
   Search,
   StyledInputBase,
   AvatarStyle,
-  AvatarHeader,
   ListIcon,
   ListText,
   ListItem,
+  CardHeaders,
+  Admin,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRoutingList } from "../../js/actions";
@@ -52,20 +55,16 @@ export default function MiniDrawer(props) {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
-
   const page = useSelector((state) => state.layout.page);
   const RouteList = useSelector((state) => state.layout.list);
+
   useEffect(() => {
+    localStorage.getItem("Data");
+
     getRoutes(); // eslint-disable-next-line
   }, []);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
   let info = JSON.parse(localStorage.getItem("Data"));
-  console.log("info: ", info.data);
-
->>>>>>> af81abede27a2541859356c1e4ac690a843ea85f
   const [anchorEl, setAnchorEl] = React.useState(null);
   const opens = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -76,17 +75,9 @@ export default function MiniDrawer(props) {
   };
   const handleLogout = () => {
     localStorage.removeItem("dataToken");
-    navigate("/")
+    navigate("/");
   };
-<<<<<<< HEAD
-=======
 
-  let info = JSON.parse(localStorage.getItem("Data"));
-  console.log("info: ", info.data);
-
->>>>>>> 41fb98cc76751c6e373ab9ba1658a22d0cf98770
-=======
->>>>>>> af81abede27a2541859356c1e4ac690a843ea85f
   const getRoutes = () => {
     try {
       dispatch(
@@ -217,7 +208,9 @@ export default function MiniDrawer(props) {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem>
+            <MenuItem
+              onClick={() => navigate(`/profile?cid=${info?.data?.id}`)}
+            >
               <Avatar /> Profile
             </MenuItem>
 
@@ -238,27 +231,38 @@ export default function MiniDrawer(props) {
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
-        <AvatarHeader>
-          <CardHeader
-            avatar={<AvatarStyle alt="admin" src="/images/profile.webp" />}
-            title={
-              info?.data?.firstName?.charAt(0).toUpperCase() +
+        <CardHeaders
+          container
+          sx={{
+            ...(!open && { display: "none" }),
+          }}
+        >
+          <Grid item xs={6} md={3}>
+            <AvatarStyle alt="admin" src="/images/profile.webp" />
+          </Grid>
+          <Grid xs={6} md={6}>
+            {info?.data?.firstName?.charAt(0).toUpperCase() +
               info.data.firstName.slice(1) +
               ` ` +
               info?.data.lastName.charAt(0).toUpperCase() +
-              info.data.lastName.slice(1)
-            }
-            subheader={info?.data.role.roleName}
-            sx={{ padding: 1 }}
-          />
-          <mainListIcon onClick={() => setOpen(false)}>
-            <KeyboardDoubleArrowLeftIcon />
-          </mainListIcon>
-        </AvatarHeader>
+              info?.data.lastName.slice(1)}
+            <br />
+            <Admin variant="caption">{info?.data.role.roleName}</Admin>
+          </Grid>
+          <Grid xs={6} md={3}>
+            <mainListIcon onClick={() => setOpen(false)}>
+              <KeyboardDoubleArrowLeftIcon gutterBottom sx={{ mt: 1 }} />
+            </mainListIcon>
+          </Grid>
+        </CardHeaders>
 
         <Divider />
 
-        <List>
+        <List
+          sx={{
+            ...(!open && { marginTop: 8 }),
+          }}
+        >
           {RouteList.filter((r) => r.fieldName !== "settings").map(
             (r, index) => (
               <ListItem
