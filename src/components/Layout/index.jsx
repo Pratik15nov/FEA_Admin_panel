@@ -5,9 +5,7 @@ import {
   List,
   Divider,
   ListItemButton,
-  CardHeader,
   Grid,
-  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
@@ -59,12 +57,12 @@ export default function MiniDrawer(props) {
   const [selectedIndex, setSelectedIndex] = React.useState();
   const page = useSelector((state) => state);
   const RouteList = useSelector((state) => state.layout.list);
-  const jumpOnPaths = useSelector((state) => state.staff);
+
   useEffect(() => {
     getRoutes(); // eslint-disable-next-line
     getRole();
   }, []);
-  console.log(jumpOnPaths);
+
   let info = JSON.parse(localStorage.getItem("Data"));
   console.log("info: ", info.data);
 
