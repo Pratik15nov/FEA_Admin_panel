@@ -31,10 +31,7 @@ const Login = () => {
       if (response.success) {
         console.log("response: ", response);
         localStorage.setItem("dataToken", response?.data?.token);
-        localStorage.setItem("roleId", response?.data?.role?._id);
-        localStorage.setItem("firstname", response?.data?.firstName);
-        localStorage.setItem("lastname", response?.data?.lastName);
-        localStorage.setItem("email", response?.data?.email);
+        localStorage.setItem("Data", JSON.stringify(response));
 
         navigate("/dashboard");
       } else {

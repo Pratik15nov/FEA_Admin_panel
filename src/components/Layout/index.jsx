@@ -53,6 +53,9 @@ export default function MiniDrawer(props) {
     getRoutes(); // eslint-disable-next-line
   }, []);
 
+  let info = JSON.parse(localStorage.getItem("Data"));
+  console.log("info: ", info.data);
+
   const getRoutes = () => {
     try {
       dispatch(
@@ -145,8 +148,14 @@ export default function MiniDrawer(props) {
         <AvatarHeader>
           <CardHeader
             avatar={<AvatarStyle alt="admin" src="/images/profile.webp" />}
-            title="Prince Akabari"
-            subheader="Admin"
+            title={
+              info?.data?.firstName?.charAt(0).toUpperCase() +
+              info.data.firstName.slice(1) +
+              ` ` +
+              info?.data.lastName.charAt(0).toUpperCase() +
+              info.data.lastName.slice(1)
+            }
+            subheader={info?.data.role.roleName}
             sx={{ padding: 1 }}
           />
           <mainListIcon onClick={() => setOpen(false)}>
