@@ -6,6 +6,8 @@ import {
   Divider,
   ListItemButton,
   CardHeader,
+  Grid,
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
@@ -31,10 +33,11 @@ import {
   Search,
   StyledInputBase,
   AvatarStyle,
-  AvatarHeader,
   ListIcon,
   ListText,
   ListItem,
+  CardHeaders,
+  Admin,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRoutingList } from "../../js/actions";
@@ -54,10 +57,12 @@ export default function MiniDrawer(props) {
   const [rights, setRights] = React.useState([]);
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
-
   const page = useSelector((state) => state.layout.page);
   const RouteList = useSelector((state) => state.layout.list);
+
   useEffect(() => {
+    localStorage.getItem("Data");
+
     getRoutes(); // eslint-disable-next-line
     getRole();
   }, []);
@@ -105,6 +110,7 @@ export default function MiniDrawer(props) {
     localStorage.removeItem("dataToken");
     navigate("/");
   };
+
   const getRoutes = () => {
     try {
       dispatch(
@@ -235,7 +241,9 @@ export default function MiniDrawer(props) {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem>
+            <MenuItem
+              onClick={() => navigate(`/profile?cid=${info?.data?.id}`)}
+            >
               <Avatar /> Profile
             </MenuItem>
 
@@ -256,23 +264,30 @@ export default function MiniDrawer(props) {
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
-        <AvatarHeader>
-          <CardHeader
-            avatar={<AvatarStyle alt="admin" src="/images/profile.webp" />}
-            title={
-              info?.data?.firstName?.charAt(0).toUpperCase() +
+        <CardHeaders
+          container
+          sx={{
+            ...(!open && { display: "none" }),
+          }}
+        >
+          <Grid item xs={6} md={3}>
+            <AvatarStyle alt="admin" src="/images/profile.webp" />
+          </Grid>
+          <Grid xs={6} md={6}>
+            {info?.data?.firstName?.charAt(0).toUpperCase() +
               info.data.firstName.slice(1) +
               ` ` +
               info?.data.lastName.charAt(0).toUpperCase() +
-              info.data.lastName.slice(1)
-            }
-            subheader={info?.data.role.roleName}
-            sx={{ padding: 1 }}
-          />
-          <mainListIcon onClick={() => setOpen(false)}>
-            <KeyboardDoubleArrowLeftIcon />
-          </mainListIcon>
-        </AvatarHeader>
+              info?.data.lastName.slice(1)}
+            <br />
+            <Admin variant="caption">{info?.data.role.roleName}</Admin>
+          </Grid>
+          <Grid xs={6} md={3}>
+            <mainListIcon onClick={() => setOpen(false)}>
+              <KeyboardDoubleArrowLeftIcon gutterBottom sx={{ mt: 1 }} />
+            </mainListIcon>
+          </Grid>
+        </CardHeaders>
 
         <Divider />
 

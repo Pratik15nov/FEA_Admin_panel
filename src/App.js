@@ -23,6 +23,7 @@ import AddStaff from "./components/Staff/AddStaff";
 import Menu from "./components/Menu";
 import Rights from "./components/Rights";
 import Role from "./components/Role";
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -189,6 +190,15 @@ function App() {
             element={
               <Layout>
                 <AddRights />
+              </Layout>
+            }
+          />
+           <Route
+            exact
+            path="/profile"
+            element={
+              <Layout>
+                <Profile />
               </Layout>
             }
           />

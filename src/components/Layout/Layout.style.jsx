@@ -8,6 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import MuiListItem from "@material-ui/core/ListItem";
+import { Grid, Typography } from "@mui/material";
 const openedMixin = (theme) => ({
   width: 240,
   transition: theme.transitions.create("width", {
@@ -66,7 +67,6 @@ const Drawer = styled(MuiDrawer, {
   borderRight: "none",
   "& .MuiDrawer-paper": {
     boxShadow: "rgb(0 0 0 / 24%) 0px 3px 8px",
-
   },
   ...(open && {
     ...openedMixin(theme),
@@ -131,6 +131,25 @@ const AvatarHeader = styled(DrawerHeader)(({ theme }) => ({
   color: `white`,
 }));
 
+const CardHeaders = styled(Grid)(({ theme }) => ({
+  fontWeight: 600,
+  fontSize: 14,
+  "& .MuiGrid-root": {
+    padding: 12,
+  },
+  backgroundColor: theme.palette.primary.main,
+  color: "white",
+}));
+const Admin = styled(Typography)(({ theme }) => ({
+  fontSize: 14,
+  backgroundColor: "#FFF9CA",
+  paddingLeft: 14,
+  paddingRight: 14,
+  borderRadius: 5,
+  color: theme.palette.primary.main,
+  fontWeight: 600,
+}));
+
 const ListIcon = styled(ListItemIcon)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
@@ -149,7 +168,7 @@ const mainListIcon = styled(IconButton)(({ theme }) => ({
 const ListItem = withStyles({
   root: {
     "& .css-61mavj-MuiButtonBase-root-MuiListItemButton-root": {
-      padding: "1px"
+      padding: "1px",
     },
     "&$selected": {
       backgroundColor: "#1a1a40",
@@ -157,30 +176,30 @@ const ListItem = withStyles({
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
       "& .MuiListItemIcon-root": {
-        color: "white"
+        color: "white",
       },
       "& .MuiTypography-root": {
-        color: "white"
-      }
+        color: "white",
+      },
     },
     "&$selected:hover": {
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
       backgroundColor: "#b7dfff",
       "& .MuiTypography-root": {
-        color: "black"
-      }, "& .MuiListItemIcon-root": {
-        color: "black"
-      }
-
+        color: "black",
+      },
+      "& .MuiListItemIcon-root": {
+        color: "black",
+      },
     },
     "&:hover": {
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
       backgroundColor: "#b7dfff",
-    }
+    },
   },
-  selected: {}
+  selected: {},
 })(MuiListItem);
 export {
   Customsidebar,
@@ -196,4 +215,6 @@ export {
   ListText,
   mainListIcon,
   ListItem,
+  CardHeaders,
+  Admin,
 };
