@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { loginCheck } from "../../service/Auth.Service";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,12 +19,20 @@ const Login = () => {
     },
   });
 
-  const handleLogin = (body) => {
+  const handleLogin = async (info) => {
     try {
-      if (
-        body.email === "vansh.frontendarmy@gmail.com" &&
-        body.password === "V@nsh12345"
-      ) {
+      const body = {
+        email: info.email,
+        password: info.password,
+      };
+
+      const response = await loginCheck(body);
+
+      if (response.success) {
+        console.log("response: ", response);
+        localStorage.setItem("dataToken", response?.data?.token);
+        localStorage.setItem("Data", JSON.stringify(response));
+
         navigate("/dashboard");
       } else {
         alert("PLEASE ENTER CORRECT CREDENTIALS");

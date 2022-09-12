@@ -841,7 +841,8 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         updateStaffHandlerData(action.payload.cid, action.payload.body)
           .then((res) => {
-            if (res.status === 200) {
+            console.log('res: ', res);
+            if (res.success) {
               console.log("RESPONSE", res.message);
               store.dispatch({ type: "STAFF_MSG", payload: res.message });
               store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });

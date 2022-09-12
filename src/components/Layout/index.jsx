@@ -58,6 +58,7 @@ export default function MiniDrawer(props) {
   useEffect(() => {
     getRoutes(); // eslint-disable-next-line
   }, []);
+<<<<<<< HEAD
   const [anchorEl, setAnchorEl] = React.useState(null);
   const opens = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -70,6 +71,12 @@ export default function MiniDrawer(props) {
     localStorage.removeItem("dataToken");
     navigate("/")
   };
+=======
+
+  let info = JSON.parse(localStorage.getItem("Data"));
+  console.log("info: ", info.data);
+
+>>>>>>> 41fb98cc76751c6e373ab9ba1658a22d0cf98770
   const getRoutes = () => {
     try {
       dispatch(
@@ -224,8 +231,14 @@ export default function MiniDrawer(props) {
         <AvatarHeader>
           <CardHeader
             avatar={<AvatarStyle alt="admin" src="/images/profile.webp" />}
-            title="Prince Akabari"
-            subheader="Admin"
+            title={
+              info?.data?.firstName?.charAt(0).toUpperCase() +
+              info.data.firstName.slice(1) +
+              ` ` +
+              info?.data.lastName.charAt(0).toUpperCase() +
+              info.data.lastName.slice(1)
+            }
+            subheader={info?.data.role.roleName}
             sx={{ padding: 1 }}
           />
           <mainListIcon onClick={() => setOpen(false)}>
