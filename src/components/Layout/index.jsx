@@ -291,7 +291,9 @@ export default function MiniDrawer(props) {
 
         <Divider />
 
-        <List>
+        <List sx={{
+            ...(!open && { marginTop: 8 }),
+          }}>
           {rights.filter(
             (r) =>
               r.view === true &&
