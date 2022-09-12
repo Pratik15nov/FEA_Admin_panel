@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Typography, TextField, Grid, Box } from "@mui/material";
+import { Typography, TextField, Grid, Box, Skeleton } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
   customersEditHandlerdata,
@@ -30,6 +30,7 @@ export default function UpdateCustomers(props) {
   const [file, setFile] = useState(null);
   const [apiImg, setApiImg] = useState(null);
   const dispatch = useDispatch();
+  const [skelloading, setSkelLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -76,6 +77,7 @@ export default function UpdateCustomers(props) {
           phoneNumber: response.phoneNumber,
           userImg: response.userImg,
         });
+        setSkelLoading(false);
       }
     } catch (error) {
       alert(error);
@@ -147,201 +149,215 @@ export default function UpdateCustomers(props) {
   return (
     <Container>
       <BreadcrumbArea />
-      <Grid container>
-        <InputBox xs={3}>
-          <Grid container spacing={2}>
-            <Grid xs={4}></Grid>
-            <Grid xs={6}>
-              <Typography variant="subtitle1">Profile Image</Typography>
-            </Grid>
-            <Grid xs={1}></Grid>
+      {skelloading ? (
+        <Grid container>
+          <InputBox xs={3}>
+            <ImgBox>
+              <Skeleton variant="circular" width={200} height={200} />
+            </ImgBox>
+          </InputBox>
+          <Grid xs={8}>
+            <InputBox xs={12}>
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+
+              <Skeleton animation="wave" height={70} width="33%" />
+            </InputBox>
           </Grid>
+        </Grid>
+      ) : (
+        <Grid container>
+          <InputBox xs={3}>
+            <ImgBox>
+              <Controller
+                name="userImg"
+                render={({ field: { value }, fieldState: { error } }) => (
+                  <>
+                    {images == null ? (
+                      <Box>
+                        <FormHelperText error={error}>
+                          {error?.message ?? ""}
+                        </FormHelperText>
+                        <Grid container spacing={2}>
+                          {value == null ? (
+                            <Grid item xs={12}>
+                              <DragDrop onDrop={onDrop} accept={"image/*"} />
+                            </Grid>
+                          ) : (
+                            <></>
+                          )}
 
-          <ImgBox>
-            <Controller
-              name="userImg"
-              render={({ field: { value }, fieldState: { error } }) => (
-                <>
-                  {images == null ? (
-                    <Box>
-                      <FormHelperText error={error}>
-                        {error?.message ?? ""}
-                      </FormHelperText>
-                      <Grid container spacing={2}>
-                        {value == null ? (
-                          <Grid item xs={12}>
-                            <DragDrop onDrop={onDrop} accept={"image/*"} />
-                          </Grid>
-                        ) : (
-                          <></>
-                        )}
-
-                        {value !== null ? (
-                          <Grid item xs={11}>
-                            <ImgSize
-                              component="img"
-                              src={ENDPOINTURLFORIMG + value}
-                              alt=""
-                            />
-                          </Grid>
-                        ) : (
-                          <></>
-                        )}
-                        {value !== null ? (
-                          <Grid item xs={1}>
-                            <DelIcon
-                              onClick={() => [
-                                setImages(null),
-                                setValue("userImg", null),
-                              ]}
-                            />
-                          </Grid>
-                        ) : (
-                          <></>
-                        )}
-                      </Grid>
-                    </Box>
-                  ) : (
-                    <>
-                      <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          {images == null ? (
-                            <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          {value !== null ? (
+                            <Grid item xs={11}>
+                              <ImgSize
+                                component="img"
+                                src={ENDPOINTURLFORIMG + value}
+                                alt=""
+                              />
+                            </Grid>
+                          ) : (
+                            <></>
+                          )}
+                          {value !== null ? (
+                            <Grid item xs={1}>
+                              <DelIcon
+                                onClick={() => [
+                                  setImages(null),
+                                  setValue("userImg", null),
+                                ]}
+                              />
+                            </Grid>
                           ) : (
                             <></>
                           )}
                         </Grid>
-                        <Grid item xs={11}>
-                          <ImgSize component="img" src={images} alt="" />
-                        </Grid>
-
-                        {images !== null ? (
-                          <Grid item xs={1}>
-                            <DelIcon
-                              onClick={() => [
-                                setImages(null),
-                                setValue("userImg", null),
-                              ]}
-                            />
+                      </Box>
+                    ) : (
+                      <>
+                        <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            {images == null ? (
+                              <DragDrop onDrop={onDrop} accept={"image/*"} />
+                            ) : (
+                              <></>
+                            )}
                           </Grid>
-                        ) : (
-                          <></>
-                        )}
-                      </Grid>
-                    </>
-                  )}
-                </>
-              )}
-              control={control}
-              rules={{
-                required: {
-                  value: " ",
-                  message: "Upload Profile image",
-                },
-              }}
-            />
-          </ImgBox>
-        </InputBox>
-        <Grid xs={8}>
-          <InputBox>
-            <Typography color="text.primary" variant="subtitle2">
-              First Name
-            </Typography>
-            <Controller
-              name="firstName"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="firstName"
-                  placeholder="First Name"
-                  name="firstName"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
-                />
-              )}
-              control={control}
-              rules={{
-                required: "Please add first name",
-              }}
-            />
-            <Typography color="text.primary" variant="subtitle2">
-              Last Name
-            </Typography>
-            <Controller
-              name="lastName"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="lastName"
-                  placeholder="Last Name"
-                  name="lastName"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
-                />
-              )}
-              control={control}
-              rules={{
-                required: "Please add last name",
-              }}
-            />
-            <Typography color="text.primary" variant="subtitle2">
-              Phone no
-            </Typography>
-            <Controller
-              name="phoneNumber"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="phoneNumber"
-                  placeholder="Phone no"
-                  name="phoneNumber"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
-                />
-              )}
-              control={control}
-              rules={{
-                required: "Please add phone number",
-              }}
-            />
-            <br />
+                          <Grid item xs={11}>
+                            <ImgSize component="img" src={images} alt="" />
+                          </Grid>
 
-            <BottomButton
-              type="submit"
-              loading={loading}
-              loadingPosition="end"
-              variant="contained"
-              onClick={handleSubmit(handleCustomersData)}
-            >
-              {cid ? "Update" : "Add"} Customers
-            </BottomButton>
-            <BottomButton
-              variant="contained"
-              onClick={() => navigate("/customers")}
-            >
-              Back
-            </BottomButton>
+                          {images !== null ? (
+                            <Grid item xs={1}>
+                              <DelIcon
+                                onClick={() => [
+                                  setImages(null),
+                                  setValue("userImg", null),
+                                ]}
+                              />
+                            </Grid>
+                          ) : (
+                            <></>
+                          )}
+                        </Grid>
+                      </>
+                    )}
+                  </>
+                )}
+                control={control}
+                rules={{
+                  required: {
+                    value: " ",
+                    message: "Upload Profile image",
+                  },
+                }}
+              />
+            </ImgBox>
           </InputBox>
+          <Grid xs={8}>
+            <InputBox>
+              <Typography color="text.primary" variant="subtitle2">
+                First Name
+              </Typography>
+              <Controller
+                name="firstName"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    id="firstName"
+                    placeholder="First Name"
+                    name="firstName"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ?? ""}
+                  />
+                )}
+                control={control}
+                rules={{
+                  required: "Please add first name",
+                }}
+              />
+              <Typography color="text.primary" variant="subtitle2">
+                Last Name
+              </Typography>
+              <Controller
+                name="lastName"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    id="lastName"
+                    placeholder="Last Name"
+                    name="lastName"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ?? ""}
+                  />
+                )}
+                control={control}
+                rules={{
+                  required: "Please add last name",
+                }}
+              />
+              <Typography color="text.primary" variant="subtitle2">
+                Phone no
+              </Typography>
+              <Controller
+                name="phoneNumber"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    id="phoneNumber"
+                    placeholder="Phone no"
+                    name="phoneNumber"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ?? ""}
+                  />
+                )}
+                control={control}
+                rules={{
+                  required: "Please add phone number",
+                }}
+              />
+              <br />
+
+              <BottomButton
+                type="submit"
+                loading={loading}
+                loadingPosition="end"
+                variant="contained"
+                onClick={handleSubmit(handleCustomersData)}
+              >
+                {cid ? "Update" : "Add"} Customers
+              </BottomButton>
+              <BottomButton
+                variant="contained"
+                onClick={() => navigate("/customers")}
+              >
+                Back
+              </BottomButton>
+            </InputBox>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Container>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, TextField } from "@mui/material";
+import { Typography, TextField, Skeleton } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
   couponsHndlerData,
@@ -28,6 +28,7 @@ export default function AddCoupons(props) {
   const { search } = location;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [skelloading, setSkelLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -64,6 +65,7 @@ export default function AddCoupons(props) {
 
   // this function get particular category name and image
   const getCategoryData = async (couponsId) => {
+    setSkelLoading(true);
     const response = await couponsHndlerData(
       listBody({ where: { _id: couponsId }, perPage: 10, page: 1 })
     );
@@ -77,6 +79,7 @@ export default function AddCoupons(props) {
           minvalue: response?.list[0].minvalue,
           maxdiscountvalue: response.list[0].maxdiscountvalue,
         });
+        setSkelLoading(false);
       }
     } catch (error) {
       alert(error);
@@ -147,170 +150,198 @@ export default function AddCoupons(props) {
   return (
     <Container>
       <BreadcrumbArea />
-      <Typography color="text.primary">
-        Add your Coupons code and necessary information from here
-      </Typography>
-      <InputBox>
-        <form>
-          <Typography color="text.primary" variant="subtitle2">
-            Coupon Name
-          </Typography>
-          <Controller
-            name="couponcode"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                id="couponcode"
-                placeholder="Coupon Name"
-                name="couponcode"
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message ?? ""}
-              />
-            )}
-            control={control}
-            rules={{
-              required: "Please add couponcode",
-            }}
-          />
-          <Typography color="text.primary" variant="subtitle2">
-            Coupon description
-          </Typography>
-          <Controller
-            name="description"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                id="description"
-                placeholder="Coupon description"
-                name="description"
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message ?? ""}
-              />
-            )}
-            control={control}
-            rules={{
-              required: "Please add coupon description",
-            }}
-          />
-
-          <Typography color="text.primary" variant="subtitle2">
-            Coupon type
-          </Typography>
-          <Controller
-            name="type"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <FormControl fullWidth>
-                <SelectField
-                  labelId="demo-simple-select-label"
-                  id="type"
-                  placeholder="Coupon type"
-                  name="type"
+      {skelloading ? (
+        <InputBox item xs={6} md={7}>
+          <Skeleton animation="wave" height={25} width="30%" />
+          <Skeleton animation="wave" height={70} width="100%" />
+          <Skeleton animation="wave" height={25} width="30%" />
+          <Skeleton animation="wave" height={70} width="100%" />
+          <Skeleton animation="wave" height={25} width="30%" />
+          <Skeleton animation="wave" height={70} width="100%" />
+          <Skeleton animation="wave" height={25} width="30%" />
+          <Skeleton animation="wave" height={70} width="100%" />
+          <Skeleton animation="wave" height={25} width="30%" />
+          <Skeleton animation="wave" height={70} width="100%" />
+          <Skeleton animation="wave" height={70} width="40%" />
+        </InputBox>
+      ) : (
+        <InputBox>
+          <form>
+            <Typography color="text.primary" variant="subtitle2">
+              Coupon Name
+            </Typography>
+            <Controller
+              name="couponcode"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="couponcode"
+                  placeholder="Coupon Name"
+                  name="couponcode"
                   value={value}
                   onChange={onChange}
                   error={!!error}
                   helperText={error?.message ?? ""}
-                >
-                  <MenuItem value="PERCENTAGE">PERCENTAGE</MenuItem>
-                  <MenuItem value="FLAT">FLAT</MenuItem>
-                </SelectField>
-                <FormHelperText error={error}>
-                  {error?.message ?? ""}
-                </FormHelperText>
-              </FormControl>
-            )}
-            control={control}
-            rules={{
-              required: "Select one Type",
-            }}
-          />
-          <Typography color="text.primary" variant="subtitle2">
-            Coupon minvalue
-          </Typography>
-          <Controller
-            name="minvalue"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                id="minvalue"
-                placeholder="Coupon minvalue"
-                name="minvalue"
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message ?? ""}
-                type={Number}
-              />
-            )}
-            control={control}
-            rules={{
-              required: "Please Add minvalue",
-              maxLength: {
-                value: 10,
-                message: "Cannot be longer than 12 characters",
-              },
-              pattern: {
-                value: /^[1-9]\d*(\d+)?$/i,
-                message: "only numbers are allowed",
-              },
-            }}
-          />
-          <Typography color="text.primary" variant="subtitle2">
-            Coupon maxdiscountvalue
-          </Typography>
-          <Controller
-            name="maxdiscountvalue"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                id="maxdiscountvalue"
-                placeholder="Coupon maxdiscountvalue"
-                name="maxdiscountvalue"
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message ?? ""}
-              />
-            )}
-            control={control}
-            rules={{
-              required: "Please Add maxdiscountvalue",
-              maxLength: {
-                value: 10,
-                message: "Cannot be longer than 12 characters",
-              },
-              pattern: {
-                value: /^[1-9]\d*(\d+)?$/i,
-                message: "only numbers are allowed",
-              },
-            }}
-          />
+                />
+              )}
+              control={control}
+              rules={{
+                required: "Please add couponcode",
+              }}
+            />
+            <Typography color="text.primary" variant="subtitle2">
+              Coupon description
+            </Typography>
+            <Controller
+              name="description"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="description"
+                  placeholder="Coupon description"
+                  name="description"
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message ?? ""}
+                />
+              )}
+              control={control}
+              rules={{
+                required: "Please add coupon description",
+              }}
+            />
 
-          <br />
-          <BottomButton
-            type="submit"
-            loading={loading}
-            loadingPosition="end"
-            variant="contained"
-            onClick={handleSubmit(handleCouponsData)}
-          >
-            {cid ? "Update" : "Add"} Coupons
-          </BottomButton>
-          <BottomButton
-            variant="contained"
-            onClick={() => navigate("/coupons")}
-          >
-            Back
-          </BottomButton>
-        </form>
-      </InputBox>
+            <Typography color="text.primary" variant="subtitle2">
+              Coupon type
+            </Typography>
+            <Controller
+              name="type"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <FormControl fullWidth>
+                  <SelectField
+                    labelId="demo-simple-select-label"
+                    id="type"
+                    placeholder="Coupon type"
+                    name="type"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ?? ""}
+                  >
+                    <MenuItem value="PERCENTAGE">PERCENTAGE</MenuItem>
+                    <MenuItem value="FLAT">FLAT</MenuItem>
+                  </SelectField>
+                  <FormHelperText error={error}>
+                    {error?.message ?? ""}
+                  </FormHelperText>
+                </FormControl>
+              )}
+              control={control}
+              rules={{
+                required: "Select one Type",
+              }}
+            />
+            <Typography color="text.primary" variant="subtitle2">
+              Coupon minvalue
+            </Typography>
+            <Controller
+              name="minvalue"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="minvalue"
+                  placeholder="Coupon minvalue"
+                  name="minvalue"
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message ?? ""}
+                  type={Number}
+                />
+              )}
+              control={control}
+              rules={{
+                required: "Please Add minvalue",
+                maxLength: {
+                  value: 10,
+                  message: "Cannot be longer than 12 characters",
+                },
+                pattern: {
+                  value: /^[1-9]\d*(\d+)?$/i,
+                  message: "only numbers are allowed",
+                },
+              }}
+            />
+            <Typography color="text.primary" variant="subtitle2">
+              Coupon maxdiscountvalue
+            </Typography>
+            <Controller
+              name="maxdiscountvalue"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="maxdiscountvalue"
+                  placeholder="Coupon maxdiscountvalue"
+                  name="maxdiscountvalue"
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message ?? ""}
+                />
+              )}
+              control={control}
+              rules={{
+                required: "Please Add maxdiscountvalue",
+                maxLength: {
+                  value: 10,
+                  message: "Cannot be longer than 12 characters",
+                },
+                pattern: {
+                  value: /^[1-9]\d*(\d+)?$/i,
+                  message: "only numbers are allowed",
+                },
+              }}
+            />
+
+            <br />
+            <BottomButton
+              type="submit"
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleSubmit(handleCouponsData)}
+            >
+              {cid ? "Update" : "Add"} Coupons
+            </BottomButton>
+            <BottomButton
+              variant="contained"
+              onClick={() => navigate("/coupons")}
+            >
+              Back
+            </BottomButton>
+          </form>
+        </InputBox>
+      )}
     </Container>
   );
 }

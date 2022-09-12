@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Typography, TextField, Grid } from "@mui/material";
+import { Box, Typography, TextField, Grid, Skeleton } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import {
@@ -31,6 +31,7 @@ export default function AddCategory(props) {
   const [file, setFile] = useState(null);
   const [apiImg, setApiImg] = useState(null);
   const dispatch = useDispatch();
+  const [skelloading, setSkelLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -72,6 +73,7 @@ export default function AddCategory(props) {
 
   // this function get particular category name and image
   const getCategoryData = async (categoryId) => {
+    setSkelLoading(true);
     const response = await categoryHndlerData(categoryId);
     setApiImg(response.categoryImg);
     try {
@@ -80,6 +82,7 @@ export default function AddCategory(props) {
           categoryName: response.categoryName,
           categoryImg: response.categoryImg,
         });
+        setSkelLoading(false);
       }
     } catch (error) {
       alert(error);
@@ -152,127 +155,150 @@ export default function AddCategory(props) {
   return (
     <Container>
       <BreadcrumbArea />
+      {skelloading ? (
+        <InputBox>
+          <form>
+            <Skeleton animation="wave" height={25} width="30%" />
+            <Skeleton animation="wave" height={70} width="100%" />
+            <Skeleton animation="wave" height={25} width="30%" />
 
-      <InputBox>
-        <Typography color="text.primary">
-          Add your Product category and necessary information from here
-        </Typography>
-        <form>
-          <Typography color="text.primary" variant="subtitle2">
-            Category Name
-          </Typography>
-          <Controller
-            name="categoryName"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                id="categoryName"
-                placeholder="Category Name"
-                name="categoryName"
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message ?? ""}
-              />
-            )}
-            control={control}
-            rules={{
-              required: "Please add category name",
-            }}
-          />
-          <Typography color="text.primary" variant="subtitle2">
-            Category Image
-          </Typography>
-          <ImgBox>
+            <ImgBox>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Skeleton animation="wave" height={45} width="20%" />
+                  <Skeleton animation="wave" height={25} width="60%" />
+                </Grid>
+                <Grid item xs={5}>
+                  <Skeleton animation="wave" height={200} width="85%" />
+                </Grid>
+              </Grid>
+            </ImgBox>
+            <br />
+            <Skeleton animation="wave" height={70} width="40%" />
+          </form>
+        </InputBox>
+      ) : (
+        <InputBox>
+          <form>
+            <Typography color="text.primary" variant="subtitle2">
+              Category Name
+            </Typography>
             <Controller
-              name="categoryImg"
-              render={({ field: { value } }) => (
-                <>
-                  {images == null ? (
-                    <Box>
-                      <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <DragDrop onDrop={onDrop} accept={"image/*"} />
-                        </Grid>
-                        <Grid item xs={5}>
-                          {value !== null ? (
-                            <>
-                              <ImgSize
-                                component="img"
-                                src={ENDPOINTURLFORIMG + value}
-                                alt=""
-                              />
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </Grid>
-                        <Grid item xs={1}>
-                          {value !== null ? (
-                            <>
-                              <DelIcon
-                                onClick={() => setValue("categoryImg", null)}
-                              />
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  ) : (
-                    <>
-                      <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <DragDrop onDrop={onDrop} accept={"image/*"} />
-                        </Grid>
-                        <Grid item xs={5}>
-                          <ImgSize component="img" src={images} alt="" />
-                        </Grid>
-                        <Grid item xs={1}>
-                          {images !== null ? (
-                            <>
-                              <DelIcon
-                                onClick={() => [
-                                  setImages(null),
-                                  setValue("categoryImg", null),
-                                ]}
-                              />
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </Grid>
-                      </Grid>
-                    </>
-                  )}
-                </>
+              name="categoryName"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="categoryName"
+                  placeholder="Category Name"
+                  name="categoryName"
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message ?? ""}
+                />
               )}
               control={control}
               rules={{
-                required: "Please add category img",
+                required: "Please add category name",
               }}
             />
-          </ImgBox>
-          <br />
-          <BottomButton
-            type="submit"
-            loading={loading}
-            loadingPosition="end"
-            variant="contained"
-            onClick={handleSubmit(handleCategoryData)}
-          >
-            {cid ? "Update" : "Add"} Category
-          </BottomButton>
-          <BottomButton
-            variant="contained"
-            onClick={() => navigate("/category")}
-          >
-            Back
-          </BottomButton>
-        </form>
-      </InputBox>
+            <Typography color="text.primary" variant="subtitle2">
+              Category Image
+            </Typography>
+            <ImgBox>
+              <Controller
+                name="categoryImg"
+                render={({ field: { value } }) => (
+                  <>
+                    {images == null ? (
+                      <Box>
+                        <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          </Grid>
+                          <Grid item xs={5}>
+                            {value !== null ? (
+                              <>
+                                <ImgSize
+                                  component="img"
+                                  src={ENDPOINTURLFORIMG + value}
+                                  alt=""
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Grid>
+                          <Grid item xs={1}>
+                            {value !== null ? (
+                              <>
+                                <DelIcon
+                                  onClick={() => setValue("categoryImg", null)}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    ) : (
+                      <>
+                        <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            <DragDrop onDrop={onDrop} accept={"image/*"} />
+                          </Grid>
+                          <Grid item xs={5}>
+                            <ImgSize component="img" src={images} alt="" />
+                          </Grid>
+                          <Grid item xs={1}>
+                            {images !== null ? (
+                              <>
+                                <DelIcon
+                                  onClick={() => [
+                                    setImages(null),
+                                    setValue("categoryImg", null),
+                                  ]}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </>
+                    )}
+                  </>
+                )}
+                control={control}
+                rules={{
+                  required: "Please add category img",
+                }}
+              />
+            </ImgBox>
+            <br />
+            <BottomButton
+              type="submit"
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleSubmit(handleCategoryData)}
+            >
+              {cid ? "Update" : "Add"} Category
+            </BottomButton>
+            <BottomButton
+              variant="contained"
+              onClick={() => navigate("/category")}
+            >
+              Back
+            </BottomButton>
+          </form>
+        </InputBox>
+      )}
     </Container>
   );
 }

@@ -8,14 +8,14 @@ import {
   BottomButton,
   SelectField,
 } from "./AddStaff.style";
-import { Typography, Grid, CircularProgress, Box } from "@mui/material";
+import { Typography, Grid, Skeleton } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   roleHandlerData,
-  staffDataHandler,// eslint-disable-next-line
+  staffDataHandler, // eslint-disable-next-line
   updateStaffHandlerData,
 } from "../../../service/Auth.Service";
 import { listBody } from "../../../utils/Helper";
@@ -147,15 +147,25 @@ const AddStaff = (props) => {
         <Grid container sx={{ paddingBottom: "20px" }}>
           <BreadcrumbArea />
         </Grid>
+
         {loading ? (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="50vh"
-          >
-            <CircularProgress />
-          </Box>
+          <Grid container sx={{ flexWrap: "nowrap" }}>
+            <InputBox item xs={6}>
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+            </InputBox>
+            <InputBox item xs={6}>
+              <Skeleton animation="wave" height={25} width="30%" />
+              <Skeleton animation="wave" height={70} width="100%" />
+              <Skeleton animation="wave" height={70} width="38%" />
+            </InputBox>
+          </Grid>
         ) : (
           <Grid container sx={{ flexWrap: "nowrap" }}>
             <InputBox item xs={6}>
