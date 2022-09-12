@@ -61,8 +61,6 @@ export default function MiniDrawer(props) {
   const RouteList = useSelector((state) => state.layout.list);
 
   useEffect(() => {
-    localStorage.getItem("Data");
-
     getRoutes(); // eslint-disable-next-line
     getRole();
   }, []);
@@ -241,9 +239,7 @@ export default function MiniDrawer(props) {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem
-              onClick={() => navigate(`/profile?cid=${info?.data?.id}`)}
-            >
+            <MenuItem onClick={() => navigate(`/profile`)}>
               <Avatar /> Profile
             </MenuItem>
 
