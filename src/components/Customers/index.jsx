@@ -189,8 +189,7 @@ const Customers = () => {
     }
   };
 
-  const captureSearch = async (data) => {
-    console.log("check", typeof data)
+  const captureSearch = async (data) => { 
     if (data) {
       if (data.length >= 3) {
         const body = {

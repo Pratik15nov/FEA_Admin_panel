@@ -289,58 +289,38 @@ export default function MiniDrawer(props) {
 
         <Divider />
 
-        <List sx={{
+        <List
+          sx={{
             ...(!open && { marginTop: 8 }),
-          }}>
-          {rights.filter(
-            (r) =>
-              r.view === true &&
-              r.name !==
-                "settings").map((r, index) => (
-                  <ListItem
-                    key={index}
-                    disablePadding
-                    selected={selectedIndex === index}
-                    onClick={(event) => [
-                      navigate(
-                        `/${r.name.charAt(0).toLowerCase() + r.name.slice(1)}`
-                      ),
-                      handleListItemClick(event, index),
-                    ]}
-                  >
-                    <ListItemButton>
-                      <ListIcon>
-                        {giveIcons(
-                          r.name.charAt(0).toLowerCase() + r.name.slice(1)
-                        )}
-                      </ListIcon>
-                      <ListText>
-                        {r.name.charAt(0).toLowerCase() + r.name.slice(1)}
-                      </ListText>
-                    </ListItemButton>
-                  </ListItem>
-                ))
-          }
-          {/* {RouteList.filter((r) => r.fieldName !== "settings").map(
-            (r, index) => (
+          }}
+        >
+          {rights
+            .filter((r) => r.view === true && r.name !== "settings")
+            .map((r, index) => (
               <ListItem
                 key={index}
                 disablePadding
                 selected={selectedIndex === index}
                 onClick={(event) => [
-                  navigate(r.path),
+                  navigate(
+                    `/${r.name.charAt(0).toLowerCase() + r.name.slice(1)}`
+                  ),
                   handleListItemClick(event, index),
                 ]}
               >
                 <ListItemButton>
-                  <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
+                  <ListIcon>
+                    {giveIcons(
+                      r.name.charAt(0).toLowerCase() + r.name.slice(1)
+                    )}
+                  </ListIcon>
                   <ListText>
-                    {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
+                    {r.name.charAt(0).toLowerCase() + r.name.slice(1)}
                   </ListText>
                 </ListItemButton>
               </ListItem>
-            )
-          )} */}
+            ))}
+
           <ListItem
             disablePadding
             selected={selectedIndex === 9999999999}
@@ -366,41 +346,3 @@ export default function MiniDrawer(props) {
     </Box>
   );
 }
-
-// <List>
-// {RouteList.filter((r) => r.fieldName !== "settings").map(
-//   (r, index) => (
-//     <ListItem
-//       key={index}
-//       disablePadding
-//       selected={selectedIndex === index}
-//       onClick={(event) => [
-//         navigate(r.path),
-//         handleListItemClick(event, index),
-//       ]}
-//     >
-//       <ListItemButton>
-//         <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
-//         <ListText>
-//           {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
-//         </ListText>
-//       </ListItemButton>
-//     </ListItem>
-//   )
-// )}
-// <ListItem
-//   disablePadding
-//   selected={selectedIndex === 9999999999}
-//   onClick={(event) => [
-//     navigate("/settings"),
-//     handleListItemClick(event, 9999999999),
-//   ]}
-// >
-//   <ListItemButton>
-//     <ListIcon>
-//       <SettingsSuggestRoundedIcon />
-//     </ListIcon>
-//     <ListText>Settings</ListText>
-//   </ListItemButton>
-// </ListItem>
-// </List>
