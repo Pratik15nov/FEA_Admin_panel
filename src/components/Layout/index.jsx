@@ -46,10 +46,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Logout from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import { getRoutesData } from "../../service/Auth.Service";
 
 export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const [rights, setRights] = React.useState([]);
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
 
@@ -57,11 +59,40 @@ export default function MiniDrawer(props) {
   const RouteList = useSelector((state) => state.layout.list);
   useEffect(() => {
     getRoutes(); // eslint-disable-next-line
+    getRole();
   }, []);
 
   let info = JSON.parse(localStorage.getItem("Data"));
   console.log("info: ", info.data);
 
+  const getRole = async () => {
+    try {
+      const response = await getRoutesData(
+        listBody({
+          where: {
+            roleId: info?.data?.role?._id,
+          },
+          perPage: 10,
+          page: 1,
+        })
+      );
+      if (response) {
+        console.log("RESPONSE", response.list[0]?.rights);
+        setRights(response.list[0]?.rights);
+      } else {
+        alert("ERROR IN FETCHING RIGHTS FOR A USER");
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
+  }; // ddddwddewfwffw
+  console.log(
+    "RIGHTs",
+    rights
+      .filter((r) => r.view === true && r.name !== "settings")
+      .map((r) => r.name.charAt(0).toLowerCase() + r.name.slice(1))
+  );
   const [anchorEl, setAnchorEl] = React.useState(null);
   const opens = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -72,7 +103,7 @@ export default function MiniDrawer(props) {
   };
   const handleLogout = () => {
     localStorage.removeItem("dataToken");
-    navigate("/")
+    navigate("/");
   };
   const getRoutes = () => {
     try {
@@ -246,7 +277,36 @@ export default function MiniDrawer(props) {
         <Divider />
 
         <List>
-          {RouteList.filter((r) => r.fieldName !== "settings").map(
+          {rights.filter(
+            (r) =>
+              r.view === true &&
+              r.name !==
+                "settings").map((r, index) => (
+                  <ListItem
+                    key={index}
+                    disablePadding
+                    selected={selectedIndex === index}
+                    onClick={(event) => [
+                      navigate(
+                        `/${r.name.charAt(0).toLowerCase() + r.name.slice(1)}`
+                      ),
+                      handleListItemClick(event, index),
+                    ]}
+                  >
+                    <ListItemButton>
+                      <ListIcon>
+                        {giveIcons(
+                          r.name.charAt(0).toLowerCase() + r.name.slice(1)
+                        )}
+                      </ListIcon>
+                      <ListText>
+                        {r.name.charAt(0).toLowerCase() + r.name.slice(1)}
+                      </ListText>
+                    </ListItemButton>
+                  </ListItem>
+                ))
+          }
+          {/* {RouteList.filter((r) => r.fieldName !== "settings").map(
             (r, index) => (
               <ListItem
                 key={index}
@@ -265,7 +325,7 @@ export default function MiniDrawer(props) {
                 </ListItemButton>
               </ListItem>
             )
-          )}
+          )} */}
           <ListItem
             disablePadding
             selected={selectedIndex === 9999999999}
@@ -283,138 +343,6 @@ export default function MiniDrawer(props) {
           </ListItem>
         </List>
 
-        {/* <List>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 0}
-            onClick={(event) => [
-              navigate("/dashboard"),
-              handleListItemClick(event, 0),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <GridViewIcon />
-              </ListIcon>
-              <ListText>Dashboard</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 1}
-            onClick={(event) => [
-              navigate("/products"),
-              handleListItemClick(event, 1),
-              dispatch(
-                fetchProductList(
-                  listBody({ where: null, perPage: 10, page: 1 })
-                )
-              ),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <InventoryIcon />
-              </ListIcon>
-              <ListText>Products</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 2}
-            onClick={(event) => [
-              navigate("/category"),
-              handleListItemClick(event, 2),
-              dispatch(
-                fetchCategoryList(
-                  listBody({ where: null, perPage: 10, page: 1 })
-                )
-              ),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <CategoryIcon />
-              </ListIcon>
-              <ListText>Category</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 3}
-            onClick={(event) => [
-              navigate("/customers"),
-              handleListItemClick(event, 3),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <PeopleAltIcon />
-              </ListIcon>
-              <ListText>Customers</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 4}
-            onClick={(event) => [
-              navigate("/orders"),
-              handleListItemClick(event, 4),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <ViewQuiltRoundedIcon />
-              </ListIcon>
-              <ListText>Orders</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 5}
-            onClick={(event) => [
-              navigate("/coupons"),
-              handleListItemClick(event, 5),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <DiscountRoundedIcon />
-              </ListIcon>
-              <ListText>Coupons</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 6}
-            onClick={(event) => [
-              navigate("/staff"),
-              handleListItemClick(event, 6),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <LocalLibraryRoundedIcon />
-              </ListIcon>
-              <ListText>All Staff</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 7}
-            onClick={(event) => [
-              navigate("/settings"),
-              handleListItemClick(event, 7),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <SettingsSuggestRoundedIcon />
-              </ListIcon>
-              <ListText>Setting</ListText>
-            </ListItemButton>
-          </ListItem>
-        </List> */}
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>
@@ -423,3 +351,41 @@ export default function MiniDrawer(props) {
     </Box>
   );
 }
+
+// <List>
+// {RouteList.filter((r) => r.fieldName !== "settings").map(
+//   (r, index) => (
+//     <ListItem
+//       key={index}
+//       disablePadding
+//       selected={selectedIndex === index}
+//       onClick={(event) => [
+//         navigate(r.path),
+//         handleListItemClick(event, index),
+//       ]}
+//     >
+//       <ListItemButton>
+//         <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
+//         <ListText>
+//           {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
+//         </ListText>
+//       </ListItemButton>
+//     </ListItem>
+//   )
+// )}
+// <ListItem
+//   disablePadding
+//   selected={selectedIndex === 9999999999}
+//   onClick={(event) => [
+//     navigate("/settings"),
+//     handleListItemClick(event, 9999999999),
+//   ]}
+// >
+//   <ListItemButton>
+//     <ListIcon>
+//       <SettingsSuggestRoundedIcon />
+//     </ListIcon>
+//     <ListText>Settings</ListText>
+//   </ListItemButton>
+// </ListItem>
+// </List>
