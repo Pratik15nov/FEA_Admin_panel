@@ -18,14 +18,15 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [cid, setcid] = useState();
   const jumpOnPath = useSelector((state) => state.staff.jumpTo);
+  const jumpOnPaths = useSelector((state) => state.staff);
   const navigate = useNavigate();
   let info = JSON.parse(localStorage.getItem("Data"));
   useEffect(() => {
     if (jumpOnPath !== null) {
-      navigate("/dashboard");
-    } // eslint-disable-next-line
+      navigate(`${jumpOnPath}`);
+    }
   }, [jumpOnPath]);
-
+  console.log(jumpOnPaths);
   useEffect(() => {
     setcid(info?.data?.id);
     profileHandler(info?.data?.id);
@@ -42,7 +43,7 @@ const Profile = () => {
         })
       );
       if (response.success) {
-        console.log(response);
+        
         reset({
           firstName: response?.list[0].firstName,
           lastName: response?.list[0].lastName,

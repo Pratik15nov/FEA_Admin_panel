@@ -290,6 +290,9 @@ export function updateStaff(payload) {
 export function updatepProfile(payload) {
   return { type: "UPDATE_PROFILE_DATA", payload };
 }
+export function updatepState(payload) {
+  return { type: "UPDATE_STATE_LINK", payload };
+}
 
 export function updateStaffData(payload) {
   return { type: "UPDATE_STAFF_STATUS", payload };
