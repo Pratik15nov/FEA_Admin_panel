@@ -212,7 +212,7 @@ export default function AddRights(props) {
                         onChange={setTableShow(true)}
                         value={value}
                         fullWidth
-                        placeholder="Role type"
+                        placeholder="Roletype"
                       >
                         {roleList.map((card) => {
                           return (
