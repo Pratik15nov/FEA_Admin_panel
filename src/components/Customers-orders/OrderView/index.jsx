@@ -63,11 +63,11 @@ export default function OrderView(props) {
     ),
   ];
 
-  useEffect(() => {
-    let data = 0;
-    props.viewdata?.cartdetail?.filter((value) => {
-      data = data + value?.productId?.discountPrice * value?.quantity;
-    });
+  useEffect(() => {// eslint-disable-next-line
+    let data = 0;// eslint-disable-next-line
+    props.viewdata?.cartdetail?.filter((value) => {// eslint-disable-next-line
+      data = data + value?.productId?.discountPrice * value?.quantity;// eslint-disable-next-line
+    });// eslint-disable-next-line
     setSubTotal(data);
     // eslint-disable-next-line
   }, [props.viewdata]);
