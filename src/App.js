@@ -13,7 +13,6 @@ import Coupons from "./components/Coupons";
 import Category from "./components/Category";
 import AddCategory from "./components/Category/AddCategory";
 import CustomSnackbar from "./components/Snackbar";
-import { useState } from "react";
 import AddProducts from "./components/Products/AddProducts";
 import UpdateCustomers from "./components/Customers/updatecustomers";
 import CustomersOrders from "./components/Customers-orders";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Box, CircularProgress } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
   layoutHandlerData,
@@ -18,7 +18,7 @@ import {
   Allcheck,
   SelectField,
 } from "./Rights.style";
-import { Checkbox, MenuList } from "@material-ui/core";
+import { Checkbox } from "@material-ui/core";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -183,10 +183,10 @@ export default function AddRights(props) {
     },
   });
 
-  const tableHandler = (value) => {
-    console.log("CAlled", value);
-    setTableShow(value);
-  };
+  // const tableHandler = (value) => {
+  //   console.log("CAlled", value);
+  //   setTableShow(value);
+  // };
 
   return (
     <Container>
@@ -266,7 +266,7 @@ export default function AddRights(props) {
               </Typography>
               <br />
               <TableContainer component={Paper} sx={{ maxWidth: 720 }}>
-                {/* {tableLoading ? <LinearProgress /> : <></>} */}
+                {tableLoading ? <LinearProgress /> : <></>}
 
                 <Table>
                   <TableHead>

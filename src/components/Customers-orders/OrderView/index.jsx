@@ -64,13 +64,12 @@ export default function OrderView(props) {
   ];
 
   useEffect(() => {
-
     let data = 0;
     props.viewdata?.cartdetail?.filter((value) => {
       data = data + value?.productId?.discountPrice * value?.quantity;
     });
     setSubTotal(data);
-// eslint-disable-next-line
+    // eslint-disable-next-line
   }, [props.viewdata]);
 
   const handleClose = () => {

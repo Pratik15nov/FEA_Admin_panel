@@ -23,7 +23,6 @@ import {
   SelectField,
 } from "./Products.style";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import { fetchProductList } from "../../js/actions";
 import { useDispatch } from "react-redux";
 

@@ -41,7 +41,7 @@ const Settings = () => {
     const column = gridVisibleColumnDefinitionsSelector(apiRef)[colIndex];
     apiRef.current.setCellFocus(id, column.field);
   }, [apiRef, coordinates]);
-
+// eslint-disable-next-line
   const handleClick = (position) => () => {
     const maxRowIndex = gridVisibleRowCountSelector(apiRef) - 1;
     const maxColIndex = gridVisibleColumnDefinitionsSelector(apiRef).length - 1;

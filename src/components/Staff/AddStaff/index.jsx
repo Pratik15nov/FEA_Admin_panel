@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   roleHandlerData,
-  staffDataHandler,
+  staffDataHandler,// eslint-disable-next-line
   updateStaffHandlerData,
 } from "../../../service/Auth.Service";
 import { listBody } from "../../../utils/Helper";
@@ -36,7 +36,7 @@ const AddStaff = (props) => {
   useEffect(() => {
     if (jumpOnPath !== null) {
       navigate("/staff");
-    }
+    } // eslint-disable-next-line
   }, [jumpOnPath]);
 
   useEffect(() => {
@@ -58,8 +58,9 @@ const AddStaff = (props) => {
       alert(error);
     }
     setcid(staffId);
-    roleListData();
+    roleListData(); // eslint-disable-next-line
   }, [search]);
+
   const staffHandler = async (staffId) => {
     try {
       const response = await staffDataHandler(

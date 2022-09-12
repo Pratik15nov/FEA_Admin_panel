@@ -209,7 +209,7 @@ const Role = () => {
       renderCell: (params) => (
         <Box>
           <UpdateIcon
-            onClick={() => (
+            onClick={() => (// eslint-disable-next-line
               setUpdateAddRole(true), setUpdateRoleData(params.row)
             )}
             // onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
@@ -285,7 +285,7 @@ const Role = () => {
         </Grid>
         <UpdateRoleDialog
           updateAddRole={updateAddRole}
-          updateRoleData={updateRoleData}
+          updateRoleData={updateRoleData}// eslint-disable-next-line
           updateRoleClose={() => (setUpdateAddRole(false), updateRoleData([]))}
           onAgree={updateRole}
         />
