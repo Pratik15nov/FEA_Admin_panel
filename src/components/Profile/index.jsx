@@ -1,65 +1,52 @@
-import BreadcrumbArea from "../BreadcrumbArea";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Container, InputBox, InputField, BottomButton } from "./profile.style";
 import {
-  Container,
-  InputBox,
-  InputField,
-  BottomButton,
-  SelectField,
-} from "./profile.style";
-import {
-  roleHandlerData,
   staffDataHandler, // eslint-disable-next-line
-  updateStaffHandlerData,
 } from "../../service/Auth.Service";
 import { Typography, Grid, Skeleton, Box, Breadcrumbs } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
+
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MyLink } from "../BreadcrumbArea/Breadcrumbarea.style";
 import { listBody } from "../../utils/Helper";
-import { addStaffData, updateStaff } from "../../js/actions";
+import { updatepProfile, updateStaff } from "../../js/actions";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [cid, setcid] = useState();
   const jumpOnPath = useSelector((state) => state.staff.jumpTo);
+  const jumpOnPaths = useSelector((state) => state.staff);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { search } = location;
-
+  let info = JSON.parse(localStorage.getItem("Data"));
   useEffect(() => {
     if (jumpOnPath !== null) {
-      navigate("/dashboard");
-    } // eslint-disable-next-line
+      navigate(`${jumpOnPath}`);
+    }
   }, [jumpOnPath]);
-
+  console.log(jumpOnPaths);
   useEffect(() => {
-    let info = JSON.parse(localStorage.getItem("Data"));
     setcid(info?.data?.id);
     profileHandler(info?.data?.id);
   }, []);
 
-  const profileHandler = async (profileId) => {
+  const profileHandler = async (id) => {
     try {
       const response = await staffDataHandler(
         listBody({
           where: {
-            _id: profileId,
+            _id: id,
           },
           perPage: 10,
         })
       );
       if (response.success) {
-        console.log(response);
+        
         reset({
           firstName: response?.list[0].firstName,
           lastName: response?.list[0].lastName,
-          email: response?.list[0].email,
           phoneNumber: response?.list[0].phoneNumber,
         });
       } else {
@@ -72,7 +59,7 @@ const Profile = () => {
   const handleAdd = async (body) => {
     try {
       dispatch(
-        updateStaff({
+        updatepProfile({
           cid,
           body,
         })
@@ -85,7 +72,6 @@ const Profile = () => {
     defaultValues: {
       firstName: null,
       lastName: null,
-      email: null,
       phoneNumber: null,
     },
   });
@@ -188,36 +174,6 @@ const Profile = () => {
                 minLength: {
                   value: 4,
                   message: "Cannot be smaller than 4 characters",
-                },
-              }}
-            />
-            <Typography color="text.primary" variant="subtitle2">
-              E-mail
-            </Typography>
-            <Controller
-              name="email"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <InputField
-                  margin="normal"
-                  fullWidth
-                  id="email"
-                  placeholder="Enter you email"
-                  name="email"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
-                />
-              )}
-              control={control}
-              rules={{
-                required: "Please add email-address",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Add a valid email-address ",
                 },
               }}
             />

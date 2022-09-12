@@ -40,7 +40,7 @@ import {
   Admin,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRoutingList } from "../../js/actions";
+import { fetchRoutingList, updatepState } from "../../js/actions";
 import { listBody } from "../../utils/Helper";
 import { useEffect } from "react";
 import Menu from "@mui/material/Menu";
@@ -57,14 +57,14 @@ export default function MiniDrawer(props) {
   const [rights, setRights] = React.useState([]);
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
-  const page = useSelector((state) => state.layout.page);
+  const page = useSelector((state) => state);
   const RouteList = useSelector((state) => state.layout.list);
-
+  const jumpOnPaths = useSelector((state) => state.staff);
   useEffect(() => {
     getRoutes(); // eslint-disable-next-line
     getRole();
   }, []);
-
+  console.log(jumpOnPaths);
   let info = JSON.parse(localStorage.getItem("Data"));
   console.log("info: ", info.data);
 
@@ -239,7 +239,9 @@ export default function MiniDrawer(props) {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem onClick={() => navigate(`/profile`)}>
+            <MenuItem
+              onClick={() => [navigate(`/profile`), dispatch(updatepState())]}
+            >
               <Avatar /> Profile
             </MenuItem>
 

@@ -11,6 +11,8 @@ function staffReducer(state = initialState, action) {
   switch (action.type) {
     case "JUMP_TO_PATH":
       return { ...state, jumpTo: action.payload };
+    case "UPDATE_STATE_LINK":
+      return { ...state, jumpTo: null };
     case "CLEAR_JUMP_TO_PATH":
       return { ...state, jumpTo: null };
     case "FETCH_STAFF_FAILURE":
