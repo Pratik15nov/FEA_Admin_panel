@@ -59,6 +59,13 @@ export default function MiniDrawer(props) {
     getRoutes(); // eslint-disable-next-line
   }, []);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+  let info = JSON.parse(localStorage.getItem("Data"));
+  console.log("info: ", info.data);
+
+>>>>>>> af81abede27a2541859356c1e4ac690a843ea85f
   const [anchorEl, setAnchorEl] = React.useState(null);
   const opens = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -71,12 +78,15 @@ export default function MiniDrawer(props) {
     localStorage.removeItem("dataToken");
     navigate("/")
   };
+<<<<<<< HEAD
 =======
 
   let info = JSON.parse(localStorage.getItem("Data"));
   console.log("info: ", info.data);
 
 >>>>>>> 41fb98cc76751c6e373ab9ba1658a22d0cf98770
+=======
+>>>>>>> af81abede27a2541859356c1e4ac690a843ea85f
   const getRoutes = () => {
     try {
       dispatch(
