@@ -59,8 +59,6 @@ export default function MiniDrawer(props) {
   const RouteList = useSelector((state) => state.layout.list);
 
   useEffect(() => {
-    localStorage.getItem("Data");
-
     getRoutes(); // eslint-disable-next-line
   }, []);
 
@@ -208,9 +206,7 @@ export default function MiniDrawer(props) {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem
-              onClick={() => navigate(`/profile?cid=${info?.data?.id}`)}
-            >
+            <MenuItem onClick={() => navigate(`/profile`)}>
               <Avatar /> Profile
             </MenuItem>
 
@@ -300,138 +296,6 @@ export default function MiniDrawer(props) {
           </ListItem>
         </List>
 
-        {/* <List>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 0}
-            onClick={(event) => [
-              navigate("/dashboard"),
-              handleListItemClick(event, 0),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <GridViewIcon />
-              </ListIcon>
-              <ListText>Dashboard</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 1}
-            onClick={(event) => [
-              navigate("/products"),
-              handleListItemClick(event, 1),
-              dispatch(
-                fetchProductList(
-                  listBody({ where: null, perPage: 10, page: 1 })
-                )
-              ),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <InventoryIcon />
-              </ListIcon>
-              <ListText>Products</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 2}
-            onClick={(event) => [
-              navigate("/category"),
-              handleListItemClick(event, 2),
-              dispatch(
-                fetchCategoryList(
-                  listBody({ where: null, perPage: 10, page: 1 })
-                )
-              ),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <CategoryIcon />
-              </ListIcon>
-              <ListText>Category</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 3}
-            onClick={(event) => [
-              navigate("/customers"),
-              handleListItemClick(event, 3),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <PeopleAltIcon />
-              </ListIcon>
-              <ListText>Customers</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 4}
-            onClick={(event) => [
-              navigate("/orders"),
-              handleListItemClick(event, 4),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <ViewQuiltRoundedIcon />
-              </ListIcon>
-              <ListText>Orders</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 5}
-            onClick={(event) => [
-              navigate("/coupons"),
-              handleListItemClick(event, 5),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <DiscountRoundedIcon />
-              </ListIcon>
-              <ListText>Coupons</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 6}
-            onClick={(event) => [
-              navigate("/staff"),
-              handleListItemClick(event, 6),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <LocalLibraryRoundedIcon />
-              </ListIcon>
-              <ListText>All Staff</ListText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            selected={selectedIndex === 7}
-            onClick={(event) => [
-              navigate("/settings"),
-              handleListItemClick(event, 7),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <SettingsSuggestRoundedIcon />
-              </ListIcon>
-              <ListText>Setting</ListText>
-            </ListItemButton>
-          </ListItem>
-        </List> */}
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>
