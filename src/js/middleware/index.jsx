@@ -841,11 +841,35 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         updateStaffHandlerData(action.payload.cid, action.payload.body)
           .then((res) => {
-            console.log('res: ', res);
+            console.log("res: ", res);
             if (res.success) {
               console.log("RESPONSE", res.message);
               store.dispatch({ type: "STAFF_MSG", payload: res.message });
               store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });
+            } else {
+              store.dispatch(fetchStaffList(action.payload.defaultPayload));
+              alert("ADD_STAFF_DATA => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+
+            store.dispatch(fetchStaffListFailure());
+            alert("ERROR OCCURED WHILE ADD_STAFF_DATA DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "UPDATE_PROFILE_DATA":
+        store.dispatch(loadingStart());
+        updateStaffHandlerData(action.payload.cid, action.payload.body)
+          .then((res) => {
+            console.log("res: ", res);
+            if (res.success) {
+              console.log("RESPONSE", res.message);
+              store.dispatch({ type: "STAFF_MSG", payload: res.message });
+              store.dispatch({ type: "JUMP_TO_PATH", payload: "/dashboard" });
             } else {
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
               alert("ADD_STAFF_DATA => RESPONSE => FALSE");

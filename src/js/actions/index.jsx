@@ -287,6 +287,9 @@ export function addStaffData(payload) {
 export function updateStaff(payload) {
   return { type: "UPDATE_STAFF_DATA", payload };
 }
+export function updatepProfile(payload) {
+  return { type: "UPDATE_PROFILE_DATA", payload };
+}
 
 export function updateStaffData(payload) {
   return { type: "UPDATE_STAFF_STATUS", payload };
