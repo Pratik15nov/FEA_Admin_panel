@@ -8,7 +8,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 export const DialogBox = styled(Dialog)(({ theme }) => ({}));
 export const DialogTitleBar = styled(DialogTitle)(({ theme }) => ({
   background: "#1a1a40",
-  color: "white",
+  color: theme.palette.custom.color,
   display: "flex",
 }));
 export const FormLabelControl = styled(FormControlLabel)(({ theme }) => ({
@@ -16,7 +16,7 @@ export const FormLabelControl = styled(FormControlLabel)(({ theme }) => ({
   marginRight: "0px",
   "&:hover": {
     background: " #1a1a4094",
-    color: "white",
+    color: theme.palette.custom.color,
   },
 }));
 export const RadioButtonGroup = styled(RadioGroup)(({ theme }) => ({}));

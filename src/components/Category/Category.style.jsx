@@ -10,7 +10,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  color: "white",
+  color: theme.palette.custom.color,
   backgroundColor: alpha(theme.palette.primary.main, 1),
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.25),
@@ -76,7 +76,7 @@ export const CategoryName = styled(Typography)(({ theme }) => ({
 }));
 
 export const ColoumHead = styled(Typography)(({ theme }) => ({
-  color: "white",
+  color: theme.palette.custom.color,
   fontWeight: 600,
   fontSize: "16px",
 }));
@@ -87,11 +87,11 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: theme.palette.primary.main,
-    color: "white",
+    color: theme.palette.custom.color,
   },
   "& .MuiDataGrid-row": {
     backgroundColor: "#b7dfff",
-    color: "white",
+    color: theme.palette.custom.color,
     "&:hover": {
       color: "black",
     },
@@ -101,13 +101,13 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-footerContainer": {
     backgroundColor: theme.palette.primary.main,
-    color: "white",
+    color: theme.palette.custom.color,
   },
   "& .MuiTablePagination-displayedRows": {
-    color: "white",
+    color: theme.palette.custom.color,
   },
   "& .MuiTablePagination-actions": {
-    color: "white",
+    color: theme.palette.custom.color,
   },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",

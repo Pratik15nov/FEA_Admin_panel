@@ -22,7 +22,7 @@ export const DialogContainer = styled(Dialog)(({ theme }) => ({}));
 export const CustomButton = styled(Button)(({ theme }) => ({
   cursor: "pointer",
   fontWeight: "bold",
-  color: "white",
+  color: theme.palette.custom.color,
   "&:hover": {
     color: "#b7dfff",
   },
@@ -37,7 +37,7 @@ export const ContentBox = styled(DialogContent)(({ theme }) => ({
 }));
 export const TitleBox = styled(DialogTitle)(({ theme }) => ({
   background: "#1a1a40",
-  color: "white",
+  color: theme.palette.custom.color,
 }));
 export const TitleContainerBox = styled(DialogTitle)(({ theme }) => ({
   display: "flex",
@@ -66,7 +66,7 @@ export const CustomDivider = styled(Divider)(({ theme }) => ({
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#3c89c7",
-    color: "white",
+    color: theme.palette.custom.color,
     fontWeight: "bold",
     fontSize: "12px",
   },

@@ -58,7 +58,7 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.custom.error, 1),
   cursor: "pointer",
   fontSize: 20,
-  color: "white",
+  color: theme.palette.custom.color,
   marginBottom: 170,
   marginLeft: 10,
 }));
