@@ -1,8 +1,8 @@
 import BreadcrumbArea from "../BreadcrumbArea";
 import { Container } from "./settings.style";
 //
-import { Button } from "@mui/material";
-import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
+// import { Button } from "@mui/material";
+// import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
 //
 import Box from "@mui/material/Box";
 import {
@@ -80,37 +80,37 @@ const Settings = () => {
     setCoordinates({ rowIndex, colIndex });
   };
   //
-  const handleLogin = async () => {
-    const body = {
-      email: "vanshpanchal09@gmail.com",
-      password: "yvAspZZCNh",
-    };
-    try {
-      const response = await loginCheck(body);
-      if (response) {
-        localStorage.setItem("dataToken", response?.data?.token);
-      } else {
-        alert("not working");
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const handleLogin = async () => {
+  //   const body = {
+  //     email: "vanshpanchal09@gmail.com",
+  //     password: "yvAspZZCNh",
+  //   };
+  //   try {
+  //     const response = await loginCheck(body);
+  //     if (response) {
+  //       localStorage.setItem("dataToken", response?.data?.token);
+  //     } else {
+  //       alert("not working");
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
-  const handleCheck = async () => {
-    const body = {
-      Status: "RESONSE CHECK WORKS",
-    };
-    try {
-      const response = await afterLoginCheck(body);
-      if (response) {
-      } else {
-        alert("not working");
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const handleCheck = async () => {
+  //   const body = {
+  //     Status: "RESONSE CHECK WORKS",
+  //   };
+  //   try {
+  //     const response = await afterLoginCheck(body);
+  //     if (response) {
+  //     } else {
+  //       alert("not working");
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
   // const handleCheck = () => {
   //   console.log("TOKEN FORM CHECK",localStorage.getItem("dataToken"));

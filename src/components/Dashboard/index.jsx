@@ -9,7 +9,7 @@ import { Alert } from "@mui/material";
 export default function Dashboard() {
   return (
     <>
-      <Alert severity="error">Session token expired!</Alert>
+      {/* <Alert severity="error">Session token expired!</Alert> */}
       <MainBody>
         <Grid container spacing={2}>
           <Grid xs={8}>
