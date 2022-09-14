@@ -46,7 +46,6 @@ export default function AddRights(props) {
   const [show, setShow] = useState();
   const navigate = useNavigate();
   const [tableShow, setTableShow] = useState(false);
-  console.log(tableShow);
   const [roleList, setRoleList] = useState([]);
   const page = useSelector((state) => state.rights.page);
   useEffect(() => {
@@ -268,7 +267,6 @@ export default function AddRights(props) {
                 field: { onChange, value },
                 fieldState: { error },
               }) => {
-                console.log("value", value);
                 setTableShow(value ? true : false);
                 return (
                   <>
