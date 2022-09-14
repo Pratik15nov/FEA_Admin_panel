@@ -10,7 +10,6 @@ import {
   ContainerTwo,
   DoughnutSize,
   MainBody,
-  GridSize,
   TabButtons,
   TabMain,
   ProductChartSize,
@@ -36,7 +35,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Doughnut, Line } from "react-chartjs-2";
+
 import Box from "@mui/material/Box";
 
 ChartJS.register(

@@ -22,6 +22,7 @@ export const CardFrist = styled(Card)(({ theme }) => ({
   margin: 10,
   boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px",
 }));
+
 export const MainBody = styled(Card)(({ theme }) => ({
   padding: 10,
   boxShadow: "none",
