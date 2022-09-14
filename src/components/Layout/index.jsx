@@ -63,7 +63,7 @@ export default function MiniDrawer(props) {
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
   const page = useSelector((state) => state);
-  const RouteList = useSelector((state) => state.layout.list);
+  // const RouteList = useSelector((state) => state.layout.list);
 
   useEffect(() => {
     getRights();
