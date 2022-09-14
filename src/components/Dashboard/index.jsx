@@ -56,16 +56,16 @@ export default function Dashboard() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (newValue === 0) {
-      // console.log(
-      //   `${new Date().getDate()}-${
-      //     new Date().getMonth() + 1
-      //   }-${new Date().getFullYear()}`
-      // );
-      // console.log(
-      //   `${new Date().getDate()}-${
-      //     new Date().getMonth() + 1
-      //   }-${new Date().getFullYear()}`
-      // );
+      console.log(
+        `${new Date().getDate()}-${
+          new Date().getMonth() + 1
+        }-${new Date().getFullYear()}`
+      );
+      console.log(
+        `${new Date().getDate()}-${
+          new Date().getMonth() + 1
+        }-${new Date().getFullYear()}`
+      );
     }
   };
   const OrdersbyProducts = dashboardData?.orderedProducts.filter(
@@ -74,11 +74,6 @@ export default function Dashboard() {
 
   // console.log("STATE", state);
   const data = {
-    plugins: {
-      legend: {
-        position: "right",
-      },
-    },
     labels: OrdersbyProducts?.map((data) => data.name),
     datasets: [
       {
@@ -104,8 +99,37 @@ export default function Dashboard() {
         hoverOffset: 4,
       },
     ],
+    plugins: {
+      datalabels: {
+        color: "#111",
+        textAlign: "center",
+        font: {
+          lineHeight: 1.6,
+        },
+        formatter: function (value, ctx) {
+          return ctx.chart.data.labels[ctx.dataIndex] + "\n" + value + "%";
+        },
+      },
+    },
   };
 
+  const optionss = {
+    plugins: {
+      legend: {
+        position: "right",
+      },
+      datalabels: {
+        color: "#111",
+        textAlign: "center",
+        font: {
+          lineHeight: 1.6,
+        },
+        formatter: function (value, ctx) {
+          return ctx.chart.data.labels[ctx.dataIndex] + "\n" + value + "%";
+        },
+      },
+    },
+  };
   // const options = {
   //   responsive: true,
   //   plugins: {
@@ -251,7 +275,7 @@ export default function Dashboard() {
                 <CardTwo variant="h6" component="div">
                   Orders by Products
                 </CardTwo>
-                <DoughnutSize data={data} />
+                <DoughnutSize options={optionss} data={data} />
               </CardContent>
             </CardFrist>
           </Grid>
