@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TuneIcon from "@mui/icons-material/Tune";
 import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 export const CardFrist = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
   padding: 5,
@@ -38,6 +39,12 @@ export const CustomIcon = styled(TuneIcon)(({ theme }) => ({
   marginTop: 10,
 }));
 
-export const TabText = styled(Tab)(({ theme }) => ({
-  fontFamily: theme.typography.fontFamily,
+export const TabMain = styled(Tabs)(({ theme }) => ({
+  paddingTop: 7,
+}));
+export const TabButtons = styled(Tab)(({ theme }) => ({
+  color: "#1A1A40",
+  fontFamily: "Public Sans",
+  textTransform: " capitalize",
+  fontWeight: 600,
 }));
