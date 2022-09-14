@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  color: "white",
+  color: theme.palette.custom.color,
   backgroundColor: alpha(theme.palette.primary.main, 1),
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.25),

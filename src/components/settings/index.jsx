@@ -1,8 +1,8 @@
 import BreadcrumbArea from "../BreadcrumbArea";
 import { Container } from "./settings.style";
 //
-import { Button } from "@mui/material";
-import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
+// import { Button } from "@mui/material";
+// import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
 //
 import Box from "@mui/material/Box";
 import {
@@ -41,7 +41,7 @@ const Settings = () => {
     const column = gridVisibleColumnDefinitionsSelector(apiRef)[colIndex];
     apiRef.current.setCellFocus(id, column.field);
   }, [apiRef, coordinates]);
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const handleClick = (position) => () => {
     const maxRowIndex = gridVisibleRowCountSelector(apiRef) - 1;
     const maxColIndex = gridVisibleColumnDefinitionsSelector(apiRef).length - 1;
@@ -80,37 +80,37 @@ const Settings = () => {
     setCoordinates({ rowIndex, colIndex });
   };
   //
-  const handleLogin = async () => {
-    const body = {
-      email: "vanshpanchal09@gmail.com",
-      password: "yvAspZZCNh",
-    };
-    try {
-      const response = await loginCheck(body);
-      if (response) {
-        localStorage.setItem("dataToken", response?.data?.token);
-      } else {
-        alert("not working");
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const handleLogin = async () => {
+  //   const body = {
+  //     email: "vanshpanchal09@gmail.com",
+  //     password: "yvAspZZCNh",
+  //   };
+  //   try {
+  //     const response = await loginCheck(body);
+  //     if (response) {
+  //       localStorage.setItem("dataToken", response?.data?.token);
+  //     } else {
+  //       alert("not working");
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
-  const handleCheck = async () => {
-    const body = {
-      Status: "RESONSE CHECK WORKS",
-    };
-    try {
-      const response = await afterLoginCheck(body);
-      if (response) {
-      } else {
-        alert("not working");
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const handleCheck = async () => {
+  //   const body = {
+  //     Status: "RESONSE CHECK WORKS",
+  //   };
+  //   try {
+  //     const response = await afterLoginCheck(body);
+  //     if (response) {
+  //     } else {
+  //       alert("not working");
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
   // const handleCheck = () => {
   //   console.log("TOKEN FORM CHECK",localStorage.getItem("dataToken"));
@@ -121,13 +121,13 @@ const Settings = () => {
       <Container>
         <BreadcrumbArea />
       </Container>
-      <Button variant="outlined" size="large" onClick={handleLogin}>
+      {/* <Button variant="outlined" size="large" onClick={handleLogin}>
         LOGIN
       </Button>
 
       <Button variant="outlined" size="large" onClick={handleCheck}>
         CHECK
-      </Button>
+      </Button> */}
       <Box sx={{ height: 400 }}>
         <DataGridPro
           apiRef={apiRef}

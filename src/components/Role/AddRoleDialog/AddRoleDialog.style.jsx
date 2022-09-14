@@ -41,6 +41,6 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
 export const TitleText = styled(DialogTitle)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: "bold",
-  color: "white",
+  color: theme.palette.custom.color,
   background: "#1a1a40",
 }));

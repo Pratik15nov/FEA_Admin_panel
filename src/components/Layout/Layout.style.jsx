@@ -138,7 +138,7 @@ const CardHeaders = styled(Grid)(({ theme }) => ({
     padding: 12,
   },
   backgroundColor: theme.palette.primary.main,
-  color: "white",
+  color: theme.palette.custom.color,
 }));
 const Admin = styled(Typography)(({ theme }) => ({
   fontSize: 14,

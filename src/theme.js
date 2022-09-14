@@ -7,10 +7,10 @@ const theme = createTheme({
     },
     secondary: {
       main: "#FFF9CA",
-      // main: "#270082",
     },
 
     custom: {
+      color: "#FFFFFF",
       tertiary: "#FFCB42",
       quad: "#FFF4CF",
       success: "#54D62C",
