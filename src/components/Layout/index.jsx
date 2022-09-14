@@ -47,16 +47,26 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Logout from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import { rightsHandlerData } from "../../service/Auth.Service";
+import { useState } from "react";
 
 export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const [checkRights, setCheckRights] = useState([]);
+  console.log(
+    "checkRights: ",
+    checkRights
+      .filter((r) => r.view === true)
+      .map((r) => "/" + r.name.charAt(0).toLowerCase() + r.name.slice(1))
+  );
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
   const page = useSelector((state) => state);
   const RouteList = useSelector((state) => state.layout.list);
 
   useEffect(() => {
+    getRights();
     getRoutes(); // eslint-disable-next-line
   }, []);
 
@@ -74,6 +84,28 @@ export default function MiniDrawer(props) {
     navigate("/");
   };
 
+  const getRights = async () => {
+    try {
+      let comment = JSON.parse(localStorage.getItem("Data"));
+      const response = await rightsHandlerData(
+        listBody({
+          where: { roleId: comment?.data?.role?._id },
+          perPage: 1000000,
+          page: 1,
+        })
+      );
+      setCheckRights(response.list[0].rights);
+      console.log(
+        "response: ",
+        response.list[0].rights
+          .filter((r) => r.view === true)
+          .map((r) => "/" + r.name.charAt(0).toLowerCase() + r.name.slice(1))
+      );
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
+  };
   const getRoutes = () => {
     try {
       dispatch(
@@ -259,26 +291,33 @@ export default function MiniDrawer(props) {
             ...(!open && { marginTop: 8 }),
           }}
         >
-          {RouteList.filter((r) => r.fieldName !== "settings").map(
-            (r, index) => (
+          {checkRights
+            .filter((r) => r.view === true)
+            .map((r, index) => (
               <ListItem
                 key={index}
                 disablePadding
                 selected={selectedIndex === index}
                 onClick={(event) => [
-                  navigate(r.path),
+                  navigate(
+                    "/" + r.name.charAt(0).toLowerCase() + r.name.slice(1)
+                  ),
                   handleListItemClick(event, index),
                 ]}
               >
                 <ListItemButton>
-                  <ListIcon>{giveIcons(r.fieldName)}</ListIcon>
+                  <ListIcon>
+                    {giveIcons(
+                      r.name.charAt(0).toLowerCase() + r.name.slice(1)
+                    )}
+                  </ListIcon>
                   <ListText>
-                    {r.fieldName.charAt(0).toUpperCase() + r.fieldName.slice(1)}
+                    {r.name.charAt(0).toUpperCase() + r.name.slice(1)}
                   </ListText>
                 </ListItemButton>
               </ListItem>
-            )
-          )}
+            ))}
+
           <ListItem
             disablePadding
             selected={selectedIndex === 9999999999}

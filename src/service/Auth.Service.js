@@ -183,3 +183,7 @@ export const updateStaffHandlerData = (id, body) => {
 export const staffDataHandler = (body) => {
   return post(`${ENDPOINTURL}/adminUser/list`, body);
 };
+
+export const getRoutesData = (body) => {
+  return post(`${ENDPOINTURL}/rights/list`, body);
+};
