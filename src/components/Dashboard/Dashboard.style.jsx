@@ -2,7 +2,8 @@ import Card from "@mui/material/Card";
 import { styled } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-
+import TuneIcon from "@mui/icons-material/Tune";
+import Tab from "@mui/material/Tab";
 export const CardFrist = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
   padding: 5,
@@ -31,5 +32,12 @@ export const CardTwo = styled(Typography)(({ theme }) => ({
 }));
 
 export const ContainerTwo = styled(Grid)(({ theme }) => ({
- marginTop: 2
+  marginTop: 2,
+}));
+export const CustomIcon = styled(TuneIcon)(({ theme }) => ({
+  marginTop: 10,
+}));
+
+export const TabText = styled(Tab)(({ theme }) => ({
+  fontFamily: theme.typography.fontFamily,
 }));

@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 // import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -8,7 +8,9 @@ import {
   CardOne,
   CardTwo,
   ContainerTwo,
+  CustomIcon,
   MainBody,
+  TabText,
 } from "./Dashboard.style";
 // import { Alert } from "@mui/material";
 import {
@@ -32,7 +34,9 @@ import {
   ArcElement,
 } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
-import faker from "faker";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Box from "@mui/material/Box";
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -47,18 +51,56 @@ ChartJS.register(
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const [value, setValue] = useState(0);
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   useEffect(() => {
     getDashboardData(); // eslint-disable-next-line
   }, []);
+  const TabPanel = (props) => {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  };
+  const a11yProps = (index) => {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  };
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+
   // const state = useSelector((state) => state);
   const orderCount = useSelector((state) => state.order.totalCount);
+  const orderData = useSelector((state) => state?.order.list);
+  const categoryData = useSelector((state) => state?.category.list);
+  console.log(categoryData);
   const productCount = useSelector((state) => state.product.totalCount);
   const customerCount = useSelector((state) => state.customers.totalCount);
   const categoryCount = useSelector((state) => state.category.totalCount);
   // console.log("STATE", state);
   const data = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    labels: categoryData.map((data) => data.categoryName),
     datasets: [
       {
         label: "# of Votes",
@@ -83,15 +125,7 @@ export default function Dashboard() {
       },
     ],
   };
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+
   const options = {
     responsive: true,
     plugins: {
@@ -113,17 +147,25 @@ export default function Dashboard() {
     },
   };
   const datas = {
-    labels,
+    labels: orderData.map(
+      (data) =>
+        data.createdAt.substring(8, 10) +
+        "-" +
+        data.createdAt.substring(5, 7) +
+        "-" +
+        data.createdAt.substring(0, 4)
+    ),
     datasets: [
       {
         fill: true,
         label: "Sales",
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+        data: orderData.map((data) => data.totalPrice),
         borderColor: "rgb(26, 26, 64)",
         backgroundColor: "rgba(26, 26, 64,0.2)",
       },
     ],
   };
+
   const getDashboardData = () => {
     try {
       dispatch(fetchOrderList(listBody({ where: null, perPage: 10, page: 1 })));
@@ -237,9 +279,36 @@ export default function Dashboard() {
           <Grid xs={8}>
             <CardFrist>
               <CardContent>
-                <CardTwo variant="h6" component="div">
-                  Total Sales
-                </CardTwo>
+                <Grid container spacing={2}>
+                  <Grid xs={6}>
+                    <CardContent>
+                      <CardTwo variant="h6" component="div">
+                        Total Sales
+                      </CardTwo>
+                    </CardContent>
+                  </Grid>
+                  <Grid xs={6}>
+                    <Box sx={{ width: "100%" }}>
+                      <Box>
+                        <Tabs value={value} onChange={handleChange}>
+                          <TabText label="This Week" {...a11yProps(0)} />
+                          <TabText label="This Months" {...a11yProps(1)} />
+                          <TabText label="This Year" {...a11yProps(2)} />
+                          <CustomIcon />
+                        </Tabs>
+                      </Box>
+                      {/* <TabPanel value={value} index={0}>
+                        Item One
+                      </TabPanel>
+                      <TabPanel value={value} index={1}>
+                        Item Two
+                      </TabPanel>
+                      <TabPanel value={value} index={2}>
+                        Item Three
+                      </TabPanel> */}
+                    </Box>
+                  </Grid>
+                </Grid>
                 <Line options={options} data={datas} />
               </CardContent>
             </CardFrist>
