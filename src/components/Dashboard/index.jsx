@@ -8,10 +8,12 @@ import {
   CardOne,
   CardTwo,
   ContainerTwo,
+  DoughnutSize,
   MainBody,
-  ProductChart,
+  GridSize,
   TabButtons,
   TabMain,
+  ProductChartSize,
 } from "./Dashboard.style";
 // import { Alert } from "@mui/material";
 import {
@@ -81,6 +83,11 @@ export default function Dashboard() {
   console.log(productData);
   // console.log("STATE", state);
   const data = {
+    plugins: {
+      legend: {
+        position: "right",
+      },
+    },
     labels: productData.map((data) => data.name),
     datasets: [
       {
@@ -102,7 +109,8 @@ export default function Dashboard() {
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
         ],
-        borderWidth: 2,
+        borderWidth: 1,
+        hoverOffset: 4,
       },
     ],
   };
@@ -252,17 +260,17 @@ export default function Dashboard() {
           </Grid>
         </Grid>
         <ContainerTwo container spacing={2}>
-          <Grid xs={4}>
+          <Grid xs={5}>
             <CardFrist>
               <CardContent>
                 <CardTwo variant="h6" component="div">
                   Orders by Products
                 </CardTwo>
-                <Doughnut data={data} />
+                <DoughnutSize data={data} />
               </CardContent>
             </CardFrist>
           </Grid>
-          <Grid xs={8}>
+          <Grid xs={7}>
             <CardFrist>
               <CardContent>
                 <Grid container spacing={2}>
@@ -285,7 +293,7 @@ export default function Dashboard() {
                   </Grid>
                 </Grid>
 
-                <ProductChart options={options} data={datas} />
+                <ProductChartSize options={options} data={datas} />
               </CardContent>
             </CardFrist>
           </Grid>
