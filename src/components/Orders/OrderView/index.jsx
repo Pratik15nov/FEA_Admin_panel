@@ -65,7 +65,7 @@ export default function OrderView(props) {
 
   useEffect(() => {
 
-    let data = 0;
+    let data = 0;// eslint-disable-next-line
     props.viewdata?.cartdetail?.filter((value) => {
       data = data + value?.productId?.discountPrice * value?.quantity;
     });

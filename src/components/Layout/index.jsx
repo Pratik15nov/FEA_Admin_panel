@@ -54,12 +54,7 @@ export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [checkRights, setCheckRights] = useState([]);
-  console.log(
-    "checkRights: ",
-    checkRights
-      .filter((r) => r.view === true)
-      .map((r) => "/" + r.name.charAt(0).toLowerCase() + r.name.slice(1))
-  );
+
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState();
   const page = useSelector((state) => state);
@@ -95,12 +90,7 @@ export default function MiniDrawer(props) {
         })
       );
       setCheckRights(response.list[0].rights);
-      console.log(
-        "response: ",
-        response.list[0].rights
-          .filter((r) => r.view === true)
-          .map((r) => "/" + r.name.charAt(0).toLowerCase() + r.name.slice(1))
-      );
+      
     } catch (error) {
       console.error(error);
       alert(error);

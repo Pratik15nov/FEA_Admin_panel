@@ -9,6 +9,7 @@ import {
   CardTwo,
   ContainerTwo,
   MainBody,
+  ProductChart,
   TabButtons,
   TabMain,
 } from "./Dashboard.style";
@@ -73,18 +74,18 @@ export default function Dashboard() {
   // const state = useSelector((state) => state);
   const orderCount = useSelector((state) => state.order.totalCount);
   const orderData = useSelector((state) => state?.order.list);
-  const categoryData = useSelector((state) => state?.category.list);
+  const productData = useSelector((state) => state?.product.list);
   const productCount = useSelector((state) => state.product.totalCount);
   const customerCount = useSelector((state) => state.customers.totalCount);
   const categoryCount = useSelector((state) => state.category.totalCount);
-  // console.log(orderData);
+  console.log(productData);
   // console.log("STATE", state);
   const data = {
-    labels: categoryData.map((data) => data.categoryName),
+    labels: productData.map((data) => data.name),
     datasets: [
       {
         label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3, 6, 5],
+        data: productData.map((data) => data.discountPrice),
         backgroundColor: [
           "rgba(255, 99, 132, 0.7)",
           "rgba(54, 162, 235, 0.7)",
@@ -101,7 +102,7 @@ export default function Dashboard() {
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
         ],
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };
@@ -123,6 +124,11 @@ export default function Dashboard() {
         grid: {
           display: false,
         },
+      },
+    },
+    elements: {
+      line: {
+        tension: 0.5,
       },
     },
   };
@@ -278,7 +284,8 @@ export default function Dashboard() {
                     </Box>
                   </Grid>
                 </Grid>
-                <Line options={options} data={datas} />
+
+                <ProductChart options={options} data={datas} />
               </CardContent>
             </CardFrist>
           </Grid>

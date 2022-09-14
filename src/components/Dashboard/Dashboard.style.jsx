@@ -5,6 +5,12 @@ import Grid from "@mui/material/Grid";
 import TuneIcon from "@mui/icons-material/Tune";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import { Doughnut, Line } from "react-chartjs-2";
+
+export const ProductChart = styled(Line)(({ theme }) => ({
+  maxHeight: 315,
+}));
+
 export const CardFrist = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
   padding: 5,
