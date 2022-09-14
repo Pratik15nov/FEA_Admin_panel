@@ -15,14 +15,9 @@ import {
   ProductChartSize,
 } from "./Dashboard.style";
 // import { Alert } from "@mui/material";
-import {
-  fetchCategoryList,
-  fetchCustomersList,
-  fetchOrderList,
-  fetchProductList,
-} from "../../js/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { listBody } from "../../utils/Helper";
+
+import { useSelector } from "react-redux";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -37,6 +32,7 @@ import {
 } from "chart.js";
 
 import Box from "@mui/material/Box";
+import { dashboardDataHandler } from "../../service/Auth.Service";
 
 ChartJS.register(
   ArcElement,
@@ -51,11 +47,12 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
-  const dispatch = useDispatch();
-  const [value, setValue] = useState(0);
   useEffect(() => {
     getDashboardData(); // eslint-disable-next-line
   }, []);
+  const [dashboardData, setDashboardData] = useState();
+  const [value, setValue] = useState(0);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (newValue === 0) {
@@ -71,15 +68,10 @@ export default function Dashboard() {
       // );
     }
   };
+  const OrdersbyProducts = dashboardData?.orderedProducts.filter(
+    (data) => data.quantity > 0
+  );
 
-  // const state = useSelector((state) => state);
-  const orderCount = useSelector((state) => state.order.totalCount);
-  const orderData = useSelector((state) => state?.order.list);
-  const productData = useSelector((state) => state?.product.list);
-  const productCount = useSelector((state) => state.product.totalCount);
-  const customerCount = useSelector((state) => state.customers.totalCount);
-  const categoryCount = useSelector((state) => state.category.totalCount);
-  console.log(productData);
   // console.log("STATE", state);
   const data = {
     plugins: {
@@ -87,11 +79,11 @@ export default function Dashboard() {
         position: "right",
       },
     },
-    labels: productData.map((data) => data.name),
+    labels: OrdersbyProducts?.map((data) => data.name),
     datasets: [
       {
         label: "# of Votes",
-        data: productData.map((data) => data.discountPrice),
+        data: OrdersbyProducts?.map((data) => data.quantity),
         backgroundColor: [
           "rgba(255, 99, 132, 0.7)",
           "rgba(54, 162, 235, 0.7)",
@@ -114,63 +106,57 @@ export default function Dashboard() {
     ],
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-      },
-    },
-    elements: {
-      line: {
-        tension: 0.5,
-      },
-    },
-  };
-  const datas = {
-    labels: orderData.map(
-      (data) =>
-        data.createdAt.substring(8, 10) +
-        "-" +
-        data.createdAt.substring(5, 7) +
-        "-" +
-        data.createdAt.substring(0, 4)
-    ),
-    datasets: [
-      {
-        fill: true,
-        label: "Sales",
-        data: orderData.map((data) => data.totalPrice),
-        borderColor: "rgb(26, 26, 64)",
-        backgroundColor: "rgba(26, 26, 64,0.2)",
-      },
-    ],
-  };
+  // const options = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       position: "top",
+  //     },
+  //   },
+  //   scales: {
+  //     x: {
+  //       grid: {
+  //         display: false,
+  //       },
+  //     },
+  //     y: {
+  //       grid: {
+  //         display: false,
+  //       },
+  //     },
+  //   },
+  //   elements: {
+  //     line: {
+  //       tension: 0.5,
+  //     },
+  //   },
+  // };
+  // const datas = {
+  //   labels: dashboardData.map(
+  //     (data) =>
+  //       data.createdAt.substring(8, 10) +
+  //       "-" +
+  //       data.createdAt.substring(5, 7) +
+  //       "-" +
+  //       data.createdAt.substring(0, 4)
+  //   ),
+  //   datasets: [
+  //     {
+  //       fill: true,
+  //       label: "Sales",
+  //       data: dashboardData.map((data) => data.totalPrice),
+  //       borderColor: "rgb(26, 26, 64)",
+  //       backgroundColor: "rgba(26, 26, 64,0.2)",
+  //     },
+  //   ],
+  // };
 
-  const getDashboardData = () => {
+  const getDashboardData = async () => {
     try {
-      dispatch(fetchOrderList(listBody({ where: null, page: 1 })));
-      dispatch(
-        fetchProductList(listBody({ where: null, perPage: 10, page: 1 }))
-      );
-      dispatch(
-        fetchCustomersList(listBody({ where: null, perPage: 10, page: 1 }))
-      );
-      dispatch(
-        fetchCategoryList(listBody({ where: null, perPage: 10, page: 1 }))
-      );
+      const response = await dashboardDataHandler();
+      if (response.length !== 0) {
+        setDashboardData(response[0]);
+      }
     } catch (err) {
       alert(err);
     }
@@ -190,7 +176,7 @@ export default function Dashboard() {
                       Total Orders
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {orderCount}
+                      {dashboardData?.totalOrder}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -209,7 +195,7 @@ export default function Dashboard() {
                       Total Products
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {productCount}
+                      {dashboardData?.totalProducts}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -228,7 +214,7 @@ export default function Dashboard() {
                       Total Customers
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {customerCount}
+                      {dashboardData?.totalUser}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -247,7 +233,7 @@ export default function Dashboard() {
                       Total Category
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {categoryCount}
+                      {dashboardData?.totalCategory}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -292,7 +278,7 @@ export default function Dashboard() {
                   </Grid>
                 </Grid>
 
-                <ProductChartSize options={options} data={datas} />
+                {/* <ProductChartSize options={options} data={datas} /> */}
               </CardContent>
             </CardFrist>
           </Grid>

@@ -187,3 +187,7 @@ export const staffDataHandler = (body) => {
 export const getRoutesData = (body) => {
   return post(`${ENDPOINTURL}/rights/list`, body);
 };
+
+export const dashboardDataHandler = () => {
+  return get(`${ENDPOINTURL}/dashboard/list`);
+};
