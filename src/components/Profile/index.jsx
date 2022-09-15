@@ -314,12 +314,6 @@ const Profile = () => {
                 >
                   Update Profile
                 </BottomButton>
-                <BottomButton
-                  variant="contained"
-                  onClick={() => navigate("/dashboard")}
-                >
-                  Back
-                </BottomButton>
                 {!show && (
                   <BottomButton
                     variant="contained"
@@ -328,6 +322,13 @@ const Profile = () => {
                     Reset-Passowrd
                   </BottomButton>
                 )}
+                <BottomButton
+                  variant="contained"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  Back
+                </BottomButton>
+                
               </InputBox>
             )}
           </form>
@@ -435,6 +436,11 @@ const Profile = () => {
                       variant="contained"
                     >
                       Update Password
+                    </BottomButton>
+                    <BottomButton
+                      variant="contained"
+                    >
+                     Forgot ?
                     </BottomButton>
                     <BottomButton
                       variant="contained"
