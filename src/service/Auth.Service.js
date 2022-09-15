@@ -188,6 +188,6 @@ export const getRoutesData = (body) => {
   return post(`${ENDPOINTURL}/rights/list`, body);
 };
 
-export const dashboardDataHandler = () => {
-  return get(`${ENDPOINTURL}/dashboard/list`);
+export const dashboardDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/dashboard/data`, body);
 };

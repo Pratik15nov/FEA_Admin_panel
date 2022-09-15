@@ -8,7 +8,7 @@ import Tabs from "@mui/material/Tabs";
 import { Doughnut, Line } from "react-chartjs-2";
 
 export const DoughnutSize = styled(Doughnut)(({ theme }) => ({
-  maxHeight: 315,
+  maxHeight: 350,
 }));
 export const ProductChartSize = styled(Line)(({ theme }) => ({
   maxHeight: 335,
