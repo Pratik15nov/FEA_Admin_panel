@@ -60,10 +60,7 @@ export default function Dashboard() {
   const [value, setValue] = useState(0);
   const [productChartData, setProductChartData] = useState();
 
-  console.log(dashboardData?.orderData);
-
   const handleChange = (event, newValue) => {
-    console.log(newValue);
     setValue(newValue);
     switch (newValue) {
       case 0:
@@ -82,21 +79,21 @@ export default function Dashboard() {
         var date = new Date(),
           y = date.getFullYear(),
           m = date.getMonth();
-        var firstDay = new Date(y, m, 2).toISOString().substring(0, 10);
-        var lastDay = new Date(y, m + 1, 2).toISOString().substring(0, 10);
-        getDashboardData(firstDay, lastDay, newValue);
+        var firstDayS = new Date(y, m, 2).toISOString().substring(0, 10);
+        var lastDayS = new Date(y, m + 1, 2).toISOString().substring(0, 10);
+        getDashboardData(firstDayS, lastDayS, newValue);
         break;
       case 2:
         var currentYear = new Date().getFullYear();
 
-        var firstDay = new Date(currentYear, 0, 2)
+        var firstDaySS = new Date(currentYear, 0, 2)
           .toISOString()
           .substring(0, 10);
 
-        var lastDay = new Date(currentYear + 1, 0, 2)
+        var lastDaySS = new Date(currentYear + 1, 0, 2)
           .toISOString()
           .substring(0, 10);
-        getDashboardData(firstDay, lastDay, newValue);
+        getDashboardData(firstDaySS, lastDaySS, newValue);
         break;
     }
   };
@@ -206,12 +203,33 @@ export default function Dashboard() {
       {
         fill: true,
         label: "Sales",
-        data: productChartData?.map((data) => data.totalPrice.toFixed(2)),
+        data: productChartData?.map((data) => data.totalPrice),
         borderColor: "rgb(26, 26, 64)",
         backgroundColor: "rgba(26, 26, 64,0.2)",
       },
     ],
   };
+  // function nFormatter(num, digits) {
+  //   const lookup = [
+  //     { value: 1, symbol: "" },
+  //     { value: 1e3, symbol: "k" },
+  //     { value: 1e6, symbol: "M" },
+  //     { value: 1e9, symbol: "G" },
+  //     { value: 1e12, symbol: "T" },
+  //     { value: 1e15, symbol: "P" },
+  //     { value: 1e18, symbol: "E" },
+  //   ];
+  //   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  //   var item = lookup
+  //     .slice()
+  //     .reverse()
+  //     .find(function (item) {
+  //       return num >= item.value;
+  //     });
+  //   return item
+  //     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
+  //     : "0";
+  // }
 
   const getDashboardData = async (startDate, endDate, newValue) => {
     try {
@@ -233,8 +251,8 @@ export default function Dashboard() {
             holder[d.createdAt.substring(8, 10)] = d.totalPrice;
           }
         });
-        for (var prop in holder) {
-          week.push({ createdAt: prop, totalPrice: holder[prop] });
+        for (var propP in holder) {
+          week.push({ createdAt: propP, totalPrice: holder[propP] });
         }
 
         for (let i = 1; i <= 7; i++) {
@@ -255,9 +273,10 @@ export default function Dashboard() {
             weekholders[d.createdAt.substring(0, 10)] = d.totalPrice;
           }
         });
-        for (var prop in weekholders) {
-          weeks.push({ createdAt: prop, totalPrice: weekholders[prop] });
+        for (var propA in weekholders) {
+          weeks.push({ createdAt: propA, totalPrice: weekholders[propA] });
         }
+        console.log(weeks);
 
         var dt = new Date();
         let months = [];
@@ -267,8 +286,8 @@ export default function Dashboard() {
           dt.getMonth() + 1,
           0
         ).getDate();
-        for (var prop in holder) {
-          months.push({ createdAt: prop, totalPrice: holder[prop] });
+        for (var propB in holder) {
+          months.push({ createdAt: propB, totalPrice: holder[propB] });
         }
 
         for (let i = 1; i <= daysInMonth; i++) {
@@ -283,8 +302,8 @@ export default function Dashboard() {
             monthsholders[d.createdAt.substring(0, 10)] = d.totalPrice;
           }
         });
-        for (var prop in monthsholders) {
-          monthss.push({ createdAt: prop, totalPrice: monthsholders[prop] });
+        for (var propC in monthsholders) {
+          monthss.push({ createdAt: propC, totalPrice: monthsholders[propC] });
         }
 
         let year = [];
@@ -330,7 +349,6 @@ export default function Dashboard() {
         var newYear = years.sort((a, b) => {
           return a.createdAt - b.createdAt;
         });
-        console.log(newYear);
 
         switch (newValue ? newValue : 0) {
           case 0:
@@ -340,7 +358,7 @@ export default function Dashboard() {
             setProductChartData(monthss);
             break;
           case 2:
-            setProductChartData(years);
+            setProductChartData(newYear);
             break;
         }
       }
