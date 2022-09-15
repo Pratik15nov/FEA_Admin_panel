@@ -187,3 +187,8 @@ export const staffDataHandler = (body) => {
 export const getRoutesData = (body) => {
   return post(`${ENDPOINTURL}/rights/list`, body);
 };
+
+// pwd update user
+export const passwordUpdation = (id, body) => {
+  return post(`${ENDPOINTURL}/adminUser/updatepassword/${id}`, body);
+};

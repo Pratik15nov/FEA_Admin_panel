@@ -12,12 +12,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { MyLink } from "../BreadcrumbArea/Breadcrumbarea.style";
 import { listBody } from "../../utils/Helper";
 import { updatepProfile } from "../../js/actions";
+import { passwordUpdation } from "../../service/Auth.Service";
+import CircularProgress, {
+  circularProgressClasses,
+} from "@mui/material/CircularProgress";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [cid, setcid] = useState();
   const [show, setShow] = useState(false);
+  const [loader, setLoader] = useState(false);
   const jumpOnPath = useSelector((state) => state.staff.jumpTo);
 
   const navigate = useNavigate();
@@ -86,13 +91,37 @@ const Profile = () => {
     defaultValues: {
       oldPassword: null,
       newPassword: null,
-      confirmPassword:null,
+      confirmPassword: null,
     },
   });
   let pwd = changePasswordFormControl.watch("newPassword");
 
-  const handleGet = (body) => {
-    console.log("body: ", body);
+  const handleGet = async (data) => {
+    setLoader(true);
+    try {
+      const body = {
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+      };
+      const response = await passwordUpdation(cid, body);
+      changePasswordFormControl.reset({
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+      if (response.success) {
+        console.log("response: ", response);
+        alert("PASSWORD UPDATION SUCCESSFULL");
+        setLoader(false);
+      } else {
+        alert("PASSWORD UPDATION FAILED PLEASE TRY AGAIN");
+        setLoader(false);
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error);
+      setLoader(false);
+    }
   };
 
   return (
@@ -291,121 +320,132 @@ const Profile = () => {
                 >
                   Back
                 </BottomButton>
-                {!show && 
-                <BottomButton
-                  variant="contained"
-                  onClick={() => setShow(true)}
-                >
-                 Reset-Passowrd
-                </BottomButton> }
+                {!show && (
+                  <BottomButton
+                    variant="contained"
+                    onClick={() => setShow(true)}
+                  >
+                    Reset-Passowrd
+                  </BottomButton>
+                )}
               </InputBox>
             )}
           </form>
         </Grid>
         <Grid item xs={5}>
           <form onSubmit={changePasswordFormControl.handleSubmit(handleGet)}>
-           {show &&
-            <InputBox item xs={12}>
-            <Typography color="text.primary" variant="subtitle2">
-              Old-password
-            </Typography>
-            <Controller
-              name="oldPassword"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <InputField
-                  margin="normal"
-                  fullWidth
-                  id="oldPassword"
-                  placeholder="Enter you old password"
+            {show && (
+              <InputBox item xs={12}>
+                <Typography color="text.primary" variant="subtitle2">
+                  Old-password
+                </Typography>
+                <Controller
                   name="oldPassword"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <InputField
+                      margin="normal"
+                      fullWidth
+                      id="oldPassword"
+                      placeholder="Enter you old password"
+                      name="oldPassword"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error?.message ?? ""}
+                    />
+                  )}
+                  control={changePasswordFormControl.control}
+                  rules={{
+                    required: "Please fill  your oldpassword",
+                  }}
                 />
-              )}
-              control={changePasswordFormControl.control}
-              rules={{
-                required: "Please fill  your oldpassword",
-              }}
-            />
-            <Typography color="text.primary" variant="subtitle2">
-              New Password
-            </Typography>
-            <Controller
-              name="newPassword"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <InputField
-                  margin="normal"
-                  fullWidth
-                  id="newPassword"
-                  placeholder="Enter you new Password"
+                <Typography color="text.primary" variant="subtitle2">
+                  New Password
+                </Typography>
+                <Controller
                   name="newPassword"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <InputField
+                      margin="normal"
+                      fullWidth
+                      id="newPassword"
+                      placeholder="Enter you new Password"
+                      name="newPassword"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error?.message ?? ""}
+                    />
+                  )}
+                  control={changePasswordFormControl.control}
+                  rules={{
+                    required: "Please fill  your new Password",
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message:
+                        " Must be minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character ",
+                    },
+                  }}
                 />
-              )}
-              control={changePasswordFormControl.control}
-              rules={{
-                required: "Please fill  your new Password",
-                pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    " Must be minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character ",
-                },
-              }}
-            />
-            <Typography color="text.primary" variant="subtitle2">
-             Confirm New Password
-            </Typography>
-            <Controller
-              name="confirmPassword"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <InputField
-                  margin="normal"
-                  fullWidth
-                  id="confirmPassword"
-                  placeholder=" Re-enter your new Password"
+                <Typography color="text.primary" variant="subtitle2">
+                  Confirm New Password
+                </Typography>
+                <Controller
                   name="confirmPassword"
-                  value={value}
-                  onChange={onChange}
-                  error={!!error}
-                  helperText={error?.message ?? ""}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <InputField
+                      margin="normal"
+                      fullWidth
+                      id="confirmPassword"
+                      placeholder=" Re-enter your new Password"
+                      name="confirmPassword"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error?.message ?? ""}
+                    />
+                  )}
+                  control={changePasswordFormControl.control}
+                  rules={{
+                    required: "Please re-enter your new Password",
+                    validate: (value) =>
+                      value === pwd || "The passwords do not match",
+                  }}
                 />
-              )}
-              control={changePasswordFormControl.control}
-              rules={{
-                required: "Please re-enter your new Password",
-                validate: value => value === pwd || "The passwords do not match"
-              }}
-            />
-            <BottomButton
-              type="submit"
-              loadingPosition="end"
-              variant="contained"
-            >
-              Update Password
-            </BottomButton>
-            <BottomButton
-              variant="contained"
-              onClick={() => setShow(false)}
-            >
-              Back
-            </BottomButton>
-          </InputBox>
-           }
+
+                {loader === true ? (
+                  <Box sx={{ textAlign: "center" }}>
+                    <CircularProgress disableShrink />
+                  </Box>
+                ) : (
+                  <>
+                    <BottomButton
+                      type="submit"
+                      loadingPosition="end"
+                      variant="contained"
+                    >
+                      Update Password
+                    </BottomButton>
+                    <BottomButton
+                      variant="contained"
+                      onClick={() => setShow(false)}
+                    >
+                      Back
+                    </BottomButton>
+                  </>
+                )}
+              </InputBox>
+            )}
           </form>
         </Grid>
       </Grid>
