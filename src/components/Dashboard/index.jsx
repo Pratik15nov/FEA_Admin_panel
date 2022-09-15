@@ -15,9 +15,8 @@ import {
   ProductChartSize,
 } from "./Dashboard.style";
 // import { Alert } from "@mui/material";
-
-import { useSelector } from "react-redux";
-
+import Box from "@mui/material/Box";
+import { dashboardDataHandler } from "../../service/Auth.Service";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,10 +29,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-
-import Box from "@mui/material/Box";
-import { dashboardDataHandler } from "../../service/Auth.Service";
-
+import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -43,7 +39,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Filler,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 export default function Dashboard() {
@@ -56,30 +53,40 @@ export default function Dashboard() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (newValue === 0) {
-      console.log(
-        `${new Date().getDate()}-${
-          new Date().getMonth() + 1
-        }-${new Date().getFullYear()}`
-      );
-      console.log(
-        `${new Date().getDate()}-${
-          new Date().getMonth() + 1
-        }-${new Date().getFullYear()}`
-      );
+      // console.log(
+      //   `${new Date().getDate()}-${
+      //     new Date().getMonth() + 1
+      //   }-${new Date().getFullYear()}`
+      // );
+      // console.log(
+      //   `${new Date().getDate()}-${
+      //     new Date().getMonth() + 1
+      //   }-${new Date().getFullYear()}`
+      // );
     }
   };
   const OrdersbyProducts = dashboardData?.orderedProducts.filter(
     (data) => data.quantity > 0
   );
 
-  // console.log("STATE", state);
   const data = {
     labels: OrdersbyProducts?.map((data) => data.name),
     datasets: [
       {
-        label: "# of Votes",
         data: OrdersbyProducts?.map((data) => data.quantity),
         backgroundColor: [
+          "rgba(255, 99, 132, 0.7)",
+          "rgba(54, 162, 235, 0.7)",
+          "rgba(255, 206, 86, 0.7)",
+          "rgba(75, 192, 192, 0.7)",
+          "rgba(153, 102, 255, 0.7)",
+          "rgba(255, 159, 64, 0.7)",
+          "rgba(255, 99, 132, 0.7)",
+          "rgba(54, 162, 235, 0.7)",
+          "rgba(255, 206, 86, 0.7)",
+          "rgba(75, 192, 192, 0.7)",
+          "rgba(153, 102, 255, 0.7)",
+          "rgba(255, 159, 64, 0.7)",
           "rgba(255, 99, 132, 0.7)",
           "rgba(54, 162, 235, 0.7)",
           "rgba(255, 206, 86, 0.7)",
@@ -99,81 +106,78 @@ export default function Dashboard() {
         hoverOffset: 4,
       },
     ],
-    plugins: {
-      datalabels: {
-        color: "#111",
-        textAlign: "center",
-        font: {
-          lineHeight: 1.6,
-        },
-        formatter: function (value, ctx) {
-          return ctx.chart.data.labels[ctx.dataIndex] + "\n" + value + "%";
-        },
-      },
-    },
   };
 
-  const optionss = {
+  const doughnutOptions = {
+    responsive: true,
     plugins: {
       legend: {
+        labels: {
+          generateLabels: (chart) => {
+            const datasets = chart.data.datasets;
+            return datasets[0].data.map((data, i) => ({
+              text: `${chart.data.labels[i]} ${data}`,
+              fillStyle: datasets[0].backgroundColor[i],
+            }));
+          },
+        },
         position: "right",
+        font: {
+          family: "Public Sans",
+        },
       },
       datalabels: {
-        color: "#111",
-        textAlign: "center",
+        anchor: "end",
+        align: "start",
+
         font: {
-          lineHeight: 1.6,
-        },
-        formatter: function (value, ctx) {
-          return ctx.chart.data.labels[ctx.dataIndex] + "\n" + value + "%";
+          weight: "bold",
         },
       },
     },
   };
-  // const options = {
-  //   responsive: true,
-  //   plugins: {
-  //     legend: {
-  //       position: "top",
-  //     },
-  //   },
-  //   scales: {
-  //     x: {
-  //       grid: {
-  //         display: false,
-  //       },
-  //     },
-  //     y: {
-  //       grid: {
-  //         display: false,
-  //       },
-  //     },
-  //   },
-  //   elements: {
-  //     line: {
-  //       tension: 0.5,
-  //     },
-  //   },
-  // };
-  // const datas = {
-  //   labels: dashboardData.map(
-  //     (data) =>
-  //       data.createdAt.substring(8, 10) +
-  //       "-" +
-  //       data.createdAt.substring(5, 7) +
-  //       "-" +
-  //       data.createdAt.substring(0, 4)
-  //   ),
-  //   datasets: [
-  //     {
-  //       fill: true,
-  //       label: "Sales",
-  //       data: dashboardData.map((data) => data.totalPrice),
-  //       borderColor: "rgb(26, 26, 64)",
-  //       backgroundColor: "rgba(26, 26, 64,0.2)",
-  //     },
-  //   ],
-  // };
+  const options = {
+    responsive: true,
+    plugins: {
+      datalabels: {
+        anchor: "end",
+        align: "top",
+
+        font: {
+          weight: "bold",
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+    elements: {
+      line: {
+        tension: 0.5,
+      },
+    },
+  };
+  const datas = {
+    labels: OrdersbyProducts?.map((data) => data.name),
+    datasets: [
+      {
+        fill: true,
+        label: "Sales",
+        data: OrdersbyProducts?.map((data) => data.quantity),
+        borderColor: "rgb(26, 26, 64)",
+        backgroundColor: "rgba(26, 26, 64,0.2)",
+      },
+    ],
+  };
 
   const getDashboardData = async () => {
     try {
@@ -275,7 +279,7 @@ export default function Dashboard() {
                 <CardTwo variant="h6" component="div">
                   Orders by Products
                 </CardTwo>
-                <DoughnutSize options={optionss} data={data} />
+                <DoughnutSize options={doughnutOptions} data={data} />
               </CardContent>
             </CardFrist>
           </Grid>
@@ -302,7 +306,7 @@ export default function Dashboard() {
                   </Grid>
                 </Grid>
 
-                {/* <ProductChartSize options={options} data={datas} /> */}
+                <ProductChartSize options={options} data={datas} />
               </CardContent>
             </CardFrist>
           </Grid>
