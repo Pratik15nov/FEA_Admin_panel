@@ -7,8 +7,11 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { Doughnut, Line } from "react-chartjs-2";
 
-export const ProductChart = styled(Line)(({ theme }) => ({
-  maxHeight: 315,
+export const DoughnutSize = styled(Doughnut)(({ theme }) => ({
+  maxHeight: 350,
+}));
+export const ProductChartSize = styled(Line)(({ theme }) => ({
+  maxHeight: 335,
 }));
 
 export const CardFrist = styled(Card)(({ theme }) => ({
@@ -19,6 +22,7 @@ export const CardFrist = styled(Card)(({ theme }) => ({
   margin: 10,
   boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px",
 }));
+
 export const MainBody = styled(Card)(({ theme }) => ({
   padding: 10,
   boxShadow: "none",

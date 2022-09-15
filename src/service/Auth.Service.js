@@ -192,3 +192,6 @@ export const getRoutesData = (body) => {
 export const passwordUpdation = (id, body) => {
   return post(`${ENDPOINTURL}/adminUser/updatepassword/${id}`, body);
 };
+export const dashboardDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/dashboard/data`, body);
+};

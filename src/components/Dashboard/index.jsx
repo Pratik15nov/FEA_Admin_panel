@@ -8,20 +8,15 @@ import {
   CardOne,
   CardTwo,
   ContainerTwo,
+  DoughnutSize,
   MainBody,
-  ProductChart,
   TabButtons,
   TabMain,
+  ProductChartSize,
 } from "./Dashboard.style";
 // import { Alert } from "@mui/material";
-import {
-  fetchCategoryList,
-  fetchCustomersList,
-  fetchOrderList,
-  fetchProductList,
-} from "../../js/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { listBody } from "../../utils/Helper";
+import Box from "@mui/material/Box";
+import { dashboardDataHandler } from "../../service/Auth.Service";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -34,9 +29,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Doughnut, Line } from "react-chartjs-2";
-import Box from "@mui/material/Box";
-
+import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -46,47 +39,89 @@ ChartJS.register(
   Title,
   Tooltip,
   Filler,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 export default function Dashboard() {
-  const dispatch = useDispatch();
-  const [value, setValue] = useState(0);
   useEffect(() => {
-    getDashboardData(); // eslint-disable-next-line
+    var curr = new Date();
+    var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1))
+      .toISOString()
+      .substring(0, 10);
+    var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 8))
+      .toISOString()
+      .substring(0, 10);
+
+    getDashboardData(firstday, lastday); // eslint-disable-next-line
   }, []);
+
+  const [dashboardData, setDashboardData] = useState();
+  const [value, setValue] = useState(0);
+  const [productChartData, setProductChartData] = useState();
+
+  console.log(dashboardData?.orderData);
+
   const handleChange = (event, newValue) => {
+    console.log(newValue);
     setValue(newValue);
-    if (newValue === 0) {
-      // console.log(
-      //   `${new Date().getDate()}-${
-      //     new Date().getMonth() + 1
-      //   }-${new Date().getFullYear()}`
-      // );
-      // console.log(
-      //   `${new Date().getDate()}-${
-      //     new Date().getMonth() + 1
-      //   }-${new Date().getFullYear()}`
-      // );
+    switch (newValue) {
+      case 0:
+        var curr = new Date();
+        var firstday = new Date(
+          curr.setDate(curr.getDate() - curr.getDay() + 1)
+        )
+          .toISOString()
+          .substring(0, 10);
+        var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 8))
+          .toISOString()
+          .substring(0, 10);
+        getDashboardData(firstday, lastday, newValue);
+        break;
+      case 1:
+        var date = new Date(),
+          y = date.getFullYear(),
+          m = date.getMonth();
+        var firstDay = new Date(y, m, 2).toISOString().substring(0, 10);
+        var lastDay = new Date(y, m + 1, 2).toISOString().substring(0, 10);
+        getDashboardData(firstDay, lastDay, newValue);
+        break;
+      case 2:
+        var currentYear = new Date().getFullYear();
+
+        var firstDay = new Date(currentYear, 0, 2)
+          .toISOString()
+          .substring(0, 10);
+
+        var lastDay = new Date(currentYear + 1, 0, 2)
+          .toISOString()
+          .substring(0, 10);
+        getDashboardData(firstDay, lastDay, newValue);
+        break;
     }
   };
+  const OrdersbyProducts = dashboardData?.orderedProducts.filter(
+    (data) => data.quantity > 0
+  );
 
-  // const state = useSelector((state) => state);
-  const orderCount = useSelector((state) => state.order.totalCount);
-  const orderData = useSelector((state) => state?.order.list);
-  const productData = useSelector((state) => state?.product.list);
-  const productCount = useSelector((state) => state.product.totalCount);
-  const customerCount = useSelector((state) => state.customers.totalCount);
-  const categoryCount = useSelector((state) => state.category.totalCount);
-  console.log(productData);
-  // console.log("STATE", state);
   const data = {
-    labels: productData.map((data) => data.name),
+    labels: OrdersbyProducts?.map((data) => data.name),
     datasets: [
       {
-        label: "# of Votes",
-        data: productData.map((data) => data.discountPrice),
+        data: OrdersbyProducts?.map((data) => data.quantity),
         backgroundColor: [
+          "rgba(255, 99, 132, 0.7)",
+          "rgba(54, 162, 235, 0.7)",
+          "rgba(255, 206, 86, 0.7)",
+          "rgba(75, 192, 192, 0.7)",
+          "rgba(153, 102, 255, 0.7)",
+          "rgba(255, 159, 64, 0.7)",
+          "rgba(255, 99, 132, 0.7)",
+          "rgba(54, 162, 235, 0.7)",
+          "rgba(255, 206, 86, 0.7)",
+          "rgba(75, 192, 192, 0.7)",
+          "rgba(153, 102, 255, 0.7)",
+          "rgba(255, 159, 64, 0.7)",
           "rgba(255, 99, 132, 0.7)",
           "rgba(54, 162, 235, 0.7)",
           "rgba(255, 206, 86, 0.7)",
@@ -102,16 +137,49 @@ export default function Dashboard() {
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
         ],
-        borderWidth: 2,
+        borderWidth: 1,
+        hoverOffset: 4,
       },
     ],
   };
 
-  const options = {
+  const doughnutOptions = {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        labels: {
+          generateLabels: (chart) => {
+            const datasets = chart.data.datasets;
+            return datasets[0].data.map((data, i) => ({
+              text: `${chart.data.labels[i]} ${data}`,
+              fillStyle: datasets[0].backgroundColor[i],
+            }));
+          },
+        },
+        position: "right",
+        font: {
+          family: "Public Sans",
+        },
+      },
+      datalabels: {
+        anchor: "end",
+        align: "start",
+        font: {
+          weight: "bold",
+        },
+      },
+    },
+  };
+  const options = {
+    responsive: true,
+    plugins: {
+      datalabels: {
+        anchor: "end",
+        align: "top",
+
+        font: {
+          weight: "bold",
+        },
       },
     },
     scales: {
@@ -133,37 +201,149 @@ export default function Dashboard() {
     },
   };
   const datas = {
-    labels: orderData.map(
-      (data) =>
-        data.createdAt.substring(8, 10) +
-        "-" +
-        data.createdAt.substring(5, 7) +
-        "-" +
-        data.createdAt.substring(0, 4)
-    ),
+    labels: productChartData?.map((data) => data.createdAt),
     datasets: [
       {
         fill: true,
         label: "Sales",
-        data: orderData.map((data) => data.totalPrice),
+        data: productChartData?.map((data) => data.totalPrice.toFixed(2)),
         borderColor: "rgb(26, 26, 64)",
         backgroundColor: "rgba(26, 26, 64,0.2)",
       },
     ],
   };
 
-  const getDashboardData = () => {
+  const getDashboardData = async (startDate, endDate, newValue) => {
     try {
-      dispatch(fetchOrderList(listBody({ where: null, page: 1 })));
-      dispatch(
-        fetchProductList(listBody({ where: null, perPage: 10, page: 1 }))
-      );
-      dispatch(
-        fetchCustomersList(listBody({ where: null, perPage: 10, page: 1 }))
-      );
-      dispatch(
-        fetchCategoryList(listBody({ where: null, perPage: 10, page: 1 }))
-      );
+      const body = { startDate: startDate, endDate: endDate };
+      const response = await dashboardDataHandler(body);
+      if (response.length !== 0) {
+        setDashboardData(response.data[0]);
+
+        var obj = response?.data[0].orderData;
+        var holder = {};
+        let currDate = new Date();
+        let week = [];
+        let weeks = [];
+        obj.forEach(function (d) {
+          if (holder.hasOwnProperty(d.createdAt.substring(8, 10))) {
+            holder[d.createdAt.substring(8, 10)] =
+              holder[d.createdAt.substring(8, 10)] + d.totalPrice;
+          } else {
+            holder[d.createdAt.substring(8, 10)] = d.totalPrice;
+          }
+        });
+        for (var prop in holder) {
+          week.push({ createdAt: prop, totalPrice: holder[prop] });
+        }
+
+        for (let i = 1; i <= 7; i++) {
+          let first = currDate.getDate() - currDate.getDay() + i;
+          let day = new Date(currDate.setDate(first))
+            .toISOString()
+            .slice(8, 10);
+          week.push({ createdAt: day, totalPrice: 0 });
+        }
+
+        var weekholders = {};
+
+        week.forEach(function (d) {
+          if (weekholders.hasOwnProperty(d.createdAt.substring(0, 10))) {
+            weekholders[d.createdAt.substring(0, 10)] =
+              weekholders[d.createdAt.substring(0, 10)] + d.totalPrice;
+          } else {
+            weekholders[d.createdAt.substring(0, 10)] = d.totalPrice;
+          }
+        });
+        for (var prop in weekholders) {
+          weeks.push({ createdAt: prop, totalPrice: weekholders[prop] });
+        }
+
+        var dt = new Date();
+        let months = [];
+        let monthss = [];
+        let daysInMonth = new Date(
+          dt.getFullYear(),
+          dt.getMonth() + 1,
+          0
+        ).getDate();
+        for (var prop in holder) {
+          months.push({ createdAt: prop, totalPrice: holder[prop] });
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+          months.push({ createdAt: `${i}`, totalPrice: 0 });
+        }
+        var monthsholders = {};
+        months.forEach(function (d) {
+          if (monthsholders.hasOwnProperty(d.createdAt.substring(0, 10))) {
+            monthsholders[d.createdAt.substring(0, 10)] =
+              monthsholders[d.createdAt.substring(0, 10)] + d.totalPrice;
+          } else {
+            monthsholders[d.createdAt.substring(0, 10)] = d.totalPrice;
+          }
+        });
+        for (var prop in monthsholders) {
+          monthss.push({ createdAt: prop, totalPrice: monthsholders[prop] });
+        }
+
+        let year = [];
+
+        var yearholder = {};
+        obj.forEach(function (d) {
+          if (yearholder.hasOwnProperty(d.createdAt.substring(5, 7))) {
+            yearholder[d.createdAt.substring(5, 7)] =
+              yearholder[d.createdAt.substring(5, 7)] + d.totalPrice;
+          } else {
+            yearholder[d.createdAt.substring(5, 7)] = d.totalPrice;
+          }
+        });
+        for (var prop in yearholder) {
+          year.push({ createdAt: prop, totalPrice: yearholder[prop] });
+        }
+
+        for (let i = 1; i <= 12; i++) {
+          year.push({
+            createdAt: `${String(i).padStart(2, "0")}`,
+            totalPrice: 0,
+          });
+        }
+        var yearholders = {};
+        year.forEach(function (d) {
+          if (yearholders.hasOwnProperty(d.createdAt.substring(5, 7))) {
+            yearholders[d.createdAt.substring(5, 7)] =
+              yearholders[d.createdAt.substring(5, 7)] + d.totalPrice;
+          } else {
+            yearholders[d.createdAt.substring(5, 7)] = d.totalPrice;
+          }
+        });
+        var years = Object.values(
+          year.reduce((r, o) => {
+            r[o.createdAt] = r[o.createdAt] || {
+              createdAt: o.createdAt,
+              totalPrice: 0,
+            };
+            r[o.createdAt].totalPrice += +o.totalPrice;
+            return r;
+          }, {})
+        );
+        var newYear = years.sort((a, b) => {
+          return a.createdAt - b.createdAt;
+        });
+        console.log(newYear);
+
+        switch (newValue ? newValue : 0) {
+          case 0:
+            setProductChartData(weeks);
+            break;
+          case 1:
+            setProductChartData(monthss);
+            break;
+          case 2:
+            setProductChartData(years);
+            break;
+        }
+      }
     } catch (err) {
       alert(err);
     }
@@ -183,7 +363,7 @@ export default function Dashboard() {
                       Total Orders
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {orderCount}
+                      {dashboardData?.totalOrder}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -202,7 +382,7 @@ export default function Dashboard() {
                       Total Products
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {productCount}
+                      {dashboardData?.totalProducts}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -221,7 +401,7 @@ export default function Dashboard() {
                       Total Customers
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {customerCount}
+                      {dashboardData?.totalUser}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -240,7 +420,7 @@ export default function Dashboard() {
                       Total Category
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {categoryCount}
+                      {dashboardData?.totalCategory}
                     </CardOne>
                     <Typography color="text.secondary">
                       +2.6% than last week
@@ -252,17 +432,17 @@ export default function Dashboard() {
           </Grid>
         </Grid>
         <ContainerTwo container spacing={2}>
-          <Grid xs={4}>
+          <Grid xs={5}>
             <CardFrist>
               <CardContent>
                 <CardTwo variant="h6" component="div">
                   Orders by Products
                 </CardTwo>
-                <Doughnut data={data} />
+                <DoughnutSize options={doughnutOptions} data={data} />
               </CardContent>
             </CardFrist>
           </Grid>
-          <Grid xs={8}>
+          <Grid xs={7}>
             <CardFrist>
               <CardContent>
                 <Grid container spacing={2}>
@@ -285,7 +465,7 @@ export default function Dashboard() {
                   </Grid>
                 </Grid>
 
-                <ProductChart options={options} data={datas} />
+                <ProductChartSize options={options} data={datas} />
               </CardContent>
             </CardFrist>
           </Grid>
