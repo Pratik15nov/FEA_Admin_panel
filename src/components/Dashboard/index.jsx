@@ -29,6 +29,8 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import moment from "moment";
+
 import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(
   ArcElement,
@@ -65,6 +67,7 @@ export default function Dashboard() {
     switch (newValue) {
       case 0:
         var curr = new Date();
+
         var firstday = new Date(
           curr.setDate(curr.getDate() - curr.getDay() + 1)
         )
@@ -237,134 +240,136 @@ export default function Dashboard() {
       const response = await dashboardDataHandler(body);
       if (response.length !== 0) {
         setDashboardData(response.data[0]);
-
-        var obj = response?.data[0].orderData;
-        var holder = {};
-        let currDate = new Date();
-        let week = [];
-        let weeks = [];
-        obj.forEach(function (d) {
-          if (holder.hasOwnProperty(d.createdAt.substring(8, 10))) {
-            holder[d.createdAt.substring(8, 10)] =
-              holder[d.createdAt.substring(8, 10)] + d.totalPrice;
-          } else {
-            holder[d.createdAt.substring(8, 10)] = d.totalPrice;
-          }
-        });
-        for (var propP in holder) {
-          week.push({ createdAt: propP, totalPrice: holder[propP] });
-        }
-
-        for (let i = 1; i <= 7; i++) {
-          let first = currDate.getDate() - currDate.getDay() + i;
-          let day = new Date(currDate.setDate(first))
-            .toISOString()
-            .slice(8, 10);
-          week.push({ createdAt: day, totalPrice: 0 });
-        }
-
-        var weekholders = {};
-
-        week.forEach(function (d) {
-          if (weekholders.hasOwnProperty(d.createdAt.substring(0, 10))) {
-            weekholders[d.createdAt.substring(0, 10)] =
-              weekholders[d.createdAt.substring(0, 10)] + d.totalPrice;
-          } else {
-            weekholders[d.createdAt.substring(0, 10)] = d.totalPrice;
-          }
-        });
-        for (var propA in weekholders) {
-          weeks.push({ createdAt: propA, totalPrice: weekholders[propA] });
-        }
-        console.log(weeks);
-
-        var dt = new Date();
-        let months = [];
-        let monthss = [];
-        let daysInMonth = new Date(
-          dt.getFullYear(),
-          dt.getMonth() + 1,
-          0
-        ).getDate();
-        for (var propB in holder) {
-          months.push({ createdAt: propB, totalPrice: holder[propB] });
-        }
-
-        for (let i = 1; i <= daysInMonth; i++) {
-          months.push({ createdAt: `${i}`, totalPrice: 0 });
-        }
-        var monthsholders = {};
-        months.forEach(function (d) {
-          if (monthsholders.hasOwnProperty(d.createdAt.substring(0, 10))) {
-            monthsholders[d.createdAt.substring(0, 10)] =
-              monthsholders[d.createdAt.substring(0, 10)] + d.totalPrice;
-          } else {
-            monthsholders[d.createdAt.substring(0, 10)] = d.totalPrice;
-          }
-        });
-        for (var propC in monthsholders) {
-          monthss.push({ createdAt: propC, totalPrice: monthsholders[propC] });
-        }
-
-        let year = [];
-
-        var yearholder = {};
-        obj.forEach(function (d) {
-          if (yearholder.hasOwnProperty(d.createdAt.substring(5, 7))) {
-            yearholder[d.createdAt.substring(5, 7)] =
-              yearholder[d.createdAt.substring(5, 7)] + d.totalPrice;
-          } else {
-            yearholder[d.createdAt.substring(5, 7)] = d.totalPrice;
-          }
-        });
-        for (var prop in yearholder) {
-          year.push({ createdAt: prop, totalPrice: yearholder[prop] });
-        }
-
-        for (let i = 1; i <= 12; i++) {
-          year.push({
-            createdAt: `${String(i).padStart(2, "0")}`,
-            totalPrice: 0,
-          });
-        }
-        var yearholders = {};
-        year.forEach(function (d) {
-          if (yearholders.hasOwnProperty(d.createdAt.substring(5, 7))) {
-            yearholders[d.createdAt.substring(5, 7)] =
-              yearholders[d.createdAt.substring(5, 7)] + d.totalPrice;
-          } else {
-            yearholders[d.createdAt.substring(5, 7)] = d.totalPrice;
-          }
-        });
-        var years = Object.values(
-          year.reduce((r, o) => {
-            r[o.createdAt] = r[o.createdAt] || {
-              createdAt: o.createdAt,
-              totalPrice: 0,
-            };
-            r[o.createdAt].totalPrice += +o.totalPrice;
-            return r;
-          }, {})
-        );
-        var newYear = years.sort((a, b) => {
-          return a.createdAt - b.createdAt;
-        });
-
+        console.log(response?.data[0].orderData);
         switch (newValue ? newValue : 0) {
           case 0:
-            setProductChartData(weeks);
+            getWeekData(response?.data[0].orderData);
             break;
           case 1:
-            setProductChartData(monthss);
+            getMonthsData(response?.data[0].orderData);
             break;
           case 2:
-            setProductChartData(newYear);
+            getYearData(response?.data[0].orderData);
             break;
         }
       }
     } catch (err) {
       alert(err);
     }
+  };
+  const getWeekData = (data) => {
+    var holder = {};
+    let week = [];
+    data.forEach(function (d) {
+      if (holder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
+        holder[moment(d.createdAt).format("DD")] =
+          holder[moment(d.createdAt).format("DD")] + d.totalPrice;
+      } else {
+        holder[moment(d.createdAt).format("DD")] = d.totalPrice;
+      }
+    });
+    for (var propP in holder) {
+      week.push({ createdAt: propP, totalPrice: holder[propP] });
+    }
+
+    [...Array(7)].map((_, i) => {
+      let first = new Date().getDate() - new Date().getDay() + i + 1;
+      let day = new Date(new Date().setDate(first)).toISOString().slice(8, 10);
+      return week.push({ createdAt: day, totalPrice: 0 });
+    });
+
+    var weeks = Object.values(
+      week.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+    setProductChartData(weeks);
+  };
+
+  const getYearData = (data) => {
+    let year = [];
+    var yearholder = {};
+    data.forEach(function (d) {
+      if (yearholder.hasOwnProperty(moment(d.createdAt).format("MM"))) {
+        yearholder[moment(d.createdAt).format("MM")] =
+          yearholder[moment(d.createdAt).format("MM")] + d.totalPrice;
+      } else {
+        yearholder[moment(d.createdAt).format("MM")] = d.totalPrice;
+      }
+    });
+
+    for (var propC in yearholder) {
+      year.push({ createdAt: propC, totalPrice: yearholder[propC] });
+    }
+
+    [...Array(12)].map((_, i) =>
+      year.push({
+        createdAt: `${String(i + 1).padStart(2, "0")}`,
+        totalPrice: 0,
+      })
+    );
+    var years = Object.values(
+      year.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+
+    var newYear = years.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    });
+    setProductChartData(newYear);
+  };
+
+  const getMonthsData = (data) => {
+    let months = [];
+    var monthsHolder = {};
+    let daysInMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      0
+    ).getDate();
+    data.forEach(function (d) {
+      if (monthsHolder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
+        monthsHolder[moment(d.createdAt).format("DD")] =
+          monthsHolder[moment(d.createdAt).format("DD")] + d.totalPrice;
+      } else {
+        monthsHolder[moment(d.createdAt).format("DD")] = d.totalPrice;
+      }
+    });
+    for (var propB in monthsHolder) {
+      months.push({ createdAt: propB, totalPrice: monthsHolder[propB] });
+    }
+    [...Array(daysInMonth)].map((_, i) =>
+      months.push({
+        createdAt: `${String(i + 1).padStart(2, "0")}`,
+        totalPrice: 0,
+      })
+    );
+    var monthss = Object.values(
+      months.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+
+    var newMonths = monthss.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    });
+    setProductChartData(newMonths);
   };
 
   return (
