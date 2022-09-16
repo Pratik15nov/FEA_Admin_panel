@@ -35,6 +35,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Button } from "@mui/material";
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -61,9 +62,7 @@ export default function Dashboard() {
   const [customStatdate, setCustomStartDate] = useState(null);
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
-  useEffect(() => {
-    getDateHandler(); // eslint-disable-next-line
-  }, [customEnddate]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue); // eslint-disable-next-line
     switch (newValue) {
@@ -230,6 +229,7 @@ export default function Dashboard() {
         switch (newValue ? newValue : 0) {
           case 0:
             getWeekData(response?.data[0].orderData);
+
             break;
           case 1:
             getMonthsData(response?.data[0].orderData);
@@ -238,7 +238,7 @@ export default function Dashboard() {
             getYearData(response?.data[0].orderData);
             break;
           case 3:
-            getWeekData(response?.data[0].orderData);
+            customDateData(response?.data[0].orderData);
             break;
         }
       }
@@ -323,7 +323,31 @@ export default function Dashboard() {
     });
     setProductChartData(newYear);
   };
-
+  const customDateData = (data) => {
+    let customDate = [];
+    var customDateHolder = {};
+    data.forEach(function (d) {
+      if (
+        customDateHolder.hasOwnProperty(
+          moment(d.createdAt).format("DD-MM-YYYY")
+        )
+      ) {
+        customDateHolder[moment(d.createdAt).format("DD-MM-YYYY")] =
+          customDateHolder[moment(d.createdAt).format("DD-MM-YYYY")] +
+          d.totalPrice;
+      } else {
+        customDateHolder[moment(d.createdAt).format("DD-MM-YYYY")] =
+          d.totalPrice;
+      }
+    });
+    for (var date in customDateHolder) {
+      customDate.push({
+        createdAt: date,
+        totalPrice: customDateHolder[date].toFixed(2),
+      });
+    }
+    setProductChartData(customDate);
+  };
   const getMonthsData = (data) => {
     let months = [];
     var monthsHolder = {};
@@ -482,7 +506,7 @@ export default function Dashboard() {
                 {customArea ? (
                   <>
                     <Grid container spacing={2}>
-                      <Grid item xs={4}></Grid>
+                      <Grid item xs={2}></Grid>
                       <Grid item xs={4}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DatePicker
@@ -491,7 +515,7 @@ export default function Dashboard() {
                             onChange={(newValue) => {
                               setCustomStartDate(newValue.$d);
                             }}
-                            renderInput={(params) => <TextField {...params} />}
+                            renderInput={(params) => <TextField size="small" {...params} />}
                           />
                         </LocalizationProvider>
                       </Grid>
@@ -503,9 +527,17 @@ export default function Dashboard() {
                             onChange={(newValue) => {
                               setCustomEndDate(newValue.$d);
                             }}
-                            renderInput={(params) => <TextField {...params} />}
+                            renderInput={(params) => <TextField size="small" {...params} />}
                           />
                         </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Button
+                          variant="contained"
+                          onClick={() => getDateHandler()}
+                        >
+                          OK
+                        </Button>
                       </Grid>
                     </Grid>
                   </>
