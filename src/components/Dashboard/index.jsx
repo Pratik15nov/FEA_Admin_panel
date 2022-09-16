@@ -29,6 +29,11 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import moment from "moment";
+import TextField from "@mui/material/TextField";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(
   ArcElement,
@@ -45,61 +50,70 @@ ChartJS.register(
 
 export default function Dashboard() {
   useEffect(() => {
-    var curr = new Date();
-    var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1))
-      .toISOString()
-      .substring(0, 10);
-    var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 8))
-      .toISOString()
-      .substring(0, 10);
-
-    getDashboardData(firstday, lastday); // eslint-disable-next-line
+    var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
+    var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
+    getDashboardData(startDate, endDate); // eslint-disable-next-line
   }, []);
 
   const [dashboardData, setDashboardData] = useState();
   const [value, setValue] = useState(0);
   const [productChartData, setProductChartData] = useState();
-
-  console.log(dashboardData?.orderData);
+  const [customStatdate, setCustomStartDate] = useState(null);
+  const [customEnddate, setCustomEndDate] = useState(null);
+  const [customArea, setCustomArea] = useState(false);
 
   const handleChange = (event, newValue) => {
-    console.log(newValue);
     setValue(newValue);
     switch (newValue) {
       case 0:
-        var curr = new Date();
-        var firstday = new Date(
-          curr.setDate(curr.getDate() - curr.getDay() + 1)
-        )
-          .toISOString()
-          .substring(0, 10);
-        var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 8))
-          .toISOString()
-          .substring(0, 10);
-        getDashboardData(firstday, lastday, newValue);
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
+        var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
+        var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
+        getDashboardData(startDate, endDate, newValue);
         break;
       case 1:
-        var date = new Date(),
-          y = date.getFullYear(),
-          m = date.getMonth();
-        var firstDay = new Date(y, m, 2).toISOString().substring(0, 10);
-        var lastDay = new Date(y, m + 1, 2).toISOString().substring(0, 10);
-        getDashboardData(firstDay, lastDay, newValue);
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
+        var startOfMonth = moment()
+          .clone()
+          .startOf("month")
+          .format("YYYY-MM-DD");
+        var endOfMonth = moment().clone().endOf("month").format("YYYY-MM-DD");
+        getDashboardData(startOfMonth, endOfMonth, newValue);
         break;
       case 2:
-        var currentYear = new Date().getFullYear();
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
+        var startOfYear = moment().clone().startOf("year").format("YYYY-MM-DD");
+        var endOfYear = moment().clone().endOf("year").format("YYYY-MM-DD");
 
-        var firstDay = new Date(currentYear, 0, 2)
-          .toISOString()
-          .substring(0, 10);
+        getDashboardData(startOfYear, endOfYear, newValue);
 
-        var lastDay = new Date(currentYear + 1, 0, 2)
-          .toISOString()
-          .substring(0, 10);
-        getDashboardData(firstDay, lastDay, newValue);
+        break;
+      case 3:
+        setCustomArea(true);
+        break;
+      default:
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
+        var defaultstartDate = moment()
+          .clone()
+          .startOf("week")
+          .format("YYYY-MM-DD");
+        var defaultendDate = moment()
+          .clone()
+          .endOf("week")
+          .format("YYYY-MM-DD");
+        getDashboardData(defaultstartDate, defaultendDate, newValue);
         break;
     }
   };
+
   const OrdersbyProducts = dashboardData?.orderedProducts.filter(
     (data) => data.quantity > 0
   );
@@ -206,7 +220,7 @@ export default function Dashboard() {
       {
         fill: true,
         label: "Sales",
-        data: productChartData?.map((data) => data.totalPrice.toFixed(2)),
+        data: productChartData?.map((data) => data.totalPrice),
         borderColor: "rgb(26, 26, 64)",
         backgroundColor: "rgba(26, 26, 64,0.2)",
       },
@@ -219,134 +233,189 @@ export default function Dashboard() {
       const response = await dashboardDataHandler(body);
       if (response.length !== 0) {
         setDashboardData(response.data[0]);
-
-        var obj = response?.data[0].orderData;
-        var holder = {};
-        let currDate = new Date();
-        let week = [];
-        let weeks = [];
-        obj.forEach(function (d) {
-          if (holder.hasOwnProperty(d.createdAt.substring(8, 10))) {
-            holder[d.createdAt.substring(8, 10)] =
-              holder[d.createdAt.substring(8, 10)] + d.totalPrice;
-          } else {
-            holder[d.createdAt.substring(8, 10)] = d.totalPrice;
-          }
-        });
-        for (var prop in holder) {
-          week.push({ createdAt: prop, totalPrice: holder[prop] });
-        }
-
-        for (let i = 1; i <= 7; i++) {
-          let first = currDate.getDate() - currDate.getDay() + i;
-          let day = new Date(currDate.setDate(first))
-            .toISOString()
-            .slice(8, 10);
-          week.push({ createdAt: day, totalPrice: 0 });
-        }
-
-        var weekholders = {};
-
-        week.forEach(function (d) {
-          if (weekholders.hasOwnProperty(d.createdAt.substring(0, 10))) {
-            weekholders[d.createdAt.substring(0, 10)] =
-              weekholders[d.createdAt.substring(0, 10)] + d.totalPrice;
-          } else {
-            weekholders[d.createdAt.substring(0, 10)] = d.totalPrice;
-          }
-        });
-        for (var prop in weekholders) {
-          weeks.push({ createdAt: prop, totalPrice: weekholders[prop] });
-        }
-
-        var dt = new Date();
-        let months = [];
-        let monthss = [];
-        let daysInMonth = new Date(
-          dt.getFullYear(),
-          dt.getMonth() + 1,
-          0
-        ).getDate();
-        for (var prop in holder) {
-          months.push({ createdAt: prop, totalPrice: holder[prop] });
-        }
-
-        for (let i = 1; i <= daysInMonth; i++) {
-          months.push({ createdAt: `${i}`, totalPrice: 0 });
-        }
-        var monthsholders = {};
-        months.forEach(function (d) {
-          if (monthsholders.hasOwnProperty(d.createdAt.substring(0, 10))) {
-            monthsholders[d.createdAt.substring(0, 10)] =
-              monthsholders[d.createdAt.substring(0, 10)] + d.totalPrice;
-          } else {
-            monthsholders[d.createdAt.substring(0, 10)] = d.totalPrice;
-          }
-        });
-        for (var prop in monthsholders) {
-          monthss.push({ createdAt: prop, totalPrice: monthsholders[prop] });
-        }
-
-        let year = [];
-
-        var yearholder = {};
-        obj.forEach(function (d) {
-          if (yearholder.hasOwnProperty(d.createdAt.substring(5, 7))) {
-            yearholder[d.createdAt.substring(5, 7)] =
-              yearholder[d.createdAt.substring(5, 7)] + d.totalPrice;
-          } else {
-            yearholder[d.createdAt.substring(5, 7)] = d.totalPrice;
-          }
-        });
-        for (var prop in yearholder) {
-          year.push({ createdAt: prop, totalPrice: yearholder[prop] });
-        }
-
-        for (let i = 1; i <= 12; i++) {
-          year.push({
-            createdAt: `${String(i).padStart(2, "0")}`,
-            totalPrice: 0,
-          });
-        }
-        var yearholders = {};
-        year.forEach(function (d) {
-          if (yearholders.hasOwnProperty(d.createdAt.substring(5, 7))) {
-            yearholders[d.createdAt.substring(5, 7)] =
-              yearholders[d.createdAt.substring(5, 7)] + d.totalPrice;
-          } else {
-            yearholders[d.createdAt.substring(5, 7)] = d.totalPrice;
-          }
-        });
-        var years = Object.values(
-          year.reduce((r, o) => {
-            r[o.createdAt] = r[o.createdAt] || {
-              createdAt: o.createdAt,
-              totalPrice: 0,
-            };
-            r[o.createdAt].totalPrice += +o.totalPrice;
-            return r;
-          }, {})
-        );
-        var newYear = years.sort((a, b) => {
-          return a.createdAt - b.createdAt;
-        });
-        console.log(newYear);
-
         switch (newValue ? newValue : 0) {
           case 0:
-            setProductChartData(weeks);
+            getWeekData(response?.data[0].orderData);
             break;
           case 1:
-            setProductChartData(monthss);
+            getMonthsData(response?.data[0].orderData);
             break;
           case 2:
-            setProductChartData(years);
+            getYearData(response?.data[0].orderData);
+            break;
+          case 3:
+            getCustomDateData(response?.data[0].orderData);
+            break;
+          default:
+            getWeekData(response?.data[0].orderData);
             break;
         }
       }
     } catch (err) {
       alert(err);
     }
+  };
+  useEffect(() => {
+    getCustomData(); // eslint-disable-next-line
+  }, [customEnddate]);
+  const getCustomData = () => {
+    if (customEnddate !== null) {
+      var startDate = moment(customStatdate).format("YYYY-MM-DD");
+      var endDate = moment(customEnddate).format("YYYY-MM-DD");
+      console.log(startDate, endDate);
+      getDashboardData(startDate, endDate, 3);
+    }
+  };
+  const getWeekData = (data) => {
+    var holder = {};
+    let week = [];
+    data.forEach(function (d) {
+      if (holder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
+        holder[moment(d.createdAt).format("DD")] =
+          holder[moment(d.createdAt).format("DD")] + d.totalPrice;
+      } else {
+        holder[moment(d.createdAt).format("DD")] = d.totalPrice;
+      }
+    });
+
+    for (var date in holder) {
+      week.push({ createdAt: date, totalPrice: holder[date].toFixed(2) });
+    }
+    [...Array(7)].map((_, i) => {
+      let first = new Date().getDate() - new Date().getDay() + i + 1;
+      return week.push({ createdAt: first, totalPrice: 0 });
+    });
+
+    var weeks = Object.values(
+      week.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+    setProductChartData(weeks);
+  };
+
+  const getYearData = (data) => {
+    let year = [];
+    var yearholder = {};
+    data.forEach(function (d) {
+      if (yearholder.hasOwnProperty(moment(d.createdAt).format("MM"))) {
+        yearholder[moment(d.createdAt).format("MM")] =
+          yearholder[moment(d.createdAt).format("MM")] + d.totalPrice;
+      } else {
+        yearholder[moment(d.createdAt).format("MM")] = d.totalPrice;
+      }
+    });
+
+    for (var date in yearholder) {
+      year.push({ createdAt: date, totalPrice: yearholder[date] });
+    }
+
+    [...Array(12)].map((_, i) =>
+      year.push({
+        createdAt: `${String(i + 1).padStart(2, "0")}`,
+        totalPrice: 0,
+      })
+    );
+    var years = Object.values(
+      year.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+
+    var newYear = years.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    });
+    setProductChartData(newYear);
+  };
+
+  const getMonthsData = (data) => {
+    let months = [];
+    var monthsHolder = {};
+    data.forEach(function (d) {
+      if (monthsHolder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
+        monthsHolder[moment(d.createdAt).format("DD")] =
+          monthsHolder[moment(d.createdAt).format("DD")] + d.totalPrice;
+      } else {
+        monthsHolder[moment(d.createdAt).format("DD")] = d.totalPrice;
+      }
+    });
+    for (var date in monthsHolder) {
+      months.push({
+        createdAt: date,
+        totalPrice: monthsHolder[date].toFixed(2),
+      });
+    }
+    [...Array(moment().daysInMonth())].map((_, i) =>
+      months.push({
+        createdAt: `${String(i + 1).padStart(2, "0")}`,
+        totalPrice: 0,
+      })
+    );
+    var monthss = Object.values(
+      months.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+
+    var newMonths = monthss.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    });
+    setProductChartData(newMonths);
+  };
+
+  const getCustomDateData = (data) => {
+    let months = [];
+    var monthsHolder = {};
+    data.forEach(function (d) {
+      if (monthsHolder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
+        monthsHolder[moment(d.createdAt).format("DD")] =
+          monthsHolder[moment(d.createdAt).format("DD")] + d.totalPrice;
+      } else {
+        monthsHolder[moment(d.createdAt).format("DD")] = d.totalPrice;
+      }
+    });
+    for (var date in monthsHolder) {
+      months.push({
+        createdAt: date,
+        totalPrice: monthsHolder[date].toFixed(2),
+      });
+    }
+    [...Array(moment().daysInMonth())].map((_, i) =>
+      months.push({
+        createdAt: `${String(i + 1).padStart(2, "0")}`,
+        totalPrice: 0,
+      })
+    );
+    var monthss = Object.values(
+      months.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+
+    var newMonths = monthss.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    });
+    setProductChartData(newMonths);
   };
 
   return (
@@ -464,7 +533,39 @@ export default function Dashboard() {
                     </Box>
                   </Grid>
                 </Grid>
-
+                {customArea ? (
+                  <>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}></Grid>
+                      <Grid item xs={4}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker
+                            label="Start Date"
+                            value={customStatdate}
+                            onChange={(newValue) => {
+                              setCustomStartDate(newValue.$d);
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker
+                            label="End Date"
+                            value={customEnddate}
+                            onChange={(newValue) => {
+                              setCustomEndDate(newValue.$d);
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                    </Grid>
+                  </>
+                ) : (
+                  <></>
+                )}
                 <ProductChartSize options={options} data={datas} />
               </CardContent>
             </CardFrist>

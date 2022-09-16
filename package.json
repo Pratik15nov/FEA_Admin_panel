@@ -23,6 +23,7 @@
     "chartjs-plugin-datalabels": "^2.1.0",
     "devextreme-react": "^22.1.5",
     "faker": "^5.5.3",
+    "moment": "^2.29.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",
