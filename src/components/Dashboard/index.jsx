@@ -30,7 +30,10 @@ import {
   ArcElement,
 } from "chart.js";
 import moment from "moment";
-
+import TextField from "@mui/material/TextField";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(
   ArcElement,
@@ -55,16 +58,25 @@ export default function Dashboard() {
   const [dashboardData, setDashboardData] = useState();
   const [value, setValue] = useState(0);
   const [productChartData, setProductChartData] = useState();
+  const [customStatdate, setCustomStartDate] = useState(null);
+  const [customEnddate, setCustomEndDate] = useState(null);
+  const [customArea, setCustomArea] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     switch (newValue) {
       case 0:
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
         var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
         var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
         getDashboardData(startDate, endDate, newValue);
         break;
       case 1:
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
         var startOfMonth = moment()
           .clone()
           .startOf("month")
@@ -73,13 +85,35 @@ export default function Dashboard() {
         getDashboardData(startOfMonth, endOfMonth, newValue);
         break;
       case 2:
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
         var startOfYear = moment().clone().startOf("year").format("YYYY-MM-DD");
         var endOfYear = moment().clone().endOf("year").format("YYYY-MM-DD");
 
         getDashboardData(startOfYear, endOfYear, newValue);
+
+        break;
+      case 3:
+        setCustomArea(true);
+        break;
+      default:
+        setCustomArea(false);
+        setCustomStartDate();
+        setCustomEndDate();
+        var defaultstartDate = moment()
+          .clone()
+          .startOf("week")
+          .format("YYYY-MM-DD");
+        var defaultendDate = moment()
+          .clone()
+          .endOf("week")
+          .format("YYYY-MM-DD");
+        getDashboardData(defaultstartDate, defaultendDate, newValue);
         break;
     }
   };
+
   const OrdersbyProducts = dashboardData?.orderedProducts.filter(
     (data) => data.quantity > 0
   );
@@ -192,27 +226,6 @@ export default function Dashboard() {
       },
     ],
   };
-  // function nFormatter(num, digits) {
-  //   const lookup = [
-  //     { value: 1, symbol: "" },
-  //     { value: 1e3, symbol: "k" },
-  //     { value: 1e6, symbol: "M" },
-  //     { value: 1e9, symbol: "G" },
-  //     { value: 1e12, symbol: "T" },
-  //     { value: 1e15, symbol: "P" },
-  //     { value: 1e18, symbol: "E" },
-  //   ];
-  //   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  //   var item = lookup
-  //     .slice()
-  //     .reverse()
-  //     .find(function (item) {
-  //       return num >= item.value;
-  //     });
-  //   return item
-  //     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
-  //     : "0";
-  // }
 
   const getDashboardData = async (startDate, endDate, newValue) => {
     try {
@@ -222,7 +235,7 @@ export default function Dashboard() {
         setDashboardData(response.data[0]);
         switch (newValue ? newValue : 0) {
           case 0:
-            getWeekData(startDate, endDate, response?.data[0].orderData);
+            getWeekData(response?.data[0].orderData);
             break;
           case 1:
             getMonthsData(response?.data[0].orderData);
@@ -230,13 +243,30 @@ export default function Dashboard() {
           case 2:
             getYearData(response?.data[0].orderData);
             break;
+          case 3:
+            getCustomDateData(response?.data[0].orderData);
+            break;
+          default:
+            getWeekData(response?.data[0].orderData);
+            break;
         }
       }
     } catch (err) {
       alert(err);
     }
   };
-  const getWeekData = (startDate, endDate, data) => {
+  useEffect(() => {
+    getCustomData(); // eslint-disable-next-line
+  }, [customEnddate]);
+  const getCustomData = () => {
+    if (customEnddate !== null) {
+      var startDate = moment(customStatdate).format("YYYY-MM-DD");
+      var endDate = moment(customEnddate).format("YYYY-MM-DD");
+      console.log(startDate, endDate);
+      getDashboardData(startDate, endDate, 3);
+    }
+  };
+  const getWeekData = (data) => {
     var holder = {};
     let week = [];
     data.forEach(function (d) {
@@ -247,10 +277,10 @@ export default function Dashboard() {
         holder[moment(d.createdAt).format("DD")] = d.totalPrice;
       }
     });
-    for (var propP in holder) {
-      week.push({ createdAt: propP, totalPrice: holder[propP] });
-    }
 
+    for (var date in holder) {
+      week.push({ createdAt: date, totalPrice: holder[date].toFixed(2) });
+    }
     [...Array(7)].map((_, i) => {
       let first = new Date().getDate() - new Date().getDay() + i + 1;
       return week.push({ createdAt: first, totalPrice: 0 });
@@ -281,8 +311,8 @@ export default function Dashboard() {
       }
     });
 
-    for (var propC in yearholder) {
-      year.push({ createdAt: propC, totalPrice: yearholder[propC] });
+    for (var date in yearholder) {
+      year.push({ createdAt: date, totalPrice: yearholder[date] });
     }
 
     [...Array(12)].map((_, i) =>
@@ -311,11 +341,6 @@ export default function Dashboard() {
   const getMonthsData = (data) => {
     let months = [];
     var monthsHolder = {};
-    let daysInMonth = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      0
-    ).getDate();
     data.forEach(function (d) {
       if (monthsHolder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
         monthsHolder[moment(d.createdAt).format("DD")] =
@@ -324,10 +349,53 @@ export default function Dashboard() {
         monthsHolder[moment(d.createdAt).format("DD")] = d.totalPrice;
       }
     });
-    for (var propB in monthsHolder) {
-      months.push({ createdAt: propB, totalPrice: monthsHolder[propB] });
+    for (var date in monthsHolder) {
+      months.push({
+        createdAt: date,
+        totalPrice: monthsHolder[date].toFixed(2),
+      });
     }
-    [...Array(daysInMonth)].map((_, i) =>
+    [...Array(moment().daysInMonth())].map((_, i) =>
+      months.push({
+        createdAt: `${String(i + 1).padStart(2, "0")}`,
+        totalPrice: 0,
+      })
+    );
+    var monthss = Object.values(
+      months.reduce((r, o) => {
+        r[o.createdAt] = r[o.createdAt] || {
+          createdAt: o.createdAt,
+          totalPrice: 0,
+        };
+        r[o.createdAt].totalPrice += +o.totalPrice;
+        return r;
+      }, {})
+    );
+
+    var newMonths = monthss.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    });
+    setProductChartData(newMonths);
+  };
+
+  const getCustomDateData = (data) => {
+    let months = [];
+    var monthsHolder = {};
+    data.forEach(function (d) {
+      if (monthsHolder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
+        monthsHolder[moment(d.createdAt).format("DD")] =
+          monthsHolder[moment(d.createdAt).format("DD")] + d.totalPrice;
+      } else {
+        monthsHolder[moment(d.createdAt).format("DD")] = d.totalPrice;
+      }
+    });
+    for (var date in monthsHolder) {
+      months.push({
+        createdAt: date,
+        totalPrice: monthsHolder[date].toFixed(2),
+      });
+    }
+    [...Array(moment().daysInMonth())].map((_, i) =>
       months.push({
         createdAt: `${String(i + 1).padStart(2, "0")}`,
         totalPrice: 0,
@@ -465,7 +533,39 @@ export default function Dashboard() {
                     </Box>
                   </Grid>
                 </Grid>
-
+                {customArea ? (
+                  <>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}></Grid>
+                      <Grid item xs={4}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker
+                            label="Start Date"
+                            value={customStatdate}
+                            onChange={(newValue) => {
+                              setCustomStartDate(newValue.$d);
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker
+                            label="End Date"
+                            value={customEnddate}
+                            onChange={(newValue) => {
+                              setCustomEndDate(newValue.$d);
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                    </Grid>
+                  </>
+                ) : (
+                  <></>
+                )}
                 <ProductChartSize options={options} data={datas} />
               </CardContent>
             </CardFrist>
