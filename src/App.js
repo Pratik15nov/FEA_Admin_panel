@@ -24,6 +24,8 @@ import Menu from "./components/Menu";
 import Rights from "./components/Rights";
 import Role from "./components/Role";
 import Profile from "./components/Profile";
+import Forgot from "./components/Forgot";
+import ConfirmPassword from "./components/ConfirmPassword";
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login />} />
+          <Route exact path="/confirmPassword" element={<ConfirmPassword />} />
           <Route
             exact
             path="/dashboard"
@@ -193,7 +196,8 @@ function App() {
               </Layout>
             }
           />
-           <Route
+          <Route exact path="/forgot" element={<Forgot />} />
+          <Route
             exact
             path="/profile"
             element={

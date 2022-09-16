@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { DialogText, MyButton } from "./Dialog.style";
+import { DialogText, MyButton, TitleBox,ActionsBox } from "./Dialog.style";
 
 const DialogBox = (props) => {
   return (
@@ -15,19 +15,18 @@ const DialogBox = (props) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Deletion alert</DialogTitle>
+      <TitleBox id="alert-dialog-title">
+        {props.titleMsg ? props.titleMsg : "Deletion alert"}
+      </TitleBox>
       <DialogContent>
         <DialogText>{props.msg}</DialogText>
       </DialogContent>
-      <DialogActions>
+      <ActionsBox>
         <MyButton onClick={props.alertClose}>Disagree</MyButton>
-        <MyButton
-          onClick={() => props.onAgree()}
-          autoFocus
-        >
+        <MyButton onClick={() => props.onAgree()} autoFocus>
           Agree
         </MyButton>
-      </DialogActions>
+      </ActionsBox>
     </Dialog>
   );
 };

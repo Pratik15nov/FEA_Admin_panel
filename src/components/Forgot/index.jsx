@@ -5,42 +5,37 @@ import {
   SideImage,
   LoginSide,
   LinkBox,
-} from "./Login.style";
+} from "./Forgot.style";
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { loginCheck } from "../../service/Auth.Service";
+import { pwdUpdationLinkMail } from "../../service/Auth.Service";
 
-const Login = () => {
+const Forgot = () => {
   const navigate = useNavigate();
   const { handleSubmit, control } = useForm({
     defaultValues: {
       email: null,
-      password: null,
     },
   });
 
-  const handleLogin = async (info) => {
+  const handleForgot = async (info) => {
     try {
       const body = {
         email: info.email,
-        password: info.password,
       };
 
-      const response = await loginCheck(body);
-
+      const response = await pwdUpdationLinkMail(body);
       if (response.success) {
-        console.log("response: ", response);
-        localStorage.setItem("dataToken", response?.data?.token);
-        localStorage.setItem("Data", JSON.stringify(response));
-
-        navigate("/dashboard");
+        alert("email sent");
+        navigate("/");
       } else {
-        alert("PLEASE ENTER CORRECT CREDENTIALS");
+        alert("email not sent try again");
+        navigate("/");
       }
     } catch (error) {
       alert(error);
@@ -52,11 +47,14 @@ const Login = () => {
       <Container>
         <LoginSide>
           <CustomAvatar>
-            <LockOutlinedIcon fontSize="large" />
+            <VpnKeyOutlinedIcon fontSize="large" />
           </CustomAvatar>
-          <Typography variant="h1">Sign in</Typography>
-          <Box>
-            <form onSubmit={handleSubmit(handleLogin)}>
+          <Typography variant="h1">Forgot Password ?</Typography>
+          <Box sx={{ marginTop: "5%" }}>
+            <form onSubmit={handleSubmit(handleForgot)}>
+              <Typography variant="h3">
+                Enter your email to get password reset link
+              </Typography>
               <Controller
                 name="email"
                 render={({
@@ -79,32 +77,11 @@ const Login = () => {
                 )}
                 control={control}
                 rules={{
-                  required: "Email Addres is Required",
-                }}
-              />
-              <Controller
-                name="password"
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    margin="normal"
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error?.message ?? ""}
-                  />
-                )}
-                control={control}
-                rules={{
-                  required: "Password is Required",
+                  required: "Please add email ",
+                  pattern: {
+                    value: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+                    message: "Enter email properly",
+                  },
                 }}
               />
 
@@ -114,16 +91,13 @@ const Login = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Send mail
               </Button>
 
               <Grid container>
                 <Grid item xs>
-                  <LinkBox
-                    onClick={() => navigate("/forgot")}
-                    variant={"body2"}
-                  >
-                    Forgot password?
+                  <LinkBox onClick={() => navigate("/")} variant={"body2"}>
+                    Back to login ?
                   </LinkBox>
                 </Grid>
               </Grid>
@@ -139,4 +113,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Forgot;

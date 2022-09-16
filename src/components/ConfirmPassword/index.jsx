@@ -4,61 +4,50 @@ import {
   CustomAvatar,
   SideImage,
   LoginSide,
-  LinkBox,
-} from "./Login.style";
+  //   LinkBox,
+} from "./ConfirmPassword.style";
 import { Box, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+// import Grid from "@mui/material/Grid";
+import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router";
-import { loginCheck } from "../../service/Auth.Service";
+// import { useNavigate } from "react-router";
 
-const Login = () => {
-  const navigate = useNavigate();
-  const { handleSubmit, control } = useForm({
+const ConfirmPassword = () => {
+  //   const navigate = useNavigate();
+  const { handleSubmit, control, watch } = useForm({
     defaultValues: {
-      email: null,
-      password: null,
+      newPassword: null,
     },
   });
 
-  const handleLogin = async (info) => {
+  const handleConfirmPasssword = async (info) => {
     try {
       const body = {
-        email: info.email,
-        password: info.password,
+        newPassword: info.newPassword,
       };
-
-      const response = await loginCheck(body);
-
-      if (response.success) {
-        console.log("response: ", response);
-        localStorage.setItem("dataToken", response?.data?.token);
-        localStorage.setItem("Data", JSON.stringify(response));
-
-        navigate("/dashboard");
-      } else {
-        alert("PLEASE ENTER CORRECT CREDENTIALS");
-      }
+      console.log("body: ", body);
     } catch (error) {
       alert(error);
     }
   };
+
+  let pwd = watch("newPassword");
 
   return (
     <Box>
       <Container>
         <LoginSide>
           <CustomAvatar>
-            <LockOutlinedIcon fontSize="large" />
+            <LockResetOutlinedIcon fontSize="large" />
           </CustomAvatar>
-          <Typography variant="h1">Sign in</Typography>
-          <Box>
-            <form onSubmit={handleSubmit(handleLogin)}>
+          <Typography variant="h1">Update your password here</Typography>
+          <Box sx={{ marginTop: "5%" }}>
+            <form onSubmit={handleSubmit(handleConfirmPasssword)}>
+              <Typography variant="h3">New-Password</Typography>
               <Controller
-                name="email"
+                name="newPassword"
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
@@ -66,10 +55,9 @@ const Login = () => {
                   <TextField
                     margin="normal"
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    id="newPassword"
+                    label="Enter your new password"
+                    name="newPassword"
                     autoFocus
                     value={value}
                     onChange={onChange}
@@ -79,11 +67,18 @@ const Login = () => {
                 )}
                 control={control}
                 rules={{
-                  required: "Email Addres is Required",
+                  required: "Please fill  your new Password",
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message:
+                      " Must be minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character ",
+                  },
                 }}
               />
+              <Typography variant="h3">Confirm New Password</Typography>
               <Controller
-                name="password"
+                name="confirmPassword"
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
@@ -91,11 +86,9 @@ const Login = () => {
                   <TextField
                     margin="normal"
                     fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
+                    id="confirmPassword"
+                    placeholder=" Re-enter your new Password"
+                    name="confirmPassword"
                     value={value}
                     onChange={onChange}
                     error={!!error}
@@ -104,7 +97,9 @@ const Login = () => {
                 )}
                 control={control}
                 rules={{
-                  required: "Password is Required",
+                  required: "Please re-enter your new Password",
+                  validate: (value) =>
+                    value === pwd || "The passwords do not match",
                 }}
               />
 
@@ -114,19 +109,16 @@ const Login = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Update&nbsp;&nbsp;&nbsp;&nbsp;Password
               </Button>
 
-              <Grid container>
+              {/* <Grid container>
                 <Grid item xs>
-                  <LinkBox
-                    onClick={() => navigate("/forgot")}
-                    variant={"body2"}
-                  >
-                    Forgot password?
+                  <LinkBox onClick={() => navigate("/")} variant={"body2"}>
+                    Back to login ?
                   </LinkBox>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </form>
           </Box>
         </LoginSide>
@@ -139,4 +131,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ConfirmPassword;
