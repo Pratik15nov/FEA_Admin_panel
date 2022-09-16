@@ -47,15 +47,9 @@ ChartJS.register(
 
 export default function Dashboard() {
   useEffect(() => {
-    var curr = new Date();
-    var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1))
-      .toISOString()
-      .substring(0, 10);
-    var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 8))
-      .toISOString()
-      .substring(0, 10);
-
-    getDashboardData(firstday, lastday); // eslint-disable-next-line
+    var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
+    var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
+    getDashboardData(startDate, endDate); // eslint-disable-next-line
   }, []);
 
   const [dashboardData, setDashboardData] = useState();
@@ -66,37 +60,23 @@ export default function Dashboard() {
     setValue(newValue);
     switch (newValue) {
       case 0:
-        var curr = new Date();
-
-        var firstday = new Date(
-          curr.setDate(curr.getDate() - curr.getDay() + 1)
-        )
-          .toISOString()
-          .substring(0, 10);
-        var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 8))
-          .toISOString()
-          .substring(0, 10);
-        getDashboardData(firstday, lastday, newValue);
+        var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
+        var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
+        getDashboardData(startDate, endDate, newValue);
         break;
       case 1:
-        var date = new Date(),
-          y = date.getFullYear(),
-          m = date.getMonth();
-        var firstDayS = new Date(y, m, 2).toISOString().substring(0, 10);
-        var lastDayS = new Date(y, m + 1, 2).toISOString().substring(0, 10);
-        getDashboardData(firstDayS, lastDayS, newValue);
+        var startOfMonth = moment()
+          .clone()
+          .startOf("month")
+          .format("YYYY-MM-DD");
+        var endOfMonth = moment().clone().endOf("month").format("YYYY-MM-DD");
+        getDashboardData(startOfMonth, endOfMonth, newValue);
         break;
       case 2:
-        var currentYear = new Date().getFullYear();
+        var startOfYear = moment().clone().startOf("year").format("YYYY-MM-DD");
+        var endOfYear = moment().clone().endOf("year").format("YYYY-MM-DD");
 
-        var firstDaySS = new Date(currentYear, 0, 2)
-          .toISOString()
-          .substring(0, 10);
-
-        var lastDaySS = new Date(currentYear + 1, 0, 2)
-          .toISOString()
-          .substring(0, 10);
-        getDashboardData(firstDaySS, lastDaySS, newValue);
+        getDashboardData(startOfYear, endOfYear, newValue);
         break;
     }
   };
@@ -240,10 +220,9 @@ export default function Dashboard() {
       const response = await dashboardDataHandler(body);
       if (response.length !== 0) {
         setDashboardData(response.data[0]);
-        console.log(response?.data[0].orderData);
         switch (newValue ? newValue : 0) {
           case 0:
-            getWeekData(response?.data[0].orderData);
+            getWeekData(startDate, endDate, response?.data[0].orderData);
             break;
           case 1:
             getMonthsData(response?.data[0].orderData);
@@ -257,7 +236,7 @@ export default function Dashboard() {
       alert(err);
     }
   };
-  const getWeekData = (data) => {
+  const getWeekData = (startDate, endDate, data) => {
     var holder = {};
     let week = [];
     data.forEach(function (d) {
@@ -274,8 +253,7 @@ export default function Dashboard() {
 
     [...Array(7)].map((_, i) => {
       let first = new Date().getDate() - new Date().getDay() + i + 1;
-      let day = new Date(new Date().setDate(first)).toISOString().slice(8, 10);
-      return week.push({ createdAt: day, totalPrice: 0 });
+      return week.push({ createdAt: first, totalPrice: 0 });
     });
 
     var weeks = Object.values(
