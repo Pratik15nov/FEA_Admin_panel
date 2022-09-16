@@ -106,7 +106,7 @@ const Forgot = () => {
         </LoginSide>
 
         <SideImage>
-          <img src="/images/sideImage.svg" alt="SIGN_IN" />
+          <img src="/images/Forgot.svg" alt="SIGN_IN" />
         </SideImage>
       </Container>
     </Box>

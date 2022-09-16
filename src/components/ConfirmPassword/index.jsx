@@ -124,7 +124,7 @@ const ConfirmPassword = () => {
         </LoginSide>
 
         <SideImage>
-          <img src="/images/sideImage.svg" alt="SIGN_IN" />
+          <img src="/images/ConfirmPassword.svg" alt="SIGN_IN" />
         </SideImage>
       </Container>
     </Box>
