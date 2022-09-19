@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   fetchProductList,
-  productStatusChange,
+  // productStatusChange,
   onDeletionProduct,
   onProductSearch,
   loadingPagination,
@@ -13,7 +13,7 @@ import {
   Container,
   TableGrid,
   ImageAvatar,
-  IOSSwitch,
+  // IOSSwitch,
   UpdateIcon,
   DeletionIcon,
   ColoumHead,
@@ -183,26 +183,26 @@ const Products = () => {
     },
   ];
   // this function handles the toggle of Status
-  const handleToggleStatus = async (id, value) => {
-    const body = {
-      isActive: value,
-    };
-    try {
-      dispatch(
-        productStatusChange({
-          id: id,
-          body,
-          defaultPayload: listBody({
-            where: null,
-            perPage: 10,
-            page: page,
-          }),
-        })
-      );
-    } catch (err) {
-      alert(err);
-    }
-  };
+  // const handleToggleStatus = async (id, value) => {
+  //   const body = {
+  //     isActive: value,
+  //   };
+  //   try {
+  //     dispatch(
+  //       productStatusChange({
+  //         id: id,
+  //         body,
+  //         defaultPayload: listBody({
+  //           where: null,
+  //           perPage: 10,
+  //           page: page,
+  //         }),
+  //       })
+  //     );
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // };
   // this function handles the opening of dialog box
   const handleAlert = (data) => {
     setAlertData(data);
