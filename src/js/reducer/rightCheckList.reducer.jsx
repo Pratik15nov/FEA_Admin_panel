@@ -54,7 +54,7 @@ const initialState = {
 function rightCheckListReducer(state = initialState, action) {
   // console.log("TRACK", action?.payload);
   // console.log("action?.type", action?.type);
-  switch (action?.type) {
+  switch (action.type) {
     case "CHECKBOXLIST_SUCCESS":
       return { ...state, list: action.payload };
     default:

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {
   Container,
   CustomAvatar,
@@ -72,7 +72,7 @@ const Forgot = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ? error.message:""}
                   />
                 )}
                 control={control}

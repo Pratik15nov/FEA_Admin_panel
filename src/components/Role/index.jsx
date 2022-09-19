@@ -1,3 +1,4 @@
+import React from 'react';
 import BreadcrumbArea from "../BreadcrumbArea";
 import {
   Container,
@@ -152,11 +153,11 @@ const Role = () => {
       sortable: true,
       renderCell: (params) => (
         <RowName>
-          {params.row?.createdAt?.substring(8, 10)}
+          {params.row.createdAt.substring(8, 10)}
           {"/"}
-          {params.row?.createdAt?.substring(5, 7)}
+          {params.row.createdAt.substring(5, 7)}
           {"/"}
-          {params.row?.createdAt?.substring(0, 4)}
+          {params.row.createdAt.substring(0, 4)}
         </RowName>
       ),
     },
@@ -166,7 +167,7 @@ const Role = () => {
       flex: 1,
       sortable: true,
       renderCell: (params) => (
-        <RowName>{params.row?.roleName ? params.row.roleName : "N/A"}</RowName>
+        <RowName>{params.row.roleName ? params.row.roleName : "N/A"}</RowName>
       ),
     },
     {
@@ -176,11 +177,11 @@ const Role = () => {
       sortable: true,
       renderCell: (params) => (
         <RowName>
-          {params.row?.updatedAt?.substring(8, 10)}
+          {params.row.updatedAt.substring(8, 10)}
           {"/"}
-          {params.row?.updatedAt?.substring(5, 7)}
+          {params.row.updatedAt.substring(5, 7)}
           {"/"}
-          {params.row?.updatedAt?.substring(0, 4)}
+          {params.row.updatedAt.substring(0, 4)}
         </RowName>
       ),
     },
@@ -193,7 +194,7 @@ const Role = () => {
         return (
           <IOSSwitch
             sx={{ m: 1 }}
-            checked={params.row?.isActive}
+            checked={params.row.isActive}
             onChange={(e) => {
               handleToogleStatus(params.row._id, e.target.checked);
             }}

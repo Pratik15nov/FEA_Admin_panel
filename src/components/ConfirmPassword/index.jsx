@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {
   Container,
   CustomAvatar,
@@ -62,15 +62,14 @@ const ConfirmPassword = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ? error.message : ""}
                   />
                 )}
                 control={control}
                 rules={{
                   required: "Please fill  your new Password",
                   pattern: {
-                    value:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     message:
                       " Must be minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character ",
                   },
@@ -92,7 +91,7 @@ const ConfirmPassword = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ?error.message: ""}
                   />
                 )}
                 control={control}
@@ -111,14 +110,6 @@ const ConfirmPassword = () => {
               >
                 Update&nbsp;&nbsp;&nbsp;&nbsp;Password
               </Button>
-
-              {/* <Grid container>
-                <Grid item xs>
-                  <LinkBox onClick={() => navigate("/")} variant={"body2"}>
-                    Back to login ?
-                  </LinkBox>
-                </Grid>
-              </Grid> */}
             </form>
           </Box>
         </LoginSide>

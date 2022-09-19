@@ -180,7 +180,7 @@ export default function UpdateCustomers(props) {
                     {images == null ? (
                       <Box>
                         <FormHelperText error={error}>
-                          {error?.message ?? ""}
+                          {error.message ? error.message: ""}
                         </FormHelperText>
                         <Grid container spacing={2}>
                           {value == null ? (
@@ -277,7 +277,7 @@ export default function UpdateCustomers(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ?error.message: ""}
                   />
                 )}
                 control={control}
@@ -303,7 +303,7 @@ export default function UpdateCustomers(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ? error.message:""}
                   />
                 )}
                 control={control}
@@ -329,7 +329,7 @@ export default function UpdateCustomers(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ?error.message: ""}
                   />
                 )}
                 control={control}

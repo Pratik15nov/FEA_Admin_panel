@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Grid } from "@mui/material";
 import BreadcrumbArea from "../BreadcrumbArea";
 import {
@@ -106,7 +107,7 @@ const Orders = () => {
       sortable: true,
       renderCell: (params) => (
         <OrderId>
-          {params.row?.paymentId
+          {params.row.paymentId
             ? params.row.paymentId.slice(0, 10)
             : "unspecified"}
         </OrderId>
@@ -120,13 +121,13 @@ const Orders = () => {
       renderCell: (params) => (
         <>
           <RowName>
-            {params.row.userId?.firstName
+            {params.row.userId.firstName
               ? params.row.userId.firstName
               : "NO/F"}
           </RowName>
           &nbsp;&nbsp;
           <RowName>
-            {params.row.userId?.lastName ? params.row.userId.lastName : "NO/L"}
+            {params.row.userId.lastName ? params.row.userId.lastName : "NO/L"}
           </RowName>
         </>
       ),
@@ -138,7 +139,7 @@ const Orders = () => {
       sortable: true,
       renderCell: (params) => (
         <Contact>
-          {params.row.userId?.phoneNumber
+          {params.row.userId.phoneNumber
             ? "+91 " + params.row.userId.phoneNumber
             : "N/A"}
         </Contact>
@@ -154,7 +155,7 @@ const Orders = () => {
           <RupeeIcon />
           &nbsp;
           <Price>
-            {params.row?.totalPrice
+            {params.row.totalPrice
               ? `${currencyFormat(params.row.totalPrice)}`
               : `N/A`}
           </Price>
@@ -222,8 +223,8 @@ const Orders = () => {
       sortable: true,
       renderCell: (params) => (
         <NoItems>
-          {params.row?.cartdetail
-            ? params.row?.cartdetail.length
+          {params.row.cartdetail
+            ? params.row.cartdetail.length
             : "unspecified"}
         </NoItems>
       ),

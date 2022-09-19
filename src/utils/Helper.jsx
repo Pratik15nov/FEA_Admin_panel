@@ -5,10 +5,10 @@ export const listBody = (data) => {
   return {
     where: data.where,
     pagination: {
-      sortBy: data?.sortBy ? data.sortBy : "createdAt",
+      sortBy: data.sortBy ? data.sortBy : "createdAt",
       descending: false,
-      rowsPerPage: data?.perPage ? data.perPage : 10000,
-      page: data?.page ? data.page : 1,
+      rowsPerPage: data.perPage ? data.perPage : 10000,
+      page: data.page ? data.page : 1,
     },
   };
 };

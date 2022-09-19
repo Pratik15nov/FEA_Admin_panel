@@ -52,7 +52,7 @@ const UpdateRoleDialog = (props) => {
                   }) => (
                     <InputField
                       hiddenLabel
-                      placeholder={`Update name from ${props.updateRoleData?.roleName} to ...`}
+                      placeholder={`Update name from ${props.updateRoleData.roleName} to ...`}
                       id="filled-hidden-label-normal"
                       variant="filled"
                       name="roleName"
@@ -61,7 +61,7 @@ const UpdateRoleDialog = (props) => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error.message ?error.message: ""}
                     />
                   )}
                   control={control}

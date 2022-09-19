@@ -1,3 +1,4 @@
+import React from "react";
 import { Avatar, Button, styled, Switch, Typography, Box } from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";

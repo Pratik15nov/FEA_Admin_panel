@@ -69,10 +69,10 @@ export default function AddRights(props) {
       const response = await layoutHandlerData(
         listBody({ where: { isActive: true }, perPage: 1000 })
       );
-      if (response.success) {
+      if (response.success && response.list) {
         reset({
           roleId: null,
-          rights: response?.list.map((card) => {
+          rights: response.list.map((card) => {
             return {
               name:
                 card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
@@ -97,7 +97,7 @@ export default function AddRights(props) {
           listBody({ where: { taken: false }, perPage: 1000 })
         );
         if (response.success) {
-          setRoleList(response?.list);
+          setRoleList(response.list);
         } else {
           setRoleList([]);
         }
@@ -112,18 +112,18 @@ export default function AddRights(props) {
           listBody({ where: { roleId: roleId }, perPage: 1000 })
         );
         if (response.success) {
-          setRoleList(response?.list);
+          setRoleList(response.list);
         } else {
           setRoleList([]);
         }
 
         if (responsess.success) {
           reset({
-            roleId: responsess?.list[0].roleId._id,
-            rights: responsess?.list[0].rights,
+            roleId: responsess.list[0].roleId._id,
+            rights: responsess.list[0].rights,
           });
 
-          setRightId(responsess?.list[0]._id);
+          setRightId(responsess.list[0]._id);
           setSkelLoading(false);
         }
       } catch (err) {
@@ -288,7 +288,7 @@ export default function AddRights(props) {
                           })}
                         </SelectField>
                         <FormHelperText error={error}>
-                          {error?.message ?? ""}
+                          {error.message ?error.message: ""}
                         </FormHelperText>
                       </FormControl>
                     ) : (
@@ -310,7 +310,7 @@ export default function AddRights(props) {
                           })}
                         </SelectField>
                         <FormHelperText error={error}>
-                          {error?.message ?? ""}
+                          {error.message ? error.message:""}
                         </FormHelperText>
                       </FormControl>
                     )}

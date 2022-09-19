@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 // THIS FUNCTION IS TO GET AND SET TOKENS
@@ -20,8 +21,8 @@ export const get = async (url) => {
     .get(url, authHeader())
     .then((res) => {
       if (res.status === 200) {
-        if (res.data?.success) {
-          return res.data?.data;
+        if (res.data.success) {
+          return res.data.data;
         }
       } else {
         return null;
@@ -63,8 +64,8 @@ export const patch = async (url, data) => {
     .patch(url, data, authHeader())
     .then((res) => {
       if (res.status === 200) {
-        if (res.data?.success) {
-          return res.data?.data.list ? res.data?.data.list : res.data;
+        if (res.data.success) {
+          return res.data.data.list ? res.data.data.list : res.data;
         } else {
           return [];
         }
@@ -84,9 +85,9 @@ export const post = async (url, data) => {
       // console.log(res);
       if (res.status === 200) {
         // console.log('IF');
-        if (res.data?.success) {
+        if (res.data.success) {
           // console.log('Inner IF');
-          return res.data?.data.list ? res.data?.data : res.data;
+          return res.data.data.list ? res.data.data : res.data;
         } else {
           // console.log('Inner Else');
           return [];
@@ -98,7 +99,7 @@ export const post = async (url, data) => {
     })
     .catch((err) => {
       console.error(err);
-      return err?.response?.data;
+      return err.response.data;
     });
 };
 
@@ -107,8 +108,8 @@ export const put = async (url, data) => {
     .put(url, data, authHeader())
     .then((res) => {
       if (res.status === 200) {
-        if (res.data?.success) {
-          return res.data?.data.list ? res.data?.data.list : res.data;
+        if (res.data.success) {
+          return res.data.data.list ? res.data.data.list : res.data;
         } else {
           return [];
         }
@@ -117,6 +118,6 @@ export const put = async (url, data) => {
       }
     })
     .catch((err) => {
-      return err?.response?.data;
+      return err.response.data;
     });
 };

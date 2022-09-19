@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React from "react";
 import {
   Container,
   CustomAvatar,
@@ -35,7 +35,7 @@ const Login = () => {
 
       if (response.success) {
         console.log("response: ", response);
-        localStorage.setItem("dataToken", response?.data?.token);
+        localStorage.setItem("dataToken", response.data.token);
         localStorage.setItem("Data", JSON.stringify(response));
 
         navigate("/dashboard");
@@ -71,10 +71,10 @@ const Login = () => {
                     name="email"
                     autoComplete="email"
                     autoFocus
-                    value={value}
+                    value={value || ''}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -96,10 +96,10 @@ const Login = () => {
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    value={value}
+                    value={value || ''}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error?.message ?error.message : ""}
                   />
                 )}
                 control={control}

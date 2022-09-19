@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -74,7 +75,7 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => (
         <RowName>
-          {params.row.categoryId?.categoryName
+          {params.row.categoryId.categoryName
             ? params.row.categoryId.categoryName
             : "unspecified"}
         </RowName>
@@ -275,8 +276,7 @@ const Products = () => {
     <Container>
       <Grid container sx={{ paddingBottom: "20px" }}>
         <BreadcrumbArea />
-
-        <Grid xs={3}>
+        <Grid item xs={3}>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -287,7 +287,7 @@ const Products = () => {
             />
           </Search>
         </Grid>
-        <Grid xs={2}>
+        <Grid item xs={2}>
           <MyButton
             variant="contained"
             onClick={() => navigate(`/products/add`)} // this navigates to a new component to add the new categories

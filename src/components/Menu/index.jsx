@@ -1,3 +1,4 @@
+import React from 'react';
 import BreadcrumbArea from "../BreadcrumbArea";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -90,11 +91,11 @@ const Menu = () => {
       sortable: true,
       renderCell: (params) => (
         <RowName>
-          {params.row?.createdAt?.substring(8, 10)}
+          {params.row.createdAt.substring(8, 10)}
           {"/"}
-          {params.row?.createdAt?.substring(5, 7)}
+          {params.row.createdAt.substring(5, 7)}
           {"/"}
-          {params.row?.createdAt?.substring(0, 4)}
+          {params.row.createdAt.substring(0, 4)}
         </RowName>
       ),
     },
@@ -105,9 +106,9 @@ const Menu = () => {
       sortable: true,
       renderCell: (params) => (
         <RowName>
-          {params.row?.fieldName
-            ? params.row?.fieldName.charAt(0).toUpperCase() +
-              params.row?.fieldName.slice(1)
+          {params.row.fieldName
+            ? params.row.fieldName.charAt(0).toUpperCase() +
+              params.row.fieldName.slice(1)
             : "NO/Name"}
         </RowName>
       ),
@@ -119,11 +120,11 @@ const Menu = () => {
       sortable: true,
       renderCell: (params) => (
         <RowName>
-          {params.row?.updatedAt?.substring(8, 10)}
+          {params.row.updatedAt.substring(8, 10)}
           {"/"}
-          {params.row?.updatedAt?.substring(5, 7)}
+          {params.row.updatedAt.substring(5, 7)}
           {"/"}
-          {params.row?.updatedAt?.substring(0, 4)}
+          {params.row.updatedAt.substring(0, 4)}
         </RowName>
       ),
     },
@@ -136,7 +137,7 @@ const Menu = () => {
         return (
           <IOSSwitch
             sx={{ m: 1 }}
-            checked={params.row?.isActive}
+            checked={params.row.isActive}
             onChange={(e) => {
               handleToogleStatus(params.row._id, e.target.checked);
             }}
@@ -151,7 +152,7 @@ const Menu = () => {
       sortable: false,
       renderCell: (params) => (
         <>
-          {params.row?.isActive === true ? (
+          {params.row.isActive === true ? (
             <DeletionIcon onClick={() => handleDeletion(params.row._id)} />
           ) : (
             <DisableDeletionIcon />
