@@ -40,7 +40,7 @@ const Products = () => {
   const page = useSelector((state) => state.product.page);
   const loading = useSelector((state) => state.common.loading);
   const dispatch = useDispatch();
-  console.log(productList);
+
   useEffect(() => {
     getProductData(); // eslint-disable-next-line
   }, [page]);
@@ -139,7 +139,7 @@ const Products = () => {
         const quantity = params.row.quantity;
         if (quantity > 10) {
           return <ProductStatusInStock>In Stock</ProductStatusInStock>;
-        } else if (quantity > 0 && quantity < 10) {
+        } else if (quantity > 0 && quantity < 11) {
           return <ProductStatusLowStock>Low Stock</ProductStatusLowStock>;
         } else {
           return (

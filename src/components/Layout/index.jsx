@@ -315,12 +315,12 @@ export default function MiniDrawer(props) {
               handleListItemClick(event, 9999999999),
             ]}
           >
-            <ListItemButton>
+            {/* <ListItemButton>
               <ListIcon>
                 <SettingsSuggestRoundedIcon />
               </ListIcon>
               <ListText>Settings</ListText>
-            </ListItemButton>
+            </ListItemButton> */}
           </ListItem>
         </List>
 
