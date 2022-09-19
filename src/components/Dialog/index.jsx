@@ -1,11 +1,11 @@
 import React from "react";
 import {
   Dialog,
-  DialogTitle,
+  // DialogTitle,
   DialogContent,
-  DialogActions,
+  // DialogActions,
 } from "@mui/material";
-import { DialogText, MyButton, TitleBox,ActionsBox } from "./Dialog.style";
+import { DialogText, MyButton, TitleBox, ActionsBox } from "./Dialog.style";
 
 const DialogBox = (props) => {
   return (
