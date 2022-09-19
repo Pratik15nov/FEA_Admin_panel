@@ -5,16 +5,16 @@ import { Container } from "./settings.style";
 // import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
 //
 // import Box from "@mui/material/Box";
-import {
-  // DataGridPro,
-  useGridApiRef,
-  gridVisibleRowCountSelector,
-  gridVisibleColumnDefinitionsSelector,
-  gridVisibleSortedRowIdsSelector,
-} from "@mui/x-data-grid-pro";
+// import {
+//   DataGridPro,
+//   useGridApiRef,
+//   gridVisibleRowCountSelector,
+//   gridVisibleColumnDefinitionsSelector,
+//   gridVisibleSortedRowIdsSelector,
+// } from "@mui/x-data-grid-pro";
 // import { useDemoData } from "@mui/x-data-grid-generator";
-import { useState } from "react";
-import { useEffect } from "react";
+// import { useState } from "react";
+// import { useEffect } from "react";
 // import { LicenseInfo } from "@mui/x-data-grid-pro";
 
 // LicenseInfo.setLicenseKey(
@@ -22,51 +22,51 @@ import { useEffect } from "react";
 // );
 const Settings = () => {
   //
-  const apiRef = useGridApiRef();
+  // const apiRef = useGridApiRef();
 
-  const [coordinates, setCoordinates] = useState({
-    rowIndex: 0,
-    colIndex: 0,
-  });
+  // const [coordinates, setCoordinates] = useState({
+  //   rowIndex: 0,
+  //   colIndex: 0,
+  // });
 
   // const { data } = useDemoData({
   //   dataSet: "Commodity",
   //   rowLength: 10,
   // });
 
-  useEffect(() => {
-    const { rowIndex, colIndex } = coordinates;
-    apiRef.current.scrollToIndexes(coordinates);
-    const id = gridVisibleSortedRowIdsSelector(apiRef)[rowIndex];
-    const column = gridVisibleColumnDefinitionsSelector(apiRef)[colIndex];
-    apiRef.current.setCellFocus(id, column.field);
-  }, [apiRef, coordinates]);
+  // useEffect(() => {
+  //   const { rowIndex, colIndex } = coordinates;
+  //   apiRef.current.scrollToIndexes(coordinates);
+  //   const id = gridVisibleSortedRowIdsSelector(apiRef)[rowIndex];
+  //   const column = gridVisibleColumnDefinitionsSelector(apiRef)[colIndex];
+  //   apiRef.current.setCellFocus(id, column.field);
+  // }, [apiRef, coordinates]);
   // eslint-disable-next-line
-  const handleClick = (position) => () => {
-    const maxRowIndex = gridVisibleRowCountSelector(apiRef) - 1;
-    const maxColIndex = gridVisibleColumnDefinitionsSelector(apiRef).length - 1;
+  // const handleClick = (position) => () => {
+  //   const maxRowIndex = gridVisibleRowCountSelector(apiRef) - 1;
+  //   const maxColIndex = gridVisibleColumnDefinitionsSelector(apiRef).length - 1;
 
-    setCoordinates((coords) => {
-      switch (position) {
-        case "top":
-          return { ...coords, rowIndex: Math.max(0, coords.rowIndex - 1) };
-        case "bottom":
-          return {
-            ...coords,
-            rowIndex: Math.min(maxRowIndex, coords.rowIndex + 1),
-          };
-        case "left":
-          return { ...coords, colIndex: Math.max(0, coords.colIndex - 1) };
-        case "right":
-          return {
-            ...coords,
-            colIndex: Math.min(maxColIndex, coords.colIndex + 1),
-          };
-        default:
-          return { ...coords, rowIndex: 0, colIndex: 0 };
-      }
-    });
-  };
+  //   setCoordinates((coords) => {
+  //     switch (position) {
+  //       case "top":
+  //         return { ...coords, rowIndex: Math.max(0, coords.rowIndex - 1) };
+  //       case "bottom":
+  //         return {
+  //           ...coords,
+  //           rowIndex: Math.min(maxRowIndex, coords.rowIndex + 1),
+  //         };
+  //       case "left":
+  //         return { ...coords, colIndex: Math.max(0, coords.colIndex - 1) };
+  //       case "right":
+  //         return {
+  //           ...coords,
+  //           colIndex: Math.min(maxColIndex, coords.colIndex + 1),
+  //         };
+  //       default:
+  //         return { ...coords, rowIndex: 0, colIndex: 0 };
+  //     }
+  //   });
+  // };
 
   // const handleCellClick = (params) => {
   //   const rowIndex = gridVisibleSortedRowIdsSelector(apiRef).findIndex(
