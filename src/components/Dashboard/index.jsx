@@ -51,6 +51,7 @@ ChartJS.register(
 
 export default function Dashboard() {
   useEffect(() => {
+    nFormatter(244444444);
     var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
     var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
     getDashboardData(startDate, endDate); // eslint-disable-next-line
@@ -62,7 +63,19 @@ export default function Dashboard() {
   const [customStatdate, setCustomStartDate] = useState(null);
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
-
+  function nFormatter(num) {
+    if (num >= 1000000000) {
+      return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "G";
+    }
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+    }
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    console.log("NUM", num);
+    return num;
+  }
   const handleChange = (event, newValue) => {
     setValue(newValue); // eslint-disable-next-line
     switch (newValue) {
@@ -199,6 +212,39 @@ export default function Dashboard() {
         tension: 0.5,
       },
     },
+    options: {
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            var value = data.datasets[0].data[tooltipItem.index];
+            value = value.toString();
+            value = value.split(/(?=(?:...)*$)/);
+            value = value.join(",");
+            return value;
+          },
+        },
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              userCallback: function (value, index, values) {
+                value = value.toString();
+                value = value.split(/(?=(?:...)*$)/);
+                value = value.join(",");
+                return value;
+              },
+            },
+          },
+        ],
+        xAxes: [
+          {
+            ticks: {},
+          },
+        ],
+      },
+    },
   };
   const datas = {
     labels: productChartData?.map((data) => data.createdAt),
@@ -246,12 +292,7 @@ export default function Dashboard() {
       alert(err);
     }
   };
-  // if (customEnddate !== null) {
-  //   var startDate = moment(customStatdate).format("YYYY-MM-DD");
-  //   var endDate = moment(customEnddate).format("YYYY-MM-DD");
-  //   console.log(startDate, endDate);
-  //   getDashboardData(startDate, endDate, 3);
-  // }
+
   const getWeekData = (data) => {
     var holder = {};
     let week = [];
