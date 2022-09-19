@@ -188,6 +188,18 @@ export const getRoutesData = (body) => {
   return post(`${ENDPOINTURL}/rights/list`, body);
 };
 
+// pwd update user
+export const passwordUpdation = (id, body) => {
+  return post(`${ENDPOINTURL}/adminUser/updatepassword/${id}`, body);
+};
 export const dashboardDataHandler = (body) => {
   return post(`${ENDPOINTURL}/dashboard/data`, body);
+};
+
+export const pwdUpdationMail = (id) => {
+  return post(`${ENDPOINTURL}/adminUser/passwordMailed/${id}`);
+};
+
+export const pwdUpdationLinkMail = (body) => {
+  return post(`${ENDPOINTURL}/adminUser/forgotPassword`, body);
 };
