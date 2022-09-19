@@ -515,7 +515,9 @@ export default function Dashboard() {
                             onChange={(newValue) => {
                               setCustomStartDate(newValue.$d);
                             }}
-                            renderInput={(params) => <TextField size="small" {...params} />}
+                            renderInput={(params) => (
+                              <TextField size="small" {...params} />
+                            )}
                           />
                         </LocalizationProvider>
                       </Grid>
@@ -527,7 +529,9 @@ export default function Dashboard() {
                             onChange={(newValue) => {
                               setCustomEndDate(newValue.$d);
                             }}
-                            renderInput={(params) => <TextField size="small" {...params} />}
+                            renderInput={(params) => (
+                              <TextField size="small" {...params} />
+                            )}
                           />
                         </LocalizationProvider>
                       </Grid>
