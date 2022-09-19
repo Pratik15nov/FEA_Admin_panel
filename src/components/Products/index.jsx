@@ -22,6 +22,9 @@ import {
   SearchIconWrapper,
   StyledInputBase,
   MyButton,
+  ProductStatusOutOfStock,
+  ProductStatusLowStock,
+  ProductStatusInStock,
 } from "./Products.style";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog";
@@ -92,7 +95,7 @@ const Products = () => {
     },
     {
       field: "discountPrice",
-      headerName: <ColoumHead variant="h2">Discount</ColoumHead>,
+      headerName: <ColoumHead variant="h2">Discount Price</ColoumHead>,
       flex: 1,
       sortable: false,
       renderCell: (params) => (
@@ -110,21 +113,51 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => <RowName>{params.row.quantity}</RowName>,
     },
+    // {
+    //   field: "isActive",
+    //   headerName: <ColoumHead variant="h2">Status</ColoumHead>,
+    //   flex: 1,
+    //   sortable: false,
+    //   renderCell: (params) => {
+    //     return (
+    //       <IOSSwitch
+    //         sx={{ m: 1 }}
+    //         checked={params.row?.isActive}
+    //         onChange={(e) => {
+    //           handleToggleStatus(params.row._id, e.target.checked);
+    //         }}
+    //       />
+    //     );
+    //   },
+    // },
     {
-      field: "isActive",
+      field: "productStatus",
       headerName: <ColoumHead variant="h2">Status</ColoumHead>,
       flex: 1,
-      sortable: false,
+      sortable: true,
       renderCell: (params) => {
-        return (
-          <IOSSwitch
-            sx={{ m: 1 }}
-            checked={params.row?.isActive}
-            onChange={(e) => {
-              handleToggleStatus(params.row._id, e.target.checked);
-            }}
-          />
-        );
+        try {
+          if (params.row) {
+            switch (params.row.isActive) {
+              case "INSTOCK":
+                return <ProductStatusInStock>In Stock</ProductStatusInStock>;
+              case "LOWSTOCK":
+                return <ProductStatusLowStock>Low Stock</ProductStatusLowStock>;
+              case "OUTOFSTOCK":
+                return (
+                  <ProductStatusOutOfStock>
+                    Out Of Stock
+                  </ProductStatusOutOfStock>
+                );
+              default:
+                return <ProductStatusInStock>In Stock</ProductStatusInStock>;
+            }
+          } else {
+            alert("ORDERSTATUS_ERROR OCCURED");
+          }
+        } catch (error) {
+          alert(error);
+        }
       },
     },
     {

@@ -38,15 +38,15 @@ export const DisagreeButton = styled(Button)(({ theme }) => ({
 
 export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: "#b7dfff",
+    color: "#781C68",
   },
 }));
 export const TitleText = styled(DialogTitle)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: "bold",
   color: theme.palette.custom.color,
-  background: "#1a1a40",
+  background: "#781C68",
 }));

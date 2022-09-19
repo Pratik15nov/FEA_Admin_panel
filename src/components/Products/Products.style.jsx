@@ -36,7 +36,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
     color: theme.palette.custom.color,
   },
   "& .MuiDataGrid-row": {
-    backgroundColor: "#b7dfff",
+    backgroundColor: theme.palette.tertiary.main,
     color: theme.palette.custom.color,
     "&:hover": {
       color: "black",
@@ -115,7 +115,7 @@ export const IOSSwitch = styled((props) => (
 
 export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "xx-medium",
   color: "#65c466",
   "&:hover": {
     color: "black",
@@ -123,7 +123,7 @@ export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
 }));
 export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "xx-medium",
   color: "red",
   "&:hover": {
     color: "black",
@@ -241,4 +241,58 @@ export const SelectField = styled(Select)(({ theme }) => ({
   },
   marginTop: 10,
   marginBottom: 10,
+}));
+export const ProductStatusInStock = styled("span")(({ theme }) => ({
+  height: "22px",
+  minWidth: "22px",
+  lineHeight: 0,
+  borderRadius: "6px",
+  cursor: "default",
+  alignItems: "center",
+  whiteSpace: "nowrap",
+  display: "inline-flex",
+  justifyContent: "center",
+  padding: "0px 8px",
+  color: "rgb(34, 154, 22)",
+  fontSize: "0.75rem",
+  fontFamily: '"Public Sans", sans-serif',
+  backgroundColor: "rgba(84, 214, 44, 0.16)",
+  fontWeight: 700,
+  textTransform: "capitalize",
+}));
+export const ProductStatusLowStock = styled("span")(({ theme }) => ({
+  height: "22px",
+  minWidth: "22px",
+  lineHeight: 0,
+  borderRadius: "6px",
+  cursor: "default",
+  alignItems: "center",
+  whiteSpace: "nowrap",
+  display: "inline-flex",
+  justifyContent: "center",
+  padding: "0px 8px",
+  color: "rgb(183, 129, 3)",
+  fontSize: "0.75rem",
+  fontFamily: '"Public Sans", sans-serif',
+  backgroundColor: "rgba(255, 193, 7, 0.16)",
+  fontWeight: 700,
+  textTransform: "capitalize",
+}));
+export const ProductStatusOutOfStock = styled("span")(({ theme }) => ({
+  height: "22px",
+  minWidth: "22px",
+  lineHeight: 0,
+  borderRadius: "6px",
+  cursor: "default",
+  alignItems: "center",
+  whiteSpace: "nowrap",
+  display: "inline-flex",
+  justifyContent: "center",
+  padding: "0px 8px",
+  color: "rgb(183, 33, 54)",
+  fontSize: "0.75rem",
+  fontFamily: '"Public Sans", sans-serif',
+  backgroundColor: "rgba(255, 72, 66, 0.16)",
+  fontWeight: 700,
+  textTransform: "capitalize",
 }));

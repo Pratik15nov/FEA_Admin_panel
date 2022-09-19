@@ -167,11 +167,16 @@ const mainListIcon = styled(IconButton)(({ theme }) => ({
 }));
 const ListItem = withStyles({
   root: {
+    "& .MuiListItem-root WithStyles(ForwardRef(ListItem))-root-1 MuiListItem-gutters":
+      {
+        padding: 0,
+      },
     "& .css-61mavj-MuiButtonBase-root-MuiListItemButton-root": {
       padding: "1px",
+      color: "white",
     },
     "&$selected": {
-      backgroundColor: "#1a1a40",
+      backgroundColor: "#781C68",
       color: "white",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
@@ -185,18 +190,19 @@ const ListItem = withStyles({
     "&$selected:hover": {
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
-      backgroundColor: "#b7dfff",
+      backgroundColor: "#781C68",
       "& .MuiTypography-root": {
-        color: "black",
+        color: "white",
       },
-      "& .MuiListItemIcon-root": {
-        color: "black",
+      "& .MuiListItemIcon-root:hover": {
+        color: "white",
       },
     },
     "&:hover": {
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
-      backgroundColor: "#b7dfff",
+      backgroundColor: "#781C68",
+      color: "white",
     },
   },
   selected: {},

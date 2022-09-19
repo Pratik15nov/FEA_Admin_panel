@@ -3,12 +3,12 @@ import {DialogTitle ,DialogActions} from "@mui/material";
 
 
 export const TitleBox = styled(DialogTitle)(({ theme }) => ({
-  background:"#1a1a40",
+  background:"#781C68",
   color:"white"
 }));
 
 export const ActionsBox = styled(DialogActions)(({ theme }) => ({
-  background:"#1a1a40",
+  background:"#781C68",
   color:"white",
   justifyContent:"space-between"
 }));
@@ -25,7 +25,7 @@ export const MyButton = styled(Button)(({ theme }) => ({
   height: 40,
   color:"white",
   "&:hover": {
-    color: "#b7dfff",
+    color: "#781C68",
   },
 }));
 

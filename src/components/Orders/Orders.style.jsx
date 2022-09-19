@@ -26,7 +26,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
     color: theme.palette.custom.color,
   },
   "& .MuiDataGrid-row": {
-    backgroundColor: "#b7dfff",
+    backgroundColor: theme.palette.tertiary.main,
     color: theme.palette.custom.color,
     "&:hover": {
       color: "black",
@@ -156,7 +156,7 @@ export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
   // cursor: "pointer",
   cursor: "not-allowed",
   fontSize: "x-large",
-  // fontSize: "xx-large",
+  // fontSize: "xx-medium",
   // color: "#65c466",
   color: "grey",
   // "&:hover": {

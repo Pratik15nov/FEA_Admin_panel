@@ -79,7 +79,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
     color: theme.palette.custom.color,
   },
   "& .MuiDataGrid-row": {
-    backgroundColor: "#b7dfff",
+    backgroundColor: theme.palette.tertiary.main,
     color: theme.palette.custom.color,
     "&:hover": {
       color: "black",
@@ -196,7 +196,7 @@ export const PostTag = styled("span")(({ theme }) => ({
 
 export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "xx-medium",
   color: "#65c466",
   "&:hover": {
     color: "black",
@@ -204,16 +204,16 @@ export const UpdateIcon = styled(AppRegistrationTwoToneIcon)(({ theme }) => ({
 }));
 export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: "#1a1a40",
+    color: "#781C68",
   },
 }));
 export const DisableDeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
   // cursor: "pointer",
   cursor: "not-allowed",
-  fontSize: "xx-large",
+  fontSize: "xx-medium",
   color: "grey",
   // color: "red",
   // "&:hover": {

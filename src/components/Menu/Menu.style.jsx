@@ -21,7 +21,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
     color: theme.palette.custom.color,
   },
   "& .MuiDataGrid-row": {
-    backgroundColor: "#b7dfff",
+    backgroundColor: theme.palette.tertiary.main,
     color: theme.palette.custom.color,
     "&:hover": {
       color: "black",
@@ -155,7 +155,7 @@ export const IOSSwitch = styled((props) => (
 
 export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
   cursor: "pointer",
-  fontSize: "xx-large",
+  fontSize: "xx-medium",
   color: "red",
   "&:hover": {
     color: "black",
