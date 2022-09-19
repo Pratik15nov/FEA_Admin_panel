@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
-import SearchIcon from "@mui/icons-material/Search";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+// import SearchIcon from "@mui/icons-material/Search";
+// import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import GridViewIcon from "@mui/icons-material/GridView";
 import InventoryIcon from "@mui/icons-material/Inventory";
@@ -27,9 +27,9 @@ import { useNavigate } from "react-router";
 import {
   AppBar,
   Drawer,
-  SearchIconWrapper,
-  Search,
-  StyledInputBase,
+  // SearchIconWrapper,
+  // Search,
+  // StyledInputBase,
   AvatarStyle,
   ListIcon,
   ListText,
@@ -90,7 +90,6 @@ export default function MiniDrawer(props) {
         })
       );
       setCheckRights(response.list[0].rights);
-      
     } catch (error) {
       console.error(error);
       alert(error);
@@ -239,13 +238,13 @@ export default function MiniDrawer(props) {
               Logout
             </MenuItem>
           </Menu>
-          <NotificationsActiveIcon sx={{ marginRight: 3 }} />
+          {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search…" />
-          </Search>
+          </Search> */}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

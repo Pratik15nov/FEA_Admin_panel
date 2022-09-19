@@ -4,22 +4,22 @@ import { Container } from "./settings.style";
 // import { Button } from "@mui/material";
 // import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
 //
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import {
-  DataGridPro,
+  // DataGridPro,
   useGridApiRef,
   gridVisibleRowCountSelector,
   gridVisibleColumnDefinitionsSelector,
   gridVisibleSortedRowIdsSelector,
 } from "@mui/x-data-grid-pro";
-import { useDemoData } from "@mui/x-data-grid-generator";
+// import { useDemoData } from "@mui/x-data-grid-generator";
 import { useState } from "react";
 import { useEffect } from "react";
-import { LicenseInfo } from "@mui/x-data-grid-pro";
+// import { LicenseInfo } from "@mui/x-data-grid-pro";
 
-LicenseInfo.setLicenseKey(
-  "7003f52e1358cc619e3d853e94f079a4T1JERVI6NDMxMDAsRVhQSVJZPTE2ODMyOTQ3MTcwMDAsS0VZVkVSU0lPTj0x"
-);
+// LicenseInfo.setLicenseKey(
+//   "7003f52e1358cc619e3d853e94f079a4T1JERVI6NDMxMDAsRVhQSVJZPTE2ODMyOTQ3MTcwMDAsS0VZVkVSU0lPTj0x"
+// );
 const Settings = () => {
   //
   const apiRef = useGridApiRef();
@@ -29,10 +29,10 @@ const Settings = () => {
     colIndex: 0,
   });
 
-  const { data } = useDemoData({
-    dataSet: "Commodity",
-    rowLength: 10,
-  });
+  // const { data } = useDemoData({
+  //   dataSet: "Commodity",
+  //   rowLength: 10,
+  // });
 
   useEffect(() => {
     const { rowIndex, colIndex } = coordinates;
@@ -68,17 +68,17 @@ const Settings = () => {
     });
   };
 
-  const handleCellClick = (params) => {
-    const rowIndex = gridVisibleSortedRowIdsSelector(apiRef).findIndex(
-      (id) => id === params.id
-    );
+  // const handleCellClick = (params) => {
+  //   const rowIndex = gridVisibleSortedRowIdsSelector(apiRef).findIndex(
+  //     (id) => id === params.id
+  //   );
 
-    const colIndex = gridVisibleColumnDefinitionsSelector(apiRef).findIndex(
-      (column) => column.field === params.field
-    );
+  //   const colIndex = gridVisibleColumnDefinitionsSelector(apiRef).findIndex(
+  //     (column) => column.field === params.field
+  //   );
 
-    setCoordinates({ rowIndex, colIndex });
-  };
+  //   setCoordinates({ rowIndex, colIndex });
+  // };
   //
   // const handleLogin = async () => {
   //   const body = {
@@ -128,14 +128,14 @@ const Settings = () => {
       <Button variant="outlined" size="large" onClick={handleCheck}>
         CHECK
       </Button> */}
-      <Box sx={{ height: 400 }}>
+      {/* <Box sx={{ height: 400 }}>
         <DataGridPro
           apiRef={apiRef}
           onCellClick={handleCellClick}
           hideFooter
           {...data}
         />
-      </Box>
+      </Box> */}
     </>
   );
 };

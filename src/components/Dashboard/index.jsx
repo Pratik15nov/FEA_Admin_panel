@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 // import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import {
   CardFrist,
@@ -189,9 +188,12 @@ export default function Dashboard() {
       datalabels: {
         anchor: "end",
         align: "top",
-
         font: {
           weight: "bold",
+        },
+        formatter: function (value) {
+          var num = nFormatter(value);
+          return num;
         },
       },
     },
@@ -236,11 +238,6 @@ export default function Dashboard() {
                 return value;
               },
             },
-          },
-        ],
-        xAxes: [
-          {
-            ticks: {},
           },
         ],
       },
@@ -445,9 +442,6 @@ export default function Dashboard() {
                     <CardOne variant="h5" component="div">
                       {dashboardData?.totalOrder}
                     </CardOne>
-                    <Typography color="text.secondary">
-                      +2.6% than last week
-                    </Typography>
                   </CardContent>
                 </Grid>
               </Grid>
@@ -464,9 +458,6 @@ export default function Dashboard() {
                     <CardOne variant="h5" component="div">
                       {dashboardData?.totalProducts}
                     </CardOne>
-                    <Typography color="text.secondary">
-                      +2.6% than last week
-                    </Typography>
                   </CardContent>
                 </Grid>
               </Grid>
@@ -483,9 +474,6 @@ export default function Dashboard() {
                     <CardOne variant="h5" component="div">
                       {dashboardData?.totalUser}
                     </CardOne>
-                    <Typography color="text.secondary">
-                      +2.6% than last week
-                    </Typography>
                   </CardContent>
                 </Grid>
               </Grid>
@@ -502,9 +490,6 @@ export default function Dashboard() {
                     <CardOne variant="h5" component="div">
                       {dashboardData?.totalCategory}
                     </CardOne>
-                    <Typography color="text.secondary">
-                      +2.6% than last week
-                    </Typography>
                   </CardContent>
                 </Grid>
               </Grid>
