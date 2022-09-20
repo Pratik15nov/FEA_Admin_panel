@@ -14,9 +14,11 @@ import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { loginCheck } from "../../service/Auth.Service";
+import { LoadingButton } from "@mui/lab";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loadding, setLoading] = React.useState(false);
   const { handleSubmit, control } = useForm({
     defaultValues: {
       email: null,
@@ -25,6 +27,7 @@ const Login = () => {
   });
 
   const handleLogin = async (info) => {
+    setLoading(true);
     try {
       const body = {
         email: info.email,
@@ -37,7 +40,7 @@ const Login = () => {
         console.log("response: ", response);
         localStorage.setItem("dataToken", response?.data?.token);
         localStorage.setItem("Data", JSON.stringify(response));
-
+        setLoading(false);
         navigate("/dashboard");
       } else {
         alert("PLEASE ENTER CORRECT CREDENTIALS");
@@ -107,15 +110,24 @@ const Login = () => {
                   required: "Password is Required",
                 }}
               />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
+              {loadding ? (
+                <LoadingButton
+                  loading
+                  variant="outlined"
+                  sx={{ mt: 3, mb: 2, width: "100%", background: "#ff47df1f" }}
+                >
+                  Submit
+                </LoadingButton>
+              ) : (
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign In
+                </Button>
+              )}
 
               <Grid container>
                 <Grid item xs>

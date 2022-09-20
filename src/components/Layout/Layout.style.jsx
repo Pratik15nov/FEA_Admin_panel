@@ -59,15 +59,14 @@ const AppBar = styled(MuiAppBar, {
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
+  
   width: 240,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
   border: "none",
   borderRight: "none",
-  "& .MuiDrawer-paper": {
-    boxShadow: "rgb(0 0 0 / 24%) 0px 3px 8px",
-  },
+
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -167,19 +166,12 @@ const mainListIcon = styled(IconButton)(({ theme }) => ({
 }));
 const ListItem = withStyles({
   root: {
-    "& .MuiListItem-root WithStyles(ForwardRef(ListItem))-root-1 MuiListItem-gutters":
-      {
-        padding: 0,
-      },
-    "& .css-61mavj-MuiButtonBase-root-MuiListItemButton-root": {
-      padding: "1px",
-      color: "white",
-    },
     "&$selected": {
       backgroundColor: "#781C68",
       color: "white",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
+      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
       "& .MuiListItemIcon-root": {
         color: "white",
       },
@@ -188,25 +180,29 @@ const ListItem = withStyles({
       },
     },
     "&$selected:hover": {
-      borderTopRightRadius: "20px",
-      borderBottomRightRadius: "20px",
-      backgroundColor: "#781C68",
-      "& .MuiTypography-root": {
-        color: "white",
-      },
-      "& .MuiListItemIcon-root:hover": {
-        color: "white",
-      },
-    },
-    "&:hover": {
+      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
       backgroundColor: "#781C68",
       color: "white",
     },
+    "&:hover": {
+      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+      borderTopRightRadius: "20px",
+      borderBottomRightRadius: "20px",
+      backgroundColor: "#781C68",
+      "& .MuiListItemIcon-root": {
+        color: "white",
+      },
+      "& .MuiTypography-root": {
+        color: "white",
+      },
+    },
   },
+  ".MuiListItem-root": { padding: 0 },
   selected: {},
 })(MuiListItem);
+
 export {
   Customsidebar,
   DrawerHeader,
