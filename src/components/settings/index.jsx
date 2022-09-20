@@ -1,3 +1,4 @@
+import React from 'react';
 import BreadcrumbArea from "../BreadcrumbArea";
 import { Container } from "./settings.style";
 //

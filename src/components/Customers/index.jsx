@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -111,7 +112,7 @@ const Customers = () => {
         return (
           <IOSSwitch
             sx={{ m: 1 }}
-            checked={params.row?.isActive}
+            checked={params.row.isActive}
             onChange={(e) => {
               handleToggleStatus(params.row._id, e.target.checked);
             }}

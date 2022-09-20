@@ -1,3 +1,4 @@
+import React from 'react';
 import BreadcrumbArea from "../BreadcrumbArea";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -102,16 +103,16 @@ const Staff = () => {
       renderCell: (params) => (
         <>
           <RowName>
-            {params.row?.firstName
-              ? params.row?.firstName.charAt(0).toUpperCase() +
-                params.row?.firstName.slice(1)
+            {params.row.firstName
+              ? params.row.firstName.charAt(0).toUpperCase() +
+                params.row.firstName.slice(1)
               : "NO/F"}
           </RowName>
           &nbsp;&nbsp;
           <RowName>
-            {params.row?.lastName
-              ? params.row?.lastName.charAt(0).toUpperCase() +
-                params.row?.lastName.slice(1)
+            {params.row.lastName
+              ? params.row.lastName.charAt(0).toUpperCase() +
+                params.row.lastName.slice(1)
               : "NO/L"}
           </RowName>
         </>
@@ -123,7 +124,7 @@ const Staff = () => {
       flex: 1,
       sortable: true,
       renderCell: (params) => (
-        <RowName>{params.row?.email ? params.row?.email : "NO/F"}</RowName>
+        <RowName>{params.row.email ? params.row.email : "NO/F"}</RowName>
       ),
     },
 
@@ -145,7 +146,7 @@ const Staff = () => {
       sortable: true,
       renderCell: (params) => (
         <PostTag>
-          {params.row?.role?.roleName ? params.row?.role?.roleName : "NO/F"}
+          {params.row.role.roleName ? params.row.role.roleName : "NO/F"}
         </PostTag>
       ),
     },
@@ -157,11 +158,11 @@ const Staff = () => {
       sortable: true,
       renderCell: (params) => (
         <RowName>
-          {params.row?.createdAt?.substring(8, 10)}
+          {params.row.createdAt.substring(8, 10)}
           {"/"}
-          {params.row?.createdAt?.substring(5, 7)}
+          {params.row.createdAt.substring(5, 7)}
           {"/"}
-          {params.row?.createdAt?.substring(0, 4)}
+          {params.row.createdAt.substring(0, 4)}
         </RowName>
       ),
     },
@@ -174,7 +175,7 @@ const Staff = () => {
         return (
           <IOSSwitch
             sx={{ m: 1 }}
-            checked={params.row?.isActive}
+            checked={params.row.isActive}
             onChange={(e) => {
               handleToggleStatus(params.row._id, e.target.checked);
             }}
@@ -189,11 +190,11 @@ const Staff = () => {
       sortable: true,
       renderCell: (params) => (
         <RowName>
-          {params.row?.updatedAt?.substring(8, 10)}
+          {params.row.updatedAt.substring(8, 10)}
           {"/"}
-          {params.row?.updatedAt?.substring(5, 7)}
+          {params.row.updatedAt.substring(5, 7)}
           {"/"}
-          {params.row?.updatedAt?.substring(0, 4)}
+          {params.row.updatedAt.substring(0, 4)}
         </RowName>
       ),
     },

@@ -12,7 +12,7 @@ export default function BreadcrumbArea(props) {
   const [editText, setEditText] = useState(false);
 
   useEffect(() => {
-    if (location.pathname?.split("/")[1]) {
+    if (location.pathname.split("/")[1]) {
       let item = location.pathname
         .split("/")[1]
         .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
@@ -22,7 +22,7 @@ export default function BreadcrumbArea(props) {
     } else {
       setItems(null);
     }
-    if (location.pathname?.split("/")[2]) {
+    if (location.pathname.split("/")[2]) {
       let item =
         location.pathname
           .split("/")[2]
@@ -33,9 +33,9 @@ export default function BreadcrumbArea(props) {
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
       setItems(item);
       setButtonArea(false);
-      setLinkAdd(item?.split(" ")[1].toLowerCase());
+      setLinkAdd(item.split(" ")[1].toLowerCase());
 
-      if (location?.search.split("?")[1] !== undefined) {
+      if (location.search.split("?")[1] !== undefined) {
         setEditText(true);
       }
     } // eslint-disable-next-line

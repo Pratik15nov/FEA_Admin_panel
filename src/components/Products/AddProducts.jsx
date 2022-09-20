@@ -82,8 +82,8 @@ export default function AddProducts(props) {
     try {
       const response = await categoryHandlerData(listBody({ perPage: 1000 }));
 
-      if (response.success) {
-        setCategoryList(response?.list);
+      if (response.success && response.list) {
+        setCategoryList(response.list);
       } else {
         setCategoryList([]);
       }
@@ -245,7 +245,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error?.message ? error.message:""}
                 />
               )}
               control={control}
@@ -282,18 +282,18 @@ export default function AddProducts(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error?.message ? error.message:""}
                   >
                     {categoryList.map((card) => {
                       return (
-                        <MenuItem key={card.BreadcrumbAreakey} value={card._id}>
+                        <MenuItem key={card?.BreadcrumbAreakey} value={card._id}>
                           {card.categoryName}
                         </MenuItem>
                       );
                     })}
                   </SelectField>
                   <FormHelperText error={error}>
-                    {error?.message ?? ""}
+                    {error?.message ?error.message : ""}
                   </FormHelperText>
                 </>
               )}
@@ -320,7 +320,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error?.message ?error.message : ""}
                 />
               )}
               control={control}
@@ -358,7 +358,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error?.message ?error.message:  ""}
                 />
               )}
               control={control}
@@ -392,7 +392,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error?.message ?error.message : ""}
                 />
               )}
               control={control}
@@ -428,7 +428,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error?.message ?error.message: ""}
                 />
               )}
               control={control}
@@ -455,7 +455,7 @@ export default function AddProducts(props) {
                     {images == null ? (
                       <Box>
                         <FormHelperText error={error}>
-                          {error?.message ?? ""}
+                          {error?.message ?error.message : ""}
                         </FormHelperText>
                         <Grid container spacing={2}>
                           {value == null ? (

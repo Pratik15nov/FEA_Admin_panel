@@ -271,17 +271,17 @@ export default function Dashboard() {
         setDashboardData(response.data[0]); // eslint-disable-next-line
         switch (newValue ? newValue : 0) {
           case 0:
-            getWeekData(response?.data[0].orderData);
+            getWeekData(response.data[0].orderData);
 
             break;
           case 1:
-            getMonthsData(response?.data[0].orderData);
+            getMonthsData(response.data[0].orderData);
             break;
           case 2:
-            getYearData(response?.data[0].orderData);
+            getYearData(response.data[0].orderData);
             break;
           case 3:
-            customDateData(response?.data[0].orderData);
+            customDateData(response.data[0].orderData);
             break;
         }
       }
@@ -439,8 +439,9 @@ export default function Dashboard() {
                     <CardTwo variant="h6" component="div">
                       Total Orders
                     </CardTwo>
+
                     <CardOne variant="h5" component="div">
-                      {dashboardData?.totalOrder}
+                      {dashboardData?.totalOrder}{" "}
                     </CardOne>
                   </CardContent>
                 </Grid>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import { useEffect } from "react";
 import { Container, InputBox, InputField, BottomButton } from "./profile.style";
@@ -36,8 +37,8 @@ const Profile = () => {
   }, [jumpOnPath]);
 
   useEffect(() => {
-    setcid(info?.data?.id);
-    profileHandler(info?.data?.id); // eslint-disable-next-line
+    setcid(info.data.id);
+    profileHandler(info.data.id); // eslint-disable-next-line
   }, []);
 
   const profileHandler = async (id) => {
@@ -54,10 +55,10 @@ const Profile = () => {
       console.log("response: ", response);
       if (response.success) {
         profileFormControl.reset({
-          firstName: response?.list[0].firstName,
-          lastName: response?.list[0].lastName,
-          phoneNumber: response?.list[0].phoneNumber,
-          email: response?.list[0].email,
+          firstName: response.list[0].firstName,
+          lastName: response.list[0].lastName,
+          phoneNumber: response.list[0].phoneNumber,
+          email: response.list[0].email,
         });
         setLoading(false);
       } else {
@@ -153,7 +154,7 @@ const Profile = () => {
   return (
     <Container>
       <Grid container sx={{ paddingBottom: "20px" }}>
-        <Grid xs={7}>
+        <Grid item xs={7}>
           <Typography variant="h1"> Profile Settings</Typography>
           <Breadcrumbs aria-label="breadcrumb">
             <Box underline="hover" color="inherit">
@@ -203,7 +204,7 @@ const Profile = () => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error?.message ? error.message :""}
                     />
                   )}
                   control={profileFormControl.control}
@@ -239,10 +240,10 @@ const Profile = () => {
                       id="lastName"
                       placeholder="Enter you last name"
                       name="lastName"
-                      value={value}
+                      value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error?.message ?error.message: ""}
                     />
                   )}
                   control={profileFormControl.control}
@@ -282,7 +283,7 @@ const Profile = () => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error?.message ?error.message : ""}
                     />
                   )}
                   control={profileFormControl.control}
@@ -321,7 +322,7 @@ const Profile = () => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error?.message ? error.message : ""}
                     />
                   )}
                   control={profileFormControl.control}
@@ -377,10 +378,10 @@ const Profile = () => {
                       id="oldPassword"
                       placeholder="Enter you old password"
                       name="oldPassword"
-                      value={value}
+                      value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error?.message ? error.message:""}
                     />
                   )}
                   control={changePasswordFormControl.control}
@@ -403,10 +404,10 @@ const Profile = () => {
                       id="newPassword"
                       placeholder="Enter you new Password"
                       name="newPassword"
-                      value={value}
+                      value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error?.message ?error.message : ""}
                     />
                   )}
                   control={changePasswordFormControl.control}
@@ -435,10 +436,10 @@ const Profile = () => {
                       id="confirmPassword"
                       placeholder=" Re-enter your new Password"
                       name="confirmPassword"
-                      value={value}
+                      value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error?.message ?error.message: ""}
                     />
                   )}
                   control={changePasswordFormControl.control}

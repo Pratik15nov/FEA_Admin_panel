@@ -1,3 +1,4 @@
+import React from 'react';
 import BreadcrumbArea from "../../BreadcrumbArea";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -71,13 +72,13 @@ const AddStaff = (props) => {
           perPage: 10,
         })
       );
-      if (response.success) {
+      if (response.success && response.list) {
         reset({
-          firstName: response?.list[0].firstName,
-          lastName: response?.list[0].lastName,
-          email: response?.list[0].email,
-          phoneNumber: response?.list[0].phoneNumber,
-          role: response?.list[0].role._id,
+          firstName: response.list[0].firstName,
+          lastName: response.list[0].lastName,
+          email: response.list[0].email,
+          phoneNumber: response.list[0].phoneNumber,
+          role: response.list[0].role._id,
         });
       } else {
       }
@@ -95,7 +96,7 @@ const AddStaff = (props) => {
         })
       );
       if (response.success) {
-        setRoleData(response?.list);
+        setRoleData(response.list);
         setLoading(false);
       } else {
         setRoleData([]);
@@ -187,7 +188,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ?error.message: ""}
                   />
                 )}
                 control={control}
@@ -226,7 +227,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ? error.message :""}
                   />
                 )}
                 control={control}
@@ -265,7 +266,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ?error.message: ""}
                   />
                 )}
                 control={control}
@@ -296,7 +297,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ? error.message :""}
                   />
                 )}
                 control={control}
@@ -336,7 +337,7 @@ const AddStaff = (props) => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?? ""}
+                      helperText={error.message ?error.message : ""}
                     >
                       {roleData.map((r) => {
                         return (
@@ -347,7 +348,7 @@ const AddStaff = (props) => {
                       })}
                     </SelectField>
                     <FormHelperText error={error}>
-                      {error?.message ?? ""}
+                      {error.message ?error.message : ""}
                     </FormHelperText>
                   </>
                 )}

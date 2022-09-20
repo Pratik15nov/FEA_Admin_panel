@@ -1,4 +1,2 @@
 /node_modules
-build
-# Local Netlify folder
-.netlify
+/package-lock.json

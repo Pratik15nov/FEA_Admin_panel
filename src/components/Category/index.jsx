@@ -75,7 +75,7 @@ export default function Category() {
         return (
           <IOSSwitch
             sx={{ m: 1 }}
-            checked={params.row?.isActive}
+            checked={params.row.isActive}
             onChange={(e) => {
               handleToggleStatus(params.row._id, e.target.checked);
             }}

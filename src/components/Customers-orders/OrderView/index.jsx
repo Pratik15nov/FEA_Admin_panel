@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {
   DialogContainer,
   CustomButton,
@@ -40,17 +40,17 @@ function createData(data, answer) {
 
 export default function OrderView(props) {
   const currencyFormat = (num) => {
-    return num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
 
   const [subTotal, setSubTotal] = useState([]);
 
   const rows = [
     createData("Order Subtotal", `₹ ${currencyFormat(Number(subTotal))}`),
-    createData("Promocode:", `${props.viewdata?.promocodeId?.couponcode}`),
+    createData("Promocode:", `${props.viewdata.promocodeId.couponcode}`),
     createData(
       "Discount Price",
-      `₹ ${currencyFormat(Number(props.viewdata?.discountPrice))}`
+      `₹ ${currencyFormat(Number(props.viewdata.discountPrice))}`
     ),
     createData(
       "Tax (SGST+ CGST)	",
@@ -59,14 +59,14 @@ export default function OrderView(props) {
     createData("Shipping Charge", `${subTotal > 500 ? "₹ 0" : "₹ 40"}`),
     createData(
       "Total Amount",
-      `₹ ${currencyFormat(Number(props.viewdata?.totalPrice))}`
+      `₹ ${currencyFormat(Number(props.viewdata.totalPrice))}`
     ),
   ];
 
   useEffect(() => {// eslint-disable-next-line
     let data = 0;// eslint-disable-next-line
-    props.viewdata?.cartdetail?.filter((value) => {// eslint-disable-next-line
-      data = data + value?.productId?.discountPrice * value?.quantity;// eslint-disable-next-line
+    props.viewdata.cartdetail.filter((value) => {// eslint-disable-next-line
+      data = data + value.productId.discountPrice * value.quantity;// eslint-disable-next-line
     });// eslint-disable-next-line
     setSubTotal(data);
     // eslint-disable-next-line
@@ -101,15 +101,15 @@ export default function OrderView(props) {
               <Grid item xs={7}>
                 <TopTextStyle>
                   <b>Date</b> :&nbsp;
-                  {props.viewdata?.createdAt?.substring(8, 10)}
+                  {props.viewdata.createdAt.substring(8, 10)}
                   {"/"}
-                  {props.viewdata?.createdAt?.substring(5, 7)}
+                  {props.viewdata.createdAt.substring(5, 7)}
                   {"/"}
-                  {props.viewdata?.createdAt?.substring(0, 4)}
+                  {props.viewdata.createdAt.substring(0, 4)}
                   <br />
-                  <b>Order ID </b>&nbsp;:&nbsp;{props.viewdata?._id} <br />
-                  <b>Payment-ID</b> :&nbsp;{props.viewdata?.paymentId} <br />
-                  <b>OrderStatus</b> :&nbsp;{props.viewdata?.orderStatus}
+                  <b>Order ID </b>&nbsp;:&nbsp;{props.viewdata._id} <br />
+                  <b>Payment-ID</b> :&nbsp;{props.viewdata.paymentId} <br />
+                  <b>OrderStatus</b> :&nbsp;{props.viewdata.orderStatus}
                 </TopTextStyle>
               </Grid>
               <Grid item xs={3}>
@@ -124,27 +124,27 @@ export default function OrderView(props) {
             <CustomDivider />
             <TopTextStyle>
               <b>Invoice to</b> :&nbsp;&nbsp;
-              {props.viewdata?.userId?.firstName}
+              {props.viewdata.userId.firstName}
               &nbsp;&nbsp;
-              {props.viewdata?.userId?.lastName} <br />
+              {props.viewdata.userId.lastName} <br />
               <b>Address_1</b> :&nbsp;&nbsp;
-              {props.viewdata?.addressId?.address_1}
+              {props.viewdata.addressId.address_1}
               <br />
               <b>Address_2</b> :&nbsp;&nbsp;
-              {props.viewdata?.addressId?.address_1
-                ? props.viewdata?.addressId?.address_1
+              {props.viewdata.addressId.address_1
+                ? props.viewdata.addressId.address_1
                 : "N/A"}
               <br />
               <b>Address-Type</b> :&nbsp;&nbsp;
-              {props.viewdata?.addressId?.type}
+              {props.viewdata.addressId.type}
               <br />
               <b>Landmark</b> :&nbsp;&nbsp;
-              {props.viewdata?.addressId?.landmark?.toUpperCase()}
+              {props.viewdata.addressId.landmark.toUpperCase()}
               <br />
-              <b>Pincode</b> :&nbsp;&nbsp;{props.viewdata?.addressId?.pincode}
+              <b>Pincode</b> :&nbsp;&nbsp;{props.viewdata.addressId.pincode}
               <br />
               <b> Label</b> :&nbsp;&nbsp;
-              {props.viewdata?.addressId?.label?.toUpperCase()}
+              {props.viewdata.addressId.label.toUpperCase()}
               <br />
             </TopTextStyle>
             <TableTitleGrid xs={12}> Cart Details</TableTitleGrid>
@@ -162,22 +162,22 @@ export default function OrderView(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {props.viewdata?.cartdetail?.map((row) => (
+                  {props.viewdata.cartdetail.map((row) => (
                     <StyledTableRow key={row.name}>
                       <StyledTableCell component="th" scope="row">
-                        {row.productId?.name}
+                        {row.productId.name}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {row.quantity}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {"₹"}&nbsp;
-                        {currencyFormat(Number(row.productId?.discountPrice))}
+                        {currencyFormat(Number(row.productId.discountPrice))}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {"₹"}&nbsp;
                         {currencyFormat(
-                          Number(row?.quantity * row.productId?.discountPrice)
+                          Number(row.quantity * row.productId.discountPrice)
                         )}
                       </StyledTableCell>
                     </StyledTableRow>

@@ -92,7 +92,7 @@ export default function MiniDrawer(props) {
       let comment = JSON.parse(localStorage.getItem("Data"));
       const response = await rightsHandlerData(
         listBody({
-          where: { roleId: comment?.data?.role?._id },
+          where: { roleId: comment.data.role._id },
           perPage: 1000000,
           page: 1,
         })
@@ -157,7 +157,7 @@ export default function MiniDrawer(props) {
             return <GridViewIcon />;
         }
       } else {
-        <GridViewIcon />;
+        return <GridViewIcon />;
       }
     } catch (error) {
       alert(error);
@@ -270,16 +270,16 @@ export default function MiniDrawer(props) {
           <Grid item xs={6} md={3}>
             <AvatarStyle alt="admin" src="/images/profile.webp" />
           </Grid>
-          <Grid xs={6} md={6}>
-            {info?.data?.firstName?.charAt(0).toUpperCase() +
+          <Grid item xs={6} md={6}>
+            {info.data.firstName.charAt(0).toUpperCase() +
               info.data.firstName.slice(1) +
               ` ` +
-              info?.data.lastName.charAt(0).toUpperCase() +
-              info?.data.lastName.slice(1)}
+              info.data.lastName.charAt(0).toUpperCase() +
+              info.data.lastName.slice(1)}
             <br />
-            <Admin variant="caption">{info?.data.role.roleName}</Admin>
+            <Admin variant="caption">{info.data.role.roleName}</Admin>
           </Grid>
-          <Grid xs={6} md={3}>
+          <Grid item xs={6} md={3}>
             <mainListIcon onClick={() => setOpen(false)}>
               <KeyboardDoubleArrowLeftIcon gutterBottom sx={{ mt: 1 }} />
             </mainListIcon>

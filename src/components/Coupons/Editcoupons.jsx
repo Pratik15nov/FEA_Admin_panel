@@ -30,6 +30,17 @@ export default function AddCoupons(props) {
   const dispatch = useDispatch();
   const [skelloading, setSkelLoading] = useState(false);
 
+  // this function used for after submit form create object and then update functionality this value change from api value
+  const { handleSubmit, control, reset } = useForm({
+    defaultValues: {
+      couponcode: null,
+      description: null,
+      type: null,
+      minvalue: null,
+      maxdiscountvalue: null,
+    },
+  });
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,12 +82,12 @@ export default function AddCoupons(props) {
     );
 
     try {
-      if (response) {
+      if (response && response.list) {
         reset({
-          couponcode: response?.list[0].couponcode,
-          description: response?.list[0].description,
-          type: response?.list[0].type,
-          minvalue: response?.list[0].minvalue,
+          couponcode: response.list[0].couponcode,
+          description: response.list[0].description,
+          type: response.list[0].type,
+          minvalue: response.list[0].minvalue,
           maxdiscountvalue: response.list[0].maxdiscountvalue,
         });
         setSkelLoading(false);
@@ -85,17 +96,6 @@ export default function AddCoupons(props) {
       alert(error);
     }
   };
-
-  // this function used for after submit form create object and then update functionality this value change from api value
-  const { handleSubmit, control, reset } = useForm({
-    defaultValues: {
-      couponcode: null,
-      description: null,
-      type: null,
-      minvalue: null,
-      maxdiscountvalue: null,
-    },
-  });
 
   // it can be use for edit categories details
   const handleCouponsData = async (body) => {
@@ -185,7 +185,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error.message ? error.message:""}
                 />
               )}
               control={control}
@@ -211,7 +211,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error.message ?error.message: ""}
                 />
               )}
               control={control}
@@ -238,13 +238,13 @@ export default function AddCoupons(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?? ""}
+                    helperText={error.message ?error.message : ""}
                   >
                     <MenuItem value="PERCENTAGE">PERCENTAGE</MenuItem>
                     <MenuItem value="FLAT">FLAT</MenuItem>
                   </SelectField>
                   <FormHelperText error={error}>
-                    {error?.message ?? ""}
+                    {error.message ?error.message : ""}
                   </FormHelperText>
                 </FormControl>
               )}
@@ -271,7 +271,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error.message ?error.message : ""}
                   type={Number}
                 />
               )}
@@ -306,7 +306,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?? ""}
+                  helperText={error.message ?error.message: ""}
                 />
               )}
               control={control}
