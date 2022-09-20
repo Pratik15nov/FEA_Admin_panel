@@ -439,8 +439,9 @@ export default function Dashboard() {
                     <CardTwo variant="h6" component="div">
                       Total Orders
                     </CardTwo>
+
                     <CardOne variant="h5" component="div">
-                      {dashboardData?.totalOrder}
+                      {dashboardData?.totalOrder}{" "}
                     </CardOne>
                   </CardContent>
                 </Grid>
