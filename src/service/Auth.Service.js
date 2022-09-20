@@ -203,3 +203,7 @@ export const pwdUpdationMail = (id) => {
 export const pwdUpdationLinkMail = (body) => {
   return post(`${ENDPOINTURL}/adminUser/forgotPassword`, body);
 };
+
+export const pwdUpdateByEmailLink = (id, body) => {
+  return post(`${ENDPOINTURL}/adminUser/confirmPassword/${id}`, body);
+};

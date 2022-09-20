@@ -188,7 +188,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ?error.message: ""}
+                    helperText={error?.message ?error.message: ""}
                   />
                 )}
                 control={control}
@@ -227,7 +227,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ? error.message :""}
+                    helperText={error?.message ? error.message :""}
                   />
                 )}
                 control={control}
@@ -266,7 +266,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ?error.message: ""}
+                    helperText={error?.message ?error.message: ""}
                   />
                 )}
                 control={control}
@@ -297,7 +297,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ? error.message :""}
+                    helperText={error?.message ? error.message :""}
                   />
                 )}
                 control={control}
@@ -337,7 +337,7 @@ const AddStaff = (props) => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error.message ?error.message : ""}
+                      helperText={error?.message ?error.message : ""}
                     >
                       {roleData.map((r) => {
                         return (
@@ -348,7 +348,7 @@ const AddStaff = (props) => {
                       })}
                     </SelectField>
                     <FormHelperText error={error}>
-                      {error.message ?error.message : ""}
+                      {error?.message ?error.message : ""}
                     </FormHelperText>
                   </>
                 )}

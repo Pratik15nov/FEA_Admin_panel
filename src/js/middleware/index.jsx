@@ -822,7 +822,6 @@ export const loggerMiddleware = (store) => (next) => (action) => {
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
               store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });
             } else {
-              console.log(res);
               store.dispatch(addStaffMsg(res.message));
               store.dispatch(fetchStaffList(action.payload.defaultPayload));
             }
@@ -841,9 +840,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         updateStaffHandlerData(action.payload.cid, action.payload.body)
           .then((res) => {
-            console.log("res: ", res);
             if (res.success) {
-              console.log("RESPONSE", res.message);
               store.dispatch({ type: "STAFF_MSG", payload: res.message });
               store.dispatch({ type: "JUMP_TO_PATH", payload: "/staff" });
             } else {
@@ -865,9 +862,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         store.dispatch(loadingStart());
         updateStaffHandlerData(action.payload.cid, action.payload.body)
           .then((res) => {
-            console.log("res: ", res);
             if (res.success) {
-              console.log("RESPONSE", res.message);
               store.dispatch({ type: "STAFF_MSG", payload: res.message });
               store.dispatch({ type: "JUMP_TO_PATH", payload: "/dashboard" });
             } else {
