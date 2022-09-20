@@ -72,7 +72,7 @@ export default function Dashboard() {
     if (num >= 1000) {
       return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K";
     }
-    console.log("NUM", num);
+
     return num;
   }
   const handleChange = (event, newValue) => {
@@ -117,10 +117,10 @@ export default function Dashboard() {
   );
 
   const data = {
-    labels: OrdersbyProducts?.map((data) => data.name),
+    labels: OrdersbyProducts?.slice(0, 10).map((data) => data.name),
     datasets: [
       {
-        data: OrdersbyProducts?.map((data) => data.quantity),
+        data: OrdersbyProducts?.slice(0, 10).map((data) => data.quantity),
         backgroundColor: [
           "rgba(255, 99, 132, 0.7)",
           "rgba(54, 162, 235, 0.7)",
@@ -163,7 +163,7 @@ export default function Dashboard() {
           generateLabels: (chart) => {
             const datasets = chart.data.datasets;
             return datasets[0].data.map((data, i) => ({
-              text: `${chart.data.labels[i]} ${data}`,
+              text: `${chart.data.labels[i]} - ${data}`,
               fillStyle: datasets[0].backgroundColor[i],
             }));
           },
@@ -439,8 +439,9 @@ export default function Dashboard() {
                     <CardTwo variant="h6" component="div">
                       Total Orders
                     </CardTwo>
+
                     <CardOne variant="h5" component="div">
-                      {dashboardData?.totalOrder}
+                      {dashboardData?.totalOrder}{" "}
                     </CardOne>
                   </CardContent>
                 </Grid>

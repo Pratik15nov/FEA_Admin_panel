@@ -39,7 +39,7 @@ const AddRoleDialog = (props) => {
           </Grid>
         </Grid>
       </TitleText>
-      <DialogContent sx={{background:"#781C68"}}>
+      <DialogContent sx={{background:"#523b83"}}>
         <DialogText>
           <form onSubmit={handleSubmit(handleLogin)}>
             <Grid container sx={{ display: "block" }}>

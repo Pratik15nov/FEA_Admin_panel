@@ -1,12 +1,5 @@
-import React from "react";
-import {
-  Box,
-  Toolbar,
-  List,
-  Divider,
-  ListItemButton,
-  Grid,
-} from "@mui/material";
+import * as React from "react";
+import { Box, Toolbar, List, ListItemButton, Grid } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 // import SearchIcon from "@mui/icons-material/Search";
@@ -49,21 +42,22 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { rightsHandlerData } from "../../service/Auth.Service";
 import { useState } from "react";
-
+import { useLocation } from "react-router-dom";
 export default function MiniDrawer(props) {
   const dispatch = useDispatch();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [checkRights, setCheckRights] = useState([]);
-
+  const location = useLocation();
+  const { search } = location;
   const navigate = useNavigate();
-  const [selectedIndex, setSelectedIndex] = React.useState();
+  const [selectedIndex, setSelectedIndex] = useState();
   const page = useSelector((state) => state);
   // const RouteList = useSelector((state) => state.layout.list);
 
   useEffect(() => {
     getRights();
     getRoutes(); // eslint-disable-next-line
-  }, []);
+  }, [search]);
 
   let info = JSON.parse(localStorage.getItem("Data"));
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -73,6 +67,20 @@ export default function MiniDrawer(props) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const getCheckedItem = (data) => {
+    let item = location.pathname
+      .split("/")[1]
+      .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
+    data
+      .filter((r) => r.view === true)
+      .map((r, index) => {
+        let menu = r.name.charAt(0).toUpperCase() + r.name.slice(1);
+        if (menu === item) {
+          setSelectedIndex(index);
+        }
+        return menu;
+      });
   };
   const handleLogout = () => {
     localStorage.removeItem("dataToken");
@@ -90,6 +98,9 @@ export default function MiniDrawer(props) {
         })
       );
       setCheckRights(response.list[0].rights);
+      if (response.success) {
+        getCheckedItem(response.list[0].rights);
+      }
     } catch (error) {
       console.error(error);
       alert(error);
@@ -251,6 +262,8 @@ export default function MiniDrawer(props) {
         <CardHeaders
           container
           sx={{
+            boxShadow:
+              " 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)",
             ...(!open && { display: "none" }),
           }}
         >
@@ -273,8 +286,6 @@ export default function MiniDrawer(props) {
           </Grid>
         </CardHeaders>
 
-        <Divider />
-
         <List
           sx={{
             ...(!open && { marginTop: 8 }),
@@ -284,6 +295,7 @@ export default function MiniDrawer(props) {
             .filter((r) => r.view === true)
             .map((r, index) => (
               <ListItem
+                style={{ padding: "0px" }}
                 key={index}
                 disablePadding
                 selected={selectedIndex === index}
@@ -314,17 +326,8 @@ export default function MiniDrawer(props) {
               navigate("/settings"),
               handleListItemClick(event, 9999999999),
             ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <SettingsSuggestRoundedIcon />
-              </ListIcon>
-              <ListText>Settings</ListText>
-            </ListItemButton>
-          </ListItem>
+          ></ListItem>
         </List>
-
-        <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>
         <Box sx={{ p: "20px" }}>{props.children}</Box>

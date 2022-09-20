@@ -35,12 +35,12 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: "#781C68",
+    color: "#523b83",
   },
 }));
 export const TitleText = styled(DialogTitle)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: "bold",
   color: theme.palette.custom.color,
-  background: "#781C68",
+  background: "#523b83",
 }));

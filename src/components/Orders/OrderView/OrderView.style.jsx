@@ -24,19 +24,19 @@ export const CustomButton = styled(Button)(({ theme }) => ({
   fontWeight: "bold",
   color: theme.palette.custom.color,
   "&:hover": {
-    color: "#781C68",
+    color: "#523b83",
   },
 }));
 export const Actions = styled(DialogActions)(({ theme }) => ({
   justifyContent:"space-between",
-  background: "#781C68",
+  background: "#523b83",
 }));
 export const ContentBox = styled(DialogContent)(({ theme }) => ({
-  // background: "#781C68",
+  // background: "#523b83",
   background: "white",
 }));
 export const TitleBox = styled(DialogTitle)(({ theme }) => ({
-  background: "#781C68",
+  background: "#523b83",
   color: theme.palette.custom.color,
 }));
 export const TitleContainerBox = styled(DialogTitle)(({ theme }) => ({
@@ -128,6 +128,6 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: "#781C68",
+    color: "#523b83",
   },
 }));

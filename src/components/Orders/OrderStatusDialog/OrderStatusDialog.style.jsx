@@ -7,7 +7,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 export const DialogBox = styled(Dialog)(({ theme }) => ({}));
 export const DialogTitleBar = styled(DialogTitle)(({ theme }) => ({
-  background: "#781C68",
+  background: "#523b83",
   color: theme.palette.custom.color,
   display: "flex",
 }));
@@ -15,7 +15,7 @@ export const FormLabelControl = styled(FormControlLabel)(({ theme }) => ({
   marginLeft: "0px",
   marginRight: "0px",
   "&:hover": {
-    background: " #781C6894",
+    background: " #523b8394",
     color: theme.palette.custom.color,
   },
 }));
@@ -27,7 +27,7 @@ export const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 export const FormContainer = styled("form")(({ theme }) => ({
-  background: "#781C68",
+  background: "#523b83",
 }));
 
 export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
@@ -36,7 +36,7 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   fontSize: "x-large",
   color: "red",
   "&:hover": {
-    color: "#781C68",
+    color: "#523b83",
   },
 }));
 

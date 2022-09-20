@@ -137,27 +137,15 @@ const Products = () => {
       flex: 1,
       sortable: true,
       renderCell: (params) => {
-        try {
-          if (params.row) {
-            switch (params.row.isActive) {
-              case "INSTOCK":
-                return <ProductStatusInStock>In Stock</ProductStatusInStock>;
-              case "LOWSTOCK":
-                return <ProductStatusLowStock>Low Stock</ProductStatusLowStock>;
-              case "OUTOFSTOCK":
-                return (
-                  <ProductStatusOutOfStock>
-                    Out Of Stock
-                  </ProductStatusOutOfStock>
-                );
-              default:
-                return <ProductStatusInStock>In Stock</ProductStatusInStock>;
-            }
-          } else {
-            alert("ORDERSTATUS_ERROR OCCURED");
-          }
-        } catch (error) {
-          alert(error);
+        const quantity = params.row.quantity;
+        if (quantity > 10) {
+          return <ProductStatusInStock>In Stock</ProductStatusInStock>;
+        } else if (quantity > 0 && quantity < 11) {
+          return <ProductStatusLowStock>Low Stock</ProductStatusLowStock>;
+        } else {
+          return (
+            <ProductStatusOutOfStock>Out Of Stock</ProductStatusOutOfStock>
+          );
         }
       },
     },
