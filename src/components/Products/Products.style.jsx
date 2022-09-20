@@ -243,8 +243,8 @@ export const SelectField = styled(Select)(({ theme }) => ({
   marginBottom: 10,
 }));
 export const ProductStatusInStock = styled("span")(({ theme }) => ({
-  height: "22px",
-  minWidth: "22px",
+  height: "30px",
+  minWidth: "30px",
   lineHeight: 0,
   borderRadius: "6px",
   cursor: "default",
@@ -261,8 +261,8 @@ export const ProductStatusInStock = styled("span")(({ theme }) => ({
   textTransform: "capitalize",
 }));
 export const ProductStatusLowStock = styled("span")(({ theme }) => ({
-  height: "22px",
-  minWidth: "22px",
+  height: "30px",
+  minWidth: "30px",
   lineHeight: 0,
   borderRadius: "6px",
   cursor: "default",
@@ -279,8 +279,8 @@ export const ProductStatusLowStock = styled("span")(({ theme }) => ({
   textTransform: "capitalize",
 }));
 export const ProductStatusOutOfStock = styled("span")(({ theme }) => ({
-  height: "22px",
-  minWidth: "22px",
+  height: "30px",
+  minWidth: "30px",
   lineHeight: 0,
   borderRadius: "6px",
   cursor: "default",

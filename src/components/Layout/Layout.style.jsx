@@ -167,7 +167,7 @@ const mainListIcon = styled(IconButton)(({ theme }) => ({
 const ListItem = withStyles({
   root: {
     "&$selected": {
-      backgroundColor: "#781C68",
+      backgroundColor: "#523b83",
       color: "white",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
@@ -183,14 +183,14 @@ const ListItem = withStyles({
       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
-      backgroundColor: "#781C68",
+      backgroundColor: "#523b83",
       color: "white",
     },
     "&:hover": {
       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
-      backgroundColor: "#781C68",
+      backgroundColor: "#523b83",
       "& .MuiListItemIcon-root": {
         color: "white",
       },

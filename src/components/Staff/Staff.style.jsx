@@ -207,7 +207,7 @@ export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
   fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: "#781C68",
+    color: "#523b83",
   },
 }));
 export const DisableDeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
