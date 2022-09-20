@@ -62,7 +62,7 @@ const ConfirmPassword = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ? error.message : ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -91,7 +91,7 @@ const ConfirmPassword = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ?error.message: ""}
+                    helperText={error?.message ?error.message: ""}
                   />
                 )}
                 control={control}

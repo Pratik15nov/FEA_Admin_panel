@@ -30,7 +30,7 @@ const Forgot = () => {
       };
 
       const response = await pwdUpdationLinkMail(body);
-      if (response.success) {
+      if (response?.success) {
         alert("email sent");
         navigate("/");
       } else {
@@ -72,7 +72,7 @@ const Forgot = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ? error.message:""}
+                    helperText={error?.message ? error.message:""}
                   />
                 )}
                 control={control}
