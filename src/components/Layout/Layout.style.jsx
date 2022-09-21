@@ -210,7 +210,7 @@ const mainListIcon = styled(IconButton)(({ theme }) => ({
 const ListItem = styled(MuiListItem)(({ theme }) => ({
 
     "&.MuiListItem-root.Mui-selected.Mui-selected": {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.quad.main,
       color: "white",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
