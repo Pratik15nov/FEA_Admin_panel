@@ -16,6 +16,11 @@ const theme = createTheme({
     },
 
     fontColor: {
+      mainUp: "#ffffff", // white
+      mainDown: "#000", // black
+    },
+
+    mainBackground: {
       main: "#ffffff", // white
     },
 
