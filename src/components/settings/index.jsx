@@ -123,7 +123,8 @@ const Settings = () => {
       <Container>
         <BreadcrumbArea />
       </Container>
-      <Box>
+
+      <Box sx={{ padding: 1 }}>
         <Typography>Theme Customizer</Typography>
         <Typography> Customize & Preview in Real Time</Typography>
       </Box>
