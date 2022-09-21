@@ -16,14 +16,16 @@ const theme = createTheme({
     },
 
     fontColor: {
-      mainUp: "#ffffff", // white
-      mainDown: "#000", // black
+      main: "#ffffff", // white
+      first: "#000000", // black
     },
 
     mainBackground: {
       main: "#000", // white
     },
-
+    background: {
+      default: "#ffffff",
+    },
     custom: {
       color: "#white",
       tertiary: "#FFCB42",

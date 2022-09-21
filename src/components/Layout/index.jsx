@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Box, Toolbar, List, ListItemButton, Grid } from "@mui/material";
+import {
+  Box,
+  Toolbar,
+  List,
+  ListItemButton,
+  Grid,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 // import SearchIcon from "@mui/icons-material/Search";
@@ -47,6 +54,7 @@ export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [checkRights, setCheckRights] = useState([]);
+
   const location = useLocation();
   const { search } = location;
   const navigate = useNavigate();
@@ -72,7 +80,7 @@ export default function MiniDrawer(props) {
     let item = location.pathname
       .split("/")[1]
       .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
-    
+
     data
       .filter((r) => r.view === true)
       .map((r, index) => {
@@ -170,7 +178,7 @@ export default function MiniDrawer(props) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex"}}>
       <AppBar
         position="fixed"
         sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}

@@ -1,5 +1,6 @@
 import { Avatar, Box, styled } from "@mui/material";
 import Link from "@mui/material/Link";
+import { LoadingButton } from "@mui/lab";
 
 export const Container = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -27,5 +28,14 @@ export const CustomAvatar = styled(Avatar)(({ theme }) => ({
 }));
 
 export const LinkBox = styled(Link)(({ theme }) => ({
- cursor:"pointer"
+  cursor: "pointer",
+  textDecoration: "none",
+}));
+
+export const ButtonLoading = styled(LoadingButton)(({ theme }) => ({
+  cursor: "pointer",
+  textDecoration: "none",
+  marginTop: 5,
+  marginBottom: 5,
+  width: "100%",
 }));

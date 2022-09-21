@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
@@ -28,6 +28,7 @@ import Profile from "./components/Profile";
 import Forgot from "./components/Forgot";
 import ConfirmPassword from "./components/ConfirmPassword";
 
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -40,7 +41,7 @@ function App() {
             path="/dashboard"
             element={
               <Layout>
-                <Dashboard />
+                <Dashboard/>
               </Layout>
             }
           />

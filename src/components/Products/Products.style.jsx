@@ -24,6 +24,18 @@ export const Container = styled(Box)(({ theme }) => ({
 }));
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
+  
+  "& .MuiDataGrid-footerContainer": {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.fontColor.main,
+  },
+  "& .MuiTablePagination-displayedRows": {
+    color:theme.palette.fontColor.main,
+  },
+  "& .MuiTablePagination-actions": {
+    color:theme.palette.fontColor.main,
+  },
+
   overflow: "scroll", // eslint-disable-next-line
   overflow: "scroll",
   " &.MuiDataGrid-root .MuiDataGrid-cell": {
@@ -46,16 +58,8 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiCheckbox-colorPrimary.Mui-checked": {
     color: theme.palette.custom.success,
   },
-  "& .MuiDataGrid-footerContainer": {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
-  },
-  "& .MuiTablePagination-displayedRows": {
-    color: theme.palette.custom.color,
-  },
-  "& .MuiTablePagination-actions": {
-    color: theme.palette.custom.color,
-  },
+ 
+  
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
@@ -132,7 +136,7 @@ export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
 }));
 
 export const ColoumHead = styled(Typography)(({ theme }) => ({
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   fontWeight: 600,
   fontSize: "16px",
 }));
@@ -140,10 +144,10 @@ export const ColoumHead = styled(Typography)(({ theme }) => ({
 export const RowName = styled(Typography)(({ theme }) => ({
   fontSize: "18px",
   fontWeight: 400,
-  color: "black",
+  color: theme.palette.fontColor.first,
 
   "&:hover": {
-    color: "black",
+    color: "green",
   },
 }));
 export const InputBox = styled(Grid)(({ theme }) => ({
