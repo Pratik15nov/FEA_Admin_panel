@@ -21,7 +21,7 @@ const theme = createTheme({
     },
 
     mainBackground: {
-      main: "#ffffff", // white
+      main: "#000", // white
     },
 
     custom: {
