@@ -72,12 +72,17 @@ export default function MiniDrawer(props) {
     let item = location.pathname
       .split("/")[1]
       .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
+
     data
       .filter((r) => r.view === true)
       .map((r, index) => {
         let menu = r.name.charAt(0).toUpperCase() + r.name.slice(1);
+
         if (menu === item) {
           setSelectedIndex(index);
+        }
+        if (item === "Settings") {
+          setSelectedIndex(9999999999);
         }
         return menu;
       });
@@ -102,7 +107,7 @@ export default function MiniDrawer(props) {
         getCheckedItem(response.list[0].rights);
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       alert(error);
     }
   };
@@ -320,13 +325,21 @@ export default function MiniDrawer(props) {
             ))}
 
           <ListItem
+            style={{ padding: "0px" }}
             disablePadding
             selected={selectedIndex === 9999999999}
             onClick={(event) => [
               navigate("/settings"),
               handleListItemClick(event, 9999999999),
             ]}
-          ></ListItem>
+          >
+            <ListItemButton>
+              <ListIcon>
+                <SettingsSuggestRoundedIcon />
+              </ListIcon>
+              <ListText>Settings</ListText>
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>
