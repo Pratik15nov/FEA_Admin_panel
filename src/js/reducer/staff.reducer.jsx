@@ -30,6 +30,8 @@ function staffReducer(state = initialState, action) {
       return { ...state, list: action.payload };
     case "STAFF_MSG":
       return { ...state, msg: action.payload };
+      case "STAFF_MSG_NULL":
+        return { ...state, msg: null };
     default:
       return state;
   }

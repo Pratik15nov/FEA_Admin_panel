@@ -46,7 +46,6 @@ const Orders = () => {
   const location = useLocation();
   const { search } = location;
   const handleClickOpen = (data) => {
-    console.log("DATA", data);
     setOpen(true);
     setDialogdata(data);
   };

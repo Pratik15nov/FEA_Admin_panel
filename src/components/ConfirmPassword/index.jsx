@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   CustomAvatar,
@@ -12,10 +12,29 @@ import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
-// import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { pwdUpdateByEmailLink } from "../../service/Auth.Service";
+import { useNavigate } from "react-router";
 
 const ConfirmPassword = () => {
-  //   const navigate = useNavigate();
+  const [cid, setCid] = useState([]);
+  const location = useLocation();
+  const { search } = location;
+
+  useEffect(() => {
+    try {
+      if (search.split("=").length > 0) {
+        setCid(search.split("=")[1]);
+      } else {
+        setCid([]);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }, [search]);
+
+  const navigate = useNavigate();
   const { handleSubmit, control, watch } = useForm({
     defaultValues: {
       newPassword: null,
@@ -27,7 +46,15 @@ const ConfirmPassword = () => {
       const body = {
         newPassword: info.newPassword,
       };
-      console.log("body: ", body);
+
+      const response = await pwdUpdateByEmailLink(cid, body);
+      if (response?.success) {
+        alert("YOUR PASSWORD HAS BEEN UPDATED");
+        navigate("/");
+      } else {
+        alert("YOUR PASSWORD Updation failed, try again later");
+        navigate("/");
+      }
     } catch (error) {
       alert(error);
     }
@@ -62,14 +89,15 @@ const ConfirmPassword = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ? error.message : ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
                 rules={{
                   required: "Please fill  your new Password",
                   pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     message:
                       " Must be minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character ",
                   },
@@ -91,7 +119,7 @@ const ConfirmPassword = () => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ?error.message: ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}

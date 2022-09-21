@@ -37,7 +37,6 @@ const Login = () => {
       const response = await loginCheck(body);
 
       if (response.success) {
-        console.log("response: ", response);
         localStorage.setItem("dataToken", response.data.token);
         localStorage.setItem("Data", JSON.stringify(response));
         setLoading(false);

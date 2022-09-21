@@ -28,7 +28,6 @@ const Profile = () => {
 
   const navigate = useNavigate();
   let info = JSON.parse(localStorage.getItem("Data"));
-  console.log("info: ", info.data.email);
 
   useEffect(() => {
     if (jumpOnPath !== null) {
@@ -52,7 +51,7 @@ const Profile = () => {
           perPage: 10,
         })
       );
-      console.log("response: ", response);
+
       if (response.success) {
         profileFormControl.reset({
           firstName: response.list[0].firstName,
@@ -69,7 +68,7 @@ const Profile = () => {
     }
   };
   const handleAdd = async (body) => {
-    console.log("body: ", body);
+
     try {
       dispatch(
         updatepProfile({
@@ -137,7 +136,7 @@ const Profile = () => {
     try {
       const response = await pwdUpdationMail(cid);
       if (response.success) {
-        console.log("response: ", response);
+
         alert("PASSWORD UPDATION EMAIL HAS BEEN SENT");
         setOpenAlert(false);
       } else {
