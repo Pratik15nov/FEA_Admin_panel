@@ -164,8 +164,8 @@ const ListText = styled(ListItemText)(({ theme }) => ({
 const mainListIcon = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
-// const useStyles = makeStyles((theme) => ({
-//   root: (props) => ({
+// const ListItem = withStyles({
+//   root: {
 //     "&$selected": {
 //       backgroundColor: "#523b83",
 //       color: "white",
@@ -198,12 +198,19 @@ const mainListIcon = styled(IconButton)(({ theme }) => ({
 //         color: "white",
 //       },
 //     },
-//   }),
-// }));
-const ListItem = withStyles({
-  root: {
-    "&$selected": {
-      backgroundColor: "#523b83",
+//   },
+//   ".MuiListItem-root": { padding: 0 },
+//   selected: {},
+// })(MuiListItem);
+
+
+
+//
+
+const ListItem = styled(MuiListItem)(({ theme }) => ({
+
+    "&.MuiListItem-root.Mui-selected.Mui-selected": {
+      backgroundColor: theme.palette.primary.main,
       color: "white",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
@@ -215,18 +222,18 @@ const ListItem = withStyles({
         color: "white",
       },
     },
-    "&$selected:hover": {
+    "&.Mui-selected:hover": {
       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
-      backgroundColor: "#523b83",
+      backgroundColor: theme.palette.secondary.main,
       color: "white",
     },
     "&:hover": {
       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
       borderTopRightRadius: "20px",
       borderBottomRightRadius: "20px",
-      backgroundColor: "#523b83",
+      backgroundColor: theme.palette.primary.main,
       "& .MuiListItemIcon-root": {
         color: "white",
       },
@@ -234,11 +241,10 @@ const ListItem = withStyles({
         color: "white",
       },
     },
-  },
+
   ".MuiListItem-root": { padding: 0 },
   selected: {},
-})(MuiListItem);
-
+}));
 export {
   Customsidebar,
   DrawerHeader,
