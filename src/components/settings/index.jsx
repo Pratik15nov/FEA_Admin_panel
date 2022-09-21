@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container } from "./settings.style";
+import { Container, ContainerHead } from "./settings.style";
 //
 // import { Button } from "@mui/material";
 // import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
@@ -123,9 +123,18 @@ const Settings = () => {
       <Container>
         <BreadcrumbArea />
       </Container>
-      <Box>
-        <Typography>Theme Customizer</Typography>
-        <Typography> Customize & Preview in Real Time</Typography>
+
+      <Box
+        sx={{
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "rgb(0 0 0 / 15%) 0px 2px 8px",
+          margin: "5px",
+        }}
+      >
+        <ContainerHead variant="h6">Theme Customizer</ContainerHead>
+
+        <ContainerHead variant="subtitle1">Mode</ContainerHead>
       </Box>
 
       {/* <Button variant="outlined" size="large" onClick={handleLogin}>
