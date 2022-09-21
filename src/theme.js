@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#42032C", // Royal Blue
+      main: "#25316D", // Royal Blue
     },
     secondary: {
       main: "#E6D2AA", // Greyiesh Blue
