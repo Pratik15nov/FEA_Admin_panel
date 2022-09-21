@@ -3,16 +3,16 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#25316D", // Royal Blue
+      main: "#42032C", // Royal Blue
     },
     secondary: {
-      main: "#bbcbe9", // Greyiesh Blue
+      main: "#E6D2AA", // Greyiesh Blue
     },
     tertiary: {
-      main: "#cff1ff", // light Sky blue
+      main: "#FFF5E4", // light Sky blue
     },
     quad: {
-      main: "#FEF5AC", // numb yellow
+      main: "#F1EFDC", // numb yellow
     },
 
     fontColor: {
