@@ -3,19 +3,24 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      // main: "#2A0944",
-      // main: "#523b83",
-      main: "#d22222",
+      main: "#25316D", // Royal Blue
     },
     secondary: {
-      // main: "#C996CC",
-      main: "#e20000",
+      main: "#bbcbe9", // Greyiesh Blue
     },
     tertiary: {
-      main: "#F6F2D4",
+      main: "#cff1ff", // light Sky blue
     },
+    quad: {
+      main: "#FEF5AC", // numb yellow
+    },
+
+    fontColor: {
+      main: "#ffffff", // white
+    },
+
     custom: {
-      color: "#FFFFFF",
+      color: "#white",
       tertiary: "#FFCB42",
       quad: "#FFF4CF",
       success: "#54D62C",
