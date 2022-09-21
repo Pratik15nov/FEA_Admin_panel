@@ -1,4 +1,5 @@
-import React from 'react';
+import { Box, Typography } from "@mui/material";
+import React from "react";
 import BreadcrumbArea from "../BreadcrumbArea";
 import { Container } from "./settings.style";
 //
@@ -122,6 +123,11 @@ const Settings = () => {
       <Container>
         <BreadcrumbArea />
       </Container>
+      <Box>
+        <Typography>Theme Customizer</Typography>
+        <Typography> Customize & Preview in Real Time</Typography>
+      </Box>
+
       {/* <Button variant="outlined" size="large" onClick={handleLogin}>
         LOGIN
       </Button>

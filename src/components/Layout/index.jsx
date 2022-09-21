@@ -73,12 +73,17 @@ export default function MiniDrawer(props) {
     let item = location.pathname
       .split("/")[1]
       .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
+
     data
       .filter((r) => r.view === true)
       .map((r, index) => {
         let menu = r.name.charAt(0).toUpperCase() + r.name.slice(1);
+
         if (menu === item) {
           setSelectedIndex(index);
+        }
+        if (item === "Settings") {
+          setSelectedIndex(9999999999);
         }
         return menu;
       });
@@ -103,7 +108,7 @@ export default function MiniDrawer(props) {
         getCheckedItem(response.list[0].rights);
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       alert(error);
     }
   };
@@ -319,7 +324,13 @@ export default function MiniDrawer(props) {
                 </ListItemButton>
               </ListItem>
             ))}
+<<<<<<< HEAD
            <ListItem
+=======
+
+          <ListItem
+            style={{ padding: "0px" }}
+>>>>>>> faa47daf0c641463389f071d05b66bd9b3a2603e
             disablePadding
             selected={selectedIndex === 9999999999}
             onClick={(event) => [
