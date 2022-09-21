@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   fetchProductList,
-  // productStatusChange,
+  productStatusChange,
   onDeletionProduct,
   onProductSearch,
   loadingPagination,
@@ -14,7 +14,7 @@ import {
   Container,
   TableGrid,
   ImageAvatar,
-  // IOSSwitch,
+  IOSSwitch,
   UpdateIcon,
   DeletionIcon,
   ColoumHead,
@@ -107,6 +107,7 @@ const Products = () => {
         </RowName>
       ),
     },
+
     {
       field: "quantity",
       headerName: <ColoumHead variant="h2">Quantity</ColoumHead>,
@@ -114,26 +115,10 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => <RowName>{params.row.quantity}</RowName>,
     },
-    // {
-    //   field: "isActive",
-    //   headerName: <ColoumHead variant="h2">Status</ColoumHead>,
-    //   flex: 1,
-    //   sortable: false,
-    //   renderCell: (params) => {
-    //     return (
-    //       <IOSSwitch
-    //         sx={{ m: 1 }}
-    //         checked={params.row?.isActive}
-    //         onChange={(e) => {
-    //           handleToggleStatus(params.row._id, e.target.checked);
-    //         }}
-    //       />
-    //     );
-    //   },
-    // },
+    
     {
-      field: "productStatus",
-      headerName: <ColoumHead variant="h2">Status</ColoumHead>,
+      field: "availability",
+      headerName: <ColoumHead variant="h2">Availability</ColoumHead>,
       flex: 1,
       sortable: true,
       renderCell: (params) => {
@@ -147,6 +132,23 @@ const Products = () => {
             <ProductStatusOutOfStock>Out Of Stock</ProductStatusOutOfStock>
           );
         }
+      },
+    },
+    {
+      field: "isActive",
+      headerName: <ColoumHead variant="h2">Status</ColoumHead>,
+      flex: 1,
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <IOSSwitch
+            sx={{ m: 1 }}
+            checked={params.row?.isActive}
+            onChange={(e) => {
+              handleToggleStatus(params.row._id, e.target.checked);
+            }}
+          />
+        );
       },
     },
     {
@@ -172,26 +174,26 @@ const Products = () => {
     },
   ];
   // this function handles the toggle of Status
-  // const handleToggleStatus = async (id, value) => {
-  //   const body = {
-  //     isActive: value,
-  //   };
-  //   try {
-  //     dispatch(
-  //       productStatusChange({
-  //         id: id,
-  //         body,
-  //         defaultPayload: listBody({
-  //           where: null,
-  //           perPage: 10,
-  //           page: page,
-  //         }),
-  //       })
-  //     );
-  //   } catch (err) {
-  //     alert(err);
-  //   }
-  // };
+  const handleToggleStatus = async (id, value) => {
+    const body = {
+      isActive: value,
+    };
+    try {
+      dispatch(
+        productStatusChange({
+          id: id,
+          body,
+          defaultPayload: listBody({
+            where: null,
+            perPage: 10,
+            page: page,
+          }),
+        })
+      );
+    } catch (err) {
+      alert(err);
+    }
+  };
   // this function handles the opening of dialog box
   const handleAlert = (data) => {
     setAlertData(data);

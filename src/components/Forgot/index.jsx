@@ -14,8 +14,10 @@ import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { pwdUpdationLinkMail } from "../../service/Auth.Service";
+import { useDispatch } from "react-redux";
 
 const Forgot = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -31,10 +33,10 @@ const Forgot = () => {
 
       const response = await pwdUpdationLinkMail(body);
       if (response?.success) {
-        alert("email sent");
+        dispatch({ type: "STAFF_MSG", payload:"EMAIL SENT SUCCESSFULLLY" })
         navigate("/");
       } else {
-        alert("email not sent try again");
+        dispatch({ type: "STAFF_MSG", payload:"EMAIL NOT  SENT , TRY AGAIN!!" })
         navigate("/");
       }
     } catch (error) {
