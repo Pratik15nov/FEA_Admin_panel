@@ -324,13 +324,9 @@ export default function MiniDrawer(props) {
                 </ListItemButton>
               </ListItem>
             ))}
-<<<<<<< HEAD
-           <ListItem
-=======
 
           <ListItem
             style={{ padding: "0px" }}
->>>>>>> faa47daf0c641463389f071d05b66bd9b3a2603e
             disablePadding
             selected={selectedIndex === 9999999999}
             onClick={(event) => [

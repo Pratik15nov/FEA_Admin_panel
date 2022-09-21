@@ -7,7 +7,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import { withStyles } from "@material-ui/core/styles";
-import { makeStyles } from "@mui/styles";
+// import { makeStyles } from "@mui/styles";
 import MuiListItem from "@material-ui/core/ListItem";
 import { Grid, Typography } from "@mui/material";
 const openedMixin = (theme) => ({
@@ -164,42 +164,42 @@ const ListText = styled(ListItemText)(({ theme }) => ({
 const mainListIcon = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
-const useStyles = makeStyles((theme) => ({
-  root: (props) => ({
-    "&$selected": {
-      backgroundColor: "#523b83",
-      color: "white",
-      borderTopRightRadius: "20px",
-      borderBottomRightRadius: "20px",
-      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-      "& .MuiListItemIcon-root": {
-        color: "white",
-      },
-      "& .MuiTypography-root": {
-        color: "white",
-      },
-    },
-    "&$selected:hover": {
-      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-      borderTopRightRadius: "20px",
-      borderBottomRightRadius: "20px",
-      backgroundColor: "#523b83",
-      color: "white",
-    },
-    "&:hover": {
-      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-      borderTopRightRadius: "20px",
-      borderBottomRightRadius: "20px",
-      backgroundColor: "#523b83",
-      "& .MuiListItemIcon-root": {
-        color: "white",
-      },
-      "& .MuiTypography-root": {
-        color: "white",
-      },
-    },
-  }),
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: (props) => ({
+//     "&$selected": {
+//       backgroundColor: "#523b83",
+//       color: "white",
+//       borderTopRightRadius: "20px",
+//       borderBottomRightRadius: "20px",
+//       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+//       "& .MuiListItemIcon-root": {
+//         color: "white",
+//       },
+//       "& .MuiTypography-root": {
+//         color: "white",
+//       },
+//     },
+//     "&$selected:hover": {
+//       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+//       borderTopRightRadius: "20px",
+//       borderBottomRightRadius: "20px",
+//       backgroundColor: "#523b83",
+//       color: "white",
+//     },
+//     "&:hover": {
+//       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+//       borderTopRightRadius: "20px",
+//       borderBottomRightRadius: "20px",
+//       backgroundColor: "#523b83",
+//       "& .MuiListItemIcon-root": {
+//         color: "white",
+//       },
+//       "& .MuiTypography-root": {
+//         color: "white",
+//       },
+//     },
+//   }),
+// }));
 const ListItem = withStyles({
   root: {
     "&$selected": {
@@ -255,5 +255,5 @@ export {
   ListItem,
   CardHeaders,
   Admin,
-  useStyles,
+  // useStyles,
 };

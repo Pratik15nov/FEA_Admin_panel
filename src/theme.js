@@ -5,18 +5,10 @@ const theme = createTheme({
     primary: {
       main: "#2A0944",
       // main: "#523b83",
-<<<<<<< HEAD
-      main: "#25316D",
-    },
-    secondary: {
-      // main: "#b9f2ff",
-      main: "#5F6F94",
-=======
     },
     secondary: {
       main: "#C996CC",
       // main: "#ffebe9",
->>>>>>> faa47daf0c641463389f071d05b66bd9b3a2603e
     },
     tertiary: {
       main: "#F6F2D4",
