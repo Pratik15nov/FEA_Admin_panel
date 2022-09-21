@@ -185,7 +185,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error.message ? error.message:""}
+                  helperText={error?.message ? error.message:""}
                 />
               )}
               control={control}
@@ -211,7 +211,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error.message ?error.message: ""}
+                  helperText={error?.message ?error.message: ""}
                 />
               )}
               control={control}
@@ -238,13 +238,13 @@ export default function AddCoupons(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error.message ?error.message : ""}
+                    helperText={error?.message ?error.message : ""}
                   >
                     <MenuItem value="PERCENTAGE">PERCENTAGE</MenuItem>
                     <MenuItem value="FLAT">FLAT</MenuItem>
                   </SelectField>
                   <FormHelperText error={error}>
-                    {error.message ?error.message : ""}
+                    {error?.message ?error.message : ""}
                   </FormHelperText>
                 </FormControl>
               )}
@@ -271,7 +271,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error.message ?error.message : ""}
+                  helperText={error?.message ?error.message : ""}
                   type={Number}
                 />
               )}
@@ -306,7 +306,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error.message ?error.message: ""}
+                  helperText={error?.message ?error.message: ""}
                 />
               )}
               control={control}

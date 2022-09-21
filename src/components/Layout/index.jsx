@@ -178,7 +178,7 @@ export default function MiniDrawer(props) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex"}}>
       <AppBar
         position="fixed"
         sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}

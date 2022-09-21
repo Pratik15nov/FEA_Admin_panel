@@ -203,44 +203,41 @@ const mainListIcon = styled(IconButton)(({ theme }) => ({
 //   selected: {},
 // })(MuiListItem);
 
-
-
 //
 
 const ListItem = styled(MuiListItem)(({ theme }) => ({
-
-    "&.MuiListItem-root.Mui-selected.Mui-selected": {
-      backgroundColor: theme.palette.primary.main,
-      color: "white",
-      borderTopRightRadius: "20px",
-      borderBottomRightRadius: "20px",
-      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-      "& .MuiListItemIcon-root": {
-        color: "white",
-      },
-      "& .MuiTypography-root": {
-        color: "white",
-      },
-    },
-    "&.Mui-selected:hover": {
-      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-      borderTopRightRadius: "20px",
-      borderBottomRightRadius: "20px",
-      backgroundColor: theme.palette.primary.main,
+  "&.MuiListItem-root.Mui-selected.Mui-selected": {
+    backgroundColor: theme.palette.primary.main,
+    color: "white",
+    borderTopRightRadius: "20px",
+    borderBottomRightRadius: "20px",
+    boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "& .MuiListItemIcon-root": {
       color: "white",
     },
-    "&:hover": {
-      boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-      borderTopRightRadius: "20px",
-      borderBottomRightRadius: "20px",
-      backgroundColor: theme.palette.primary.main,
-      "& .MuiListItemIcon-root": {
-        color: "white",
-      },
-      "& .MuiTypography-root": {
-        color: "white",
-      },
+    "& .MuiTypography-root": {
+      color: "white",
     },
+  },
+  "&.Mui-selected:hover": {
+    boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    borderTopRightRadius: "20px",
+    borderBottomRightRadius: "20px",
+    backgroundColor: theme.palette.primary.main,
+    color: "white",
+  },
+  "&:hover": {
+    boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    borderTopRightRadius: "20px",
+    borderBottomRightRadius: "20px",
+    backgroundColor: theme.palette.primary.main,
+    "& .MuiListItemIcon-root": {
+      color: "white",
+    },
+    "& .MuiTypography-root": {
+      color: "white",
+    },
+  },
 
   ".MuiListItem-root": { padding: 0 },
   selected: {},

@@ -279,7 +279,7 @@ export default function AddRights(props) {
                           fullWidth
                           placeholder="Roletype"
                         >
-                          {roleList.map((card) => {
+                          {roleList?.map((card) => {
                             return (
                               <MenuItem key={card._id} value={card._id}>
                                 {card.roleName}
@@ -288,7 +288,7 @@ export default function AddRights(props) {
                           })}
                         </SelectField>
                         <FormHelperText error={error}>
-                          {error.message ?error.message: ""}
+                          {error?.message ?error.message: ""}
                         </FormHelperText>
                       </FormControl>
                     ) : (
@@ -310,7 +310,7 @@ export default function AddRights(props) {
                           })}
                         </SelectField>
                         <FormHelperText error={error}>
-                          {error.message ? error.message:""}
+                          {error?.message ? error.message:""}
                         </FormHelperText>
                       </FormControl>
                     )}
