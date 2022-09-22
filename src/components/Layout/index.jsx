@@ -17,7 +17,6 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { useNavigate } from "react-router";
 import {
   Drawer,
-  // StyledInputBase,
   AvatarStyle,
   ListIcon,
   ListText,
@@ -33,10 +32,11 @@ import {
   ToolBarLeftBox,
   MainAdminBox,
   MainAdminContent,
+  MainList,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { updatepState, fetchUserAdminList } from "../../js/actions";
-import { listBody } from "../../utils/Helper";
+import { capitalizeWord, listBody } from "../../utils/Helper";
 import { useEffect } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -65,25 +65,22 @@ export default function Layout(props) {
     setAnchorEl(null);
   };
   const getCheckedItem = (data) => {
-    let item = location.pathname
-      .split("/")[1]
-      .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
     data
       .filter((r) => r.view === true)
       .map((r, index) => {
-        let menu = r.name.charAt(0).toUpperCase() + r.name.slice(1);
-
-        if (menu === item) {
+        if (
+          capitalizeWord(r.name) ===
+          capitalizeWord(location.pathname.split("/")[1])
+        ) {
           setSelectedIndex(index);
         }
-        return menu;
       });
   };
   const handleLogout = () => {
     localStorage.removeItem("dataToken");
+    localStorage.removeItem("Data");
     navigate("/");
   };
-
   const getRights = async () => {
     try {
       dispatch(
@@ -195,12 +192,7 @@ export default function Layout(props) {
         </ToolBarLeft>
       </Customsidebar>
       <Drawer variant="permanent" open={open}>
-        <CardHeaders
-          container
-          sx={{
-            ...(!open && { display: "none" }),
-          }}
-        >
+        <CardHeaders container open={open}>
           <Grid item xs={6} md={3}>
             <AvatarStyle alt="admin" src="/images/profile.webp" />
           </Grid>
@@ -217,7 +209,7 @@ export default function Layout(props) {
             </MainListIcon>
           </Grid>
         </CardHeaders>
-        <List
+        <MainList
           sx={{
             ...(!open && { marginTop: 8 }),
           }}
@@ -231,25 +223,17 @@ export default function Layout(props) {
                 disablePadding
                 selected={selectedIndex === index}
                 onClick={(event) => [
-                  navigate(
-                    "/" + r.name.charAt(0).toLowerCase() + r.name.slice(1)
-                  ),
+                  navigate("/" + r.name.toLowerCase()),
                   handleListItemClick(event, index),
                 ]}
               >
                 <ListItemButton>
-                  <ListIcon>
-                    {giveIcons(
-                      r.name.charAt(0).toLowerCase() + r.name.slice(1)
-                    )}
-                  </ListIcon>
-                  <ListText>
-                    {r.name.charAt(0).toUpperCase() + r.name.slice(1)}
-                  </ListText>
+                  <ListIcon>{giveIcons(r.name.toLowerCase())}</ListIcon>
+                  <ListText>{r.name}</ListText>
                 </ListItemButton>
               </ListItem>
             ))}
-        </List>
+        </MainList>
       </Drawer>
       <MainAdminBox component="main">
         <MainAdminContent>{props.children}</MainAdminContent>
