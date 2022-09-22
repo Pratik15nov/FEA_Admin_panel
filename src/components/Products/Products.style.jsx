@@ -57,7 +57,6 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiCheckbox-colorPrimary.Mui-checked": {
     color: theme.palette.custom.success,
   },
-
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
