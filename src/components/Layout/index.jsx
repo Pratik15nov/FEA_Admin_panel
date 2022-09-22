@@ -54,7 +54,6 @@ export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [checkRights, setCheckRights] = useState([]);
-
   const location = useLocation();
   const { search } = location;
   const navigate = useNavigate();
@@ -89,9 +88,6 @@ export default function MiniDrawer(props) {
         if (menu === item) {
           setSelectedIndex(index);
         }
-        if (item === "Settings") {
-          setSelectedIndex(9999999999);
-        }
         return menu;
       });
   };
@@ -110,12 +106,17 @@ export default function MiniDrawer(props) {
           page: 1,
         })
       );
-      setCheckRights(response.list[0].rights);
+      setCheckRights([
+        ...response.list[0].rights,
+        { name: "Settings", _id: " 12345678abc910", view: true },
+      ]);
       if (response.success) {
-        getCheckedItem(response.list[0].rights);
+        getCheckedItem([
+          ...response.list[0].rights,
+          { name: "Settings", _id: "12345678abc910", view: true },
+        ]);
       }
     } catch (error) {
-      // console.error(error);
       alert(error);
     }
   };
@@ -141,44 +142,36 @@ export default function MiniDrawer(props) {
   };
 
   const giveIcons = (name) => {
-    try {
-      if (name) {
-        switch (name) {
-          case "dashboard":
-            return <GridViewIcon />;
-          case "products":
-            return <InventoryIcon />;
-          case "category":
-            return <CategoryIcon />;
-          case "customers":
-            return <PeopleAltIcon />;
-          case "orders":
-            return <ViewQuiltRoundedIcon />;
-          case "coupons":
-            return <DiscountRoundedIcon />;
-          case "staff":
-            return <LocalLibraryRoundedIcon />;
-          case "settings":
-            return <SettingsSuggestRoundedIcon />;
-          case "menu":
-            return <WidgetsIcon />;
-          case "rights":
-            return <AdminPanelSettingsIcon />;
-          case "role":
-            return <ManageAccountsIcon />;
-          default:
-            return <GridViewIcon />;
-        }
-      } else {
+    switch (name) {
+      case "dashboard":
         return <GridViewIcon />;
-      }
-    } catch (error) {
-      alert(error);
+      case "products":
+        return <InventoryIcon />;
+      case "category":
+        return <CategoryIcon />;
+      case "customers":
+        return <PeopleAltIcon />;
+      case "orders":
+        return <ViewQuiltRoundedIcon />;
+      case "coupons":
+        return <DiscountRoundedIcon />;
+      case "staff":
+        return <LocalLibraryRoundedIcon />;
+      case "settings":
+        return <SettingsSuggestRoundedIcon />;
+      case "menu":
+        return <WidgetsIcon />;
+      case "rights":
+        return <AdminPanelSettingsIcon />;
+      case "role":
+        return <ManageAccountsIcon />;
+      default:
+        return <GridViewIcon />;
     }
   };
 
   return (
-    <Box sx={{ display: "flex"}}>
+    <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
@@ -262,13 +255,7 @@ export default function MiniDrawer(props) {
               Logout
             </MenuItem>
           </Menu>
-          {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase placeholder="Search…" />
-          </Search> */}
+          {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} /> */}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -331,23 +318,6 @@ export default function MiniDrawer(props) {
                 </ListItemButton>
               </ListItem>
             ))}
-
-          <ListItem
-            style={{ padding: "0px" }}
-            disablePadding
-            selected={selectedIndex === 9999999999}
-            onClick={(event) => [
-              navigate("/settings"),
-              handleListItemClick(event, 9999999999),
-            ]}
-          >
-            <ListItemButton>
-              <ListIcon>
-                <SettingsSuggestRoundedIcon />
-              </ListIcon>
-              <ListText>Settings</ListText>
-            </ListItemButton>
-          </ListItem>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>

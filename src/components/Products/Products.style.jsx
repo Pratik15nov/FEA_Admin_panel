@@ -24,16 +24,15 @@ export const Container = styled(Box)(({ theme }) => ({
 }));
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
-  
   "& .MuiDataGrid-footerContainer": {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-displayedRows": {
-    color:theme.palette.fontColor.main,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-actions": {
-    color:theme.palette.fontColor.main,
+    color: theme.palette.fontColor.main,
   },
 
   overflow: "scroll", // eslint-disable-next-line
@@ -58,8 +57,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiCheckbox-colorPrimary.Mui-checked": {
     color: theme.palette.custom.success,
   },
- 
-  
+
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
@@ -300,4 +298,8 @@ export const ProductStatusOutOfStock = styled("span")(({ theme }) => ({
   backgroundColor: "rgba(255, 72, 66, 0.16)",
   fontWeight: 700,
   textTransform: "capitalize",
+}));
+
+export const ContainerOne = styled(Grid)(({ theme }) => ({
+  paddingBottom: "20px",
 }));

@@ -26,6 +26,7 @@ import {
   ProductStatusOutOfStock,
   ProductStatusLowStock,
   ProductStatusInStock,
+  ContainerOne
 } from "./Products.style";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog";
@@ -220,25 +221,25 @@ const Products = () => {
   };
   // this function captures the values emitted by the search field and updates the table(DataGrid);
   const captureSearch = async (data) => {
-    const body = {
-      searchText: data,
-    };
     try {
-      if (data.length >= 3) {
-        dispatch(
-          onProductSearch({
-            body,
-            defaultPayload: listBody({ where: null, perPage: 10, page: page }),
-          })
-        );
-      }
-      if (data.length === 0) {
-        dispatch(
-          fetchProductList(listBody({ where: null, perPage: 10, page: page }))
-        );
-      }
-    } catch (error) {
-      alert(error);
+    if(data.length >= 3) {
+      const body = {
+        searchText: data,
+      };
+      dispatch(
+        onProductSearch({
+          body,
+          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+        })
+      );
+    }
+    if(data.length === 0) {
+      dispatch(
+        fetchProductList(listBody({ where: null, perPage: 10, page: page }))
+      );
+    }
+    } catch(err) {
+      alert(err);
     }
   };
   const getProductData = async () => {
@@ -264,7 +265,7 @@ const Products = () => {
   };
   return (
     <Container>
-      <Grid container sx={{ paddingBottom: "20px" }}>
+      <ContainerOne container >
         <BreadcrumbArea />
         <Grid item xs={3}>
           <Search>
@@ -285,7 +286,7 @@ const Products = () => {
             Add Product
           </MyButton>
         </Grid>
-      </Grid>
+      </ContainerOne>
       {/* <BreadcrumbArea captureSearch={captureSearch} /> */}
       <DialogBox // to open the dialogBox as confirmation for the deletion of Product after clicking on the <DeletionIcon/>
         openAlert={openAlert}
