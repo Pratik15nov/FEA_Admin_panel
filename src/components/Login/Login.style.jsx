@@ -25,6 +25,7 @@ export const CustomAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   padding: "15px",
   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+  marginBottom: 15,
 }));
 
 export const LinkBox = styled(Link)(({ theme }) => ({

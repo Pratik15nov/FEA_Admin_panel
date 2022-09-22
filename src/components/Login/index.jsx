@@ -11,7 +11,6 @@ import { Alert, Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { loginCheck } from "../../service/Auth.Service";
@@ -43,9 +42,6 @@ const Login = () => {
       } else {
         setLoading(false);
         setErrMsg(true);
-        setTimeout(() => {
-          setErrMsg(false);
-        }, 2000);
       }
     } catch (error) {
       alert(error);
@@ -57,7 +53,7 @@ const Login = () => {
         <CustomAvatar>
           <LockOutlinedIcon fontSize="large" />
         </CustomAvatar>
-        <Typography variant="h1">Sign in</Typography>
+        <Typography variant="h1">Sign in Shoppy!</Typography>
         <Box>
           <form onSubmit={handleSubmit(handleLogin)}>
             <Controller
