@@ -58,11 +58,6 @@ export default function Layout(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [checkRights, setCheckRights] = useState([]);
-<<<<<<< HEAD
-  const location = useLocation();
-  const { search } = location;
-=======
->>>>>>> 5ee5f08ad2bdbd8e6746bd589e84afaf3363214d
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState();
   const page = useSelector((state) => state);
