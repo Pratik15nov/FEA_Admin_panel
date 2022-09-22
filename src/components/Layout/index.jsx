@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Box,
-  Toolbar,
-  List,
-  ListItemButton,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Toolbar, List, ListItemButton, Grid } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 // import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -43,29 +36,26 @@ import {
   MainAdminContent,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRoutingList, updatepState } from "../../js/actions";
+import { updatepState, fetchUserAdminList } from "../../js/actions";
 import { listBody } from "../../utils/Helper";
 import { useEffect } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Logout from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { rightsHandlerData } from "../../service/Auth.Service";
 import { useState } from "react";
 export default function Layout(props) {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const [checkRights, setCheckRights] = useState([]);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
-  const page = useSelector((state) => state);
-  // const RouteList = useSelector((state) => stat.layout.list);
+  const productList = useSelector((state) => state.userAdmin.list);
   useEffect(() => {
     getRights();
-    getRoutes();
   }, []);
+  useEffect(() => {
+    getCheckedItem(productList);
+  }, [productList]);
   let info = JSON.parse(localStorage.getItem("Data"));
   const [anchorEl, setAnchorEl] = useState(null);
   const opens = Boolean(anchorEl);
@@ -79,7 +69,6 @@ export default function Layout(props) {
     let item = location.pathname
       .split("/")[1]
       .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
-
     data
       .filter((r) => r.view === true)
       .map((r, index) => {
@@ -98,37 +87,12 @@ export default function Layout(props) {
 
   const getRights = async () => {
     try {
-      let comment = JSON.parse(localStorage.getItem("Data"));
-      const response = await rightsHandlerData(
-        listBody({
-          where: { roleId: comment.data.role._id },
-          perPage: 1000000,
-          page: 1,
-        })
-      );
-      setCheckRights([
-        ...response.list[0].rights,
-        { name: "Settings", _id: " 12345678abc910", view: true },
-      ]);
-      if (response.success) {
-        getCheckedItem([
-          ...response.list[0].rights,
-          { name: "Settings", _id: "12345678abc910", view: true },
-        ]);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
-  const getRoutes = () => {
-    try {
       dispatch(
-        fetchRoutingList(
+        fetchUserAdminList(
           listBody({
-            where: { isActive: true },
-            perPage: 10000,
-            page: page,
-            sortBy: "createdAt",
+            where: { roleId: info.data.role._id },
+            perPage: 1000000,
+            page: 1,
           })
         )
       );
@@ -136,7 +100,6 @@ export default function Layout(props) {
       alert(error);
     }
   };
-
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
@@ -169,7 +132,6 @@ export default function Layout(props) {
         return <GridViewIcon />;
     }
   };
-
   return (
     <MainContainer>
       <Customsidebar open={open}>
@@ -228,7 +190,6 @@ export default function Layout(props) {
             >
               Profile
             </MenuItem>
-
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
           {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />*/}
@@ -257,14 +218,13 @@ export default function Layout(props) {
             </MainListIcon>
           </Grid>
         </CardHeaders>
-
         <List
           sx={{
             ...(!open && { marginTop: 8 }),
           }}
         >
-          {checkRights
-            .filter((r) => r.view === true)
+          {productList
+            ?.filter((r) => r.view === true)
             .map((r, index) => (
               <ListItem
                 style={{ padding: "0px" }}

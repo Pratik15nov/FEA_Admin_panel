@@ -76,6 +76,8 @@ import {
   fetchStaffListFailure,
   fetchStaffList,
   addStaffMsg,
+  fetchUserAdminListSuccess,
+  fetchUserAdminListFailure,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -896,6 +898,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
 
             store.dispatch(fetchStaffListFailure());
             alert("ERROR OCCURED WHILE UPDATE_STAFF_STATUS DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_USERADMIN":
+        store.dispatch(loadingStart());
+        rightsHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchUserAdminListSuccess(res));
+            } else {
+              store.dispatch(fetchUserAdminListFailure());
+              alert("FETCH_USERADMIN => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchUserAdminListFailure());
+            alert("ERROR OCCURED WHILE FETCH_USERADMIN DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

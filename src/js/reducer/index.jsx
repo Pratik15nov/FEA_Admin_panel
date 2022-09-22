@@ -7,10 +7,11 @@ import couponsReducer from "./coupons.reducer";
 import customersReducer from "./customers.reducer";
 import layoutFetchRoutes from "./layout.reducer";
 import rightCheckListReducer from "./rightCheckList.reducer";
-import rightsReducer from "./rights.reducer"
+import rightsReducer from "./rights.reducer";
 import roleReducer from "./role.reducer";
 import menuReducer from "./menu.reducer";
 import staffReducer from "./staff.reducer";
+import userAdminReducer from "./userAdmin.reducer";
 
 export const rootReducer = {
   rightchecklist: rightCheckListReducer,
@@ -26,4 +27,5 @@ export const rootReducer = {
   role: roleReducer,
   menu: menuReducer,
   staff: staffReducer,
+  userAdmin: userAdminReducer,
 };

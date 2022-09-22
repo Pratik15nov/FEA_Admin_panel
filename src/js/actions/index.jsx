@@ -302,3 +302,18 @@ export function checkBoxList(payload) {
   // console.log("payload", payload);
   return { type: "CHECKBOXLIST_SUCCESS", payload };
 }
+
+// USER ADMIN  
+
+export function fetchUserAdminList(payload) {
+  return { type: "FETCH_USERADMIN", payload };
+}
+
+
+export function fetchUserAdminListSuccess(payload) {
+  return { type: "FETCH_USERADMIN_SUCCESS", payload };
+}
+
+export function fetchUserAdminListFailure() {
+  return { type: "FETCH_USERADMIN_FAILURE" };
+}
