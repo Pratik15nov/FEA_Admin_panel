@@ -7,9 +7,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
-// import SearchIcon from "@mui/icons-material/Search";
 // import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -27,8 +25,6 @@ import { useNavigate } from "react-router";
 import {
   AppBar,
   Drawer,
-  // SearchIconWrapper,
-  // Search,
   // StyledInputBase,
   AvatarStyle,
   ListIcon,
@@ -36,6 +32,15 @@ import {
   ListItem,
   CardHeaders,
   Admin,
+  MainContainer,
+  Customsidebar,
+  MainListIcon,
+  MainMenuIcon,
+  AdminHeading,
+  ToolBarLeft,
+  ToolBarLeftBox,
+  MainAdminBox,
+  MainAdminContent,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRoutingList, updatepState } from "../../js/actions";
@@ -49,26 +54,20 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { rightsHandlerData } from "../../service/Auth.Service";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 export default function MiniDrawer(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [checkRights, setCheckRights] = useState([]);
-
-  const location = useLocation();
-  const { search } = location;
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState();
   const page = useSelector((state) => state);
-  // const RouteList = useSelector((state) => state.layout.list);
-
+  // const RouteList = useSelector((state) => stat.layout.list);
   useEffect(() => {
     getRights();
-    getRoutes(); // eslint-disable-next-line
-  }, [search]);
-
+    getRoutes();
+  }, []);
   let info = JSON.parse(localStorage.getItem("Data"));
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const opens = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -115,7 +114,6 @@ export default function MiniDrawer(props) {
         getCheckedItem(response.list[0].rights);
       }
     } catch (error) {
-      // console.error(error);
       alert(error);
     }
   };
@@ -141,71 +139,49 @@ export default function MiniDrawer(props) {
   };
 
   const giveIcons = (name) => {
-    try {
-      if (name) {
-        switch (name) {
-          case "dashboard":
-            return <GridViewIcon />;
-          case "products":
-            return <InventoryIcon />;
-          case "category":
-            return <CategoryIcon />;
-          case "customers":
-            return <PeopleAltIcon />;
-          case "orders":
-            return <ViewQuiltRoundedIcon />;
-          case "coupons":
-            return <DiscountRoundedIcon />;
-          case "staff":
-            return <LocalLibraryRoundedIcon />;
-          case "settings":
-            return <SettingsSuggestRoundedIcon />;
-          case "menu":
-            return <WidgetsIcon />;
-          case "rights":
-            return <AdminPanelSettingsIcon />;
-          case "role":
-            return <ManageAccountsIcon />;
-          default:
-            return <GridViewIcon />;
-        }
-      } else {
+    switch (name) {
+      case "dashboard":
         return <GridViewIcon />;
-      }
-    } catch (error) {
-      alert(error);
+      case "products":
+        return <InventoryIcon />;
+      case "category":
+        return <CategoryIcon />;
+      case "customers":
+        return <PeopleAltIcon />;
+      case "orders":
+        return <ViewQuiltRoundedIcon />;
+      case "coupons":
+        return <DiscountRoundedIcon />;
+      case "staff":
+        return <LocalLibraryRoundedIcon />;
+      case "settings":
+        return <SettingsSuggestRoundedIcon />;
+      case "menu":
+        return <WidgetsIcon />;
+      case "rights":
+        return <AdminPanelSettingsIcon />;
+      case "role":
+        return <ManageAccountsIcon />;
+      default:
+        return <GridViewIcon />;
     }
   };
 
   return (
-    <Box sx={{ display: "flex"}}>
-      <AppBar
-        position="fixed"
-        sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
-        open={open}
-      >
+    <MainContainer>
+      <Customsidebar open={open}>
         <Toolbar>
-          <mainListIcon
-            onClick={() => setOpen(true)}
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </mainListIcon>
+          <MainListIcon onClick={() => setOpen(true)} open={open}>
+            <MainMenuIcon />
+          </MainListIcon>
           <img alt="logo" src="images/logo.png"></img>
         </Toolbar>
-
-        <Toolbar sx={{ flexDirection: "row-reverse" }}>
-          <Box
-            sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
-          >
+        <ToolBarLeft>
+          <ToolBarLeftBox>
             <Tooltip title="Account settings">
               <IconButton
                 onClick={handleClick}
                 size="small"
-                sx={{ ml: 2 }}
                 aria-controls={open ? "account-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
@@ -213,7 +189,7 @@ export default function MiniDrawer(props) {
                 <Avatar alt="admin" src="/images/profile.webp" />
               </IconButton>
             </Tooltip>
-          </Box>
+          </ToolBarLeftBox>
           <Menu
             anchorEl={anchorEl}
             id="account-menu"
@@ -226,12 +202,7 @@ export default function MiniDrawer(props) {
                 overflow: "visible",
                 filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                 mt: 1.5,
-                "& .MuiAvatar-root": {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: 1,
-                },
+                borderRadius: 2,
                 "&:before": {
                   content: '""',
                   display: "block",
@@ -252,15 +223,10 @@ export default function MiniDrawer(props) {
             <MenuItem
               onClick={() => [navigate(`/profile`), dispatch(updatepState())]}
             >
-              <Avatar /> Profile
+              Profile
             </MenuItem>
 
-            <MenuItem onClick={handleLogout}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
           {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />
           <Search>
@@ -269,14 +235,12 @@ export default function MiniDrawer(props) {
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search…" />
           </Search> */}
-        </Toolbar>
-      </AppBar>
+        </ToolBarLeft>
+      </Customsidebar>
       <Drawer variant="permanent" open={open}>
         <CardHeaders
           container
           sx={{
-            boxShadow:
-              " 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)",
             ...(!open && { display: "none" }),
           }}
         >
@@ -284,18 +248,16 @@ export default function MiniDrawer(props) {
             <AvatarStyle alt="admin" src="/images/profile.webp" />
           </Grid>
           <Grid item xs={6} md={6}>
-            {info.data.firstName.charAt(0).toUpperCase() +
-              info.data.firstName.slice(1) +
-              ` ` +
-              info.data.lastName.charAt(0).toUpperCase() +
-              info.data.lastName.slice(1)}
+            <AdminHeading variant="caption">
+              {info.data.firstName + " " + info.data.lastName}
+            </AdminHeading>
             <br />
             <Admin variant="caption">{info.data.role.roleName}</Admin>
           </Grid>
           <Grid item xs={6} md={3}>
-            <mainListIcon onClick={() => setOpen(false)}>
-              <KeyboardDoubleArrowLeftIcon gutterBottom sx={{ mt: 1 }} />
-            </mainListIcon>
+            <MainListIcon onClick={() => setOpen(false)}>
+              <KeyboardDoubleArrowLeftIcon gutterBottom />
+            </MainListIcon>
           </Grid>
         </CardHeaders>
 
@@ -331,9 +293,7 @@ export default function MiniDrawer(props) {
                 </ListItemButton>
               </ListItem>
             ))}
-
           <ListItem
-            style={{ padding: "0px" }}
             disablePadding
             selected={selectedIndex === 9999999999}
             onClick={(event) => [
@@ -350,9 +310,9 @@ export default function MiniDrawer(props) {
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: "64px 24px 24px 0px" }}>
-        <Box sx={{ p: "20px" }}>{props.children}</Box>
-      </Box>
-    </Box>
+      <MainAdminBox component="main">
+        <MainAdminContent>{props.children}</MainAdminContent>
+      </MainAdminBox>
+    </MainContainer>
   );
 }

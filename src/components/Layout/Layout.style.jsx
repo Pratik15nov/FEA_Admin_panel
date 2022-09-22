@@ -6,10 +6,10 @@ import Avatar from "@mui/material/Avatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
-import { withStyles } from "@material-ui/core/styles";
-// import { makeStyles } from "@mui/styles";
 import MuiListItem from "@material-ui/core/ListItem";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Box, Toolbar } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
 const openedMixin = (theme) => ({
   width: 240,
   transition: theme.transitions.create("width", {
@@ -78,7 +78,10 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Customsidebar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.main,
+  backgroundColor: theme.palette.primary.main,
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  position: "fixed",
 }));
 
 const Search = styled("div")(({ theme }) => ({
@@ -131,6 +134,8 @@ const AvatarHeader = styled(DrawerHeader)(({ theme }) => ({
 }));
 
 const CardHeaders = styled(Grid)(({ theme }) => ({
+  boxShadow:
+    " 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)",
   fontWeight: 600,
   fontSize: 14,
   "& .MuiGrid-root": {
@@ -141,12 +146,13 @@ const CardHeaders = styled(Grid)(({ theme }) => ({
 }));
 const Admin = styled(Typography)(({ theme }) => ({
   fontSize: 14,
-  backgroundColor: "#FFF9CA",
+  backgroundColor: "white",
   paddingLeft: 14,
   paddingRight: 14,
   borderRadius: 5,
   color: theme.palette.primary.main,
   fontWeight: 600,
+  fontFamily: theme.typography.fontFamily,
 }));
 
 const ListIcon = styled(ListItemIcon)(({ theme }) => ({
@@ -161,51 +167,19 @@ const ListText = styled(ListItemText)(({ theme }) => ({
   },
 }));
 
-const mainListIcon = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.primary.main,
+const MainListIcon = styled(IconButton, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  ...(open && { display: "none" }),
+  color: "white",
+  height: "40px",
 }));
-// const ListItem = withStyles({
-//   root: {
-//     "&$selected": {
-//       backgroundColor: "#523b83",
-//       color: "white",
-//       borderTopRightRadius: "20px",
-//       borderBottomRightRadius: "20px",
-//       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-//       "& .MuiListItemIcon-root": {
-//         color: "white",
-//       },
-//       "& .MuiTypography-root": {
-//         color: "white",
-//       },
-//     },
-//     "&$selected:hover": {
-//       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-//       borderTopRightRadius: "20px",
-//       borderBottomRightRadius: "20px",
-//       backgroundColor: "#523b83",
-//       color: "white",
-//     },
-//     "&:hover": {
-//       boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-//       borderTopRightRadius: "20px",
-//       borderBottomRightRadius: "20px",
-//       backgroundColor: "#523b83",
-//       "& .MuiListItemIcon-root": {
-//         color: "white",
-//       },
-//       "& .MuiTypography-root": {
-//         color: "white",
-//       },
-//     },
-//   },
-//   ".MuiListItem-root": { padding: 0 },
-//   selected: {},
-// })(MuiListItem);
-
-//
+const MainMenuIcon = styled(MenuIcon)(({ theme }) => ({
+  color: "white",
+}));
 
 const ListItem = styled(MuiListItem)(({ theme }) => ({
+  padding: "0px",
   "&.MuiListItem-root.Mui-selected.Mui-selected": {
     backgroundColor: theme.palette.primary.main,
     color: "white",
@@ -242,6 +216,34 @@ const ListItem = styled(MuiListItem)(({ theme }) => ({
   ".MuiListItem-root": { padding: 0 },
   selected: {},
 }));
+const MainContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+}));
+
+const AdminHeading = styled(Typography)(({ theme }) => ({
+  margin: "0",
+  fontFamily: '"Public Sans"',
+  fontWeight: 600,
+  fontSize: "0.75rem",
+  lineHeight: 0,
+  textTransform: "capitalize",
+  color: "white",
+}));
+const ToolBarLeft = styled(Toolbar)(({ theme }) => ({
+  flexDirection: "row-reverse",
+}));
+const ToolBarLeftBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  textAlign: "center",
+}));
+const MainAdminBox = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  padding: "64px 24px 24px 0px",
+}));
+const MainAdminContent = styled(Box)(({ theme }) => ({
+  padding: 20,
+}));
 export {
   Customsidebar,
   DrawerHeader,
@@ -254,9 +256,15 @@ export {
   AvatarHeader,
   ListIcon,
   ListText,
-  mainListIcon,
+  MainListIcon,
   ListItem,
   CardHeaders,
   Admin,
-  // useStyles,
+  MainContainer,
+  MainMenuIcon,
+  AdminHeading,
+  ToolBarLeft,
+  ToolBarLeftBox,
+  MainAdminBox,
+  MainAdminContent,
 };
