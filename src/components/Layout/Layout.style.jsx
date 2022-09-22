@@ -7,7 +7,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import MuiListItem from "@material-ui/core/ListItem";
-import { Grid, Typography, Box, Toolbar } from "@mui/material";
+import { Grid, Typography, Box, Toolbar, List } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const openedMixin = (theme) => ({
@@ -133,7 +133,9 @@ const AvatarHeader = styled(DrawerHeader)(({ theme }) => ({
   color: `white`,
 }));
 
-const CardHeaders = styled(Grid)(({ theme }) => ({
+const CardHeaders = styled(Grid, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
   boxShadow:
     " 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)",
   fontWeight: 600,
@@ -143,7 +145,9 @@ const CardHeaders = styled(Grid)(({ theme }) => ({
   },
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.custom.color,
+  ...(!open && { display: "none" }),
 }));
+
 const Admin = styled(Typography)(({ theme }) => ({
   fontSize: 14,
   backgroundColor: "white",
@@ -179,7 +183,6 @@ const MainMenuIcon = styled(MenuIcon)(({ theme }) => ({
 }));
 
 const ListItem = styled(MuiListItem)(({ theme }) => ({
-  padding: "0px",
   "&.MuiListItem-root.Mui-selected.Mui-selected": {
     backgroundColor: theme.palette.primary.main,
     color: "white",
@@ -244,6 +247,11 @@ const MainAdminBox = styled(Box)(({ theme }) => ({
 const MainAdminContent = styled(Box)(({ theme }) => ({
   padding: 20,
 }));
+const MainList = styled(List, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  ...(!open && { marginTop: 8 }),
+}));
 export {
   Customsidebar,
   DrawerHeader,
@@ -267,4 +275,5 @@ export {
   ToolBarLeftBox,
   MainAdminBox,
   MainAdminContent,
+  MainList,
 };

@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Box,
-  Toolbar,
-  List,
-  ListItemButton,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Toolbar, List, ListItemButton, Grid } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 // import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -23,7 +16,6 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { useNavigate } from "react-router";
 import {
-  AppBar,
   Drawer,
   // StyledInputBase,
   AvatarStyle,
@@ -41,15 +33,14 @@ import {
   ToolBarLeftBox,
   MainAdminBox,
   MainAdminContent,
+  MainList,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRoutingList, updatepState } from "../../js/actions";
-import { listBody } from "../../utils/Helper";
+import { capitalizeWord, listBody } from "../../utils/Helper";
 import { useEffect } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Logout from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { rightsHandlerData } from "../../service/Auth.Service";
@@ -61,7 +52,6 @@ export default function Layout(props) {
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState();
   const page = useSelector((state) => state);
-  // const RouteList = useSelector((state) => stat.layout.list);
   useEffect(() => {
     getRights();
     getRoutes();
@@ -76,26 +66,22 @@ export default function Layout(props) {
     setAnchorEl(null);
   };
   const getCheckedItem = (data) => {
-    let item = location.pathname
-      .split("/")[1]
-      .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
-
     data
       .filter((r) => r.view === true)
       .map((r, index) => {
-        let menu = r.name.charAt(0).toUpperCase() + r.name.slice(1);
-
-        if (menu === item) {
+        if (
+          capitalizeWord(r.name) ===
+          capitalizeWord(location.pathname.split("/")[1])
+        ) {
           setSelectedIndex(index);
         }
-        return menu;
       });
   };
   const handleLogout = () => {
     localStorage.removeItem("dataToken");
+    localStorage.removeItem("Data");
     navigate("/");
   };
-
   const getRights = async () => {
     try {
       let comment = JSON.parse(localStorage.getItem("Data"));
@@ -235,12 +221,7 @@ export default function Layout(props) {
         </ToolBarLeft>
       </Customsidebar>
       <Drawer variant="permanent" open={open}>
-        <CardHeaders
-          container
-          sx={{
-            ...(!open && { display: "none" }),
-          }}
-        >
+        <CardHeaders container open={open}>
           <Grid item xs={6} md={3}>
             <AvatarStyle alt="admin" src="/images/profile.webp" />
           </Grid>
@@ -258,11 +239,7 @@ export default function Layout(props) {
           </Grid>
         </CardHeaders>
 
-        <List
-          sx={{
-            ...(!open && { marginTop: 8 }),
-          }}
-        >
+        <MainList open={open} sx={{ ...(!open && { marginTop: 8 }) }}>
           {checkRights
             .filter((r) => r.view === true)
             .map((r, index) => (
@@ -272,25 +249,17 @@ export default function Layout(props) {
                 disablePadding
                 selected={selectedIndex === index}
                 onClick={(event) => [
-                  navigate(
-                    "/" + r.name.charAt(0).toLowerCase() + r.name.slice(1)
-                  ),
+                  navigate("/" + r.name.toLowerCase()),
                   handleListItemClick(event, index),
                 ]}
               >
                 <ListItemButton>
-                  <ListIcon>
-                    {giveIcons(
-                      r.name.charAt(0).toLowerCase() + r.name.slice(1)
-                    )}
-                  </ListIcon>
-                  <ListText>
-                    {r.name.charAt(0).toUpperCase() + r.name.slice(1)}
-                  </ListText>
+                  <ListIcon>{giveIcons(r.name.toLowerCase())}</ListIcon>
+                  <ListText>{r.name}</ListText>
                 </ListItemButton>
               </ListItem>
             ))}
-        </List>
+        </MainList>
       </Drawer>
       <MainAdminBox component="main">
         <MainAdminContent>{props.children}</MainAdminContent>

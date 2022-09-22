@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import BreadcrumbArea from "../BreadcrumbArea";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
