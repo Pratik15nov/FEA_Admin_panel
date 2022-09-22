@@ -54,7 +54,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { rightsHandlerData } from "../../service/Auth.Service";
 import { useState } from "react";
-export default function MiniDrawer(props) {
+export default function Layout(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [checkRights, setCheckRights] = useState([]);
