@@ -16,7 +16,6 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { useNavigate } from "react-router";
 import {
-  AppBar,
   Drawer,
   // StyledInputBase,
   AvatarStyle,
