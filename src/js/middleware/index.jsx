@@ -82,6 +82,8 @@ import {
   fetchCategoryDataListSuccess,
   fetchCategoryDataListFailure,
   fetchDashboardListSuccess,
+  fetchRoleDataListSuccess,
+  fetchRoleDataListFailure,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -957,6 +959,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           })
           .catch((err) => {
             alert("ERROR OCCURED WHILE FETCH_USERADMIN DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_ROLELIST":
+        store.dispatch(loadingStart());
+        roleHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchRoleDataListSuccess(res));
+            } else {
+              store.dispatch(fetchRoleDataListFailure());
+              alert("FETCH_ROLELIST => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchRoleDataListFailure());
+            alert("ERROR OCCURED WHILE FETCH_ROLELIST DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

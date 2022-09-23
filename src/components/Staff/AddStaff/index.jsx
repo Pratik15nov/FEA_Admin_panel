@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import BreadcrumbArea from "../../BreadcrumbArea";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -17,11 +17,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   roleHandlerData,
   staffDataHandler, // eslint-disable-next-line
-  updateStaffHandlerData,
 } from "../../../service/Auth.Service";
 import { listBody } from "../../../utils/Helper";
 import { useDispatch, useSelector } from "react-redux";
-import { addStaffData, updateStaff } from "../../../js/actions";
+import {
+  addStaffData,
+  updateStaff,
+  fetchRoleDataList,
+} from "../../../js/actions";
 
 const AddStaff = (props) => {
   const dispatch = useDispatch();
@@ -61,7 +64,7 @@ const AddStaff = (props) => {
     setcid(staffId);
     roleListData(); // eslint-disable-next-line
   }, [search]);
-
+  const roleSelectionList = useSelector((state) => state.roleList.list);
   const staffHandler = async (staffId) => {
     try {
       const response = await staffDataHandler(
@@ -88,19 +91,8 @@ const AddStaff = (props) => {
     }
   };
   const roleListData = async (staffId) => {
-    setLoading(true);
     try {
-      const response = await roleHandlerData(
-        listBody({
-          perPage: 1000,
-        })
-      );
-      if (response.success) {
-        setRoleData(response.list);
-        setLoading(false);
-      } else {
-        setRoleData([]);
-      }
+      dispatch(fetchRoleDataList(listBody({ perPage: 1000 })));
     } catch (error) {
       alert(error);
       console.error(error);
@@ -188,7 +180,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?error.message: ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -227,7 +219,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ? error.message :""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -266,7 +258,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?error.message: ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -297,7 +289,7 @@ const AddStaff = (props) => {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ? error.message :""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -337,18 +329,18 @@ const AddStaff = (props) => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?error.message : ""}
+                      helperText={error?.message ? error.message : ""}
                     >
-                      {roleData.map((r) => {
+                      {roleSelectionList?.map((r, index) => {
                         return (
-                          <MenuItem key={r.BreadcrumbAreakey} value={r._id}>
+                          <MenuItem key={index} value={r._id}>
                             {r.roleName}
                           </MenuItem>
                         );
                       })}
                     </SelectField>
                     <FormHelperText error={error}>
-                      {error?.message ?error.message : ""}
+                      {error?.message ? error.message : ""}
                     </FormHelperText>
                   </>
                 )}

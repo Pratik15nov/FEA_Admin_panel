@@ -79,8 +79,7 @@ export default function AddCoupons(props) {
     setSkelLoading(true);
     const response = await couponsHndlerData(
       listBody({ where: { _id: couponsId }, perPage: 10, page: 1 })
-    );
-
+      );
     try {
       if (response && response.list) {
         reset({
