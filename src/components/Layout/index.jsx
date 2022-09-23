@@ -96,7 +96,7 @@ export default function Layout(props) {
       alert(error);
     }
   };
-  const handleListItemClick = (event, index) => {
+  const handleListItemClick = (index) => {
     setSelectedIndex(index);
   };
 
@@ -222,9 +222,9 @@ export default function Layout(props) {
                 key={index}
                 disablePadding
                 selected={selectedIndex === index}
-                onClick={(event) => [
+                onClick={() => [
                   navigate("/" + r.name.toLowerCase()),
-                  handleListItemClick(event, index),
+                  handleListItemClick(index),
                 ]}
               >
                 <ListItemButton>
