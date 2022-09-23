@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import MuiListItem from "@material-ui/core/ListItem";
 import { Grid, Typography, Box, Toolbar, List } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import Menu from "@mui/material/Menu";
 
 const openedMixin = (theme) => ({
   width: 240,
@@ -181,6 +182,24 @@ const MainListIcon = styled(IconButton, {
 const MainMenuIcon = styled(MenuIcon)(({ theme }) => ({
   color: "white",
 }));
+const DropDownMenu = styled(Menu)(({ theme }) => ({
+  overflow: "visible",
+  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+  mt: 1.5,
+  borderRadius: 2,
+  "&:before": {
+    content: '""',
+    display: "block",
+    position: "absolute",
+    top: 0,
+    right: 14,
+    width: 10,
+    height: 10,
+    bgcolor: "background.paper",
+    transform: "translateY(-50%) rotate(45deg)",
+    zIndex: 0,
+  },
+}));
 
 const ListItem = styled(MuiListItem)(({ theme }) => ({
   "&.MuiListItem-root.Mui-selected.Mui-selected": {
@@ -276,4 +295,5 @@ export {
   MainAdminBox,
   MainAdminContent,
   MainList,
+  DropDownMenu,
 };

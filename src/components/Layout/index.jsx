@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Toolbar, List, ListItemButton, Grid } from "@mui/material";
+import { Toolbar, ListItemButton, Grid } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 // import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -33,12 +33,12 @@ import {
   MainAdminBox,
   MainAdminContent,
   MainList,
+  DropDownMenu,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { updatepState, fetchUserAdminList } from "../../js/actions";
 import { capitalizeWord, listBody } from "../../utils/Helper";
 import { useEffect } from "react";
-import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -68,10 +68,7 @@ export default function Layout(props) {
     data
       .filter((r) => r.view === true)
       .map((r, index) => {
-        if (
-          capitalizeWord(r.name) ===
-          capitalizeWord(location.pathname.split("/")[1])
-        ) {
+        if (r.name === capitalizeWord(location.pathname.split("/")[1])) {
           setSelectedIndex(index);
         }
       });
@@ -151,33 +148,12 @@ export default function Layout(props) {
               </IconButton>
             </Tooltip>
           </ToolBarLeftBox>
-          <Menu
+          <DropDownMenu
             anchorEl={anchorEl}
             id="account-menu"
             open={opens}
             onClose={handleClose}
             onClick={handleClose}
-            PaperProps={{
-              elevation: 0,
-              sx: {
-                overflow: "visible",
-                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                mt: 1.5,
-                borderRadius: 2,
-                "&:before": {
-                  content: '""',
-                  display: "block",
-                  position: "absolute",
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: "background.paper",
-                  transform: "translateY(-50%) rotate(45deg)",
-                  zIndex: 0,
-                },
-              },
-            }}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
@@ -187,7 +163,7 @@ export default function Layout(props) {
               Profile
             </MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </Menu>
+          </DropDownMenu>
           {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />*/}
         </ToolBarLeft>
       </Customsidebar>
