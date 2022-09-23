@@ -78,6 +78,8 @@ import {
   addStaffMsg,
   fetchUserAdminListSuccess,
   fetchUserAdminListFailure,
+  fetchCategoryDataListSuccess,
+  fetchCategoryDataListFailure,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -917,6 +919,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchUserAdminListFailure());
             alert("ERROR OCCURED WHILE FETCH_USERADMIN DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_CATEGORYLIST":
+        store.dispatch(loadingStart());
+        categoryHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchCategoryDataListSuccess(res));
+            } else {
+              store.dispatch(fetchCategoryDataListFailure());
+              alert("FETCH_CATEGORYLIST => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchCategoryDataListFailure());
+            alert("ERROR OCCURED WHILE FETCH_CATEGORYLIST DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

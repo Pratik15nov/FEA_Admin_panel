@@ -6,7 +6,7 @@ export const listBody = (data) => {
     where: data.where,
     pagination: {
       sortBy: data.sortBy ? data.sortBy : "createdAt",
-      descending: false,
+      descending: true,
       rowsPerPage: data.perPage ? data.perPage : 10000,
       page: data.page ? data.page : 1,
     },

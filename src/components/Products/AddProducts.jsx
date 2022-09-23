@@ -6,7 +6,6 @@ import {
   productEditHandlerdata,
   ProductDataHndlerData,
   productAddHandler,
-  categoryHandlerData,
 } from "../../service/Auth.Service";
 import { ENDPOINTURLFORIMG, listBody } from "../../utils/Helper";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -23,8 +22,8 @@ import {
   SelectField,
 } from "./Products.style";
 import MenuItem from "@mui/material/MenuItem";
-import { fetchProductList } from "../../js/actions";
-import { useDispatch } from "react-redux";
+import { fetchProductList, fetchCategoryDataList } from "../../js/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AddProducts(props) {
   const [cid, setcid] = useState();
@@ -36,9 +35,7 @@ export default function AddProducts(props) {
   const [file, setFile] = useState(null);
   const [apiImg, setApiImg] = useState(null);
   const navigate = useNavigate();
-  const [categoryList, setCategoryList] = useState([]);
   const dispatch = useDispatch();
-
   //use for images manually upload and drop
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.map((file) => {
@@ -52,49 +49,34 @@ export default function AddProducts(props) {
       return file;
     }); // eslint-disable-next-line
   }, []);
-
   useEffect(() => {
-    let productId;
+    categoryListData();
     try {
-      if (search.split("=").length > 0) {
-        productId = search.split("=")[1];
+      let productId = search.split("=")[1];
+      console.log("productId: ", productId);
+      if (productId !== undefined) {
+        ProductData(productId);
+        setcid(productId);
       } else {
         productId = "";
       }
     } catch (error) {
       alert(error);
     }
-
-    try {
-      if (productId) {
-        ProductData(productId);
-      }
-    } catch (error) {
-      alert(error);
-    }
-
-    setcid(productId);
-    categoryListData();
     // eslint-disable-next-line
   }, [search]);
-
+  const categorySelectionList = useSelector((state) => state.categoryList.list);
   const categoryListData = async () => {
     try {
-      const response = await categoryHandlerData(listBody({ perPage: 1000 }));
-
-      if (response.success && response.list) {
-        setCategoryList(response.list);
-      } else {
-        setCategoryList([]);
-      }
+      dispatch(fetchCategoryDataList(listBody({ perPage: 1000 })));
     } catch (err) {
       alert(err);
     }
   };
-
   const ProductData = async (productId) => {
     setSkelLoading(true);
     const response = await ProductDataHndlerData(productId);
+    console.log("ProductData: ", response);
     setApiImg(response.img);
     try {
       if (response) {
@@ -113,7 +95,6 @@ export default function AddProducts(props) {
       alert(error);
     }
   };
-
   const { handleSubmit, control, reset, setValue } = useForm({
     defaultValues: {
       name: null,
@@ -125,7 +106,6 @@ export default function AddProducts(props) {
       categoryId: null,
     },
   });
-
   // it can be use for edit categories details
   const handleProductData = async (body) => {
     setLoading(true);
@@ -196,7 +176,6 @@ export default function AddProducts(props) {
       alert(error);
     }
   };
-
   return (
     <Container>
       <Grid container sx={{ paddingBottom: "20px" }}>
@@ -245,7 +224,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ? error.message:""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}
@@ -282,18 +261,21 @@ export default function AddProducts(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ? error.message:""}
+                    helperText={error?.message ? error.message : ""}
                   >
-                    {categoryList.map((card) => {
+                    {categorySelectionList?.map((card) => {
                       return (
-                        <MenuItem key={card?.BreadcrumbAreakey} value={card._id}>
+                        <MenuItem
+                          key={card?.BreadcrumbAreakey}
+                          value={card._id}
+                        >
                           {card.categoryName}
                         </MenuItem>
                       );
                     })}
                   </SelectField>
                   <FormHelperText error={error}>
-                    {error?.message ?error.message : ""}
+                    {error?.message ? error.message : ""}
                   </FormHelperText>
                 </>
               )}
@@ -320,7 +302,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?error.message : ""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}
@@ -358,7 +340,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?error.message:  ""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}
@@ -392,7 +374,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?error.message : ""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}
@@ -428,7 +410,7 @@ export default function AddProducts(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?error.message: ""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}
@@ -455,7 +437,7 @@ export default function AddProducts(props) {
                     {images == null ? (
                       <Box>
                         <FormHelperText error={error}>
-                          {error?.message ?error.message : ""}
+                          {error?.message ? error.message : ""}
                         </FormHelperText>
                         <Grid container spacing={2}>
                           {value == null ? (
