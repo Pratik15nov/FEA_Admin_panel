@@ -12,7 +12,7 @@ import roleReducer from "./role.reducer";
 import menuReducer from "./menu.reducer";
 import staffReducer from "./staff.reducer";
 import userAdminReducer from "./userAdmin.reducer";
-
+import dashboardReducer from "./dashboard.reducer";
 export const rootReducer = {
   rightchecklist: rightCheckListReducer,
   order: orderReducer,
@@ -28,4 +28,5 @@ export const rootReducer = {
   menu: menuReducer,
   staff: staffReducer,
   userAdmin: userAdminReducer,
+  dashboard: dashboardReducer,
 };

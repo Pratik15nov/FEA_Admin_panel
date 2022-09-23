@@ -303,12 +303,11 @@ export function checkBoxList(payload) {
   return { type: "CHECKBOXLIST_SUCCESS", payload };
 }
 
-// USER ADMIN  
+// USER ADMIN
 
 export function fetchUserAdminList(payload) {
   return { type: "FETCH_USERADMIN", payload };
 }
-
 
 export function fetchUserAdminListSuccess(payload) {
   return { type: "FETCH_USERADMIN_SUCCESS", payload };
@@ -316,4 +315,13 @@ export function fetchUserAdminListSuccess(payload) {
 
 export function fetchUserAdminListFailure() {
   return { type: "FETCH_USERADMIN_FAILURE" };
+}
+
+//DASHBOARD
+export function fetchDashboardList(payload) {
+  return { type: "FETCH_DASHBOARD", payload };
+}
+
+export function fetchDashboardListSuccess(payload) {
+  return { type: "FETCH_DASHBOARD_SUCCESS", payload };
 }

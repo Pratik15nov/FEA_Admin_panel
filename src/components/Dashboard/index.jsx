@@ -1,6 +1,5 @@
 import { React, useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
-// import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import {
   CardFrist,
@@ -13,9 +12,7 @@ import {
   TabMain,
   ProductChartSize,
 } from "./Dashboard.style";
-// import { Alert } from "@mui/material";
 import Box from "@mui/material/Box";
-import { dashboardDataHandler } from "../../service/Auth.Service";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -35,6 +32,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Button } from "@mui/material";
+import { nFormatter, randomColor } from "../../utils/Helper";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDashboardList } from "../../js/actions";
+
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -47,68 +48,59 @@ ChartJS.register(
   Legend,
   ChartDataLabels
 );
-
 export default function Dashboard() {
-  useEffect(() => {
-    nFormatter(244444444);
-    var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
-    var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
-    getDashboardData(startDate, endDate); // eslint-disable-next-line
-  }, []);
-
   const [dashboardData, setDashboardData] = useState();
   const [value, setValue] = useState(0);
   const [productChartData, setProductChartData] = useState();
   const [customStatdate, setCustomStartDate] = useState(null);
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
-  function nFormatter(num) {
-    if (num >= 1000000000) {
-      return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "G";
-    }
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
-    }
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K";
-    }
+  const dashboardList = useSelector((state) => state.dashboard.list);
 
-    return num;
-  }
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getDashboardData(
+      moment().startOf("week").format("YYYY-MM-DD"),
+      moment().endOf("week").format("YYYY-MM-DD")
+    );
+  }, [dashboardList.length]);
   const handleChange = (event, newValue) => {
     setValue(newValue); // eslint-disable-next-line
     switch (newValue) {
       case 0:
         setCustomArea(false);
-        setCustomStartDate(null);
-        setCustomEndDate(null);
-        var startDate = moment().clone().startOf("week").format("YYYY-MM-DD");
-        var endDate = moment().clone().endOf("week").format("YYYY-MM-DD");
-        getDashboardData(startDate, endDate, newValue);
+        getDashboardData(
+          moment().startOf("week").format("YYYY-MM-DD"),
+          moment().endOf("week").format("YYYY-MM-DD"),
+          newValue
+        );
         break;
       case 1:
         setCustomArea(false);
-        setCustomStartDate(null);
-        setCustomEndDate(null);
-        var startOfMonth = moment()
-          .clone()
-          .startOf("month")
-          .format("YYYY-MM-DD");
-        var endOfMonth = moment().clone().endOf("month").format("YYYY-MM-DD");
-        getDashboardData(startOfMonth, endOfMonth, newValue);
+        getDashboardData(
+          moment().startOf("month").format("YYYY-MM-DD"),
+          moment().endOf("month").format("YYYY-MM-DD"),
+          newValue
+        );
         break;
       case 2:
         setCustomArea(false);
-        setCustomStartDate(null);
-        setCustomEndDate(null);
-        var startOfYear = moment().clone().startOf("year").format("YYYY-MM-DD");
-        var endOfYear = moment().clone().endOf("year").format("YYYY-MM-DD");
-
-        getDashboardData(startOfYear, endOfYear, newValue);
-
+        getDashboardData(
+          moment().startOf("year").format("YYYY-MM-DD"),
+          moment().endOf("year").format("YYYY-MM-DD"),
+          newValue
+        );
         break;
       case 3:
         setCustomArea(true);
+        break;
+      default:
+        setCustomArea(false);
+        getDashboardData(
+          moment().startOf("week").format("YYYY-MM-DD"),
+          moment().endOf("week").format("YYYY-MM-DD"),
+          newValue
+        );
         break;
     }
   };
@@ -121,34 +113,8 @@ export default function Dashboard() {
     datasets: [
       {
         data: OrdersbyProducts?.slice(0, 10).map((data) => data.quantity),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.7)",
-          "rgba(54, 162, 235, 0.7)",
-          "rgba(255, 206, 86, 0.7)",
-          "rgba(75, 192, 192, 0.7)",
-          "rgba(153, 102, 255, 0.7)",
-          "rgba(255, 159, 64, 0.7)",
-          "rgba(255, 99, 132, 0.7)",
-          "rgba(54, 162, 235, 0.7)",
-          "rgba(255, 206, 86, 0.7)",
-          "rgba(75, 192, 192, 0.7)",
-          "rgba(153, 102, 255, 0.7)",
-          "rgba(255, 159, 64, 0.7)",
-          "rgba(255, 99, 132, 0.7)",
-          "rgba(54, 162, 235, 0.7)",
-          "rgba(255, 206, 86, 0.7)",
-          "rgba(75, 192, 192, 0.7)",
-          "rgba(153, 102, 255, 0.7)",
-          "rgba(255, 159, 64, 0.7)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
+        backgroundColor: randomColor,
+        borderColor: randomColor,
         borderWidth: 1,
         hoverOffset: 4,
       },
@@ -257,39 +223,44 @@ export default function Dashboard() {
   };
   const getDateHandler = () => {
     if (customEnddate !== null) {
-      var startDate = moment(customStatdate).format("YYYY-MM-DD");
-      var endDate = moment(customEnddate).format("YYYY-MM-DD");
-      getDashboardData(startDate, endDate, 3);
+      getDashboardData(
+        moment(customStatdate).format("YYYY-MM-DD"),
+        moment(customEnddate).format("YYYY-MM-DD"),
+        3
+      );
     }
   };
 
   const getDashboardData = async (startDate, endDate, newValue) => {
     try {
-      const body = { startDate: startDate, endDate: endDate };
-      const response = await dashboardDataHandler(body);
-      if (response.length !== 0) {
-        setDashboardData(response.data[0]); // eslint-disable-next-line
-        switch (newValue ? newValue : 0) {
-          case 0:
-            getWeekData(response.data[0].orderData);
-
-            break;
-          case 1:
-            getMonthsData(response.data[0].orderData);
-            break;
-          case 2:
-            getYearData(response.data[0].orderData);
-            break;
-          case 3:
-            customDateData(response.data[0].orderData);
-            break;
-        }
-      }
+      dispatch(fetchDashboardList({ startDate: startDate, endDate: endDate }));
+      getDashboardAllData(newValue);
     } catch (err) {
       alert(err);
     }
   };
-
+  const getDashboardAllData = async (newValue) => {
+    if (dashboardList.length !== 0) {
+      setDashboardData(dashboardList.data[0]); // eslint-disable-next-line
+      switch (newValue ? newValue : 0) {
+        case 0:
+          getWeekData(dashboardList.data[0].orderData);
+          break;
+        case 1:
+          getMonthsData(dashboardList.data[0].orderData);
+          break;
+        case 2:
+          getYearData(dashboardList.data[0].orderData);
+          break;
+        case 3:
+          customDateData(dashboardList.data[0].orderData);
+          break;
+        default:
+          getWeekData(dashboardList.data[0].orderData);
+          break;
+      }
+    }
+  };
   const getWeekData = (data) => {
     var holder = {};
     let week = [];
