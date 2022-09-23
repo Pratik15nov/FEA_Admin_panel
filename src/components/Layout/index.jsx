@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Toolbar, List, ListItemButton, Grid } from "@mui/material";
+import { Toolbar, ListItemButton, Grid } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 // import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -99,7 +99,6 @@ export default function Layout(props) {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-
   const giveIcons = (name) => {
     switch (name) {
       case "dashboard":
