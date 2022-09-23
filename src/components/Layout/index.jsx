@@ -136,7 +136,7 @@ export default function Layout(props) {
         </Toolbar>
         <ToolBarLeft>
           <ToolBarLeftBox>
-            <Tooltip title="Account settings">
+            <Tooltip title="Settings">
               <IconButton
                 onClick={handleClick}
                 size="small"
@@ -211,7 +211,7 @@ export default function Layout(props) {
             ))}
         </MainList>
       </Drawer>
-      <MainAdminBox component="main">
+      <MainAdminBox>
         <MainAdminContent>{props.children}</MainAdminContent>
       </MainAdminBox>
     </MainContainer>
