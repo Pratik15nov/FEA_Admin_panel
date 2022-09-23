@@ -329,3 +329,11 @@ export function fetchCategoryDataListSuccess(payload) {
 export function fetchCategoryDataListFailure() {
   return { type: "FETCH_CATEGORYLIST_FAILURE" };
 }
+//DASHBOARD
+export function fetchDashboardList(payload) {
+  return { type: "FETCH_DASHBOARD", payload };
+}
+
+export function fetchDashboardListSuccess(payload) {
+  return { type: "FETCH_DASHBOARD_SUCCESS", payload };
+}

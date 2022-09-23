@@ -29,6 +29,7 @@ import {
   staffHandlerData,
   addingStaffData,
   updateStaffHandlerData,
+  dashboardDataHandler,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -80,6 +81,7 @@ import {
   fetchUserAdminListFailure,
   fetchCategoryDataListSuccess,
   fetchCategoryDataListFailure,
+  fetchDashboardListSuccess,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -938,6 +940,23 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchCategoryDataListFailure());
             alert("ERROR OCCURED WHILE FETCH_CATEGORYLIST DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_DASHBOARD":
+        store.dispatch(loadingStart());
+        dashboardDataHandler(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchDashboardListSuccess(res));
+            } else {
+              alert("FETCH_USERADMIN => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            alert("ERROR OCCURED WHILE FETCH_USERADMIN DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

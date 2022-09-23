@@ -14,6 +14,7 @@ import staffReducer from "./staff.reducer";
 import userAdminReducer from "./userAdmin.reducer";
 import categoryList from "./categoryList.reducer";
 
+import dashboardReducer from "./dashboard.reducer";
 export const rootReducer = {
   rightchecklist: rightCheckListReducer,
   order: orderReducer,
@@ -30,4 +31,5 @@ export const rootReducer = {
   staff: staffReducer,
   userAdmin: userAdminReducer,
   categoryList: categoryList,
+  dashboard: dashboardReducer,
 };
