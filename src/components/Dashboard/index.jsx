@@ -55,8 +55,7 @@ export default function Dashboard() {
   const [customStatdate, setCustomStartDate] = useState(null);
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
-  const dashboardList = useSelector((state) => state?.dashboard.list);
-  console.log(dashboardList);
+
   const dispatch = useDispatch();
   useEffect(() => {
     getDashboardData(
@@ -65,6 +64,8 @@ export default function Dashboard() {
       0
     );
   }, []);
+  const dashboardList = useSelector((state) => state?.dashboard.list);
+  console.log("DASHBOARD", dashboardList);
   const handleChange = (event, newValue) => {
     setValue(newValue); // eslint-disable-next-line
     switch (newValue) {
