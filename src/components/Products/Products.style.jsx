@@ -240,6 +240,7 @@ export const BottomButton = styled(LoadingButton)(({ theme }) => ({
 export const SelectField = styled(Select)(({ theme }) => ({
   "& .MuiOutlinedInput-input": {
     height: "1em",
+    padding: " 5px 0px 8px 0px",
   },
   marginTop: 10,
   marginBottom: 10,
@@ -301,4 +302,14 @@ export const ProductStatusOutOfStock = styled("span")(({ theme }) => ({
 
 export const ContainerOne = styled(Grid)(({ theme }) => ({
   paddingBottom: "20px",
+}));
+
+export const SelectionImage = styled(Avatar)(({ theme }) => ({}));
+export const SelectionText = styled(Typography)(({ theme }) => ({
+  marginLeft: "13px",
+  padding: "7px 0px",
+}));
+
+export const SelectionBox = styled(Grid)(({ theme }) => ({
+  display: "-ms-flexbox",
 }));

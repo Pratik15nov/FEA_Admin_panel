@@ -337,3 +337,17 @@ export function fetchDashboardList(payload) {
 export function fetchDashboardListSuccess(payload) {
   return { type: "FETCH_DASHBOARD_SUCCESS", payload };
 }
+
+// roleList pi for adding role in whilw adding new staff
+
+export function fetchRoleDataList(payload) {
+  return { type: "FETCH_ROLELIST", payload };
+}
+
+export function fetchRoleDataListSuccess(payload) {
+  return { type: "FETCH_ROLELIST_SUCCESS", payload };
+}
+
+export function fetchRoleDataListFailure() {
+  return { type: "FETCH_ROLELIST_FAILURE" };
+}

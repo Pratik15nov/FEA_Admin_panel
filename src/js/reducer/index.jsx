@@ -13,6 +13,7 @@ import menuReducer from "./menu.reducer";
 import staffReducer from "./staff.reducer";
 import userAdminReducer from "./userAdmin.reducer";
 import categoryList from "./categoryList.reducer";
+import roleList from "./roleList.reducer";
 
 import dashboardReducer from "./dashboard.reducer";
 export const rootReducer = {
@@ -32,4 +33,5 @@ export const rootReducer = {
   userAdmin: userAdminReducer,
   categoryList: categoryList,
   dashboard: dashboardReducer,
+  roleList: roleList,
 };

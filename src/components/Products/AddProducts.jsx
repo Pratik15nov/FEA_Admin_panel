@@ -20,6 +20,9 @@ import {
   InputField,
   BottomButton,
   SelectField,
+  SelectionImage,
+  SelectionText,
+  SelectionBox,
 } from "./Products.style";
 import MenuItem from "@mui/material/MenuItem";
 import { fetchProductList, fetchCategoryDataList } from "../../js/actions";
@@ -66,6 +69,7 @@ export default function AddProducts(props) {
     // eslint-disable-next-line
   }, [search]);
   const categorySelectionList = useSelector((state) => state.categoryList.list);
+  console.log("categorySelectionList: ", categorySelectionList);
   const categoryListData = async () => {
     try {
       dispatch(fetchCategoryDataList(listBody({ perPage: 1000 })));
@@ -269,7 +273,18 @@ export default function AddProducts(props) {
                           key={card?.BreadcrumbAreakey}
                           value={card._id}
                         >
-                          {card.categoryName}
+                          <SelectionBox container>
+                            <Grid>
+                              <SelectionImage
+                                variant="rounded"
+                                alt="Product image"
+                                src={ENDPOINTURLFORIMG + card.categoryImg}
+                              />
+                            </Grid>
+                            <Grid>
+                              <SelectionText>{card.categoryName}</SelectionText>
+                            </Grid>
+                          </SelectionBox>
                         </MenuItem>
                       );
                     })}
