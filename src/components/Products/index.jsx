@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Box, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ import {
   ProductStatusOutOfStock,
   ProductStatusLowStock,
   ProductStatusInStock,
-  ContainerOne
+  ContainerOne,
 } from "./Products.style";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog";
@@ -116,7 +116,7 @@ const Products = () => {
       sortable: false,
       renderCell: (params) => <RowName>{params.row.quantity}</RowName>,
     },
-    
+
     {
       field: "availability",
       headerName: <ColoumHead variant="h2">Availability</ColoumHead>,
@@ -222,23 +222,23 @@ const Products = () => {
   // this function captures the values emitted by the search field and updates the table(DataGrid);
   const captureSearch = async (data) => {
     try {
-    if(data.length >= 3) {
-      const body = {
-        searchText: data,
-      };
-      dispatch(
-        onProductSearch({
-          body,
-          defaultPayload: listBody({ where: null, perPage: 10, page: page }),
-        })
-      );
-    }
-    if(data.length === 0) {
-      dispatch(
-        fetchProductList(listBody({ where: null, perPage: 10, page: page }))
-      );
-    }
-    } catch(err) {
+      if (data.length >= 3) {
+        const body = {
+          searchText: data,
+        };
+        dispatch(
+          onProductSearch({
+            body,
+            defaultPayload: listBody({ where: null, perPage: 10, page: page }),
+          })
+        );
+      }
+      if (data.length === 0) {
+        dispatch(
+          fetchProductList(listBody({ where: null, perPage: 10, page: page }))
+        );
+      }
+    } catch (err) {
       alert(err);
     }
   };
@@ -265,7 +265,7 @@ const Products = () => {
   };
   return (
     <Container>
-      <ContainerOne container >
+      <ContainerOne container>
         <BreadcrumbArea />
         <Grid item xs={3}>
           <Search>

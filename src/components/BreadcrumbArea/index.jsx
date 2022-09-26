@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Grid, Breadcrumbs, Typography } from "@mui/material";
 import { MyLink } from "./Breadcrumbarea.style";
 import { useLocation } from "react-router-dom";
+import { capitalizeWord } from "../../utils/Helper";
 
 export default function BreadcrumbArea(props) {
   const location = useLocation();
@@ -13,24 +14,16 @@ export default function BreadcrumbArea(props) {
 
   useEffect(() => {
     if (location.pathname.split("/")[1]) {
-      let item = location.pathname
-        .split("/")[1]
-        .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
-      setItems(item);
-
+      setItems(capitalizeWord(location.pathname.split("/")[1]));
       setButtonArea(true);
     } else {
       setItems(null);
     }
     if (location.pathname.split("/")[2]) {
       let item =
-        location.pathname
-          .split("/")[2]
-          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase())) +
+        capitalizeWord(location.pathname.split("/")[2]) +
         " " +
-        location.pathname
-          .split("/")[1]
-          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
+        capitalizeWord(location.pathname.split("/")[1]);
       setItems(item);
       setButtonArea(false);
       setLinkAdd(item.split(" ")[1].toLowerCase());
