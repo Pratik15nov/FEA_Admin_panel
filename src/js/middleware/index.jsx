@@ -950,7 +950,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
         dashboardDataHandler(action.payload)
           .then((res) => {
             if (res.success) {
-              store.dispatch(fetchDashboardListSuccess(res));
+              store.dispatch(fetchDashboardListSuccess(res?.data[0]));
             } else {
               alert("FETCH_USERADMIN => RESPONSE => FALSE");
             }

@@ -35,6 +35,7 @@ import { Button } from "@mui/material";
 import { nFormatter, randomColor } from "../../utils/Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDashboardList } from "../../js/actions";
+import { dashboardDataHandler } from "../../service/Auth.Service";
 
 ChartJS.register(
   ArcElement,
@@ -49,21 +50,21 @@ ChartJS.register(
   ChartDataLabels
 );
 export default function Dashboard() {
-  const [dashboardData, setDashboardData] = useState();
   const [value, setValue] = useState(0);
   const [productChartData, setProductChartData] = useState();
   const [customStatdate, setCustomStartDate] = useState(null);
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
-  const dashboardList = useSelector((state) => state.dashboard.list);
-
+  const dashboardList = useSelector((state) => state?.dashboard.list);
+  console.log(dashboardList);
   const dispatch = useDispatch();
   useEffect(() => {
     getDashboardData(
       moment().startOf("week").format("YYYY-MM-DD"),
-      moment().endOf("week").format("YYYY-MM-DD")
+      moment().endOf("week").format("YYYY-MM-DD"),
+      0
     );
-  }, [dashboardList.length]);
+  }, []);
   const handleChange = (event, newValue) => {
     setValue(newValue); // eslint-disable-next-line
     switch (newValue) {
@@ -104,7 +105,7 @@ export default function Dashboard() {
         break;
     }
   };
-  const OrdersbyProducts = dashboardData?.orderedProducts.filter(
+  const OrdersbyProducts = dashboardList?.orderedProducts.filter(
     (data) => data.quantity > 0
   );
 
@@ -234,37 +235,45 @@ export default function Dashboard() {
   const getDashboardData = async (startDate, endDate, newValue) => {
     try {
       dispatch(fetchDashboardList({ startDate: startDate, endDate: endDate }));
+      // const response = await dashboardDataHandler({
+      //   startDate: startDate,
+      //   endDate: endDate,
+      // });
+      // console.log(response, newValue);
       getDashboardAllData(newValue);
     } catch (err) {
       alert(err);
     }
   };
+
   const getDashboardAllData = async (newValue) => {
-    if (dashboardList.length !== 0) {
-      setDashboardData(dashboardList.data[0]); // eslint-disable-next-line
-      switch (newValue ? newValue : 0) {
-        case 0:
-          getWeekData(dashboardList.data[0].orderData);
-          break;
-        case 1:
-          getMonthsData(dashboardList.data[0].orderData);
-          break;
-        case 2:
-          getYearData(dashboardList.data[0].orderData);
-          break;
-        case 3:
-          customDateData(dashboardList.data[0].orderData);
-          break;
-        default:
-          getWeekData(dashboardList.data[0].orderData);
-          break;
-      }
+    console.log("check", dashboardList);
+    console.log("value", newValue);
+    switch (newValue) {
+      case 0:
+        getWeekData();
+        break;
+      case 1:
+        getMonthsData();
+        break;
+      case 2:
+        getYearData();
+        break;
+      case 3:
+        customDateData();
+        break;
+      default:
+        getWeekData();
+        break;
     }
+
+    // eslint-disable-next-line
   };
-  const getWeekData = (data) => {
+  const getWeekData = () => {
     var holder = {};
     let week = [];
-    data.forEach(function (d) {
+
+    dashboardList?.orderData.forEach(function (d) {
       if (holder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
         holder[moment(d.createdAt).format("DD")] =
           holder[moment(d.createdAt).format("DD")] + d.totalPrice;
@@ -291,13 +300,14 @@ export default function Dashboard() {
         return r;
       }, {})
     );
+
     setProductChartData(weeks);
   };
 
-  const getYearData = (data) => {
+  const getYearData = () => {
     let year = [];
     var yearholder = {};
-    data.forEach(function (d) {
+    dashboardList?.orderData.forEach(function (d) {
       if (yearholder.hasOwnProperty(moment(d.createdAt).format("MM"))) {
         yearholder[moment(d.createdAt).format("MM")] =
           yearholder[moment(d.createdAt).format("MM")] + d.totalPrice;
@@ -332,10 +342,10 @@ export default function Dashboard() {
     });
     setProductChartData(newYear);
   };
-  const customDateData = (data) => {
+  const customDateData = () => {
     let customDate = [];
     var customDateHolder = {};
-    data.forEach(function (d) {
+    dashboardList?.orderData.forEach(function (d) {
       if (
         customDateHolder.hasOwnProperty(
           moment(d.createdAt).format("DD-MM-YYYY")
@@ -360,7 +370,7 @@ export default function Dashboard() {
   const getMonthsData = (data) => {
     let months = [];
     var monthsHolder = {};
-    data.forEach(function (d) {
+    dashboardList?.orderData.forEach(function (d) {
       if (monthsHolder.hasOwnProperty(moment(d.createdAt).format("DD"))) {
         monthsHolder[moment(d.createdAt).format("DD")] =
           monthsHolder[moment(d.createdAt).format("DD")] + d.totalPrice;
@@ -412,7 +422,7 @@ export default function Dashboard() {
                     </CardTwo>
 
                     <CardOne variant="h5" component="div">
-                      {dashboardData?.totalOrder}{" "}
+                      {dashboardList?.totalOrder}{" "}
                     </CardOne>
                   </CardContent>
                 </Grid>
@@ -428,7 +438,7 @@ export default function Dashboard() {
                       Total Products
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {dashboardData?.totalProducts}
+                      {dashboardList?.totalProducts}
                     </CardOne>
                   </CardContent>
                 </Grid>
@@ -444,7 +454,7 @@ export default function Dashboard() {
                       Total Customers
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {dashboardData?.totalUser}
+                      {dashboardList?.totalUser}
                     </CardOne>
                   </CardContent>
                 </Grid>
@@ -460,7 +470,7 @@ export default function Dashboard() {
                       Total Category
                     </CardTwo>
                     <CardOne variant="h5" component="div">
-                      {dashboardData?.totalCategory}
+                      {dashboardList?.totalCategory}
                     </CardOne>
                   </CardContent>
                 </Grid>
