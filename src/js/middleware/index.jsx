@@ -84,6 +84,8 @@ import {
   fetchDashboardListSuccess,
   fetchRoleDataListSuccess,
   fetchRoleDataListFailure,
+  fetchLayoutListFailure,
+  fetchLayoutListSuccess,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -978,6 +980,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
           .catch((err) => {
             store.dispatch(fetchRoleDataListFailure());
             alert("ERROR OCCURED WHILE FETCH_ROLELIST DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
+      case "FETCH_GETLAYOUTLIST":
+        store.dispatch(loadingStart());
+        layoutHandlerData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchLayoutListSuccess(res));
+            } else {
+              store.dispatch(fetchLayoutListFailure());
+              alert("FETCH_GETLAYOUTLIST => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchLayoutListFailure());
+            alert("ERROR OCCURED WHILE FETCH_GETLAYOUTLIST DISPATCHED ");
           })
           .finally(() => {
             store.dispatch(loadingStop());

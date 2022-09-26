@@ -351,3 +351,17 @@ export function fetchRoleDataListSuccess(payload) {
 export function fetchRoleDataListFailure() {
   return { type: "FETCH_ROLELIST_FAILURE" };
 }
+
+// lauoutHandelrData Funtion in addRights
+
+export function fetchLayoutList(payload) {
+  return { type: "FETCH_GETLAYOUTLIST", payload };
+}
+
+export function fetchLayoutListFailure() {
+  return { type: "FETCH_GETLAYOUTLIST_FAILURE" };
+}
+
+export function fetchLayoutListSuccess(payload) {
+  return { type: "FETCH_GETLAYOUTLIST_SUCCESS", payload };
+}

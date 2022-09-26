@@ -61,7 +61,7 @@ const UpdateRoleDialog = (props) => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error.message ?error.message: ""}
+                      helperText={error?.message ?error.message: ""}
                     />
                   )}
                   control={control}

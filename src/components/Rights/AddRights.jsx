@@ -32,7 +32,7 @@ import { listBody } from "../../utils/Helper";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
-import { fetchRightsList } from "../../js/actions";
+import { fetchRightsList, fetchLayoutList } from "../../js/actions";
 
 export default function AddRights(props) {
   const [cid, setcid] = useState();
@@ -48,6 +48,7 @@ export default function AddRights(props) {
   const [tableShow, setTableShow] = useState(false);
   const [roleList, setRoleList] = useState([]);
   const page = useSelector((state) => state.rights.page);
+
   useEffect(() => {
     let roleId;
     try {
@@ -63,32 +64,52 @@ export default function AddRights(props) {
     menuListHandler();
     roleListData(roleId); // eslint-disable-next-line
   }, [search]);
+  const getLayoutList = useSelector((state) => state.getLayoutList.list);
 
   const menuListHandler = async () => {
     try {
       const response = await layoutHandlerData(
         listBody({ where: { isActive: true }, perPage: 1000 })
       );
-      if (response.success && response.list) {
-        reset({
-          roleId: null,
-          rights: response.list.map((card) => {
-            return {
-              name:
-                card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
-              view: false,
-              edit: false,
-              add: false,
-              deleted: false,
-            };
-          }),
-        });
-      } else {
-      }
+      //
+      console.log("layoutHandlerData RESPONSE", response);
+      dispatch(
+        fetchLayoutList(listBody({ where: { isActive: true }, perPage: 1000 }))
+      );
+      // console.log('getLayoutList: ', getLayoutList);
+
+      // if (response.success && response.list) {
+      //   reset({
+      //     roleId: null,
+      //     rights: response.list.map((card) => {
+      //       return {
+      //         name:
+      //           card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
+      //         view: false,
+      //         edit: false,
+      //         add: false,
+      //         deleted: false,
+      //       };
+      //     }),
+      //   });
+
+      reset({
+        roleId: null,
+        rights: getLayoutList?.map((card) => {
+          return {
+            name: card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
+            view: false,
+            edit: false,
+            add: false,
+            deleted: false,
+          };
+        }),
+      });
     } catch (err) {
       alert(err);
     }
   };
+  console.log("getLayoutList: ", getLayoutList);
 
   const roleListData = async (roleId) => {
     if (!roleId) {
@@ -96,6 +117,8 @@ export default function AddRights(props) {
         const response = await roleHandler(
           listBody({ where: { taken: false }, perPage: 1000 })
         );
+        //
+        console.log("roleHandler", response);
         if (response.success) {
           setRoleList(response.list);
         } else {
@@ -108,9 +131,11 @@ export default function AddRights(props) {
       setSkelLoading(true);
       try {
         const response = await roleHandler(listBody({ perPage: 1000 }));
+        console.log("roleHandler", response);
         const responsess = await rightsHandlerData(
           listBody({ where: { roleId: roleId }, perPage: 1000 })
         );
+        console.log("rightsHandlerData ", responsess);
         if (response.success) {
           setRoleList(response.list);
         } else {
@@ -288,7 +313,7 @@ export default function AddRights(props) {
                           })}
                         </SelectField>
                         <FormHelperText error={error}>
-                          {error?.message ?error.message: ""}
+                          {error?.message ? error.message : ""}
                         </FormHelperText>
                       </FormControl>
                     ) : (
@@ -310,7 +335,7 @@ export default function AddRights(props) {
                           })}
                         </SelectField>
                         <FormHelperText error={error}>
-                          {error?.message ? error.message:""}
+                          {error?.message ? error.message : ""}
                         </FormHelperText>
                       </FormControl>
                     )}
