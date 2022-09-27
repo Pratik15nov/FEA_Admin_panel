@@ -40,10 +40,21 @@ export const CardTwo = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
   fontSize: "0.875rem",
   lineHeight: 1.57143,
+  marginBottom: 5,
 }));
 
 export const ContainerTwo = styled(Grid)(({ theme }) => ({
   marginTop: 2,
+}));
+export const StockBox = styled(Grid)(({ theme }) => ({
+  background: "#ffffff",
+  padding: ["6px", "8px"],
+  borderRadius: ["10px", "63ox"],
+  justifyContent: "center",
+  alignItems: "center",
+  boxShadow:
+    "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+ marginTop: 5
 }));
 export const CustomIcon = styled(TuneIcon)(({ theme }) => ({
   marginTop: 10,
@@ -51,6 +62,7 @@ export const CustomIcon = styled(TuneIcon)(({ theme }) => ({
 
 export const TabMain = styled(Tabs)(({ theme }) => ({
   paddingTop: 7,
+  fontSize: 12,
 }));
 export const TabButtons = styled(Tab)(({ theme }) => ({
   color: "#1A1A40",

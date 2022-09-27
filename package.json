@@ -32,6 +32,7 @@
     "prop-types": "^15.8.1",
     "react": "^16.14.0",
     "react-chartjs-2": "^4.3.1",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.14.0",
     "react-dropzone": "^14.2.2",
     "react-filepond": "^7.1.2",
