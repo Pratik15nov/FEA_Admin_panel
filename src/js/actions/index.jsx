@@ -365,3 +365,38 @@ export function fetchLayoutListFailure() {
 export function fetchLayoutListSuccess(payload) {
   return { type: "FETCH_GETLAYOUTLIST_SUCCESS", payload };
 }
+
+// selectedRightsList in addRights.jsx
+
+export function fetchSelectedRightList(payload) {
+  return { type: "FETCH_SELECTED_RIGHTS", payload };
+}
+
+export function fetchSelectedRightListFailure() {
+  return { type: "FETCH_SELECTED_RIGHTS_FAILURE" };
+}
+
+export function fetchSelectedRightListSuccess(payload) {
+  return { type: "FETCH_SELECTED_RIGHTS_SUCCESS", payload };
+}
+
+export function fetchEditRoleRights(payload) {
+  return {
+    type: "FETCH_EDIT_ROLE_RIGHTS",
+    payload,
+  };
+}
+
+export function fetchEditRoleRightsSuccess(payload) {
+  return {
+    type: "FETCH_EDIT_ROLE_RIGHTS_SUCCESS",
+    payload,
+  };
+}
+
+export function fetchIfAddRoleRightsHandler(payload) {
+  return {
+    type: "FETCH_ADD_ROLE_RIGHTS",
+    payload,
+  };
+}

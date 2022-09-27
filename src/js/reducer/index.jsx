@@ -15,6 +15,7 @@ import userAdminReducer from "./userAdmin.reducer";
 import categoryList from "./categoryList.reducer";
 import roleList from "./roleList.reducer";
 import getLayoutList from "./getLayoutList.reducer";
+import selectedRightList from "./selectedRightsList.reducer";
 
 import dashboardReducer from "./dashboard.reducer";
 export const rootReducer = {
@@ -36,4 +37,5 @@ export const rootReducer = {
   dashboard: dashboardReducer,
   roleList: roleList,
   getLayoutList: getLayoutList,
+  selectedRightList: selectedRightList,
 };

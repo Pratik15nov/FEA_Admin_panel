@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Typography, Box, Skeleton } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
-  layoutHandlerData,
   rightsHandler,
-  rightsHandlerData,
   rightsupdateHandlerData,
 } from "../../service/Auth.Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbArea from "../BreadcrumbArea";
-
 import {
   Container,
   InputBox,
@@ -27,148 +24,135 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { useDispatch, useSelector } from "react-redux";
-import { roleHandler } from "../../service/Auth.Service";
 import { listBody } from "../../utils/Helper";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
-import { fetchRightsList, fetchLayoutList } from "../../js/actions";
+import {
+  fetchRightsList,
+  fetchLayoutList,
+  fetchEditRoleRights,
+  fetchIfAddRoleRightsHandler,
+} from "../../js/actions";
 
 export default function AddRights(props) {
-  const [cid, setcid] = useState();
-  const [rightId, setRightId] = useState(null);
+  const [cid, setcid] = useState(null);
+  // const [rightId, setRightId] = useState(null);
   const location = useLocation();
-  const { search } = location;
+  const { search, pathname } = location;
   const [loading, setLoading] = useState(false);
   const [skelloading, setSkelLoading] = useState(false);
   const dispatch = useDispatch();
   const [show, setShow] = useState();
   const navigate = useNavigate();
   const [tableShow, setTableShow] = useState(false);
-  const [roleList, setRoleList] = useState([]);
+  // const [roleList, setRoleList] = useState([null]);
+
+  const { handleSubmit, control, reset, setValue } = useForm({
+    defaultValues: {
+      roleId: null,
+      rights: [],
+    },
+  });
+
   const page = useSelector((state) => state.rights.page);
+  const getLayoutList = useSelector((state) => state.getLayoutList.list);
 
   useEffect(() => {
     let roleId;
     try {
-      if (search.split("=").length > 0) {
+      if (search.length > 0) {
         roleId = search.split("=")[1];
+        setcid(roleId);
+        roleListData(roleId);
       } else {
-        roleId = "";
+        roleListData(roleId);
       }
     } catch (error) {
       alert(error);
     }
-    setcid(roleId);
     menuListHandler();
-    roleListData(roleId); // eslint-disable-next-line
   }, [search]);
-  const getLayoutList = useSelector((state) => state.getLayoutList.list);
 
   useEffect(() => {
-    reset({
-      roleId: null,
-      rights: getLayoutList.map((card) => {
-        return {
-          name: card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
-          view: false,
-          edit: false,
-          add: false,
-          deleted: false,
-        };
-      }),
-    });
-  }, [getLayoutList]);
+    console.log(typeof cid);
+    if (cid === null) {
+      console.log("83");
+      reset({
+        roleId: null,
+        rights: getLayoutList.map((card) => {
+          return {
+            name: card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
+            view: false,
+            edit: false,
+            add: false,
+            deleted: false,
+          };
+        }),
+      });
+    }
+  }, [getLayoutList, cid]);
+
+  const reduxRoleList = useSelector((state) => state.role.list);
+
+  const selectedRightList = useSelector(
+    (state) => state.selectedRightList.list
+  );
+
+  useEffect(() => {
+    try {
+      if (selectedRightList && selectedRightList.length > 0) {
+        console.log("107");
+
+        console.log("selectedRightList", selectedRightList);
+        reset({
+          roleId: selectedRightList[0].roleId?._id,
+          rights: selectedRightList[0].rights,
+        });
+      } else {
+        console.log("HELLOW");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }, [selectedRightList]);
 
   const menuListHandler = async () => {
     try {
-      const response = await layoutHandlerData(
-        listBody({ where: { isActive: true }, perPage: 1000 })
-      );
-      //
-      console.log("layoutHandlerData RESPONSE", response);
+      setSkelLoading(true);
       dispatch(
         fetchLayoutList(listBody({ where: { isActive: true }, perPage: 1000 }))
       );
-
-      // console.log('getLayoutList: ', getLayoutList);
-
-      if (response.success && response.list) {
-        reset({
-          roleId: null,
-          rights: response.list.map((card) => {
-            return {
-              name:
-                card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
-              view: false,
-              edit: false,
-              add: false,
-              deleted: false,
-            };
-          }),
-        });
-      } else {
-      }
-
-      // reset({
-      //   roleId: null,
-      //   rights: getLayoutList?.map((card) => {
-      //     return {
-      //       name: card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
-      //       view: false,
-      //       edit: false,
-      //       add: false,
-      //       deleted: false,
-      //     };
-      //   }),
-      // });
+      setSkelLoading(false);
     } catch (err) {
       alert(err);
     }
   };
 
-  console.log("getLayoutList: ", getLayoutList);
-
   const roleListData = async (roleId) => {
     if (!roleId) {
       try {
-        const response = await roleHandler(
-          listBody({ where: { taken: false }, perPage: 1000 })
+        setSkelLoading(true);
+        dispatch(
+          fetchIfAddRoleRightsHandler(
+            listBody({ where: { taken: false }, perPage: 1000 })
+          )
         );
-        //
-        console.log("roleHandler", response);
-        if (response.success) {
-          setRoleList(response.list);
-        } else {
-          setRoleList([]);
-        }
+        setSkelLoading(false);
       } catch (err) {
         alert(err);
       }
     } else {
       setSkelLoading(true);
       try {
-        const response = await roleHandler(listBody({ perPage: 1000 }));
-        console.log("roleHandler", response);
-        const responsess = await rightsHandlerData(
-          listBody({ where: { roleId: roleId }, perPage: 1000 })
+        dispatch(
+          fetchEditRoleRights({
+            roleList: listBody({ perPage: 1000 }),
+            rightList: listBody({ where: { roleId: roleId }, perPage: 1000 }),
+          })
         );
-        console.log("rightsHandlerData ", responsess);
-        if (response.success) {
-          setRoleList(response.list);
-        } else {
-          setRoleList([]);
-        }
 
-        if (responsess.success) {
-          reset({
-            roleId: responsess.list[0].roleId._id,
-            rights: responsess.list[0].rights,
-          });
-
-          setRightId(responsess.list[0]._id);
-          setSkelLoading(false);
-        }
+        setSkelLoading(false);
       } catch (err) {
         alert(err);
       }
@@ -203,7 +187,10 @@ export default function AddRights(props) {
           taken: true,
         };
 
-        const response = await rightsupdateHandlerData(rightId, reqbody);
+        const response = await rightsupdateHandlerData(
+          selectedRightList[0]?._id,
+          reqbody
+        );
 
         if (response.success) {
           setLoading(false);
@@ -214,18 +201,6 @@ export default function AddRights(props) {
       }
     }
   };
-
-  const { handleSubmit, control, reset, setValue } = useForm({
-    defaultValues: {
-      roleId: null,
-      rights: [],
-    },
-  });
-
-  // const tableHandler = (value) => {
-  //   console.log("CAlled", value);
-  //   setTableShow(value);
-  // };
 
   return (
     <Container>
@@ -322,7 +297,8 @@ export default function AddRights(props) {
                           fullWidth
                           placeholder="Roletype"
                         >
-                          {roleList?.map((card) => {
+                          {/* {roleList? */}
+                          {reduxRoleList?.map((card) => {
                             return (
                               <MenuItem key={card._id} value={card._id}>
                                 {card.roleName}
@@ -344,7 +320,8 @@ export default function AddRights(props) {
                           fullWidth
                           placeholder="Coupon type"
                         >
-                          {roleList.map((card) => {
+                          {/* {roleList. */}
+                          {reduxRoleList?.map((card) => {
                             return (
                               <MenuItem key={card._id} value={card._id}>
                                 {card.roleName}
@@ -392,7 +369,7 @@ export default function AddRights(props) {
                           fieldState: { error },
                         }) => (
                           <>
-                            {value.map((row, index) => (
+                            {value?.map((row, index) => (
                               <TableRow key={`tableRow_${index}`}>
                                 <TableCell
                                   width="50%"
@@ -519,7 +496,6 @@ export default function AddRights(props) {
             ) : (
               <></>
             )}
-
             <br />
             <BottomButton
               loading={loading}

@@ -86,12 +86,76 @@ import {
   fetchRoleDataListFailure,
   fetchLayoutListFailure,
   fetchLayoutListSuccess,
+  fetchSelectedRightListFailure,
+  fetchSelectedRightListSuccess,
+  fetchEditRoleRights,
+  fetchEditRoleRightsSuccess
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
 export const loggerMiddleware = (store) => (next) => (action) => {
   try {
     switch (action.type) {
+      case "FETCH_ADD_ROLE_RIGHTS":
+        store.dispatch(loadingStart());
+        roleHandlerData(action.payload)
+        // rightsHandlerData(action.payload.rightList)
+        .then((res) => {
+          if (res.success) {
+            store.dispatch(fetchRoleListSuccess(res));
+          } else {
+            store.dispatch(fetchRoleListFailure());
+            alert("FETCH_ADD_ROLE_RIGHTS => RESPONSE => FALSE");
+          }
+        })
+        .catch((err) => {
+          store.dispatch(fetchRoleListFailure());
+          alert("ERROR OCCURED WHILE FETCH_ADD_ROLE_RIGHTS DISPATCHED ");
+        })
+        .finally(() => {
+          store.dispatch(loadingStop());
+        });
+        break;
+        //
+      case 'FETCH_EDIT_ROLE_RIGHTS': 
+        store.dispatch(loadingStart());
+        // store.dispatch({type: 'FETCH_SELECTED_RIGHTS_FAILURE'})
+        roleHandlerData(action.payload.roleList)
+        // rightsHandlerData(action.payload.rightList)
+        .then((res) => {
+          if (res.success) {
+            store.dispatch(fetchRoleListSuccess(res));
+          } else {
+            store.dispatch(fetchRoleListFailure());
+            alert("FETCH_ROLE => RESPONSE => FALSE");
+          }
+        })
+        .catch((err) => {
+          store.dispatch(fetchRoleListFailure());
+          alert("ERROR OCCURED WHILE FETCH_ROLE DISPATCHED ");
+        })
+        .finally(() => {
+          store.dispatch(loadingStop());
+        });
+        rightsHandlerData(action.payload.rightList)
+        .then((res) => {
+          if (res.success) {
+            store.dispatch(fetchSelectedRightListSuccess(res));
+          } else {
+            store.dispatch(fetchSelectedRightListFailure());
+            alert("FETCH_SELECTED_RIGHTS => RESPONSE => FALSE");
+          }
+        })
+        .catch((err) => {
+          store.dispatch(fetchSelectedRightListFailure());
+          alert("ERROR OCCURED WHILE FETCH_SELECTED_RIGHTS DISPATCHED ");
+        })
+        .finally(() => {
+          store.dispatch(loadingStop());
+        });
+      break;
+
+      //cehkssss
       case "FETCH_CATEGORY":
         store.dispatch(loadingStart());
         categoryHandlerData(action.payload)
@@ -1004,6 +1068,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+      // case "FETCH_SELECTED_RIGHTS":
+      //   store.dispatch(loadingStart());
+      //   rightsHandlerData(action.payload)
+      //     .then((res) => {
+      //       if (res.success) {
+      //         store.dispatch(fetchSelectedRightListSuccess(res));
+      //       } else {
+      //         store.dispatch(fetchSelectedRightListFailure());
+      //         alert("FETCH_SELECTED_RIGHTS => RESPONSE => FALSE");
+      //       }
+      //     })
+      //     .catch((err) => {
+      //       store.dispatch(fetchSelectedRightListFailure());
+      //       alert("ERROR OCCURED WHILE FETCH_SELECTED_RIGHTS DISPATCHED ");
+      //     })
+      //     .finally(() => {
+      //       store.dispatch(loadingStop());
+      //     });
+      //   break;
 
       default:
         return next(action);
