@@ -41,7 +41,6 @@ export default function AddRights(props) {
   const { search } = location;
   const [loading, setLoading] = useState(false);
   const [skelloading, setSkelLoading] = useState(false);
-
   const dispatch = useDispatch();
   const [show, setShow] = useState();
   const navigate = useNavigate();
@@ -109,6 +108,7 @@ export default function AddRights(props) {
       alert(err);
     }
   };
+
   console.log("getLayoutList: ", getLayoutList);
 
   const roleListData = async (roleId) => {
