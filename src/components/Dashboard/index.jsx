@@ -11,6 +11,7 @@ import {
   TabButtons,
   TabMain,
   ProductChartSize,
+  StockBox,
 } from "./Dashboard.style";
 import Box from "@mui/material/Box";
 import {
@@ -32,10 +33,15 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Button } from "@mui/material";
-import { nFormatter, randomColor } from "../../utils/Helper";
+import {
+  ENDPOINTURLFORIMG,
+  listBody,
+  nFormatter,
+  randomColor,
+} from "../../utils/Helper";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDashboardList } from "../../js/actions";
-import { dashboardDataHandler } from "../../service/Auth.Service";
+import { fetchDashboardList, fetchProductList } from "../../js/actions";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   ArcElement,
@@ -55,8 +61,10 @@ export default function Dashboard() {
   const [customStatdate, setCustomStartDate] = useState(null);
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
-
+  const [showMore, setShowMore] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     getDashboardData(
       moment().startOf("week").format("YYYY-MM-DD"),
@@ -65,7 +73,9 @@ export default function Dashboard() {
     );
   }, []);
   const dashboardList = useSelector((state) => state?.dashboard.list);
-  console.log("DASHBOARD", dashboardList);
+  const productList = useSelector((state) => state.product.list);
+
+  console.log("list", productList);
   useEffect(() => {
     getDashboardAllData(value);
   }, [dashboardList, value]);
@@ -99,6 +109,7 @@ export default function Dashboard() {
         break;
       case 3:
         setCustomArea(true);
+
         break;
       default:
         setCustomArea(false);
@@ -240,6 +251,7 @@ export default function Dashboard() {
   const getDashboardData = async (startDate, endDate, newValue) => {
     try {
       dispatch(fetchDashboardList({ startDate: startDate, endDate: endDate }));
+      dispatch(fetchProductList(listBody({ where: null, perPage: 1000000 })));
       // const response = await dashboardDataHandler({
       //   startDate: startDate,
       //   endDate: endDate,
@@ -563,6 +575,110 @@ export default function Dashboard() {
               </CardContent>
             </CardFrist>
           </Grid>
+        </ContainerTwo>
+        <ContainerTwo container spacing={2}>
+          <Grid xs={4}>
+            <CardFrist>
+              <CardContent>
+                <CardTwo variant="h6" component="div">
+                  Out of Stock Products
+                </CardTwo>
+                <Box>
+                  {productList
+                    .filter((data) => data.quantity === 0)
+                    .slice(0, 3)
+                    .map((data) => (
+                      <StockBox container>
+                        <Grid item xs={2}>
+                          <img
+                            src={ENDPOINTURLFORIMG + data.img}
+                            alt="oosp"
+                            height={46}
+                          ></img>
+                        </Grid>
+                        <Grid item xs={7}>
+                          {data.name}
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
+                              navigate(`/products/add?cid=${data._id}`)
+                            }
+                          >
+                            Add
+                          </Button>
+                        </Grid>
+                      </StockBox>
+                    ))}
+
+                  {showMore &&
+                    productList
+                      .filter((data) => data.quantity === 0)
+                      .slice(4, 9999)
+                      .map((data) => (
+                        <StockBox container>
+                          <Grid item xs={2}>
+                            <img
+                              src={ENDPOINTURLFORIMG + data.img}
+                              alt="oosp"
+                              height={46}
+                            ></img>
+                          </Grid>
+                          <Grid item xs={7}>
+                            {data.name}
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Button
+                              variant="outlined"
+                              onClick={() =>
+                                navigate(`/products/add?cid=${data._id}`)
+                              }
+                            >
+                              Add
+                            </Button>
+                          </Grid>
+                        </StockBox>
+                      ))}
+                </Box>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={() => setShowMore(true)}
+                >
+                  More..
+                </Button>
+
+                {/* {productList
+                  .filter((data) => data.quantity === 0)
+                  .map((data) => (
+                    <StockBox container>
+                      <Grid item xs={2}>
+                        <img
+                          src={ENDPOINTURLFORIMG + data.img}
+                          alt="oosp"
+                          height={46}
+                        ></img>
+                      </Grid>
+                      <Grid item xs={7}>
+                        {data.name}
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Button
+                          variant="contained"
+                          onClick={() =>
+                            navigate(`/products/add?cid=${data._id}`)
+                          }
+                        >
+                          Add
+                        </Button>
+                      </Grid>
+                    </StockBox>
+                  ))} */}
+              </CardContent>
+            </CardFrist>
+          </Grid>
+          <Grid xs={6}>{/* <CardFrist></CardFrist> */}</Grid>
         </ContainerTwo>
       </MainBody>
     </>
