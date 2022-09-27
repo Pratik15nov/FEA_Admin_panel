@@ -65,7 +65,7 @@ export default function Dashboard() {
     );
   }, []);
   const dashboardList = useSelector((state) => state?.dashboard.list);
-  console.log("DASHBOARD", dashboardList);
+
   useEffect(() => {
     getDashboardAllData(value);
   }, [dashboardList, value]);
