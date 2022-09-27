@@ -66,6 +66,10 @@ export default function Dashboard() {
   }, []);
   const dashboardList = useSelector((state) => state?.dashboard.list);
   console.log("DASHBOARD", dashboardList);
+  useEffect(() => {
+    getDashboardAllData(value);
+  }, [dashboardList, value]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue); // eslint-disable-next-line
     switch (newValue) {
@@ -248,8 +252,6 @@ export default function Dashboard() {
   };
 
   const getDashboardAllData = async (newValue) => {
-    console.log("check", dashboardList);
-    console.log("value", newValue);
     switch (newValue) {
       case 0:
         getWeekData();
