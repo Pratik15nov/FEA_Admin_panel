@@ -66,6 +66,21 @@ export default function AddRights(props) {
   }, [search]);
   const getLayoutList = useSelector((state) => state.getLayoutList.list);
 
+  useEffect(() => {
+    reset({
+      roleId: null,
+      rights: getLayoutList.map((card) => {
+        return {
+          name: card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
+          view: false,
+          edit: false,
+          add: false,
+          deleted: false,
+        };
+      }),
+    });
+  }, [getLayoutList]);
+
   const menuListHandler = async () => {
     try {
       const response = await layoutHandlerData(
@@ -76,35 +91,38 @@ export default function AddRights(props) {
       dispatch(
         fetchLayoutList(listBody({ where: { isActive: true }, perPage: 1000 }))
       );
+
       // console.log('getLayoutList: ', getLayoutList);
 
-      // if (response.success && response.list) {
-      //   reset({
-      //     roleId: null,
-      //     rights: response.list.map((card) => {
-      //       return {
-      //         name:
-      //           card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
-      //         view: false,
-      //         edit: false,
-      //         add: false,
-      //         deleted: false,
-      //       };
-      //     }),
-      //   });
+      if (response.success && response.list) {
+        reset({
+          roleId: null,
+          rights: response.list.map((card) => {
+            return {
+              name:
+                card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
+              view: false,
+              edit: false,
+              add: false,
+              deleted: false,
+            };
+          }),
+        });
+      } else {
+      }
 
-      reset({
-        roleId: null,
-        rights: getLayoutList?.map((card) => {
-          return {
-            name: card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
-            view: false,
-            edit: false,
-            add: false,
-            deleted: false,
-          };
-        }),
-      });
+      // reset({
+      //   roleId: null,
+      //   rights: getLayoutList?.map((card) => {
+      //     return {
+      //       name: card.fieldName[0].toUpperCase() + card.fieldName.substring(1),
+      //       view: false,
+      //       edit: false,
+      //       add: false,
+      //       deleted: false,
+      //     };
+      //   }),
+      // });
     } catch (err) {
       alert(err);
     }
