@@ -1,9 +1,9 @@
-import { createTheme } from "@mui/material";
+simport { createTheme } from "@mui/material";
 
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: "#25316D", // Royal Blue
+      main: "#42032C", // Royal Blue
     },
     secondary: {
       main: "#E6D2AA", // Pale brown
@@ -12,7 +12,7 @@ const defaultTheme = createTheme({
       main: "#FFF5E4", // light Creamish
     },
     quad: {
-      main: "#F1EFDC", // numb yellow
+      main: "#EBC7E8", // numb yellow
     },
 
     fontColor: {

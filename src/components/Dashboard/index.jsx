@@ -12,6 +12,14 @@ import {
   TabMain,
   ProductChartSize,
   StockBox,
+  BorderDLinearProgress,
+  BorderCLinearProgress,
+  BorderBLinearProgress,
+  BorderALinearProgress,
+  ShowButton,
+  ShowButtonText,
+  OrderTrackingText,
+  CardThree,
 } from "./Dashboard.style";
 import Box from "@mui/material/Box";
 import {
@@ -32,16 +40,22 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { Button } from "@mui/material";
+import { Button, Skeleton } from "@mui/material";
 import {
+  currencyFormat,
   ENDPOINTURLFORIMG,
   listBody,
   nFormatter,
   randomColor,
 } from "../../utils/Helper";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDashboardList, fetchProductList } from "../../js/actions";
+import {
+  fetchDashboardList,
+  fetchOrderList,
+  fetchProductList,
+} from "../../js/actions";
 import { useNavigate } from "react-router-dom";
+import { RupeeIcon } from "../Orders/Orders.style";
 
 ChartJS.register(
   ArcElement,
@@ -62,6 +76,14 @@ export default function Dashboard() {
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [placeValue, setPlacedValue] = useState(0);
+  const [disValue, setDisValue] = useState(0);
+  const [canValue, setCanValue] = useState(0);
+  const [recValue, setRecValue] = useState(0);
+  const [orderValue, setOrderValue] = useState();
+  const [loading, setLoading] = useState(true);
+  const [orderTotalValue, setOrderTotalValue] = useState();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -74,11 +96,23 @@ export default function Dashboard() {
   }, []);
   const dashboardList = useSelector((state) => state?.dashboard.list);
   const productList = useSelector((state) => state.product.list);
-
-  console.log("list", productList);
+  const orderList = useSelector((state) => state.order.list);
+  console.log(orderList);
   useEffect(() => {
     getDashboardAllData(value);
   }, [dashboardList, value]);
+  useEffect(() => {
+    setRecValue(orderList.filter((data) => data.orderStatus === "RECEIVED"));
+    setDisValue(orderList.filter((data) => data.orderStatus === "DISPATCHED"));
+    setPlacedValue(orderList.filter((data) => data.orderStatus === "PLACED"));
+    setCanValue(orderList.filter((data) => data.orderStatus === "CANCEL"));
+    setOrderValue(orderList.length);
+    setOrderTotalValue(orderList.reduce((a, b) => (a = a + b.totalPrice), 0));
+    console.log(orderList.reduce((a, b) => (a = a + b.totalPrice), 0));
+    if (orderList.length > 0) {
+      setLoading(false);
+    }
+  }, [orderList]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue); // eslint-disable-next-line
@@ -126,7 +160,7 @@ export default function Dashboard() {
   );
 
   const data = {
-    labels: OrdersbyProducts?.slice(0, 10).map((data) => data.name),
+    labels: OrdersbyProducts?.map((data) => data.name),
     datasets: [
       {
         data: OrdersbyProducts?.slice(0, 10).map((data) => data.quantity),
@@ -251,12 +285,8 @@ export default function Dashboard() {
   const getDashboardData = async (startDate, endDate, newValue) => {
     try {
       dispatch(fetchDashboardList({ startDate: startDate, endDate: endDate }));
-      dispatch(fetchProductList(listBody({ where: null, perPage: 1000000 })));
-      // const response = await dashboardDataHandler({
-      //   startDate: startDate,
-      //   endDate: endDate,
-      // });
-      // console.log(response, newValue);
+      dispatch(fetchProductList(listBody({ where: null, perPage: 1000 })));
+      dispatch(fetchOrderList(listBody({ where: null, perPage: 10000 })));
       getDashboardAllData(newValue);
     } catch (err) {
       alert(err);
@@ -271,6 +301,7 @@ export default function Dashboard() {
       case 1:
         getMonthsData();
         break;
+        s;
       case 2:
         getYearData();
         break;
@@ -426,260 +457,377 @@ export default function Dashboard() {
     <>
       {/* <Alert severity="error">Session token expired!</Alert> */}
       <MainBody>
-        <Grid container spacing={2}>
-          <Grid xs={3}>
-            <CardFrist>
-              <Grid container>
-                <Grid container xs={10}>
-                  <CardContent>
-                    <CardTwo variant="h6" component="div">
-                      Total Orders
-                    </CardTwo>
+        {loading ? (
+          <>
+            <Grid container>
+              <Grid xs={3}>
+                <Skeleton
+                  width={280}
+                  height={128}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+              <Grid xs={3}>
+                <Skeleton
+                  width={280}
+                  height={128}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+              <Grid xs={3}>
+                <Skeleton
+                  width={280}
+                  height={128}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+              <Grid xs={3}>
+                <Skeleton
+                  width={280}
+                  height={128}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+            </Grid>
+            <ContainerTwo container>
+              <Grid xs={5} style={{ marginTop: "15px" }}>
+                <Skeleton
+                  width={480}
+                  height={365}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+              <Grid xs={7} style={{ marginTop: "15px" }}>
+                <Skeleton
+                  width={675}
+                  height={365}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+            </ContainerTwo>
+            <ContainerTwo container>
+              <Grid xs={4}>
+                <Skeleton
+                  style={{ marginTop: "15px" }}
+                  width={380}
+                  height={240}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+              <Grid xs={4}>
+                <Skeleton
+                  style={{ marginTop: "15px" }}
+                  width={380}
+                  height={240}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+              <Grid xs={4}>
+                <Skeleton
+                  style={{ marginTop: "15px" }}
+                  width={380}
+                  height={240}
+                  variant="rounded"
+                  animation="wave"
+                />
+              </Grid>
+            </ContainerTwo>
+          </>
+        ) : (
+          <>
+            <Grid container spacing={2}>
+              <Grid xs={3}>
+                <CardFrist>
+                  <Grid container>
+                    <Grid container xs={10}>
+                      <CardContent>
+                        <CardTwo variant="h6" component="div">
+                          Total Orders
+                        </CardTwo>
 
-                    <CardOne variant="h5" component="div">
-                      {dashboardList?.totalOrder}{" "}
-                    </CardOne>
-                  </CardContent>
-                </Grid>
-              </Grid>
-            </CardFrist>
-          </Grid>
-          <Grid xs={3}>
-            <CardFrist>
-              <Grid container>
-                <Grid container xs={10}>
-                  <CardContent>
-                    <CardTwo variant="h6" component="div">
-                      Total Products
-                    </CardTwo>
-                    <CardOne variant="h5" component="div">
-                      {dashboardList?.totalProducts}
-                    </CardOne>
-                  </CardContent>
-                </Grid>
-              </Grid>
-            </CardFrist>
-          </Grid>
-          <Grid xs={3}>
-            <CardFrist>
-              <Grid container>
-                <Grid container xs={10}>
-                  <CardContent>
-                    <CardTwo variant="h6" component="div">
-                      Total Customers
-                    </CardTwo>
-                    <CardOne variant="h5" component="div">
-                      {dashboardList?.totalUser}
-                    </CardOne>
-                  </CardContent>
-                </Grid>
-              </Grid>
-            </CardFrist>
-          </Grid>
-          <Grid xs={3}>
-            <CardFrist>
-              <Grid container>
-                <Grid container xs={10}>
-                  <CardContent>
-                    <CardTwo variant="h6" component="div">
-                      Total Category
-                    </CardTwo>
-                    <CardOne variant="h5" component="div">
-                      {dashboardList?.totalCategory}
-                    </CardOne>
-                  </CardContent>
-                </Grid>
-              </Grid>
-            </CardFrist>
-          </Grid>
-        </Grid>
-        <ContainerTwo container spacing={2}>
-          <Grid xs={5}>
-            <CardFrist>
-              <CardContent>
-                <CardTwo variant="h6" component="div">
-                  Orders by Products
-                </CardTwo>
-                <DoughnutSize options={doughnutOptions} data={data} />
-              </CardContent>
-            </CardFrist>
-          </Grid>
-          <Grid xs={7}>
-            <CardFrist>
-              <CardContent>
-                <Grid container spacing={2}>
-                  <Grid xs={4}>
-                    <CardContent>
-                      <CardTwo variant="h6" component="div">
-                        Total Sales
-                      </CardTwo>
-                    </CardContent>
+                        <CardOne variant="h5" component="div">
+                          {dashboardList?.totalOrder}{" "}
+                        </CardOne>
+                      </CardContent>
+                    </Grid>
                   </Grid>
-                  <Grid xs={8}>
-                    <Box sx={{ width: "100%" }}>
-                      <TabMain value={value} onChange={handleChange} centered>
-                        <TabButtons label="This Week" />
-                        <TabButtons label="This Months" />
-                        <TabButtons label="This Year" />
-                        <TabButtons label="Custom" />
-                      </TabMain>
-                    </Box>
+                </CardFrist>
+              </Grid>
+              <Grid xs={3}>
+                <CardFrist>
+                  <Grid container>
+                    <Grid container xs={10}>
+                      <CardContent>
+                        <CardTwo variant="h6" component="div">
+                          Total Products
+                        </CardTwo>
+                        <CardOne variant="h5" component="div">
+                          {dashboardList?.totalProducts}
+                        </CardOne>
+                      </CardContent>
+                    </Grid>
                   </Grid>
-                </Grid>
-                {customArea ? (
-                  <>
+                </CardFrist>
+              </Grid>
+              <Grid xs={3}>
+                <CardFrist>
+                  <Grid container>
+                    <Grid container xs={10}>
+                      <CardContent>
+                        <CardTwo variant="h6" component="div">
+                          Total Customers
+                        </CardTwo>
+                        <CardOne variant="h5" component="div">
+                          {dashboardList?.totalUser}
+                        </CardOne>
+                      </CardContent>
+                    </Grid>
+                  </Grid>
+                </CardFrist>
+              </Grid>
+              <Grid xs={3}>
+                <CardFrist>
+                  <Grid container>
+                    <Grid container xs={10}>
+                      <CardContent>
+                        <CardTwo variant="h6" component="div">
+                          Total Category
+                        </CardTwo>
+                        <CardOne variant="h5" component="div">
+                          {dashboardList?.totalCategory}
+                        </CardOne>
+                      </CardContent>
+                    </Grid>
+                  </Grid>
+                </CardFrist>
+              </Grid>
+            </Grid>
+            <ContainerTwo container spacing={2}>
+              <Grid xs={5} style={{ maxHeight: 400 }}>
+                <CardFrist>
+                  <CardContent>
+                    <CardTwo variant="h6" component="div">
+                      Orders by Products
+                    </CardTwo>
+                    <DoughnutSize options={doughnutOptions} data={data} />
+                  </CardContent>
+                </CardFrist>
+              </Grid>
+              <Grid xs={7} style={{ maxHeight: 400 }}>
+                <CardFrist>
+                  <CardContent>
                     <Grid container spacing={2}>
-                      <Grid item xs={2}></Grid>
-                      <Grid item xs={4}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            label="Start Date"
-                            value={customStatdate}
-                            onChange={(newValue) => {
-                              setCustomStartDate(newValue.$d);
-                            }}
-                            renderInput={(params) => (
-                              <TextField size="small" {...params} />
-                            )}
-                          />
-                        </LocalizationProvider>
+                      <Grid xs={4}>
+                        <CardContent>
+                          <CardTwo variant="h6" component="div">
+                            Sales Overview
+                          </CardTwo>
+                        </CardContent>
                       </Grid>
-                      <Grid item xs={4}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            label="End Date"
-                            value={customEnddate}
-                            onChange={(newValue) => {
-                              setCustomEndDate(newValue.$d);
-                            }}
-                            renderInput={(params) => (
-                              <TextField size="small" {...params} />
-                            )}
-                          />
-                        </LocalizationProvider>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Button
-                          variant="contained"
-                          onClick={() => getDateHandler()}
-                        >
-                          OK
-                        </Button>
+                      <Grid xs={8}>
+                        <Box sx={{ width: "100%" }}>
+                          <TabMain
+                            value={value}
+                            onChange={handleChange}
+                            centered
+                          >
+                            <TabButtons label="This Week" />
+                            <TabButtons label="This Months" />
+                            <TabButtons label="This Year" />
+                            <TabButtons label="Custom" />
+                          </TabMain>
+                        </Box>
                       </Grid>
                     </Grid>
-                  </>
-                ) : (
-                  <></>
-                )}
-                <ProductChartSize options={options} data={datas} />
-              </CardContent>
-            </CardFrist>
-          </Grid>
-        </ContainerTwo>
-        <ContainerTwo container spacing={2}>
-          <Grid xs={4}>
-            <CardFrist>
-              <CardContent>
-                <CardTwo variant="h6" component="div">
-                  Out of Stock Products
-                </CardTwo>
-                <Box>
-                  {productList
-                    .filter((data) => data.quantity === 0)
-                    .slice(0, 3)
-                    .map((data) => (
-                      <StockBox container>
-                        <Grid item xs={2}>
-                          <img
-                            src={ENDPOINTURLFORIMG + data.img}
-                            alt="oosp"
-                            height={46}
-                          ></img>
-                        </Grid>
-                        <Grid item xs={7}>
-                          {data.name}
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Button
-                            variant="outlined"
-                            onClick={() =>
-                              navigate(`/products/add?cid=${data._id}`)
-                            }
-                          >
-                            Add
-                          </Button>
-                        </Grid>
-                      </StockBox>
-                    ))}
-
-                  {showMore &&
-                    productList
-                      .filter((data) => data.quantity === 0)
-                      .slice(4, 9999)
-                      .map((data) => (
-                        <StockBox container>
+                    {customArea ? (
+                      <>
+                        <Grid container spacing={2}>
+                          <Grid item xs={2}></Grid>
+                          <Grid item xs={4}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DatePicker
+                                label="Start Date"
+                                value={customStatdate}
+                                onChange={(newValue) => {
+                                  setCustomStartDate(newValue.$d);
+                                }}
+                                renderInput={(params) => (
+                                  <TextField size="small" {...params} />
+                                )}
+                              />
+                            </LocalizationProvider>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DatePicker
+                                label="End Date"
+                                value={customEnddate}
+                                onChange={(newValue) => {
+                                  setCustomEndDate(newValue.$d);
+                                }}
+                                renderInput={(params) => (
+                                  <TextField size="small" {...params} />
+                                )}
+                              />
+                            </LocalizationProvider>
+                          </Grid>
                           <Grid item xs={2}>
-                            <img
-                              src={ENDPOINTURLFORIMG + data.img}
-                              alt="oosp"
-                              height={46}
-                            ></img>
-                          </Grid>
-                          <Grid item xs={7}>
-                            {data.name}
-                          </Grid>
-                          <Grid item xs={3}>
                             <Button
-                              variant="outlined"
-                              onClick={() =>
-                                navigate(`/products/add?cid=${data._id}`)
-                              }
+                              variant="contained"
+                              onClick={() => getDateHandler()}
                             >
-                              Add
+                              OK
                             </Button>
                           </Grid>
-                        </StockBox>
-                      ))}
-                </Box>
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={() => setShowMore(true)}
-                >
-                  More..
-                </Button>
+                        </Grid>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    <ProductChartSize options={options} data={datas} />
+                  </CardContent>
+                </CardFrist>
+              </Grid>
+            </ContainerTwo>
+            <ContainerTwo container spacing={2}>
+              <Grid xs={4}>
+                <CardFrist>
+                  <CardContent>
+                    <CardTwo variant="h6" component="div">
+                      Out of Stock Products
+                    </CardTwo>
+                    <Box>
+                      {productList
+                        .filter((data) => data.quantity === 0)
+                        .slice(0, 2)
+                        .map((data) => (
+                          <StockBox container>
+                            <Grid item xs={2}>
+                              <img
+                                src={ENDPOINTURLFORIMG + data.img}
+                                alt="oosp"
+                                height={46}
+                              ></img>
+                            </Grid>
+                            <Grid item xs={7}>
+                              {data.name}
+                            </Grid>
+                            <Grid item xs={3}>
+                              <Button
+                                variant="outlined"
+                                onClick={() =>
+                                  navigate(`/products/add?cid=${data._id}`)
+                                }
+                              >
+                                Add
+                              </Button>
+                            </Grid>
+                          </StockBox>
+                        ))}
 
-                {/* {productList
-                  .filter((data) => data.quantity === 0)
-                  .map((data) => (
-                    <StockBox container>
-                      <Grid item xs={2}>
-                        <img
-                          src={ENDPOINTURLFORIMG + data.img}
-                          alt="oosp"
-                          height={46}
-                        ></img>
-                      </Grid>
-                      <Grid item xs={7}>
-                        {data.name}
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Button
-                          variant="contained"
-                          onClick={() =>
-                            navigate(`/products/add?cid=${data._id}`)
-                          }
-                        >
-                          Add
-                        </Button>
-                      </Grid>
-                    </StockBox>
-                  ))} */}
-              </CardContent>
-            </CardFrist>
-          </Grid>
-          <Grid xs={6}>{/* <CardFrist></CardFrist> */}</Grid>
-        </ContainerTwo>
+                      {showMore &&
+                        productList
+                          .filter((data) => data.quantity === 0)
+                          .slice(3, 9999)
+                          .map((data) => (
+                            <StockBox container>
+                              <Grid item xs={2}>
+                                <img
+                                  src={ENDPOINTURLFORIMG + data.img}
+                                  alt="oosp"
+                                  height={46}
+                                ></img>
+                              </Grid>
+                              <Grid item xs={7}>
+                                {data.name}
+                              </Grid>
+                              <Grid item xs={3}>
+                                <Button
+                                  variant="outlined"
+                                  onClick={() =>
+                                    navigate(`/products/add?cid=${data._id}`)
+                                  }
+                                >
+                                  Add
+                                </Button>
+                              </Grid>
+                            </StockBox>
+                          ))}
+                    </Box>
+                    {!showMore ? (
+                      <ShowButton
+                        variant="contained"
+                        size="small"
+                        onClick={() => setShowMore(true)}
+                      >
+                        <ShowButtonText>View All</ShowButtonText>
+                      </ShowButton>
+                    ) : (
+                      <></>
+                    )}
+                  </CardContent>
+                </CardFrist>
+              </Grid>
+              <Grid xs={4}>
+                <CardFrist>
+                  <CardContent>
+                    <CardTwo variant="h6" component="div">
+                      Order Tracking
+                    </CardTwo>
+                    <OrderTrackingText>
+                      Placed - {placeValue?.length}
+                    </OrderTrackingText>
+                    <BorderALinearProgress
+                      variant="determinate"
+                      value={(placeValue?.length * 100) / orderValue}
+                    />
+                    <OrderTrackingText>
+                      Dispatched - {disValue?.length}
+                    </OrderTrackingText>
+                    <BorderBLinearProgress
+                      variant="determinate"
+                      value={(disValue?.length * 100) / orderValue}
+                    />{" "}
+                    <OrderTrackingText>
+                      Received - {recValue?.length}
+                    </OrderTrackingText>
+                    <BorderCLinearProgress
+                      variant="determinate"
+                      value={(recValue?.length * 100) / orderValue}
+                    />
+                    <OrderTrackingText>
+                      Cancel - {canValue?.length}
+                    </OrderTrackingText>
+                    <BorderDLinearProgress
+                      variant="determinate"
+                      value={(canValue?.length * 100) / orderValue}
+                    />
+                  </CardContent>
+                </CardFrist>
+              </Grid>
+              <Grid xs={4}>
+                <CardFrist>
+                  <CardContent>
+                    <CardTwo variant="h6" component="div">
+                      Total Income
+                    </CardTwo>
+                    <CardThree>
+                      &#x20b9; {currencyFormat(orderTotalValue)}
+                    </CardThree>
+                  </CardContent>
+                </CardFrist>
+              </Grid>
+            </ContainerTwo>
+          </>
+        )}
       </MainBody>
     </>
   );
