@@ -1,4 +1,4 @@
-simport { createTheme } from "@mui/material";
+import { createTheme } from "@mui/material";
 
 const defaultTheme = createTheme({
   palette: {
