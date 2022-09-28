@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { styled, Button } from "@mui/material";
+import { styled, Button, TableCell } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -49,9 +49,10 @@ export const CardOne = styled(Typography)(({ theme }) => ({
 export const CardTwo = styled(Typography)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
   fontWeight: 600,
-  fontSize: "0.875rem",
+  fontSize: "15px",
   lineHeight: 1.57143,
   marginBottom: 5,
+  color: "black",
 }));
 
 export const ContainerTwo = styled(Grid)(({ theme }) => ({
@@ -139,7 +140,7 @@ export const ShowButton = styled(Button)(({ theme }) => ({
   fontFamily: "Public Sans",
   textTransform: " capitalize",
   marginTop: "14px",
-  marginLeft: "77%",
+  // marginLeft: "80%",
 }));
 export const OrderTrackingText = styled(Typography)(({ theme }) => ({
   fontFamily: "Public Sans",
@@ -149,13 +150,59 @@ export const OrderTrackingText = styled(Typography)(({ theme }) => ({
 export const ShowButtonText = styled(Typography)(({ theme }) => ({
   fontFamily: "Public Sans",
   textTransform: " capitalize",
-  fontSize: 14,
+  fontSize: 11,
 }));
 export const CardThree = styled(Typography)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
-  fontWeight: 700,
-  fontSize: "26px",
+  fontWeight: 800,
+  fontSize: "28px",
   lineHeight: 1.57143,
   marginBottom: 5,
-  color: theme.palette.primary.main,
+  color: "#103c01",
+}));
+export const IncomeCard = styled(Card)(({ theme }) => ({
+  padding: 5,
+  fontFamily: theme.typography.fontFamily,
+  borderRadius: 10,
+  margin: 10,
+  boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px",
+  background: "#c3f7c3",
+  color: "green",
+}));
+export const ExpensesCard = styled(Card)(({ theme }) => ({
+  padding: 5,
+  fontFamily: theme.typography.fontFamily,
+  borderRadius: 10,
+  margin: 10,
+  boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px",
+  background: "#ffb6b6",
+  color: "green",
+}));
+export const CardFour = styled(Typography)(({ theme }) => ({
+  fontFamily: theme.typography.fontFamily,
+  fontWeight: 800,
+  fontSize: "28px",
+  lineHeight: 1.57143,
+  marginBottom: 5,
+  color: "#760000;",
+}));
+
+export const TableCellA = styled(TableCell)(({ theme }) => ({
+  background: "aliceblue",
+  borderTopLeftRadius: "15px",
+  borderBottomLeftRadius: "15px",
+  borderBottom: "none",
+}));
+export const TableCellB = styled(TableCell)(({ theme }) => ({
+  background: "aliceblue",
+  borderBottom: "none",
+}));
+export const TableCellC = styled(TableCell)(({ theme }) => ({
+  background: "aliceblue",
+  borderTopRightRadius: "15px",
+  borderBottomRightRadius: "15px",
+  borderBottom: "none",
+}));
+export const TableCellD = styled(TableCell)(({ theme }) => ({
+  borderBottom: "none",
 }));

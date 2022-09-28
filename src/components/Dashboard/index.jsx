@@ -20,6 +20,13 @@ import {
   ShowButtonText,
   OrderTrackingText,
   CardThree,
+  IncomeCard,
+  ExpensesCard,
+  CardFour,
+  TableCellA,
+  TableCellB,
+  TableCellC,
+  TableCellD,
 } from "./Dashboard.style";
 import Box from "@mui/material/Box";
 import {
@@ -55,7 +62,10 @@ import {
   fetchProductList,
 } from "../../js/actions";
 import { useNavigate } from "react-router-dom";
-import { RupeeIcon } from "../Orders/Orders.style";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 ChartJS.register(
   ArcElement,
@@ -814,14 +824,111 @@ export default function Dashboard() {
                 </CardFrist>
               </Grid>
               <Grid xs={4}>
-                <CardFrist>
+                <IncomeCard>
                   <CardContent>
                     <CardTwo variant="h6" component="div">
                       Total Income
                     </CardTwo>
                     <CardThree>
-                      &#x20b9; {currencyFormat(orderTotalValue)}
+                      &#x20b9;{currencyFormat(orderTotalValue)}
                     </CardThree>
+                  </CardContent>
+                </IncomeCard>
+                <ExpensesCard>
+                  <CardContent>
+                    <CardTwo variant="h6" component="div">
+                      Total Expenses
+                    </CardTwo>
+                    <CardFour>
+                      {/* &#x20b9; {currencyFormat(orderTotalValue)} */}
+                      &#x20b9;{currencyFormat(235554)}
+                    </CardFour>
+                  </CardContent>
+                </ExpensesCard>
+              </Grid>
+            </ContainerTwo>
+            <ContainerTwo container spacing={2}>
+              <Grid xs={8}>
+                <CardFrist>
+                  <CardContent>
+                    <CardTwo variant="h6" component="div">
+                      New Invoice
+                    </CardTwo>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCellA>Invoice ID</TableCellA>
+                          <TableCellB>Name</TableCellB>
+                          <TableCellB>Price</TableCellB>
+                          <TableCellB>Items</TableCellB>
+                          <TableCellC>Status</TableCellC>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {orderList.slice(0, 4).map((row) => (
+                          <TableRow key={row.name}>
+                            <TableCellD component="th" scope="row">
+                              {row.paymentId}
+                            </TableCellD>
+                            <TableCellD>
+                              {row.userId.firstName + " " + row.userId.lastName}
+                            </TableCellD>
+                            <TableCellD>
+                              &#x20b9;{currencyFormat(row.totalPrice)}
+                            </TableCellD>
+                            <TableCellD>{row.cartdetail.length}</TableCellD>
+                            <TableCellD>{row.orderStatus}</TableCellD>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    <ShowButton
+                      variant="contained"
+                      size="small"
+                      onClick={() => navigate("/orders")}
+                    >
+                      <ShowButtonText>View All Invoice</ShowButtonText>
+                    </ShowButton>
+                  </CardContent>
+                </CardFrist>
+              </Grid>
+              <Grid xs={4}>
+                <CardFrist>
+                  <CardContent>
+                    <CardTwo variant="h6" component="div">
+                      Latest Products
+                    </CardTwo>
+                    {productList.slice(0, 4).map((data) => (
+                      <StockBox container>
+                        <Grid item xs={2}>
+                          <img
+                            src={ENDPOINTURLFORIMG + data.img}
+                            alt="oosp"
+                            height={46}
+                          ></img>
+                        </Grid>
+                        <Grid item xs={7}>
+                          {data.name}
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
+                              navigate(`/products/add?cid=${data._id}`)
+                            }
+                          >
+                            View
+                          </Button>
+                        </Grid>
+                      </StockBox>
+                    ))}
+                    <ShowButton
+                      variant="contained"
+                      size="small"
+                      onClick={() => navigate("/products")}
+                    >
+                      <ShowButtonText>View Products</ShowButtonText>
+                    </ShowButton>
                   </CardContent>
                 </CardFrist>
               </Grid>

@@ -6,7 +6,7 @@ const defaultTheme = createTheme({
       main: "#25316D", // Royal Blue
     },
     secondary: {
-      main: "#E6D2AA", // Pale brown
+      main: "#F2EBE9", // Pale brown
     },
     tertiary: {
       main: "#FFF5E4", // light Creamish
