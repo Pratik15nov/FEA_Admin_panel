@@ -1,15 +1,15 @@
 import { createTheme } from "@mui/material";
 
-const theme = createTheme({
+const updateTheme = createTheme({
   palette: {
     primary: {
-      main: "#25316D", // Royal Blue
+      main: "#000000de",
     },
     secondary: {
-      main: "#E6D2AA", // Greyiesh Blue
+      main: "#E6D2AA", // Pale brown
     },
     tertiary: {
-      main: "#FFF5E4", // light Sky blue
+      main: "#FFF5E4", // light Creamish
     },
     quad: {
       main: "#F1EFDC", // numb yellow
@@ -21,19 +21,19 @@ const theme = createTheme({
     },
 
     mainBackground: {
-      main: "#000", // white
+      main: "#000", // black
     },
     background: {
-      default: "#ffffff",
+      default: "#ffffff", // white
     },
     custom: {
-      color: "#white",
+      color: "#ffffff", // white
+      success: "#65c466", // green
+      error: "#FF4842", // red
       tertiary: "#FFCB42",
       quad: "#FFF4CF",
-      success: "#54D62C",
       info: "#0C53B7",
       warning: "#B78103",
-      error: "#FF4842",
     },
   },
   typography: {
@@ -51,4 +51,4 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+export default updateTheme;

@@ -6,6 +6,7 @@ import {
   AddRoleButton,
   CancelIcon,
   TitleText,
+  CustomDialogContent,
 } from "./AddRoleDialog.style";
 import { useForm, Controller } from "react-hook-form";
 import { Grid } from "@mui/material";
@@ -39,7 +40,7 @@ const AddRoleDialog = (props) => {
           </Grid>
         </Grid>
       </TitleText>
-      <DialogContent sx={{background:"#523b83"}}>
+      <CustomDialogContent>
         <DialogText>
           <form onSubmit={handleSubmit(handleLogin)}>
             <Grid container sx={{ display: "block" }}>
@@ -77,7 +78,7 @@ const AddRoleDialog = (props) => {
             </Grid>
           </form>
         </DialogText>
-      </DialogContent>
+      </CustomDialogContent>
     </Dialog>
   );
 };

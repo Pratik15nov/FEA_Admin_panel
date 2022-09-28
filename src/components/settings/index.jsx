@@ -1,7 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container, ContainerHead } from "./settings.style";
+import { Container, ContainerHead, IOSSwitch } from "./settings.style";
+import { useEffect, useState } from "react";
+
 //
 // import { Button } from "@mui/material";
 // import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
@@ -22,7 +24,24 @@ import { Container, ContainerHead } from "./settings.style";
 // LicenseInfo.setLicenseKey(
 //   "7003f52e1358cc619e3d853e94f079a4T1JERVI6NDMxMDAsRVhQSVJZPTE2ODMyOTQ3MTcwMDAsS0VZVkVSU0lPTj0x"
 // );
-const Settings = () => {
+const Settings = (props) => {
+  const [value, setValue] = useState(false);
+
+  useEffect(() => {
+    const data = localStorage.getItem("themeKey");
+    try {
+      if (data === null) {
+        setValue(false);
+      } else if (data === "true") {
+        setValue(true);
+      } else {
+        setValue(false);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }, [localStorage.getItem("themeKey")]);
+
   //
   // const apiRef = useGridApiRef();
 
@@ -135,6 +154,14 @@ const Settings = () => {
         <ContainerHead variant="h6">Theme Customizer</ContainerHead>
 
         <ContainerHead variant="subtitle1">Mode</ContainerHead>
+
+        <IOSSwitch
+          checked={value}
+          onChange={(e) => {
+            props.getTheme(e.target.checked);
+            setValue(!value);
+          }}
+        />
       </Box>
 
       {/* <Button variant="outlined" size="large" onClick={handleLogin}>

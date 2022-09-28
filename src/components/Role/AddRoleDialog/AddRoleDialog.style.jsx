@@ -4,6 +4,7 @@ import {
   Button,
   TextField,
   DialogTitle,
+  DialogContent,
 } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
@@ -35,12 +36,16 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: "#523b83",
+    color: theme.palette.custom.success,
   },
 }));
 export const TitleText = styled(DialogTitle)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: "bold",
-  color: theme.palette.custom.color,
-  background: "#523b83",
+  color: theme.palette.fontColor.main,
+  background: theme.palette.primary.main,
 }));
+export const CustomDialogContent = styled(DialogContent)(({ theme }) => ({
+  background: theme.palette.background,
+}));
+

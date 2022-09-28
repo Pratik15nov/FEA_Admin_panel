@@ -67,7 +67,7 @@ export default function OrderView(props) {
 
     let data = 0;// eslint-disable-next-line
     props.viewdata.cartdetail?.filter((value) => {
-      data = data + value.productId.discountPrice * value.quantity;
+      data = data + value.productId?.discountPrice * value.quantity;
     });
     setSubTotal(data);
  // eslint-disable-next-line
@@ -166,19 +166,19 @@ export default function OrderView(props) {
                   {props.viewdata.cartdetail?.map((row) => (
                     <StyledTableRow key={row.name}>
                       <StyledTableCell component="th" scope="row">
-                        {row.productId.name}
+                        {row.productId?.name}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {row.quantity}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {"₹"}&nbsp;
-                        {currencyFormat(Number(row.productId.discountPrice))}
+                        {currencyFormat(Number(row.productId?.discountPrice))}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {"₹"}&nbsp;
                         {currencyFormat(
-                          Number(row.quantity * row.productId.discountPrice)
+                          Number(row.quantity * row.productId?.discountPrice)
                         )}
                       </StyledTableCell>
                     </StyledTableRow>

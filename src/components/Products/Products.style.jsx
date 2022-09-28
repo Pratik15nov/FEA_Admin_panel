@@ -45,11 +45,11 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main
   },
   "& .MuiDataGrid-row": {
     backgroundColor: theme.palette.tertiary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
     "&:hover": {
       color: "black",
     },
@@ -174,7 +174,7 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.custom.error, 1),
   cursor: "pointer",
   fontSize: 20,
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   marginBottom: 170,
   marginLeft: 10,
 }));

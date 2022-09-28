@@ -12,7 +12,7 @@ import Chip from "@mui/material/Chip";
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   backgroundColor: alpha(theme.palette.primary.main, 1),
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.25),
@@ -78,7 +78,7 @@ export const CategoryName = styled(Typography)(({ theme }) => ({
 }));
 
 export const ColoumHead = styled(Typography)(({ theme }) => ({
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   fontWeight: 600,
   fontSize: "16px",
 }));
@@ -89,11 +89,11 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-row": {
     backgroundColor: theme.palette.tertiary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
     "&:hover": {
       color: "black",
     },
@@ -103,13 +103,13 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-footerContainer": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-displayedRows": {
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-actions": {
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",

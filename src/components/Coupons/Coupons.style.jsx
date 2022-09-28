@@ -37,27 +37,27 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-row": {
     backgroundColor: theme.palette.tertiary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
     "&:hover": {
       color: "black",
     },
   },
   "& .MuiCheckbox-colorPrimary.Mui-checked": {
-    color: theme.palette.custom.success,
+    color:  theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-footerContainer": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
+    color:  theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-displayedRows": {
-    color: theme.palette.custom.color,
+    color:  theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-actions": {
-    color: theme.palette.custom.color,
+    color:  theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
@@ -80,7 +80,7 @@ export const IOSSwitch = styled((props) => (
       transform: "translateX(16px)",
       color: "#fff",
       "& + .MuiSwitch-track": {
-        backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+        backgroundColor: theme.palette.custom.success,
         opacity: 1,
         border: 0,
       },
@@ -109,7 +109,7 @@ export const IOSSwitch = styled((props) => (
   },
   "& .MuiSwitch-track": {
     borderRadius: 26 / 2,
-    backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
+    backgroundColor: theme.palette.custom.success,
     opacity: 1,
     transition: theme.transitions.create(["background-color"], {
       duration: 500,
@@ -135,7 +135,7 @@ export const DeletionIcon = styled(AutoDeleteTwoToneIcon)(({ theme }) => ({
 }));
 
 export const ColoumHead = styled(Typography)(({ theme }) => ({
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   fontWeight: 600,
   fontSize: "15px",
 }));
@@ -178,7 +178,7 @@ export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.custom.error, 1),
   cursor: "pointer",
   fontSize: 16,
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   marginBottom: 170,
   marginLeft: 10,
 }));
@@ -194,7 +194,7 @@ export const InputField = styled(TextField)(({ theme }) => ({
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   backgroundColor: alpha(theme.palette.primary.main, 1),
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.25),

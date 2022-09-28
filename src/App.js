@@ -1,8 +1,13 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { createTheme } from "@mui/material";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "./theme";
+// import theme from "./theme";
+import defaultTheme from "./defaultTheme";
+import updateTheme from "./updateTheme";
 import Login from "./components/Login";
 import Layout from "./components/Layout";
 import Dashboard from "./components/Dashboard";
@@ -30,9 +35,50 @@ import ConfirmPassword from "./components/ConfirmPassword";
 import PageNotFound from "./components/PageNotFound";
 import ProtectedRoute from "./components/protectedRoutes";
 
+// localStorage.setItem('themeKey', JSON.stringify(check));
+
 function App() {
+  const [theme, setTheme] = useState(defaultTheme);
+
+  useEffect(() => {
+    checkTheme();
+  }, [localStorage.getItem("themeKey")]);
+
+  const checkTheme = () => {
+    const data = localStorage.getItem("themeKey");
+
+    try {
+      if (data === null) {
+        localStorage.setItem("themeKey", false);
+        setTheme(defaultTheme);
+      } else if (data === "true") {
+        setTheme(updateTheme);
+      } else {
+        setTheme(defaultTheme);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const getTheme = async (check) => {
+    localStorage.setItem("themeKey", check);
+    try {
+      if (check === "true") {
+        setTheme(defaultTheme);
+        checkTheme();
+      } else {
+        setTheme(updateTheme);
+        checkTheme();
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const muiTheme = createTheme(theme);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={muiTheme}>
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login />} />
@@ -186,7 +232,7 @@ function App() {
               path="/settings"
               element={
                 <Layout>
-                  <Settings />
+                  <Settings getTheme={getTheme} />
                 </Layout>
               }
             />

@@ -19,27 +19,27 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-row": {
     backgroundColor: theme.palette.tertiary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
     "&:hover": {
-      color: "black",
+    color: theme.palette.fontColor.first,
     },
   },
   "& .MuiCheckbox-colorPrimary.Mui-checked": {
-    color: theme.palette.custom.success,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-footerContainer": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-displayedRows": {
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiTablePagination-actions": {
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
@@ -49,7 +49,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   backgroundColor: alpha(theme.palette.primary.main, 1),
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.25),
@@ -88,7 +88,7 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const ColoumHead = styled(Typography)(({ theme }) => ({
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   fontWeight: 600,
   fontSize: "16px",
 }));
@@ -118,7 +118,6 @@ export const IOSSwitch = styled((props) => (
       color: "#fff",
       "& + .MuiSwitch-track": {
         backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
-        opacity: 1,
         border: 0,
       },
       "&.Mui-disabled + .MuiSwitch-track": {

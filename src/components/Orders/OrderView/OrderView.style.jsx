@@ -22,22 +22,21 @@ export const DialogContainer = styled(Dialog)(({ theme }) => ({}));
 export const CustomButton = styled(Button)(({ theme }) => ({
   cursor: "pointer",
   fontWeight: "bold",
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.main,
   "&:hover": {
-    color: "#523b83",
+    color: theme.palette.custom.success,
   },
 }));
 export const Actions = styled(DialogActions)(({ theme }) => ({
   justifyContent:"space-between",
-  background: "#523b83",
+  background: theme.palette.primary.main,
 }));
 export const ContentBox = styled(DialogContent)(({ theme }) => ({
-  // background: "#523b83",
   background: "white",
 }));
 export const TitleBox = styled(DialogTitle)(({ theme }) => ({
-  background: "#523b83",
-  color: theme.palette.custom.color,
+  background:  theme.palette.primary.main,
+  color: theme.palette.fontColor.main,
 }));
 export const TitleContainerBox = styled(DialogTitle)(({ theme }) => ({
   display: "flex",
@@ -66,7 +65,7 @@ export const CustomDivider = styled(Divider)(({ theme }) => ({
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#3c89c7",
-    color: theme.palette.custom.color,
+    color: theme.palette.fontColor.main,
     fontWeight: "bold",
     fontSize: "12px",
   },
@@ -128,6 +127,6 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: "#523b83",
+    color: theme.palette.custom.success
   },
 }));
