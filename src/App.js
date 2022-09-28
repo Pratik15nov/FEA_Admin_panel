@@ -64,7 +64,7 @@ function App() {
   const getTheme = async (check) => {
     localStorage.setItem("themeKey", check);
     try {
-      if (check === "true") {
+      if (check === "false") {
         setTheme(defaultTheme);
         checkTheme();
       } else {
