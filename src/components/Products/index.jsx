@@ -244,11 +244,9 @@ const Products = () => {
   };
   const getProductData = async () => {
     try {
-      if (productList.length === 0) {
-        dispatch(
-          fetchProductList(listBody({ where: null, perPage: 10, page: page }))
-        );
-      }
+      dispatch(
+        fetchProductList(listBody({ where: null, perPage: 10, page: page }))
+      );
     } catch (err) {
       alert(err);
     } finally {
