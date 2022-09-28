@@ -275,6 +275,7 @@ export const loggerMiddleware = (store) => (next) => (action) => {
             store.dispatch(loadingStop());
           });
         break;
+        
       case "CHANGE_PRODUCT_STATUS":
         store.dispatch(loadingStart());
         productStatus(action.payload.id, action.payload.body)

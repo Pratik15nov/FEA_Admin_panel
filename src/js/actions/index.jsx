@@ -53,6 +53,7 @@ export function fetchProductList(payload) {
   return { type: "FETCH_PRODUCT", payload };
 }
 
+
 export function productStatusChange(payload) {
   return { type: "CHANGE_PRODUCT_STATUS", payload };
 }

@@ -57,3 +57,6 @@ export const randomColor = [
   "rgba(153, 102, 255, 0.7)",
   "rgba(255, 159, 64, 0.7)",
 ];
+export const currencyFormat = (num) => {
+  return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+};
