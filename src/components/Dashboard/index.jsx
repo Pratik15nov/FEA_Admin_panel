@@ -27,6 +27,7 @@ import {
   TableCellB,
   TableCellC,
   TableCellD,
+  ProductsText,
 } from "./Dashboard.style";
 import Box from "@mui/material/Box";
 import {
@@ -107,7 +108,7 @@ export default function Dashboard() {
   const dashboardList = useSelector((state) => state?.dashboard.list);
   const productList = useSelector((state) => state.product.list);
   const orderList = useSelector((state) => state.order.list);
-  console.log(orderList);
+  console.log(productList);
   useEffect(() => {
     getDashboardAllData(value);
   }, [dashboardList, value]);
@@ -118,7 +119,7 @@ export default function Dashboard() {
     setCanValue(orderList.filter((data) => data.orderStatus === "CANCEL"));
     setOrderValue(orderList.length);
     setOrderTotalValue(orderList.reduce((a, b) => (a = a + b.totalPrice), 0));
-    console.log(orderList.reduce((a, b) => (a = a + b.totalPrice), 0));
+
     if (orderList.length > 0) {
       setLoading(false);
     }
@@ -852,7 +853,7 @@ export default function Dashboard() {
                 <CardFrist>
                   <CardContent>
                     <CardTwo variant="h6" component="div">
-                      New Invoice
+                      New Orders
                     </CardTwo>
                     <Table>
                       <TableHead>
@@ -887,7 +888,7 @@ export default function Dashboard() {
                       size="small"
                       onClick={() => navigate("/orders")}
                     >
-                      <ShowButtonText>View All Invoice</ShowButtonText>
+                      <ShowButtonText>View All Orders</ShowButtonText>
                     </ShowButton>
                   </CardContent>
                 </CardFrist>
@@ -907,18 +908,17 @@ export default function Dashboard() {
                             height={46}
                           ></img>
                         </Grid>
-                        <Grid item xs={7}>
+                        <Grid item xs={5}>
                           {data.name}
                         </Grid>
-                        <Grid item xs={3}>
-                          <Button
-                            variant="outlined"
-                            onClick={() =>
-                              navigate(`/products/add?cid=${data._id}`)
-                            }
-                          >
-                            View
-                          </Button>
+                        <Grid item xs={5}>
+                          &#x20b9;{currencyFormat(data.discountPrice)}
+                          {"/-"}
+                          <br />
+                          <ProductsText>
+                            &#x20b9;{currencyFormat(data.price)}
+                            {"/-"}
+                          </ProductsText>
                         </Grid>
                       </StockBox>
                     ))}

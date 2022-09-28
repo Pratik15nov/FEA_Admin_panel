@@ -34,6 +34,7 @@ import {
   MainAdminContent,
   MainList,
   DropDownMenu,
+ 
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { updatepState, fetchUserAdminList } from "../../js/actions";
@@ -210,9 +211,11 @@ export default function Layout(props) {
             ))}
         </MainList>
       </Drawer>
-      <MainAdminBox>
+     
+      <MainAdminBox >
         <MainAdminContent>{props.children}</MainAdminContent>
       </MainAdminBox>
+     
     </MainContainer>
   );
 }

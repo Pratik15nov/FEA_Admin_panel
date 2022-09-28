@@ -64,8 +64,7 @@ export const StockBox = styled(Grid)(({ theme }) => ({
   borderRadius: ["10px", "63ox"],
   justifyContent: "center",
   alignItems: "center",
-  boxShadow:
-    "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+  boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
   marginTop: 5,
 }));
 export const CustomIcon = styled(TuneIcon)(({ theme }) => ({
@@ -205,4 +204,8 @@ export const TableCellC = styled(TableCell)(({ theme }) => ({
 }));
 export const TableCellD = styled(TableCell)(({ theme }) => ({
   borderBottom: "none",
+}));
+export const ProductsText = styled(Typography)(({ theme }) => ({
+  fontSize: 12,
+  textDecoration: "line-through",
 }));

@@ -21,10 +21,10 @@ const updateTheme = createTheme({
     },
 
     mainBackground: {
-      main: "#000", // black
+      main: "#ffffff", // white
     },
     background: {
-      default: "#ffffff", // white
+      default:  "#000", // black
     },
     custom: {
       color: "#ffffff", // white
