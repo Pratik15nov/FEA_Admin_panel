@@ -37,6 +37,7 @@ export const CardFrist = styled(Card)(({ theme }) => ({
 export const MainBody = styled(Card)(({ theme }) => ({
   padding: 10,
   boxShadow: "none",
+  backgroundColor: theme.palette.background.default
 }));
 
 export const CardOne = styled(Typography)(({ theme }) => ({
