@@ -28,7 +28,7 @@ const defaultTheme = createTheme({
     },
     custom: {
       color: "#ffffff", // white
-      success: "#65c466", // green 
+      success: "#65c466", // green
       error: "#FF4842", // red
       tertiary: "#FFCB42",
       quad: "#FFF4CF",

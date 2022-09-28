@@ -3,10 +3,10 @@ import { createTheme } from "@mui/material";
 const updateTheme = createTheme({
   palette: {
     primary: {
-      main:"#65C18C"  // pastel green
+      main: "#65C18C", // pastel green
     },
     secondary: {
-      main: "#E6D2AA", // Pale brown
+      main: "#303030", // Pale brown
     },
     tertiary: {
       main: "#FFF5E4", // light Creamish
@@ -17,14 +17,14 @@ const updateTheme = createTheme({
 
     fontColor: {
       main: "#000000", // black
-      first:   "#ffffff", // white
+      first: "#ffffff", // white
     },
 
     mainBackground: {
-      main:"#ffffff", // white
+      main: "#ffffff", // white
     },
     background: {
-      default:  "#000", // black 
+      default: "#000", // black
     },
     custom: {
       color: "#ffffff", // white

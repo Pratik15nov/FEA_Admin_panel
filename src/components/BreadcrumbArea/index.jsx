@@ -41,14 +41,7 @@ export default function BreadcrumbArea(props) {
             <Typography variant="h1"> {items} </Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <Box underline="hover" color="inherit">
-                <MyLink
-                  style={{
-                    color: "black",
-                  }}
-                  to="/dashboard"
-                >
-                  Dashboard
-                </MyLink>
+                <MyLink to="/dashboard">Dashboard</MyLink>
               </Box>
               <Typography>{items} List</Typography>
             </Breadcrumbs>

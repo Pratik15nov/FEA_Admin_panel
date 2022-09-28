@@ -37,7 +37,7 @@ export const CardFrist = styled(Card)(({ theme }) => ({
 export const MainBody = styled(Card)(({ theme }) => ({
   padding: 10,
   boxShadow: "none",
-  backgroundColor: theme.palette.background.default
+  backgroundColor: theme.palette.background.default,
 }));
 
 export const CardOne = styled(Typography)(({ theme }) => ({
@@ -45,6 +45,7 @@ export const CardOne = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   fontSize: "2rem",
   lineHeight: 1.5,
+  color: theme.palette.fontColor.first,
 }));
 
 export const CardTwo = styled(Typography)(({ theme }) => ({
@@ -53,7 +54,7 @@ export const CardTwo = styled(Typography)(({ theme }) => ({
   fontSize: "15px",
   lineHeight: 1.57143,
   marginBottom: 5,
-  color: "black",
+  color: theme.palette.fontColor.first,
 }));
 
 export const ContainerTwo = styled(Grid)(({ theme }) => ({
@@ -81,6 +82,7 @@ export const TabButtons = styled(Tab)(({ theme }) => ({
   fontFamily: "Public Sans",
   textTransform: " capitalize",
   fontWeight: 600,
+  color: theme.palette.fontColor.first,
 }));
 export const BorderALinearProgress = styled(LinearProgress)(({ theme }) => ({
   marginTop: 5,
@@ -140,12 +142,14 @@ export const ShowButton = styled(Button)(({ theme }) => ({
   fontFamily: "Public Sans",
   textTransform: " capitalize",
   marginTop: "14px",
+  color: theme.palette.fontColor.first,
   // marginLeft: "80%",
 }));
 export const OrderTrackingText = styled(Typography)(({ theme }) => ({
   fontFamily: "Public Sans",
   textTransform: " capitalize",
   fontSize: 15,
+  color: theme.palette.fontColor.first,
 }));
 export const ShowButtonText = styled(Typography)(({ theme }) => ({
   fontFamily: "Public Sans",
@@ -205,6 +209,7 @@ export const TableCellC = styled(TableCell)(({ theme }) => ({
 }));
 export const TableCellD = styled(TableCell)(({ theme }) => ({
   borderBottom: "none",
+  color: theme.palette.fontColor.first,
 }));
 export const ProductsText = styled(Typography)(({ theme }) => ({
   fontSize: 12,

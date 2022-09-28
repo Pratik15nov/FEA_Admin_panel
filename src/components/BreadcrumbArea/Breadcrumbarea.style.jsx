@@ -45,10 +45,12 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const MyButton = styled(Button)(({ theme }) => ({
   height: 40,
 }));
-
+export const MainText = styled(Button)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
+}));
 export const MyLink = styled(Link)(({ theme }) => ({
   textDecoration: "none",
-  color: "black",
+  color: theme.palette.fontColor.first,
   "&:hover": {
     color: alpha(theme.palette.primary.main),
   },
