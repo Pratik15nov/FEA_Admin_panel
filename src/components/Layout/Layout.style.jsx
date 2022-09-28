@@ -67,6 +67,11 @@ const Drawer = styled(MuiDrawer, {
   boxSizing: "border-box",
   border: "none",
   borderRight: "none",
+  backgroundColor: theme.palette.background.default,
+
+  "& .MuiPaper-root": {
+    backgroundColor: theme.palette.background.default,
+  },
 
   ...(open && {
     ...openedMixin(theme),
@@ -262,15 +267,20 @@ const ToolBarLeftBox = styled(Box)(({ theme }) => ({
 const MainAdminBox = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   padding: "64px 24px 24px 0px",
+  backgroundColor:theme.palette.background.default,
+
 }));
 const MainAdminContent = styled(Box)(({ theme }) => ({
   padding: 20,
+  
+  minHeight:"calc(100vh - 87px)"
 }));
 const MainList = styled(List, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   ...(!open && { marginTop: 8 }),
 }));
+
 export {
   Customsidebar,
   DrawerHeader,
