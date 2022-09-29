@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Container, InputBox, InputField, BottomButton,CustomFormText } from "./profile.style";
@@ -10,7 +10,10 @@ import { Typography, Grid, Skeleton, Box, Breadcrumbs } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { MyLink } from "../BreadcrumbArea/Breadcrumbarea.style";
+import {
+  MainBreadcrumbs,
+  MainTextA,
+} from "../BreadcrumbArea/Breadcrumbarea.style";
 import { listBody } from "../../utils/Helper";
 import { updatepProfile } from "../../js/actions";
 import { passwordUpdation, pwdUpdationMail } from "../../service/Auth.Service";
@@ -68,7 +71,6 @@ const Profile = () => {
     }
   };
   const handleAdd = async (body) => {
-
     try {
       dispatch(
         updatepProfile({
@@ -136,7 +138,6 @@ const Profile = () => {
     try {
       const response = await pwdUpdationMail(cid);
       if (response.success) {
-
         alert("PASSWORD UPDATION EMAIL HAS BEEN SENT");
         setOpenAlert(false);
       } else {
@@ -154,20 +155,13 @@ const Profile = () => {
     <Container>
       <Grid container sx={{ paddingBottom: "20px" }}>
         <Grid item xs={7}>
-          <Typography variant="h1"> Profile Settings</Typography>
-          <Breadcrumbs aria-label="breadcrumb">
+          <MainTextA variant="h1"> Profile Settings</MainTextA>
+          <MainBreadcrumbs aria-label="breadcrumb">
             <Box underline="hover" color="inherit">
-              <MyLink
-                style={{
-                  color: "black",
-                }}
-                to="/dashboard"
-              >
-                Dashboard
-              </MyLink>
+              <MyLink to="/dashboard">Dashboard</MyLink>
             </Box>
-            <Typography>Profile</Typography>
-          </Breadcrumbs>
+            <MainTextA>Profile</MainTextA>
+          </MainBreadcrumbs>
         </Grid>
       </Grid>
       <Grid container sx={{ paddingBottom: "20px" }}>
@@ -203,7 +197,7 @@ const Profile = () => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ? error.message :""}
+                      helperText={error?.message ? error.message : ""}
                     />
                   )}
                   control={profileFormControl.control}
@@ -242,7 +236,7 @@ const Profile = () => {
                       value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?error.message: ""}
+                      helperText={error?.message ? error.message : ""}
                     />
                   )}
                   control={profileFormControl.control}
@@ -282,7 +276,7 @@ const Profile = () => {
                       value={value}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?error.message : ""}
+                      helperText={error?.message ? error.message : ""}
                     />
                   )}
                   control={profileFormControl.control}
@@ -380,7 +374,7 @@ const Profile = () => {
                       value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ? error.message:""}
+                      helperText={error?.message ? error.message : ""}
                     />
                   )}
                   control={changePasswordFormControl.control}
@@ -406,7 +400,7 @@ const Profile = () => {
                       value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?error.message : ""}
+                      helperText={error?.message ? error.message : ""}
                     />
                   )}
                   control={changePasswordFormControl.control}
@@ -438,7 +432,7 @@ const Profile = () => {
                       value={value || ""}
                       onChange={onChange}
                       error={!!error}
-                      helperText={error?.message ?error.message: ""}
+                      helperText={error?.message ? error.message : ""}
                     />
                   )}
                   control={changePasswordFormControl.control}

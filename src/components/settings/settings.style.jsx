@@ -1,4 +1,4 @@
-import { styled, Box, Typography ,Switch} from "@mui/material";
+import { styled, Box, Typography, Switch } from "@mui/material";
 
 export const Container = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -6,6 +6,8 @@ export const Container = styled(Box)(({ theme }) => ({
 }));
 export const ContainerHead = styled(Typography)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
+  fontSize: 16,
+  color : theme.palette.fontColor.first
 }));
 
 export const IOSSwitch = styled((props) => (

@@ -40,25 +40,27 @@ export const BottomButton = styled(LoadingButton)(({ theme }) => ({
   textTransform: "capitalize",
 }));
 export const SelectField = styled(Select)(({ theme }) => ({
-    "& .MuiOutlinedInput-input": {
-      height: "1em",
-    },
-    marginTop: 10,
-    marginBottom: 10,
-  }));
+  "& .MuiOutlinedInput-input": {
+    height: "1em",
+  },
+  marginTop: 10,
+  marginBottom: 10,
+}));
 
-  export const ImgBox = styled(Box)(({ theme }) => ({
-    padding: 20,
-    border: "1px solid #c4c4c4",
-    borderRadius: 5,
-  }));
+export const ImgBox = styled(Box)(({ theme }) => ({
+  padding: 20,
+  border: "1px solid #c4c4c4",
+  borderRadius: 5,
+}));
 
-  export const ImgSize = styled(Box)(({ theme }) => ({
-    height: 200,
-    width: 200,
-    boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;`,
-    borderRadius: 10,
-  }));
+export const ImgSize = styled(Box)(({ theme }) => ({
+  height: 200,
+  width: 200,
+  boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;`,
+  borderRadius: 10,
+}));
+
+
 
   export const DelIcon = styled(DeleteIcon)(({ theme }) => ({
     padding: 4,
