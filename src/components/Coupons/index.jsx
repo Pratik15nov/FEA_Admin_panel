@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Box, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -21,13 +21,12 @@ import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
-  MyButton
+  MyButton,
 } from "./Coupons.style";
 import BreadcrumbArea from "../BreadcrumbArea";
 import DialogBox from "../Dialog";
 import { useNavigate } from "react-router";
 import SearchIcon from "@mui/icons-material/Search";
-
 
 const Coupons = () => {
   const navigate = useNavigate();
@@ -53,8 +52,10 @@ const Coupons = () => {
 
       renderCell: (params) => (
         <RowName>
-          {params.row.createdAt.substring(8, 10)}{"/"}
-          {params.row.createdAt.substring(5, 7)}{"/"}
+          {params.row.createdAt.substring(8, 10)}
+          {"/"}
+          {params.row.createdAt.substring(5, 7)}
+          {"/"}
           {params.row.createdAt.substring(0, 4)}
         </RowName>
       ),
@@ -65,11 +66,7 @@ const Coupons = () => {
       flex: 1,
       sortable: false,
 
-      renderCell: (params) => (
-        <RowName>
-          {params.row.couponcode}
-        </RowName>
-      ),
+      renderCell: (params) => <RowName>{params.row.couponcode}</RowName>,
     },
 
     {
@@ -136,7 +133,6 @@ const Coupons = () => {
             <>
               &nbsp;&nbsp;
               <DeletionIcon onClick={() => handleAlert(params.row)} />
-
             </>
           ) : (
             <></>
@@ -211,9 +207,8 @@ const Coupons = () => {
       }
     } else {
       if (data.length >= 10) {
-
         const body = {
-          searchText: data
+          searchText: data,
         };
         dispatch(
           onCustomersSearch({

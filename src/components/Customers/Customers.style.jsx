@@ -26,7 +26,17 @@ export const Container = styled(Box)(({ theme }) => ({
 }));
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
-  width: "auto",
+  "& .MuiDataGrid-footerContainer": {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.fontColor.main,
+  },
+  "& .MuiTablePagination-displayedRows": {
+    color: theme.palette.fontColor.main,
+  },
+  "& .MuiTablePagination-actions": {
+    color: theme.palette.fontColor.main,
+  },
+
   overflow: "scroll", // eslint-disable-next-line
   overflow: "scroll",
   " &.MuiDataGrid-root .MuiDataGrid-cell": {
@@ -49,18 +59,12 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiCheckbox-colorPrimary.Mui-checked": {
     color: theme.palette.custom.success,
   },
-  "& .MuiDataGrid-footerContainer": {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.fontColor.main,
-  },
-  "& .MuiTablePagination-displayedRows": {
-    color: theme.palette.fontColor.main,
-  },
-  "& .MuiTablePagination-actions": {
-    color: theme.palette.fontColor.main,
-  },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
+  },
+
+  "&:hover": {
+    backgroundColor: "#D8D8D8",
   },
 }));
 
@@ -146,7 +150,7 @@ export const RowName = styled(Typography)(({ theme }) => ({
   color: "black",
 
   "&:hover": {
-    color: "black",
+    color: "green",
   },
 }));
 export const InputBox = styled(Grid)(({ theme }) => ({
@@ -154,14 +158,14 @@ export const InputBox = styled(Grid)(({ theme }) => ({
   padding: 25,
   borderRadius: 10,
   marginRight: 20,
+  border: `1px solid ${theme.palette.primary.main}`,
 }));
 
 export const ImgBox = styled(Box)(({ theme }) => ({
   padding: 21,
 }));
 
-export const MainBox = styled(Box)(({ theme }) => ({
-}));
+export const MainBox = styled(Box)(({ theme }) => ({}));
 
 export const ImgSize = styled(Box)(({ theme }) => ({
   height: 200,
@@ -188,7 +192,12 @@ export const InputField = styled(TextField)(({ theme }) => ({
   },
   marginTop: 10,
   marginBottom: 10,
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius: "5px",
   // height: "1em",
+  "& .MuiInputBase-root": {
+    color: theme.palette.fontColor.first,
+  },
 }));
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -252,4 +261,7 @@ export const ViewIcon = styled(RemoveRedEyeTwoToneIcon)(({ theme }) => ({
   color: "black",
   marginBottom: 2,
   cursor: "pointer",
+}));
+export const FormText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
 }));

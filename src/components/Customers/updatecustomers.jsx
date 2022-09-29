@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Typography, TextField, Grid, Box, Skeleton } from "@mui/material";
+import { Grid, Box, Skeleton } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
   customersEditHandlerdata,
@@ -13,6 +13,8 @@ import {
   BottomButton,
   ImgBox,
   ImgSize,
+  FormText,
+  InputField,
   DelIcon,
 } from "./Customers.style";
 import { fetchCustomersList } from "../../js/actions";
@@ -180,7 +182,7 @@ export default function UpdateCustomers(props) {
                     {images == null ? (
                       <Box>
                         <FormHelperText error={error}>
-                          {error?.message ? error.message: ""}
+                          {error?.message ? error.message : ""}
                         </FormHelperText>
                         <Grid container spacing={2}>
                           {value == null ? (
@@ -259,16 +261,16 @@ export default function UpdateCustomers(props) {
           </InputBox>
           <Grid xs={8}>
             <InputBox>
-              <Typography color="text.primary" variant="subtitle2">
+              <FormText color="text.primary" variant="subtitle2">
                 First Name
-              </Typography>
+              </FormText>
               <Controller
                 name="firstName"
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
                 }) => (
-                  <TextField
+                  <InputField
                     margin="normal"
                     fullWidth
                     id="firstName"
@@ -277,7 +279,7 @@ export default function UpdateCustomers(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?error.message: ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -285,16 +287,16 @@ export default function UpdateCustomers(props) {
                   required: "Please add first name",
                 }}
               />
-              <Typography color="text.primary" variant="subtitle2">
+              <FormText color="text.primary" variant="subtitle2">
                 Last Name
-              </Typography>
+              </FormText>
               <Controller
                 name="lastName"
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
                 }) => (
-                  <TextField
+                  <InputField
                     margin="normal"
                     fullWidth
                     id="lastName"
@@ -303,7 +305,7 @@ export default function UpdateCustomers(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ? error.message:""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}
@@ -311,16 +313,16 @@ export default function UpdateCustomers(props) {
                   required: "Please add last name",
                 }}
               />
-              <Typography color="text.primary" variant="subtitle2">
+              <FormText color="text.primary" variant="subtitle2">
                 Phone no
-              </Typography>
+              </FormText>
               <Controller
                 name="phoneNumber"
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
                 }) => (
-                  <TextField
+                  <InputField
                     margin="normal"
                     fullWidth
                     id="phoneNumber"
@@ -329,7 +331,7 @@ export default function UpdateCustomers(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?error.message: ""}
+                    helperText={error?.message ? error.message : ""}
                   />
                 )}
                 control={control}

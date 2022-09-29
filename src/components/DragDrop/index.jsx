@@ -1,8 +1,8 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import { Box } from "@mui/material";
-import { Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { FormText } from "../Products/Products.style";
 
 export default function DragDrop({ onDrop, accept, open }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -18,15 +18,15 @@ export default function DragDrop({ onDrop, accept, open }) {
     >
       <input {...getInputProps()} />
       <Box>
-      <CloudUploadIcon/>
+        <CloudUploadIcon />
         {isDragActive ? (
-          <Typography display="block" gutterBottom>
+          <FormText display="block" gutterBottom>
             Release to drop the files here
-          </Typography>
+          </FormText>
         ) : (
-          <Typography display="block" gutterBottom>
+          <FormText display="block" gutterBottom>
             Drag your image here
-          </Typography>
+          </FormText>
         )}
       </Box>
     </Box>

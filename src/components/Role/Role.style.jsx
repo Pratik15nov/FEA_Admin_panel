@@ -59,7 +59,19 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const TableGrid = styled(DataGrid)(({ theme }) => ({
+  "& .MuiDataGrid-footerContainer": {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.fontColor.main,
+  },
+  "& .MuiTablePagination-displayedRows": {
+    color: theme.palette.fontColor.main,
+  },
+  "& .MuiTablePagination-actions": {
+    color: theme.palette.fontColor.main,
+  },
+
   overflow: "scroll", // eslint-disable-next-line
+  overflow: "scroll",
   " &.MuiDataGrid-root .MuiDataGrid-cell": {
     color: "pink",
   },
@@ -80,18 +92,12 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiCheckbox-colorPrimary.Mui-checked": {
     color: theme.palette.custom.success,
   },
-  "& .MuiDataGrid-footerContainer": {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.fontColor.main,
-  },
-  "& .MuiTablePagination-displayedRows": {
-    color: theme.palette.fontColor.main,
-  },
-  "& .MuiTablePagination-actions": {
-    color: theme.palette.fontColor.main,
-  },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
+  },
+
+  "&:hover": {
+    backgroundColor: "#D8D8D8",
   },
 }));
 
