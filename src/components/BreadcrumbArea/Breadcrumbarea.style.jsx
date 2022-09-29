@@ -1,4 +1,4 @@
-import { Button, styled } from "@mui/material";
+import { Button, styled, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { Link } from "react-router-dom";
@@ -54,4 +54,7 @@ export const MyLink = styled(Link)(({ theme }) => ({
   "&:hover": {
     color: alpha(theme.palette.primary.main),
   },
+}));
+export const MainTextA = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
 }));
