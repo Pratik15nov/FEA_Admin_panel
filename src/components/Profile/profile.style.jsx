@@ -1,4 +1,4 @@
-import { styled, Box, Grid, TextField,Select } from "@mui/material";
+import { styled, Box, Grid, TextField,Select,Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { alpha } from "@mui/material/styles";
@@ -15,6 +15,12 @@ export const InputField = styled(TextField)(({ theme }) => ({
   marginTop: 10,
   marginBottom: 10,
   // height: "1em",
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius: "5px",
+  // height: "1em",
+  "& .MuiInputBase-root": {
+    color: theme.palette.fontColor.first,
+  },
 }));
 
 export const InputBox = styled(Grid)(({ theme }) => ({
@@ -22,6 +28,9 @@ export const InputBox = styled(Grid)(({ theme }) => ({
   padding: 25,
   borderRadius: 10,
   marginRight: 20,
+  backgroundColor: theme.palette.formBackground.default,
+  color: theme.palette.fontColor.first,
+  border: `1px solid ${theme.palette.primary.main}`,
 }));
 
 export const BottomButton = styled(LoadingButton)(({ theme }) => ({
@@ -63,4 +72,8 @@ export const SelectField = styled(Select)(({ theme }) => ({
     marginLeft: 10,
   }));
   
+
+  export const CustomFormText = styled(Typography)(({ theme }) => ({
+    color: theme.palette.fontColor.first,
+  }));
   

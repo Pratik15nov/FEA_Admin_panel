@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from "react";
 import { useEffect } from "react";
-import { Container, InputBox, InputField, BottomButton } from "./profile.style";
+import { Container, InputBox, InputField, BottomButton,CustomFormText } from "./profile.style";
 import {
   staffDataHandler, // eslint-disable-next-line
 } from "../../service/Auth.Service";
@@ -185,9 +185,9 @@ const Profile = () => {
               </InputBox>
             ) : (
               <InputBox item xs={12}>
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomFormText  variant="subtitle2">
                   First-Name
-                </Typography>
+                </CustomFormText>
                 <Controller
                   name="firstName"
                   render={({
@@ -224,9 +224,9 @@ const Profile = () => {
                     },
                   }}
                 />
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomFormText variant="subtitle2">
                   Last-Name
-                </Typography>
+                </CustomFormText>
                 <Controller
                   name="lastName"
                   render={({
@@ -264,9 +264,9 @@ const Profile = () => {
                   }}
                 />
 
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomFormText variant="subtitle2">
                   Contact
-                </Typography>
+                </CustomFormText>
                 <Controller
                   name="phoneNumber"
                   render={({
@@ -303,9 +303,9 @@ const Profile = () => {
                     },
                   }}
                 />
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomFormText  variant="subtitle2">
                   E-mail
-                </Typography>
+                </CustomFormText>
                 <Controller
                   name="email"
                   render={({
@@ -362,9 +362,9 @@ const Profile = () => {
           <form onSubmit={changePasswordFormControl.handleSubmit(handleGet)}>
             {show && (
               <InputBox item xs={12}>
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomFormText  variant="subtitle2">
                   Old-password
-                </Typography>
+                </CustomFormText>
                 <Controller
                   name="oldPassword"
                   render={({
@@ -388,9 +388,9 @@ const Profile = () => {
                     required: "Please fill  your oldpassword",
                   }}
                 />
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomFormText  variant="subtitle2">
                   New Password
-                </Typography>
+                </CustomFormText>
                 <Controller
                   name="newPassword"
                   render={({
@@ -420,9 +420,9 @@ const Profile = () => {
                     },
                   }}
                 />
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomFormText  variant="subtitle2">
                   Confirm New Password
-                </Typography>
+                </CustomFormText>
                 <Controller
                   name="confirmPassword"
                   render={({

@@ -14,12 +14,13 @@ import {
   Allcheck,
   SelectField,
   CustomText,
+  CustomTableContainer,
+  CustomTableCell,
 } from "./Rights.style";
 import { Checkbox } from "@material-ui/core";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
+
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -222,27 +223,27 @@ export default function AddRights(props) {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>
+                      <CustomTableCell>
                         <Skeleton animation="wave" height={25} width="30%" />
-                      </TableCell>
-                      <TableCell>
+                      </CustomTableCell>
+                      <CustomTableCell>
                         <Skeleton animation="wave" height={25} width="100%" />
-                      </TableCell>
-                      <TableCell>
+                      </CustomTableCell>
+                      <CustomTableCell>
                         <Skeleton animation="wave" height={25} width="100%" />
-                      </TableCell>
-                      <TableCell>
+                      </CustomTableCell>
+                      <CustomTableCell>
                         <Skeleton animation="wave" height={25} width="100%" />
-                      </TableCell>
-                      <TableCell>
+                      </CustomTableCell>
+                      <CustomTableCell>
                         <Skeleton animation="wave" height={25} width="100%" />
-                      </TableCell>
+                      </CustomTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
                       <TableRow key={`tableRow_${index}`}>
-                        <TableCell width="50%">
+                        <CustomTableCell width="50%">
                           <Grid container spacing={2}>
                             <Grid item xs={4}>
                               <Skeleton
@@ -252,19 +253,19 @@ export default function AddRights(props) {
                               />
                             </Grid>
                           </Grid>
-                        </TableCell>
-                        <TableCell>
+                        </CustomTableCell>
+                        <CustomTableCell>
                           <Skeleton animation="wave" height={25} width="50%" />
-                        </TableCell>
-                        <TableCell>
+                        </CustomTableCell>
+                        <CustomTableCell>
                           <Skeleton animation="wave" height={25} width="50%" />
-                        </TableCell>
-                        <TableCell>
+                        </CustomTableCell>
+                        <CustomTableCell>
                           <Skeleton animation="wave" height={25} width="50%" />
-                        </TableCell>
-                        <TableCell>
+                        </CustomTableCell>
+                        <CustomTableCell>
                           <Skeleton animation="wave" height={25} width="50%" />
-                        </TableCell>
+                        </CustomTableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -276,9 +277,7 @@ export default function AddRights(props) {
       ) : (
         <InputBox>
           <form>
-            <CustomText  variant="subtitle2">
-              Role Name
-            </CustomText>
+            <CustomText variant="subtitle2">Role Name</CustomText>
 
             <Controller
               name="roleId"
@@ -301,7 +300,10 @@ export default function AddRights(props) {
                           {/* {roleList? */}
                           {reduxRoleList?.map((card) => {
                             return (
-                              <MenuItem key={card._id} value={card._id}  >
+                              <MenuItem
+                                key={card._id}
+                                value={card._id}
+                              >
                                 {card.roleName}
                               </MenuItem>
                             );
@@ -351,15 +353,15 @@ export default function AddRights(props) {
                   Role Rights
                 </CustomText>
                 <br />
-                <TableContainer component={Paper} sx={{ maxWidth: 720 }}>
+                <CustomTableContainer component={Paper} sx={{ maxWidth: 720 }}>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Choose</TableCell>
-                        <TableCell>View</TableCell>
-                        <TableCell>Edit</TableCell>
-                        <TableCell>Add</TableCell>
-                        <TableCell>Delete</TableCell>
+                        <CustomTableCell>Choose</CustomTableCell>
+                        <CustomTableCell>View</CustomTableCell>
+                        <CustomTableCell>Edit</CustomTableCell>
+                        <CustomTableCell>Add</CustomTableCell>
+                        <CustomTableCell>Delete</CustomTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -372,7 +374,7 @@ export default function AddRights(props) {
                           <>
                             {value?.map((row, index) => (
                               <TableRow key={`tableRow_${index}`}>
-                                <TableCell
+                                <CustomTableCell
                                   width="50%"
                                   onMouseOver={() => setShow(index)}
                                   onMouseOut={() => setShow()}
@@ -424,8 +426,8 @@ export default function AddRights(props) {
                                       )}
                                     </Grid>
                                   </Grid>
-                                </TableCell>
-                                <TableCell>
+                                </CustomTableCell>
+                                <CustomTableCell>
                                   <Checkbox
                                     checked={row.view}
                                     name={row.name}
@@ -438,8 +440,8 @@ export default function AddRights(props) {
                                     }}
                                     color="secondary"
                                   />
-                                </TableCell>
-                                <TableCell>
+                                </CustomTableCell>
+                                <CustomTableCell>
                                   <Checkbox
                                     checked={row.edit}
                                     name={row.name}
@@ -452,8 +454,8 @@ export default function AddRights(props) {
                                     }}
                                     color="secondary"
                                   />
-                                </TableCell>
-                                <TableCell>
+                                </CustomTableCell>
+                                <CustomTableCell>
                                   <Checkbox
                                     checked={row.add}
                                     name={row.name}
@@ -466,8 +468,8 @@ export default function AddRights(props) {
                                     }}
                                     color="secondary"
                                   />
-                                </TableCell>
-                                <TableCell>
+                                </CustomTableCell>
+                                <CustomTableCell>
                                   <Checkbox
                                     checked={row.deleted}
                                     name={row.name}
@@ -480,7 +482,7 @@ export default function AddRights(props) {
                                     }}
                                     color="secondary"
                                   />
-                                </TableCell>
+                                </CustomTableCell>
                               </TableRow>
                             ))}
                           </>
@@ -492,7 +494,7 @@ export default function AddRights(props) {
                       />
                     </TableBody>
                   </Table>
-                </TableContainer>
+                </CustomTableContainer>
               </>
             ) : (
               <></>

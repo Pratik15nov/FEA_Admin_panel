@@ -1,5 +1,13 @@
-import React from 'react';
-import { Avatar, Button, styled, Switch, Typography, Box,Select } from "@mui/material";
+import React from "react";
+import {
+  Avatar,
+  Button,
+  styled,
+  Switch,
+  Typography,
+  Box,
+  Select,
+} from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,6 +16,8 @@ import { alpha } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Chip from "@mui/material/Chip";
+import TableContainer from "@mui/material/TableContainer";
+import TableCell from "@mui/material/TableCell";
 
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -221,8 +231,6 @@ export const Checkboxtext = styled(Box)(({ theme }) => ({
 
 export const Allcheck = styled(Chip)(({ theme }) => ({
   fontFamily: theme.typography.caption,
-
-  
 }));
 export const SelectField = styled(Select)(({ theme }) => ({
   "& .MuiOutlinedInput-input": {
@@ -247,7 +255,14 @@ export const RowName = styled(Typography)(({ theme }) => ({
   },
 }));
 
-
 export const CustomText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
+}));
+
+export const CustomTableContainer = styled(TableContainer)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.main,
+}));
+
+export const CustomTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.fontColor.first,
 }));
