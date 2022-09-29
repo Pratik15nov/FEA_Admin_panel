@@ -306,8 +306,8 @@ export default function Dashboard() {
         fill: true,
         label: "Sales",
         data: productChartData?.map((data) => data.totalPrice),
-        borderColor: "rgb(26, 26, 64)",
-        backgroundColor: "rgba(26, 26, 64,0.2)",
+        borderColor: "#00c353",
+        backgroundColor: "#c4ffdd7a",
       },
     ],
   };
