@@ -1,4 +1,4 @@
-import { Button, styled, Typography } from "@mui/material";
+import { Breadcrumbs, Button, styled, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  color: theme.palette.custom.color,
+  color: theme.palette.fontColor.first,
   backgroundColor: alpha(theme.palette.primary.main, 1),
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.25),
@@ -56,5 +56,8 @@ export const MyLink = styled(Link)(({ theme }) => ({
   },
 }));
 export const MainTextA = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
+}));
+export const MainBreadcrumbs= styled(Breadcrumbs)(({ theme }) => ({
   color: theme.palette.fontColor.first,
 }));
