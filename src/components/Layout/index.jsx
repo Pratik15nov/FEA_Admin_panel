@@ -34,7 +34,7 @@ import {
   MainAdminContent,
   MainList,
   DropDownMenu,
-  IOSSwitch
+  IOSSwitch,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { updatepState, fetchUserAdminList } from "../../js/actions";
@@ -148,10 +148,9 @@ export default function Layout(props) {
           <MainListIcon onClick={() => setOpen(true)} open={open}>
             <MainMenuIcon />
           </MainListIcon>
-          <img alt="logo" src="images/logo.png"></img>
+          <img alt="logo" src="images/logoWhite.png"></img>
         </Toolbar>
         <ToolBarLeft>
-     
           <ToolBarLeftBox>
             <Tooltip title="Settings">
               <IconButton
@@ -165,7 +164,7 @@ export default function Layout(props) {
               </IconButton>
             </Tooltip>
           </ToolBarLeftBox>
-        
+
           <DropDownMenu
             anchorEl={anchorEl}
             id="account-menu"
@@ -184,11 +183,11 @@ export default function Layout(props) {
           </DropDownMenu>
           {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />*/}
           <IOSSwitch
-          checked={value}
-          onChange={(e) => {
-            props.getTheme(e.target.checked);
-            setValue(!value);
-          }}
+            checked={value}
+            onChange={(e) => {
+              props.getTheme(e.target.checked);
+              setValue(!value);
+            }}
           />
         </ToolBarLeft>
       </Customsidebar>
@@ -236,11 +235,10 @@ export default function Layout(props) {
             ))}
         </MainList>
       </Drawer>
-     
-      <MainAdminBox >
+
+      <MainAdminBox>
         <MainAdminContent>{props.children}</MainAdminContent>
       </MainAdminBox>
-     
     </MainContainer>
   );
 }

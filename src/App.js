@@ -295,7 +295,7 @@ function App() {
               }
             />
           </Route>
-          <Route path="/**" element={<PageNotFound />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <CustomSnackbar />
       </BrowserRouter>
