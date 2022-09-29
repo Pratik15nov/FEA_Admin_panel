@@ -153,8 +153,6 @@ const Settings = (props) => {
       >
         <ContainerHead variant="h6">Theme Customizer</ContainerHead>
 
-        <ContainerHead variant="subtitle1">Mode</ContainerHead>
-
         {/* <IOSSwitch
           checked={value}
           onChange={(e) => {

@@ -95,11 +95,12 @@ export default function Dashboard() {
   const [orderValue, setOrderValue] = useState();
   const [loading, setLoading] = useState(true);
   const [orderTotalValue, setOrderTotalValue] = useState();
+
   const [isOn, toggleIsOn] = useToggle();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [themeKey, setThemeKey] = useState(localStorage.getItem("themeKey"));
-  console.log(themeKey);
+
   useEffect(() => {
     getDashboardData(
       moment().startOf("week").format("YYYY-MM-DD"),
@@ -867,7 +868,7 @@ export default function Dashboard() {
                     </CardFive>
                     <CardFour>
                       {/* &#x20b9; {currencyFormat(orderTotalValue)} */}
-                      &#x20b9;{currencyFormat(235554)}
+                      &#x20b9;{currencyFormat(canValue.reduce((a, b) => (a = a + b.totalPrice), 0))}
                     </CardFour>
                   </CardContent>
                 </ExpensesCard>
