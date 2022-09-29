@@ -17,6 +17,7 @@ import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { alpha } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton";
+import MenuItem from "@mui/material/MenuItem";
 
 export const Container = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -164,8 +165,8 @@ export const InputBox = styled(Grid)(({ theme }) => ({
 
 export const ImgBox = styled(Box)(({ theme }) => ({
   padding: 20,
-  border: "1px solid #c4c4c4",
-  borderRadius: 5,
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius:"5px",
 }));
 
 export const ImgSize = styled(Box)(({ theme }) => ({
@@ -257,7 +258,8 @@ export const SelectField = styled(Select)(({ theme }) => ({
   },
   marginTop: 10,
   marginBottom: 10,
-  backgroundColor:theme.palette.formBackground.default,
+  color: theme.palette.fontColor.first,
+  backgroundColor: theme.palette.formBackground.default,
   border: `1px solid ${theme.palette.primary.main}`,
 }));
 export const ProductStatusInStock = styled("span")(({ theme }) => ({
@@ -333,4 +335,10 @@ export const SelectionBox = styled(Grid)(({ theme }) => ({
 
 export const FormText = styled(Typography)(({ theme }) => ({
   color: theme.palette.fontColor.first,
+}));
+
+export const CoustomMenuItem = styled(MenuItem)(({ theme }) => ({
+"& .MuiMenu-list":{
+  backgroundColor:"green",
+}
 }));
