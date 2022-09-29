@@ -45,7 +45,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.fontColor.main
+    color: theme.palette.fontColor.main,
   },
   "& .MuiDataGrid-row": {
     backgroundColor: theme.palette.tertiary.main,
@@ -59,6 +59,10 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
+  },
+
+  "&:hover": {
+   backgroundColor:"#D8D8D8",
   },
 }));
 
@@ -141,7 +145,7 @@ export const ColoumHead = styled(Typography)(({ theme }) => ({
 export const RowName = styled(Typography)(({ theme }) => ({
   fontSize: "18px",
   fontWeight: 400,
-  color: theme.palette.fontColor.first,
+  color: "#000",
 
   "&:hover": {
     color: "green",
