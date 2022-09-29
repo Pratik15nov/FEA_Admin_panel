@@ -26,6 +26,9 @@ const defaultTheme = createTheme({
     background: {
       default: "#ffffff", // white
     },
+    formBackground: {
+      default:"#ffffff"  // white
+    },
     custom: {
       color: "#ffffff", // white
       success: "#65c466", // green

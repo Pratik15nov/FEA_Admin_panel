@@ -34,7 +34,7 @@ import {
   MainAdminContent,
   MainList,
   DropDownMenu,
- 
+  IOSSwitch
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { updatepState, fetchUserAdminList } from "../../js/actions";
@@ -50,6 +50,22 @@ export default function Layout(props) {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
   const productList = useSelector((state) => state.userAdmin.list);
+  const [value, setValue] = useState(false);
+
+  useEffect(() => {
+    const data = localStorage.getItem("themeKey");
+    try {
+      if (data === null) {
+        setValue(false);
+      } else if (data === "true") {
+        setValue(true);
+      } else {
+        setValue(false);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }, [localStorage.getItem("themeKey")]);
   useEffect(() => {
     getRights();
   }, []);
@@ -135,6 +151,7 @@ export default function Layout(props) {
           <img alt="logo" src="images/logo.png"></img>
         </Toolbar>
         <ToolBarLeft>
+     
           <ToolBarLeftBox>
             <Tooltip title="Settings">
               <IconButton
@@ -148,6 +165,7 @@ export default function Layout(props) {
               </IconButton>
             </Tooltip>
           </ToolBarLeftBox>
+        
           <DropDownMenu
             anchorEl={anchorEl}
             id="account-menu"
@@ -165,6 +183,13 @@ export default function Layout(props) {
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </DropDownMenu>
           {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />*/}
+          <IOSSwitch
+          checked={value}
+          onChange={(e) => {
+            props.getTheme(e.target.checked);
+            setValue(!value);
+          }}
+          />
         </ToolBarLeft>
       </Customsidebar>
       <Drawer variant="permanent" open={open}>

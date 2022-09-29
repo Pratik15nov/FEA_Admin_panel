@@ -88,7 +88,7 @@ function App() {
               exact
               path="/dashboard"
               element={
-                <Layout>
+                <Layout getTheme={getTheme} >
                   <Dashboard />
                 </Layout>
               }
@@ -99,7 +99,7 @@ function App() {
               exact
               path="/products"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Products />
                 </Layout>
               }
@@ -110,7 +110,7 @@ function App() {
               exact
               path="/category"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Category />
                 </Layout>
               }
@@ -121,7 +121,7 @@ function App() {
               exact
               path="/customers"
               element={
-                <Layout>
+                <Layout  getTheme={getTheme} >
                   <Customers />
                 </Layout>
               }
@@ -132,7 +132,7 @@ function App() {
               exact
               path="/orders"
               element={
-                <Layout>
+                <Layout getTheme={getTheme} >
                   <Orders />
                 </Layout>
               }
@@ -143,7 +143,7 @@ function App() {
               exact
               path="/customerorders"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <CustomersOrders />
                 </Layout>
               }
@@ -154,7 +154,7 @@ function App() {
               exact
               path="/coupons"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Coupons />
                 </Layout>
               }
@@ -165,7 +165,7 @@ function App() {
               exact
               path="/staff"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Staff />
                 </Layout>
               }
@@ -176,7 +176,7 @@ function App() {
               exact
               path="/category/add"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <AddCategory />
                 </Layout>
               }
@@ -187,7 +187,7 @@ function App() {
               exact
               path="/products/add"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <AddProducts />
                 </Layout>
               }
@@ -198,7 +198,7 @@ function App() {
               exact
               path="/customers/add"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <UpdateCustomers />
                 </Layout>
               }
@@ -209,7 +209,7 @@ function App() {
               exact
               path="/coupons/add"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <AddCoupons />
                 </Layout>
               }
@@ -220,7 +220,7 @@ function App() {
               exact
               path="/staff/add"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <AddStaff />
                 </Layout>
               }
@@ -231,8 +231,9 @@ function App() {
               exact
               path="/settings"
               element={
-                <Layout>
-                  <Settings getTheme={getTheme} />
+                <Layout getTheme={getTheme}  >
+                  {/* <Settings getTheme={getTheme} /> */}
+                  <Settings  />
                 </Layout>
               }
             />
@@ -242,7 +243,7 @@ function App() {
               exact
               path="/menu"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Menu />
                 </Layout>
               }
@@ -253,7 +254,7 @@ function App() {
               exact
               path="/rights"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Rights />
                 </Layout>
               }
@@ -264,7 +265,7 @@ function App() {
               exact
               path="/role"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Role />
                 </Layout>
               }
@@ -275,7 +276,7 @@ function App() {
               exact
               path="/rights/add"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <AddRights />
                 </Layout>
               }
@@ -288,7 +289,7 @@ function App() {
               exact
               path="/profile"
               element={
-                <Layout>
+                <Layout getTheme={getTheme}  >
                   <Profile />
                 </Layout>
               }

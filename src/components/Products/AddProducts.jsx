@@ -23,6 +23,7 @@ import {
   SelectionImage,
   SelectionText,
   SelectionBox,
+  FormText,
 } from "./Products.style";
 import MenuItem from "@mui/material/MenuItem";
 import { fetchProductList, fetchCategoryDataList } from "../../js/actions";
@@ -210,9 +211,9 @@ export default function AddProducts(props) {
       ) : (
         <Grid container>
           <InputBox item xs={6} md={7}>
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Product Name
-            </Typography>
+            </FormText>
             <Controller
               name="name"
               render={({
@@ -248,9 +249,9 @@ export default function AddProducts(props) {
                 },
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Product Category
-            </Typography>
+            </FormText>
             <Controller
               name="categoryId"
               render={({
@@ -299,9 +300,9 @@ export default function AddProducts(props) {
                 required: "Select one Category",
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText variant="subtitle2">
               Product Specification
-            </Typography>
+            </FormText>
             <Controller
               name="specification"
               render={({
@@ -337,9 +338,9 @@ export default function AddProducts(props) {
                 },
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Product Quantity
-            </Typography>
+            </FormText>
             <Controller
               name="quantity"
               render={({
@@ -371,9 +372,9 @@ export default function AddProducts(props) {
                 },
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Product Price {"(Rs)"}
-            </Typography>
+            </FormText>
             <Controller
               name="price"
               render={({
@@ -407,9 +408,9 @@ export default function AddProducts(props) {
             />
           </InputBox>
           <InputBox item md={4}>
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Discount Price {"(Rs)"}
-            </Typography>
+            </FormText>
             <Controller
               name="discountPrice"
               render={({
@@ -441,9 +442,9 @@ export default function AddProducts(props) {
                 },
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Product Image
-            </Typography>
+            </FormText>
             <ImgBox>
               <Controller
                 name="img"

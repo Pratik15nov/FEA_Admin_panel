@@ -3,13 +3,15 @@ import {DialogTitle ,DialogActions} from "@mui/material";
 
 
 export const TitleBox = styled(DialogTitle)(({ theme }) => ({
-  background:"#523b83",
-  color:"white"
+  background:theme.palette.primary.main,
+  color:theme.palette.fontColor.main,
+  padding:"12px"
 }));
 
 export const ActionsBox = styled(DialogActions)(({ theme }) => ({
-  background:"#523b83",
-  color:"white",
+  background:theme.palette.primary.main,
+  padding:"7px",
+  color:theme.palette.fontColor.main,
   justifyContent:"space-between"
 }));
 
@@ -23,9 +25,9 @@ export const DialogText = styled(Typography)(({ theme }) => ({
 export const MyButton = styled(Button)(({ theme }) => ({
   cursor:"pointer",
   height: 40,
-  color:"white",
+  color:theme.palette.fontColor.main,
   "&:hover": {
-    color: "#523b83",
+    color:theme.palette.fontColor.first,
   },
 }));
 

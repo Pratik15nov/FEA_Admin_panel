@@ -26,6 +26,9 @@ const updateTheme = createTheme({
     background: {
       default: "#000", // black
     },
+    formBackground: {
+      default: "#151b23", // greyiesh
+    },
     custom: {
       color: "#ffffff", // white
       success: "#65c466", // green

@@ -62,7 +62,7 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   },
 
   "&:hover": {
-   backgroundColor:"#D8D8D8",
+    backgroundColor: "#D8D8D8",
   },
 }));
 
@@ -156,6 +156,10 @@ export const InputBox = styled(Grid)(({ theme }) => ({
   padding: 25,
   borderRadius: 10,
   marginRight: 20,
+  backgroundColor: theme.palette.formBackground.default,
+  color: theme.palette.fontColor.first,
+  border: `1px solid ${theme.palette.primary.main}`,
+  // borderColor: theme.palette.primary.main,
 }));
 
 export const ImgBox = styled(Box)(({ theme }) => ({
@@ -189,7 +193,12 @@ export const InputField = styled(TextField)(({ theme }) => ({
   },
   marginTop: 10,
   marginBottom: 10,
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius: "5px",
   // height: "1em",
+  "& .MuiInputBase-root": {
+    color: theme.palette.fontColor.first,
+  },
 }));
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -248,6 +257,8 @@ export const SelectField = styled(Select)(({ theme }) => ({
   },
   marginTop: 10,
   marginBottom: 10,
+  backgroundColor:theme.palette.formBackground.default,
+  border: `1px solid ${theme.palette.primary.main}`,
 }));
 export const ProductStatusInStock = styled("span")(({ theme }) => ({
   height: "30px",
@@ -316,4 +327,10 @@ export const SelectionText = styled(Typography)(({ theme }) => ({
 
 export const SelectionBox = styled(Grid)(({ theme }) => ({
   display: "-ms-flexbox",
+  // color:"green",
+  // backgroundColor:"black",
+}));
+
+export const FormText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
 }));

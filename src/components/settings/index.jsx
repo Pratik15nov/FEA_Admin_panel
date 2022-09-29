@@ -25,22 +25,22 @@ import { useEffect, useState } from "react";
 //   "7003f52e1358cc619e3d853e94f079a4T1JERVI6NDMxMDAsRVhQSVJZPTE2ODMyOTQ3MTcwMDAsS0VZVkVSU0lPTj0x"
 // );
 const Settings = (props) => {
-  const [value, setValue] = useState(false);
+  // const [value, setValue] = useState(false);
 
-  useEffect(() => {
-    const data = localStorage.getItem("themeKey");
-    try {
-      if (data === null) {
-        setValue(false);
-      } else if (data === "true") {
-        setValue(true);
-      } else {
-        setValue(false);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  }, [localStorage.getItem("themeKey")]);
+  // useEffect(() => {
+  //   const data = localStorage.getItem("themeKey");
+  //   try {
+  //     if (data === null) {
+  //       setValue(false);
+  //     } else if (data === "true") {
+  //       setValue(true);
+  //     } else {
+  //       setValue(false);
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // }, [localStorage.getItem("themeKey")]);
 
   //
   // const apiRef = useGridApiRef();
@@ -155,13 +155,13 @@ const Settings = (props) => {
 
         <ContainerHead variant="subtitle1">Mode</ContainerHead>
 
-        <IOSSwitch
+        {/* <IOSSwitch
           checked={value}
           onChange={(e) => {
             props.getTheme(e.target.checked);
             setValue(!value);
           }}
-        />
+        /> */}
       </Box>
 
       {/* <Button variant="outlined" size="large" onClick={handleLogin}>
