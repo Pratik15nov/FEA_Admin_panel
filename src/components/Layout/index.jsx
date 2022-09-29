@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Toolbar, ListItemButton, Grid } from "@mui/material";
+import { Toolbar, ListItemButton, Grid, Box } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 // import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -34,7 +34,9 @@ import {
   MainAdminContent,
   MainList,
   DropDownMenu,
-  IOSSwitch,
+  CustomBoxIcons,
+  LightModeIcon,
+  DarkModeIcon,
 } from "./Layout.style";
 import { useDispatch, useSelector } from "react-redux";
 import { updatepState, fetchUserAdminList } from "../../js/actions";
@@ -44,6 +46,8 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+
 export default function Layout(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,6 +82,42 @@ export default function Layout(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const giveModeIcons = () => {
+    try {
+      if (value === null) {
+        return (
+          <DarkModeIcon
+            onClick={(e) => {
+              props.getTheme(true);
+              setValue(true);
+            }}
+          />
+        );
+      } else if (value === true) {
+        return (
+          <LightModeIcon
+            onClick={(e) => {
+              props.getTheme(false);
+              setValue(false);
+            }}
+          />
+        );
+      } else {
+        return (
+          <DarkModeIcon
+            onClick={(e) => {
+              props.getTheme(true);
+              setValue(true);
+            }}
+          />
+        );
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -182,13 +222,8 @@ export default function Layout(props) {
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </DropDownMenu>
           {/* <NotificationsActiveIcon sx={{ marginRight: 3 }} />*/}
-          <IOSSwitch
-            checked={value}
-            onChange={(e) => {
-              props.getTheme(e.target.checked);
-              setValue(!value);
-            }}
-          />
+
+          <CustomBoxIcons>{giveModeIcons()}</CustomBoxIcons>
         </ToolBarLeft>
       </Customsidebar>
       <Drawer variant="permanent" open={open}>

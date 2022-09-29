@@ -251,13 +251,6 @@ export const BottomButton = styled(LoadingButton)(({ theme }) => ({
   textTransform: "capitalize",
 }));
 export const SelectField = styled(Select)(({ theme }) => ({
-  // "& .MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper":{
-  //   backgroundColor: theme.palette.formBackground.default,
-
-  // },
-  // "& .MuiList-root-MuiMenu-list": {
-  //   backgroundColor: theme.palette.formBackground.default,
-  // },
   "& .MuiOutlinedInput-input": {
     height: "2.1em",
     padding: " 6px 0px 12px 15px",
@@ -268,18 +261,6 @@ export const SelectField = styled(Select)(({ theme }) => ({
   marginTop: 10,
   marginBottom: 10,
   border: `1px solid ${theme.palette.primary.main}`,
-}));
-export const SelectMenuItem = styled(MenuItem)(({ theme }) => ({
-  background: theme.palette.secondary.main,
-  color: "white",
-  "&:hover": {
-    color: "black",
-    background: theme.palette.primary.main,
-  },
-  "&:selected": {
-    color: "black",
-    background: theme.palette.primary.main,
-  },
 }));
 export const ProductStatusInStock = styled("span")(({ theme }) => ({
   height: "30px",
@@ -355,7 +336,18 @@ export const FormText = styled(Typography)(({ theme }) => ({
 }));
 
 export const CoustomMenuItem = styled(MenuItem)(({ theme }) => ({
-  "& .MuiMenu-list": {
-    backgroundColor: "green",
-  },
+// border: 2px solid green;
+// border-radius: 5px;
+
+
+background: theme.palette.secondary.main,
+color: theme.palette.fontColor.first ,
+"&:hover": {
+  color: theme.palette.fontColor.main ,
+  background: theme.palette.primary.main,
+},
+"&:selected": {
+  color: "black",
+  background: theme.palette.primary.main,
+},
 }));

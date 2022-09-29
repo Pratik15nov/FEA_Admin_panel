@@ -7,9 +7,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import MuiListItem from "@material-ui/core/ListItem";
-import { Grid, Typography, Box, Toolbar, List ,Switch} from "@mui/material";
+import { Grid, Typography, Box, Toolbar, List, Switch } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 const openedMixin = (theme) => ({
   width: 240,
@@ -267,13 +269,12 @@ const ToolBarLeftBox = styled(Box)(({ theme }) => ({
 const MainAdminBox = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   padding: "64px 24px 24px 0px",
-  backgroundColor:theme.palette.background.default,
-
+  backgroundColor: theme.palette.background.default,
 }));
 const MainAdminContent = styled(Box)(({ theme }) => ({
   padding: 20,
-  
-  minHeight:"calc(100vh - 87px)"
+
+  minHeight: "calc(100vh - 87px)",
 }));
 const MainList = styled(List, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -281,7 +282,7 @@ const MainList = styled(List, {
   ...(!open && { marginTop: 8 }),
 }));
 
- const IOSSwitch = styled((props) => (
+const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
   width: 42,
@@ -332,8 +333,23 @@ const MainList = styled(List, {
   },
 }));
 
+const DarkModeIcon = styled(Brightness4Icon)(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "25px",
+}));
+
+const LightModeIcon = styled(Brightness7Icon)(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "25px",
+}));
+const CustomBoxIcons = styled(Box)(({ theme }) => ({
+  marginRight: "15px",
+}));
 
 export {
+  CustomBoxIcons,
+  DarkModeIcon,
+  LightModeIcon,
   IOSSwitch,
   Customsidebar,
   DrawerHeader,
