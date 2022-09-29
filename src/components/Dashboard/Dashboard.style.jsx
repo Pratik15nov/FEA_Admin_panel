@@ -68,7 +68,7 @@ export const StockBox = styled(Grid)(({ theme }) => ({
   alignItems: "center",
   boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
   marginTop: 5,
-  color: theme.palette.fontColor.first
+  color: theme.palette.fontColor.first,
 }));
 export const CustomIcon = styled(TuneIcon)(({ theme }) => ({
   marginTop: 10,
@@ -232,7 +232,7 @@ export const ScrollBox = styled(Box)(({ theme }) => ({
   overflowY: "scroll",
   "::-webkit-scrollbar": { width: "10px" },
   "::-webkit-scrollbar-track": {
-    background: "#f1f1f1",
+    background: theme.palette.secondary.main,
     borderRadius: 10,
   },
   "::-webkit-scrollbar-thumb": { background: "#888", borderRadius: 10 },

@@ -750,11 +750,10 @@ export default function Dashboard() {
                         .map((data) => (
                           <StockBox container>
                             <Grid item xs={2}>
-                              <img
+                              <Avatar
                                 src={ENDPOINTURLFORIMG + data.img}
-                                alt="oosp"
-                                height={46}
-                              ></img>
+                                variant="rounded"
+                              ></Avatar>
                             </Grid>
                             <Grid item xs={7}>
                               {data.name}
@@ -779,11 +778,10 @@ export default function Dashboard() {
                           .map((data) => (
                             <StockBox container>
                               <Grid item xs={2}>
-                                <img
+                                <Avatar
                                   src={ENDPOINTURLFORIMG + data.img}
-                                  alt="oosp"
-                                  height={46}
-                                ></img>
+                                  variant="rounded"
+                                ></Avatar>
                               </Grid>
                               <Grid item xs={7}>
                                 {data.name}
