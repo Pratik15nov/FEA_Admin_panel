@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Container, InputBox, InputField, BottomButton,CustomFormText } from "./profile.style";
+import { Container, InputBox, InputField, BottomButton,CustomFormText,MyLink } from "./profile.style";
 import {
   staffDataHandler, // eslint-disable-next-line
 } from "../../service/Auth.Service";

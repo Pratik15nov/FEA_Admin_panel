@@ -1,4 +1,4 @@
-import { styled, Box, Grid, TextField,Select,Typography } from "@mui/material";
+import { styled, Box, Grid, TextField,Select,Typography , Link} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { alpha } from "@mui/material/styles";
@@ -79,3 +79,12 @@ export const ImgSize = styled(Box)(({ theme }) => ({
     color: theme.palette.fontColor.first,
   }));
   
+
+
+export const MyLink = styled(Link)(({ theme }) => ({
+  textDecoration: "none",
+  color: theme.palette.fontColor.first,
+  "&:hover": {
+    color: alpha(theme.palette.primary.main),
+  },
+}));
