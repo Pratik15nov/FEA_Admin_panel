@@ -1,5 +1,13 @@
 import React from "react";
-import { Avatar, Button, styled, Switch, Typography, Box } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  styled,
+  Switch,
+  Typography,
+  Box,
+  TextField,
+} from "@mui/material";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import AutoDeleteTwoToneIcon from "@mui/icons-material/AutoDeleteTwoTone";
 import { DataGrid } from "@mui/x-data-grid";
@@ -113,6 +121,9 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
+  "&:hover": {
+    backgroundColor: "#D8D8D8",
+  },
 }));
 
 export const IOSSwitch = styled((props) => (
@@ -177,6 +188,9 @@ export const InputBox = styled(Box)(({ theme }) => ({
   boxShadow: `rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;`,
   padding: 20,
   borderRadius: 5,
+  backgroundColor: theme.palette.formBackground.default,
+  color: theme.palette.fontColor.first,
+  border: `1px solid ${theme.palette.primary.main}`,
 }));
 export const Container = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -185,7 +199,8 @@ export const Container = styled(Box)(({ theme }) => ({
 
 export const ImgBox = styled(Box)(({ theme }) => ({
   padding: 20,
-  border: "1px solid gray",
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius: "5px",
 }));
 
 export const ImgSize = styled(Box)(({ theme }) => ({
@@ -207,4 +222,17 @@ export const BottomButton = styled(LoadingButton)(({ theme }) => ({
   height: 40,
   fontFamily: theme.typography.fontFamily,
   textTransform: "capitalize",
+}));
+
+export const FormText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
+}));
+
+export const CustomTextField = styled(TextField)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius: "5px",
+  "& .MuiInputBase-root": {
+    color: theme.palette.fontColor.first,
+  },
 }));

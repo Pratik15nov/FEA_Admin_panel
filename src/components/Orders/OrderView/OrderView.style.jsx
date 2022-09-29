@@ -24,18 +24,19 @@ export const CustomButton = styled(Button)(({ theme }) => ({
   fontWeight: "bold",
   color: theme.palette.fontColor.main,
   "&:hover": {
-    color: theme.palette.custom.success,
+    color: theme.palette.fontColor.first,
   },
 }));
 export const Actions = styled(DialogActions)(({ theme }) => ({
-  justifyContent:"space-between",
+  justifyContent: "space-between",
   background: theme.palette.primary.main,
 }));
 export const ContentBox = styled(DialogContent)(({ theme }) => ({
-  background: "white",
+  background: theme.palette.background.default,
+  // background: "white",
 }));
 export const TitleBox = styled(DialogTitle)(({ theme }) => ({
-  background:  theme.palette.primary.main,
+  background: theme.palette.primary.main,
   color: theme.palette.fontColor.main,
 }));
 export const TitleContainerBox = styled(DialogTitle)(({ theme }) => ({
@@ -54,6 +55,7 @@ export const MasterConatiner = styled(Box)(({ theme }) => ({
 
 export const TopTextStyle = styled(Typography)(({ theme }) => ({
   fontSize: "15px",
+  color: theme.palette.fontColor.first,
 }));
 export const CustomDivider = styled(Divider)(({ theme }) => ({
   marginTop: "5px",
@@ -64,7 +66,7 @@ export const CustomDivider = styled(Divider)(({ theme }) => ({
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#3c89c7",
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.fontColor.main,
     fontWeight: "bold",
     fontSize: "12px",
@@ -98,6 +100,7 @@ export const TableTitleGrid = styled(Grid)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: "bold",
   marginTop: "10px",
+  color: theme.palette.fontColor.first,
 }));
 
 export const TableArea = styled(Table)(({ theme }) => ({
@@ -127,6 +130,10 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   fontSize: "xx-medium",
   color: "red",
   "&:hover": {
-    color: theme.palette.custom.success
+    color: "#D8D8D8",
   },
+}));
+
+export const CustomGrid = styled(Grid)(({ theme }) => ({
+  color:theme.palette.fontColor.first,
 }));

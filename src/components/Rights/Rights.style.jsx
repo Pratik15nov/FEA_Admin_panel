@@ -114,6 +114,9 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
+  "&:hover": {
+    backgroundColor: "#D8D8D8",
+  },
 }));
 
 export const IOSSwitch = styled((props) => (
@@ -177,7 +180,10 @@ export const InputBox = styled(Box)(({ theme }) => ({
   width: "60%",
   boxShadow: `rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;`,
   padding: 20,
-  borderRadius: 5,
+  borderRadius: "5px",
+  backgroundColor: theme.palette.formBackground.default,
+  color: theme.palette.fontColor.first,
+  border: `1px solid ${theme.palette.primary.main}`,
 }));
 export const Container = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -222,8 +228,14 @@ export const SelectField = styled(Select)(({ theme }) => ({
   "& .MuiOutlinedInput-input": {
     height: "1em",
   },
+  "& .css-1poimk-MuiPaper": {
+    backgroundColor: theme.palette.secondary.main,
+  },
   marginTop: 10,
   marginBottom: 10,
+  backgroundColor: theme.palette.formBackground.default,
+  border: `1px solid ${theme.palette.primary.main}`,
+  color: theme.palette.fontColor.first,
 }));
 export const RowName = styled(Typography)(({ theme }) => ({
   fontSize: "18px",
@@ -233,4 +245,9 @@ export const RowName = styled(Typography)(({ theme }) => ({
   "&:hover": {
     color: "black",
   },
+}));
+
+
+export const CustomText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
 }));

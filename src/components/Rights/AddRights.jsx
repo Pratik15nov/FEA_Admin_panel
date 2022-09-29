@@ -13,6 +13,7 @@ import {
   BottomButton,
   Allcheck,
   SelectField,
+  CustomText,
 } from "./Rights.style";
 import { Checkbox } from "@material-ui/core";
 import Table from "@mui/material/Table";
@@ -275,9 +276,9 @@ export default function AddRights(props) {
       ) : (
         <InputBox>
           <form>
-            <Typography color="text.primary" variant="subtitle2">
+            <CustomText  variant="subtitle2">
               Role Name
-            </Typography>
+            </CustomText>
 
             <Controller
               name="roleId"
@@ -300,7 +301,7 @@ export default function AddRights(props) {
                           {/* {roleList? */}
                           {reduxRoleList?.map((card) => {
                             return (
-                              <MenuItem key={card._id} value={card._id}>
+                              <MenuItem key={card._id} value={card._id}  >
                                 {card.roleName}
                               </MenuItem>
                             );
@@ -346,9 +347,9 @@ export default function AddRights(props) {
 
             {tableShow ? (
               <>
-                <Typography color="text.primary" variant="subtitle2">
+                <CustomText color="text.primary" variant="subtitle2">
                   Role Rights
-                </Typography>
+                </CustomText>
                 <br />
                 <TableContainer component={Paper} sx={{ maxWidth: 720 }}>
                   <Table>

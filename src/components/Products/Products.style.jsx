@@ -160,13 +160,12 @@ export const InputBox = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.formBackground.default,
   color: theme.palette.fontColor.first,
   border: `1px solid ${theme.palette.primary.main}`,
-  // borderColor: theme.palette.primary.main,
 }));
 
 export const ImgBox = styled(Box)(({ theme }) => ({
   padding: 20,
   border: `1px solid ${theme.palette.primary.main}`,
-  borderRadius:"5px",
+  borderRadius: "5px",
 }));
 
 export const ImgSize = styled(Box)(({ theme }) => ({
@@ -256,6 +255,9 @@ export const SelectField = styled(Select)(({ theme }) => ({
     height: "1em",
     padding: " 5px 0px 8px 0px",
   },
+  "& .css-1poimk-MuiPaper": {
+    backgroundColor: theme.palette.secondary.main,
+  },
   marginTop: 10,
   marginBottom: 10,
   color: theme.palette.fontColor.first,
@@ -338,7 +340,7 @@ export const FormText = styled(Typography)(({ theme }) => ({
 }));
 
 export const CoustomMenuItem = styled(MenuItem)(({ theme }) => ({
-"& .MuiMenu-list":{
-  backgroundColor:"green",
-}
+  "& .MuiMenu-list": {
+    backgroundColor: "green",
+  },
 }));

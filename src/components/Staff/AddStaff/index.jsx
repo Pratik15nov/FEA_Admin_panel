@@ -8,6 +8,7 @@ import {
   InputField,
   BottomButton,
   SelectField,
+  CustomText,
 } from "./AddStaff.style";
 import { Typography, Grid, Skeleton } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
@@ -15,7 +16,6 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  roleHandlerData,
   staffDataHandler, // eslint-disable-next-line
 } from "../../../service/Auth.Service";
 import { listBody } from "../../../utils/Helper";
@@ -162,9 +162,9 @@ const AddStaff = (props) => {
         ) : (
           <Grid container sx={{ flexWrap: "nowrap" }}>
             <InputBox item xs={6}>
-              <Typography color="text.primary" variant="subtitle2">
+              <CustomText  variant="subtitle2">
                 First-Name
-              </Typography>
+              </CustomText>
               <Controller
                 name="firstName"
                 render={({
@@ -201,9 +201,9 @@ const AddStaff = (props) => {
                   },
                 }}
               />
-              <Typography color="text.primary" variant="subtitle2">
+              <CustomText  variant="subtitle2">
                 Last-Name
-              </Typography>
+              </CustomText>
               <Controller
                 name="lastName"
                 render={({
@@ -240,9 +240,9 @@ const AddStaff = (props) => {
                   },
                 }}
               />
-              <Typography color="text.primary" variant="subtitle2">
+              <CustomText  variant="subtitle2">
                 E-mail
-              </Typography>
+              </CustomText>
               <Controller
                 name="email"
                 render={({
@@ -271,9 +271,9 @@ const AddStaff = (props) => {
                 }}
               />
 
-              <Typography color="text.primary" variant="subtitle2">
+              <CustomText  variant="subtitle2">
                 Contact
-              </Typography>
+              </CustomText>
               <Controller
                 name="phoneNumber"
                 render={({
@@ -312,9 +312,9 @@ const AddStaff = (props) => {
               />
             </InputBox>
             <InputBox item xs={6}>
-              <Typography color="text.primary" variant="subtitle2">
+              <CustomText variant="subtitle2">
                 User Post
-              </Typography>
+              </CustomText>
               <Controller
                 name="role"
                 render={({

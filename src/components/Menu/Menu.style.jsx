@@ -44,6 +44,9 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
+  "&:hover": {
+    backgroundColor: "#D8D8D8",
+  },
 }));
 
 export const Search = styled("div")(({ theme }) => ({
@@ -118,6 +121,7 @@ export const IOSSwitch = styled((props) => (
       color: "#fff",
       "& + .MuiSwitch-track": {
         backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+        opacity: 1,
         border: 0,
       },
       "&.Mui-disabled + .MuiSwitch-track": {

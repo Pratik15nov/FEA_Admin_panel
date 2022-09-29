@@ -17,6 +17,8 @@ import {
   ImgSize,
   DelIcon,
   BottomButton,
+  FormText,
+  CustomTextField,
 } from "./Category.style";
 import { fetchCategoryList } from "../../js/actions";
 import { useDispatch } from "react-redux";
@@ -180,16 +182,16 @@ export default function AddCategory(props) {
       ) : (
         <InputBox>
           <form>
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Category Name
-            </Typography>
+            </FormText>
             <Controller
               name="categoryName"
               render={({
                 field: { onChange, value },
                 fieldState: { error },
               }) => (
-                <TextField
+                <CustomTextField
                   margin="normal"
                   fullWidth
                   id="categoryName"
@@ -206,9 +208,9 @@ export default function AddCategory(props) {
                 required: "Please add category name",
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText  variant="subtitle2">
               Category Image
-            </Typography>
+            </FormText>
             <ImgBox>
               <Controller
                 name="categoryImg"

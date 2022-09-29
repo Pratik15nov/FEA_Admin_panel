@@ -15,9 +15,11 @@ export const FormLabelControl = styled(FormControlLabel)(({ theme }) => ({
   marginLeft: "0px",
   marginRight: "0px",
   "&:hover": {
-    background: theme.palette.primary.main,
+    // background: theme.palette.primary.main,
+    background:"#D8D8D8",
     color: theme.palette.fontColor.main,
   },
+  color:theme.palette.fontColor.first,
 }));
 export const RadioButtonGroup = styled(RadioGroup)(({ theme }) => ({}));
 export const CustomButton = styled(Button)(({ theme }) => ({
@@ -36,7 +38,8 @@ export const CancelIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   fontSize: "x-large",
   color: "red",
   "&:hover": {
-    color:theme.palette.custom.success,
+    // color:theme.palette.fontColor.first,
+    color:"#D8D8D8"
   },
 }));
 

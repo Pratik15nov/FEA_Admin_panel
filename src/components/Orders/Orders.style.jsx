@@ -49,6 +49,9 @@ export const TableGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
+  "&:hover": {
+    backgroundColor: "#D8D8D8",
+  },
 }));
 
 export const ColoumHead = styled(Typography)(({ theme }) => ({

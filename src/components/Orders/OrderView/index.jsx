@@ -23,8 +23,9 @@ import {
   CancelIcon,
   TitleContainerBox,
   TitleTag,
+  CustomGrid,
 } from "./OrderView.style";
-import { Divider } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -39,6 +40,54 @@ function createData(data, answer) {
 }
 
 export default function OrderView(props) {
+  const [value, setValue] = useState(null);
+
+  useEffect(() => {
+    const data = localStorage.getItem("themeKey");
+    try {
+      if (data === null) {
+        setValue(false);
+      } else if (data === "true") {
+        setValue(true);
+      } else {
+        setValue(false);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }, [localStorage.getItem("themeKey")]);
+  const giveimage = () => {
+    try {
+      if (value === null) {
+        return (
+          <img
+            src="/images/LOGOVIEW.png"
+            style={{ height: "50px", marginTop: "-12px" }}
+            alt="logo"
+          ></img>
+        );
+      } else if (value === true) {
+        return (
+          <img
+            src="/images/logoWhite.png"
+            style={{ height: "50px", marginTop: "-12px" }}
+            alt="logo"
+          ></img>
+        );
+      } else {
+        return (
+          <img
+            src="/images/LOGOVIEW.png"
+            style={{ height: "50px", marginTop: "-12px" }}
+            alt="logo"
+          ></img>
+        );
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const currencyFormat = (num) => {
     return num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
@@ -64,13 +113,12 @@ export default function OrderView(props) {
   ];
 
   useEffect(() => {
-
-    let data = 0;// eslint-disable-next-line
+    let data = 0; // eslint-disable-next-line
     props.viewdata.cartdetail?.filter((value) => {
       data = data + value.productId?.discountPrice * value.quantity;
     });
     setSubTotal(data);
- // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [props.viewdata]);
 
   const handleClose = () => {
@@ -114,11 +162,7 @@ export default function OrderView(props) {
                 </TopTextStyle>
               </Grid>
               <Grid item xs={3}>
-                <img
-                  src="/images/LOGOVIEW.png"
-                  style={{ height: "50px", marginTop: "-12px" }}
-                  alt="logo"
-                ></img>
+                {giveimage()}
               </Grid>
             </Grid>
 
@@ -187,7 +231,7 @@ export default function OrderView(props) {
               </TableArea>
             </TableBox>
             <Grid container spacing={2} sx={{ marginTop: "5px" }}>
-              <Grid item xs={6}>
+              <CustomGrid item xs={6}>
                 <b> Additional Information</b>:
                 <br />
                 Dear Consumer, the bill payment will reflect in next 48 hours or
@@ -199,7 +243,7 @@ export default function OrderView(props) {
                 This is invoice is only a confirmation of the receipt of the
                 amount paid against for the service as described above. Subject
                 to terms and conditions mentioned at Shoppy
-              </Grid>
+              </CustomGrid>
               <RightBox item xs={6} sx={{ display: "block" }}>
                 <BoxTable component={Paper}>
                   <TablePlot aria-label="simple table">
