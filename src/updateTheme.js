@@ -6,7 +6,7 @@ const updateTheme = createTheme({
       main: "#65C18C", // pastel green
     },
     secondary: {
-      main: "#303030", // Pale brown
+      main: "#151b23", // Dark Blue
     },
     tertiary: {
       main: "#FFF5E4", // light Creamish

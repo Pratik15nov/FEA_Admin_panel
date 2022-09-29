@@ -1,3 +1,4 @@
+import React from "react";
 export const ENDPOINTURL = "https://fea-backend.herokuapp.com/api/v1"; // "http://localhost:8080/api/v1";
 export const ENDPOINTURLFORIMG = "https://fea-backend.herokuapp.com/"; //  "http://localhost:8080/";
 
@@ -60,3 +61,11 @@ export const randomColor = [
 export const currencyFormat = (num) => {
   return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
+
+export default function useToggle(initialValue = false) {
+  const [value, setValue] = React.useState(initialValue);
+  const toggle = React.useCallback(() => {
+    setValue((v) => !v);
+  }, []);
+  return [value, toggle];
+}

@@ -28,6 +28,8 @@ import {
   TableCellC,
   TableCellD,
   ProductsText,
+  CardFive,
+  ScrollBox,
 } from "./Dashboard.style";
 import Box from "@mui/material/Box";
 import {
@@ -49,7 +51,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Button, Skeleton } from "@mui/material";
-import {
+import useToggle, {
   currencyFormat,
   ENDPOINTURLFORIMG,
   listBody,
@@ -86,7 +88,6 @@ export default function Dashboard() {
   const [customStatdate, setCustomStartDate] = useState(null);
   const [customEnddate, setCustomEndDate] = useState(null);
   const [customArea, setCustomArea] = useState(false);
-  const [showMore, setShowMore] = useState(false);
   const [placeValue, setPlacedValue] = useState(0);
   const [disValue, setDisValue] = useState(0);
   const [canValue, setCanValue] = useState(0);
@@ -94,21 +95,29 @@ export default function Dashboard() {
   const [orderValue, setOrderValue] = useState();
   const [loading, setLoading] = useState(true);
   const [orderTotalValue, setOrderTotalValue] = useState();
-
+  const [isOn, toggleIsOn] = useToggle();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [themeKey, setThemeKey] = useState(localStorage.getItem("themeKey"));
+  console.log(themeKey);
   useEffect(() => {
     getDashboardData(
       moment().startOf("week").format("YYYY-MM-DD"),
       moment().endOf("week").format("YYYY-MM-DD"),
       0
     );
+    if (themeKey === "true") {
+      setThemeKey("White");
+    } else if (themeKey === "false") {
+      setThemeKey("Black");
+    } else {
+      setThemeKey("Black");
+    }
   }, []);
   const dashboardList = useSelector((state) => state?.dashboard.list);
   const productList = useSelector((state) => state.product.list);
   const orderList = useSelector((state) => state.order.list);
-  console.log(productList);
+
   useEffect(() => {
     getDashboardAllData(value);
   }, [dashboardList, value]);
@@ -195,7 +204,10 @@ export default function Dashboard() {
               fillStyle: datasets[0].backgroundColor[i],
             }));
           },
+          color: `${themeKey}`,
         },
+
+        color: `${themeKey}`,
         position: "right",
         font: {
           family: "Public Sans",
@@ -207,6 +219,7 @@ export default function Dashboard() {
         font: {
           weight: "bold",
         },
+        color: `${themeKey}`,
       },
     },
   };
@@ -219,6 +232,7 @@ export default function Dashboard() {
         font: {
           weight: "bold",
         },
+        color: `${themeKey}`,
         formatter: function (value) {
           var num = nFormatter(value);
           return num;
@@ -715,7 +729,7 @@ export default function Dashboard() {
                     <CardTwo variant="h6" component="div">
                       Out of Stock Products
                     </CardTwo>
-                    <Box>
+                    <ScrollBox>
                       {productList
                         .filter((data) => data.quantity === 0)
                         .slice(0, 2)
@@ -744,7 +758,7 @@ export default function Dashboard() {
                           </StockBox>
                         ))}
 
-                      {showMore &&
+                      {isOn &&
                         productList
                           .filter((data) => data.quantity === 0)
                           .slice(3, 9999)
@@ -772,18 +786,17 @@ export default function Dashboard() {
                               </Grid>
                             </StockBox>
                           ))}
-                    </Box>
-                    {!showMore ? (
-                      <ShowButton
-                        variant="contained"
-                        size="small"
-                        onClick={() => setShowMore(true)}
-                      >
-                        <ShowButtonText>View All</ShowButtonText>
-                      </ShowButton>
-                    ) : (
-                      <></>
-                    )}
+                    </ScrollBox>
+
+                    <ShowButton
+                      variant="contained"
+                      size="small"
+                      onClick={toggleIsOn}
+                    >
+                      <ShowButtonText>
+                        {isOn ? "View Less " : "View All "}
+                      </ShowButtonText>
+                    </ShowButton>
                   </CardContent>
                 </CardFrist>
               </Grid>
@@ -827,9 +840,9 @@ export default function Dashboard() {
               <Grid xs={4}>
                 <IncomeCard>
                   <CardContent>
-                    <CardTwo variant="h6" component="div">
+                    <CardFive variant="h6" component="div">
                       Total Income
-                    </CardTwo>
+                    </CardFive>
                     <CardThree>
                       &#x20b9;{currencyFormat(orderTotalValue)}
                     </CardThree>
@@ -837,9 +850,9 @@ export default function Dashboard() {
                 </IncomeCard>
                 <ExpensesCard>
                   <CardContent>
-                    <CardTwo variant="h6" component="div">
+                    <CardFive variant="h6" component="div">
                       Total Expenses
-                    </CardTwo>
+                    </CardFive>
                     <CardFour>
                       {/* &#x20b9; {currencyFormat(orderTotalValue)} */}
                       &#x20b9;{currencyFormat(235554)}
