@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { styled, Button, TableCell } from "@mui/material";
+import { styled, Button, TableCell, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -214,4 +214,26 @@ export const TableCellD = styled(TableCell)(({ theme }) => ({
 export const ProductsText = styled(Typography)(({ theme }) => ({
   fontSize: 12,
   textDecoration: "line-through",
+}));
+export const CardFive = styled(Typography)(({ theme }) => ({
+  fontFamily: theme.typography.fontFamily,
+  fontWeight: 600,
+  fontSize: "15px",
+  lineHeight: 1.57143,
+  marginBottom: 5,
+  color: theme.palette.secondary.main,
+}));
+export const ScrollBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  height: "148px",
+  overflow: "hidden",
+  overflowY: "scroll",
+  "::-webkit-scrollbar": { width: "10px" },
+  "::-webkit-scrollbar-track": {
+    background: "#f1f1f1",
+    borderRadius: 10,
+  },
+  "::-webkit-scrollbar-thumb": { background: "#888", borderRadius: 10 },
+  "::-webkit-scrollbar-thumb:hover": { background: "#555" },
 }));
