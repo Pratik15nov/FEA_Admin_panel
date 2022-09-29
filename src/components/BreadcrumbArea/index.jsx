@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Breadcrumbs, Typography } from "@mui/material";
-import { MyLink } from "./Breadcrumbarea.style";
+import { MainTextA, MyLink } from "./Breadcrumbarea.style";
 import { useLocation } from "react-router-dom";
 import { capitalizeWord } from "../../utils/Helper";
 
@@ -38,29 +38,22 @@ export default function BreadcrumbArea(props) {
       {buttonArea ? (
         <>
           <Grid xs={7}>
-            <Typography variant="h1"> {items} </Typography>
+            <MainTextA variant="h1"> {items} </MainTextA>
             <Breadcrumbs aria-label="breadcrumb">
               <Box underline="hover" color="inherit">
-                <MyLink
-                  style={{
-                    color: "black",
-                  }}
-                  to="/dashboard"
-                >
-                  Dashboard
-                </MyLink>
+                <MyLink to="/dashboard">Dashboard</MyLink>
               </Box>
-              <Typography>{items} List</Typography>
+              <MainTextA>{items} List</MainTextA>
             </Breadcrumbs>
           </Grid>
         </>
       ) : (
         <>
           <Grid xs={12}>
-            <Typography variant="h1">
+            <MainTextA variant="h1">
               {editText ? "Edit" : "Add"}
               {" " + items?.split(" ")[1]}
-            </Typography>
+            </MainTextA>
             <Breadcrumbs aria-label="breadcrumb">
               <MyLink to="/dashboard">Dashboard</MyLink>
               <MyLink to={`/${linkAdd}`}>
@@ -69,10 +62,10 @@ export default function BreadcrumbArea(props) {
                   " " +
                   "List"}
               </MyLink>
-              <Typography>
+              <MainTextA>
                 {editText ? "Edit" : "Add"}
                 {" " + items?.split(" ")[1]}
-              </Typography>
+              </MainTextA>
             </Breadcrumbs>
           </Grid>
         </>

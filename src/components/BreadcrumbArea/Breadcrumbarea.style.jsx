@@ -1,4 +1,4 @@
-import { Button, styled } from "@mui/material";
+import { Button, styled, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { Link } from "react-router-dom";
@@ -45,11 +45,16 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const MyButton = styled(Button)(({ theme }) => ({
   height: 40,
 }));
-
+export const MainText = styled(Button)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
+}));
 export const MyLink = styled(Link)(({ theme }) => ({
   textDecoration: "none",
-  color: "black",
+  color: theme.palette.fontColor.first,
   "&:hover": {
     color: alpha(theme.palette.primary.main),
   },
+}));
+export const MainTextA = styled(Typography)(({ theme }) => ({
+  color: theme.palette.fontColor.first,
 }));
