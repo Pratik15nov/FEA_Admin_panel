@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import BreadcrumbArea from "../BreadcrumbArea";
 import {
   Container,
@@ -32,7 +32,6 @@ const Role = () => {
   const [openAddRole, setOpenAddRole] = useState(false);
   const [updateAddRole, setUpdateAddRole] = useState(false);
   const [updateRoleData, setUpdateRoleData] = useState([]);
-
 
   const roleList = useSelector((state) => state.role.list);
 
@@ -121,7 +120,6 @@ const Role = () => {
   };
 
   const updateRole = (data) => {
-
     setUpdateAddRole(false);
     setUpdateRoleData([]);
     const body = {
@@ -210,7 +208,8 @@ const Role = () => {
       renderCell: (params) => (
         <Box>
           <UpdateIcon
-            onClick={() => (// eslint-disable-next-line
+            onClick={() => (
+              // eslint-disable-next-line
               setUpdateAddRole(true), setUpdateRoleData(params.row)
             )}
             // onClick={() => navigate(`/products/add?cid=${params.row._id}`)}
@@ -286,7 +285,7 @@ const Role = () => {
         </Grid>
         <UpdateRoleDialog
           updateAddRole={updateAddRole}
-          updateRoleData={updateRoleData}// eslint-disable-next-line
+          updateRoleData={updateRoleData} // eslint-disable-next-line
           updateRoleClose={() => (setUpdateAddRole(false), updateRoleData([]))}
           onAgree={updateRole}
         />

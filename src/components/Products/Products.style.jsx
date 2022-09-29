@@ -10,6 +10,8 @@ import {
   Button,
   Select,
   Grid,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
@@ -251,14 +253,33 @@ export const BottomButton = styled(LoadingButton)(({ theme }) => ({
   textTransform: "capitalize",
 }));
 export const SelectField = styled(Select)(({ theme }) => ({
+  // "& .MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper":{
+  //   backgroundColor: theme.palette.formBackground.default,
+
+  // },
+  // "& .MuiList-root-MuiMenu-list": {
+  //   backgroundColor: theme.palette.formBackground.default,
+  // },
   "& .MuiOutlinedInput-input": {
-    height: "1em",
-    padding: " 5px 0px 8px 0px",
+    height: "2.1em",
+    padding: " 6px 0px 12px 15px",
   },
   marginTop: 10,
   marginBottom: 10,
-  backgroundColor:theme.palette.formBackground.default,
+
   border: `1px solid ${theme.palette.primary.main}`,
+}));
+export const SelectMenuItem = styled(MenuItem)(({ theme }) => ({
+  background: theme.palette.secondary.main,
+  color: "white",
+  "&:hover": {
+    color: "black",
+    background: theme.palette.primary.main,
+  },
+  "&:selected": {
+    color: "black",
+    background: theme.palette.primary.main,
+  },
 }));
 export const ProductStatusInStock = styled("span")(({ theme }) => ({
   height: "30px",
@@ -327,8 +348,6 @@ export const SelectionText = styled(Typography)(({ theme }) => ({
 
 export const SelectionBox = styled(Grid)(({ theme }) => ({
   display: "-ms-flexbox",
-  // color:"green",
-  // backgroundColor:"black",
 }));
 
 export const FormText = styled(Typography)(({ theme }) => ({

@@ -53,5 +53,5 @@ export const TitleText = styled(DialogTitle)(({ theme }) => ({
 }));
 
 export const CustomDialogContent = styled(DialogContent)(({ theme }) => ({
-  background: theme.palette.background,
+  background: theme.palette.secondary.main,
 }));

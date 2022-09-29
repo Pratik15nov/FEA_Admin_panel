@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, TextField, Skeleton } from "@mui/material";
+import { Typography, Skeleton } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {
   couponsHndlerData,
@@ -13,6 +13,9 @@ import {
   InputBox,
   BottomButton,
   SelectField,
+  FormText,
+  SelectMenuItem,
+  InputField,
 } from "./Coupons.style";
 
 import { fetchCouponsList } from "../../js/actions";
@@ -79,7 +82,7 @@ export default function AddCoupons(props) {
     setSkelLoading(true);
     const response = await couponsHndlerData(
       listBody({ where: { _id: couponsId }, perPage: 10, page: 1 })
-      );
+    );
     try {
       if (response && response.list) {
         reset({
@@ -166,16 +169,16 @@ export default function AddCoupons(props) {
       ) : (
         <InputBox>
           <form>
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText color="text.primary" variant="subtitle2">
               Coupon Name
-            </Typography>
+            </FormText>
             <Controller
               name="couponcode"
               render={({
                 field: { onChange, value },
                 fieldState: { error },
               }) => (
-                <TextField
+                <InputField
                   margin="normal"
                   fullWidth
                   id="couponcode"
@@ -184,7 +187,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ? error.message:""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}
@@ -192,16 +195,16 @@ export default function AddCoupons(props) {
                 required: "Please add couponcode",
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText color="text.primary" variant="subtitle2">
               Coupon description
-            </Typography>
+            </FormText>
             <Controller
               name="description"
               render={({
                 field: { onChange, value },
                 fieldState: { error },
               }) => (
-                <TextField
+                <InputField
                   margin="normal"
                   fullWidth
                   id="description"
@@ -210,7 +213,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?error.message: ""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}
@@ -219,9 +222,9 @@ export default function AddCoupons(props) {
               }}
             />
 
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText color="text.primary" variant="subtitle2">
               Coupon type
-            </Typography>
+            </FormText>
             <Controller
               name="type"
               render={({
@@ -237,13 +240,15 @@ export default function AddCoupons(props) {
                     value={value}
                     onChange={onChange}
                     error={!!error}
-                    helperText={error?.message ?error.message : ""}
+                    helperText={error?.message ? error.message : ""}
                   >
-                    <MenuItem value="PERCENTAGE">PERCENTAGE</MenuItem>
-                    <MenuItem value="FLAT">FLAT</MenuItem>
+                    <SelectMenuItem value="PERCENTAGE">
+                      PERCENTAGE
+                    </SelectMenuItem>
+                    <SelectMenuItem value="FLAT">FLAT</SelectMenuItem>
                   </SelectField>
                   <FormHelperText error={error}>
-                    {error?.message ?error.message : ""}
+                    {error?.message ? error.message : ""}
                   </FormHelperText>
                 </FormControl>
               )}
@@ -252,16 +257,16 @@ export default function AddCoupons(props) {
                 required: "Select one Type",
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText color="text.primary" variant="subtitle2">
               Coupon minvalue
-            </Typography>
+            </FormText>
             <Controller
               name="minvalue"
               render={({
                 field: { onChange, value },
                 fieldState: { error },
               }) => (
-                <TextField
+                <InputField
                   margin="normal"
                   fullWidth
                   id="minvalue"
@@ -270,7 +275,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?error.message : ""}
+                  helperText={error?.message ? error.message : ""}
                   type={Number}
                 />
               )}
@@ -287,16 +292,16 @@ export default function AddCoupons(props) {
                 },
               }}
             />
-            <Typography color="text.primary" variant="subtitle2">
+            <FormText color="text.primary" variant="subtitle2">
               Coupon maxdiscountvalue
-            </Typography>
+            </FormText>
             <Controller
               name="maxdiscountvalue"
               render={({
                 field: { onChange, value },
                 fieldState: { error },
               }) => (
-                <TextField
+                <InputField
                   margin="normal"
                   fullWidth
                   id="maxdiscountvalue"
@@ -305,7 +310,7 @@ export default function AddCoupons(props) {
                   value={value}
                   onChange={onChange}
                   error={!!error}
-                  helperText={error?.message ?error.message: ""}
+                  helperText={error?.message ? error.message : ""}
                 />
               )}
               control={control}

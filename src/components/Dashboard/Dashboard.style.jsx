@@ -222,7 +222,7 @@ export const CardFive = styled(Typography)(({ theme }) => ({
   fontSize: "15px",
   lineHeight: 1.57143,
   marginBottom: 5,
-  color: theme.palette.secondary.main,
+  color: "black",
 }));
 export const ScrollBox = styled(Box)(({ theme }) => ({
   display: "flex",
