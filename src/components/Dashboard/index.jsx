@@ -106,14 +106,21 @@ export default function Dashboard() {
       moment().endOf("week").format("YYYY-MM-DD"),
       0
     );
-    if (themeKey === "true") {
-      setThemeKey("White");
-    } else if (themeKey === "false") {
-      setThemeKey("Black");
-    } else {
-      setThemeKey("Black");
-    }
   }, []);
+  useEffect(() => {
+    const data = localStorage.getItem("themeKey");
+    try {
+      if (data === "true") {
+        setThemeKey("White");
+      } else if (data === "false") {
+        setThemeKey("Black");
+      } else {
+        setThemeKey("Black");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }, [localStorage.getItem("themeKey")]);
   const dashboardList = useSelector((state) => state?.dashboard.list);
   const productList = useSelector((state) => state.product.list);
   const orderList = useSelector((state) => state.order.list);
@@ -244,13 +251,20 @@ export default function Dashboard() {
         grid: {
           display: false,
         },
+        ticks: {
+          color: `${themeKey}`,
+        },
       },
       y: {
         grid: {
           display: false,
         },
+        ticks: {
+          color: `${themeKey}`,
+        },
       },
     },
+
     elements: {
       line: {
         tension: 0.5,
