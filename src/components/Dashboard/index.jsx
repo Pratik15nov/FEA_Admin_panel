@@ -50,7 +50,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { Button, Skeleton } from "@mui/material";
+import { Avatar, Button, Skeleton } from "@mui/material";
 import useToggle, {
   currencyFormat,
   ENDPOINTURLFORIMG,
@@ -929,11 +929,10 @@ export default function Dashboard() {
                     {productList.slice(0, 4).map((data) => (
                       <StockBox container>
                         <Grid item xs={2}>
-                          <img
+                          <Avatar
                             src={ENDPOINTURLFORIMG + data.img}
-                            alt="oosp"
-                            height={46}
-                          ></img>
+                            variant="rounded"
+                          ></Avatar>
                         </Grid>
                         <Grid item xs={5}>
                           {data.name}
