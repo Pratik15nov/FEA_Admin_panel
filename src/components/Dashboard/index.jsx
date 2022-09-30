@@ -868,7 +868,10 @@ export default function Dashboard() {
                     </CardFive>
                     <CardFour>
                       {/* &#x20b9; {currencyFormat(orderTotalValue)} */}
-                      &#x20b9;{currencyFormat(canValue.reduce((a, b) => (a = a + b.totalPrice), 0))}
+                      &#x20b9;
+                      {currencyFormat(
+                        canValue.reduce((a, b) => (a = a + b.totalPrice), 0)
+                      )}
                     </CardFour>
                   </CardContent>
                 </ExpensesCard>
