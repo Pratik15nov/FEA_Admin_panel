@@ -53,7 +53,6 @@ export function fetchProductList(payload) {
   return { type: "FETCH_PRODUCT", payload };
 }
 
-
 export function productStatusChange(payload) {
   return { type: "CHANGE_PRODUCT_STATUS", payload };
 }
@@ -400,4 +399,11 @@ export function fetchIfAddRoleRightsHandler(payload) {
     type: "FETCH_ADD_ROLE_RIGHTS",
     payload,
   };
+}
+//Banner List
+export function fetchBannerListData(payload) {
+  return { type: "FETCH_BANNER", payload };
+}
+export function fetchBannerListSuccess(payload) {
+  return { type: "FETCH_BANNER_SUCCESS", payload };
 }

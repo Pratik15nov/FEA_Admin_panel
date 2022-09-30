@@ -1,182 +1,390 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, FormHelperText } from "@mui/material";
 import React from "react";
 import BreadcrumbArea from "../BreadcrumbArea";
-import { Container, ContainerHead, IOSSwitch } from "./settings.style";
-import { useEffect, useState } from "react";
+import {
+  Container,
+  ContainerHead,
+  MainBox,
+  ScrollBox,
+  CoustomMenuItem,
+  FormText,
+  InputField,
+  SelectField,
+  SelectionBox,
+  SelectionImage,
+  SelectionText,
+  ImgBox,
+  ImgSize,
+  DelIcon,
+  GridUi,
+  BottomButton,
+} from "./settings.style";
+import { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBannerListData, fetchCategoryDataList } from "../../js/actions";
+import { ENDPOINTURLFORIMG, listBody } from "../../utils/Helper";
+import { useForm, Controller } from "react-hook-form";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import IconButton from "@mui/material/IconButton";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DragDrop from "../DragDrop";
+import { bannerAddHandler } from "../../service/Auth.Service";
 
-//
-// import { Button } from "@mui/material";
-// import { loginCheck, afterLoginCheck } from "../../service/Auth.Service";
-//
-// import Box from "@mui/material/Box";
-// import {
-//   DataGridPro,
-//   useGridApiRef,
-//   gridVisibleRowCountSelector,
-//   gridVisibleColumnDefinitionsSelector,
-//   gridVisibleSortedRowIdsSelector,
-// } from "@mui/x-data-grid-pro";
-// import { useDemoData } from "@mui/x-data-grid-generator";
-// import { useState } from "react";
-// import { useEffect } from "react";
-// import { LicenseInfo } from "@mui/x-data-grid-pro";
-
-// LicenseInfo.setLicenseKey(
-//   "7003f52e1358cc619e3d853e94f079a4T1JERVI6NDMxMDAsRVhQSVJZPTE2ODMyOTQ3MTcwMDAsS0VZVkVSU0lPTj0x"
-// );
 const Settings = (props) => {
-  // const [value, setValue] = useState(false);
+  const [addSection, setAddSection] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState(null);
+  const bannerList = useSelector((state) => state.bannerImages.list);
+  const categorySelectionList = useSelector((state) => state.categoryList.list);
+  useEffect(() => {
+    bannerListData();
+    categoryListData();
+  }, []);
+  const categoryListData = async () => {
+    try {
+      dispatch(fetchCategoryDataList(listBody({ perPage: 1000 })));
+    } catch (err) {
+      alert(err);
+    }
+  };
+  const onDrop = useCallback((acceptedFiles) => {
+    acceptedFiles.map((file) => {
+      setValue("Img", file);
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setImages(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      return file;
+    }); // eslint-disable-next-line
+  }, []);
 
-  // useEffect(() => {
-  //   const data = localStorage.getItem("themeKey");
-  //   try {
-  //     if (data === null) {
-  //       setValue(false);
-  //     } else if (data === "true") {
-  //       setValue(true);
-  //     } else {
-  //       setValue(false);
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // }, [localStorage.getItem("themeKey")]);
+  const dispatch = useDispatch();
+  const bannerListData = () => {
+    try {
+      dispatch(fetchBannerListData(listBody({ perPage: 1000 })));
+    } catch (err) {
+      alert(err);
+    }
+  };
+  const { handleSubmit, control, reset, setValue } = useForm({
+    defaultValues: {
+      name: null,
+      description: null,
+      Img: null,
+      categoryId: null,
+    },
+  });
 
-  //
-  // const apiRef = useGridApiRef();
+  const save = async (payload) => {
+    const response = await bannerAddHandler(payload);
+    try {
+      if (response.success) {
+        setLoading(false);
+        setAddSection(false);
+        setImages(null);
+        try {
+          dispatch(fetchBannerListData(listBody({ perPage: 1000 })));
+        } catch (err) {
+          alert(err);
+        }
+        reset({
+          name: null,
+          description: null,
+          Img: null,
+          categoryId: null,
+        });
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
 
-  // const [coordinates, setCoordinates] = useState({
-  //   rowIndex: 0,
-  //   colIndex: 0,
-  // });
-
-  // const { data } = useDemoData({
-  //   dataSet: "Commodity",
-  //   rowLength: 10,
-  // });
-
-  // useEffect(() => {
-  //   const { rowIndex, colIndex } = coordinates;
-  //   apiRef.current.scrollToIndexes(coordinates);
-  //   const id = gridVisibleSortedRowIdsSelector(apiRef)[rowIndex];
-  //   const column = gridVisibleColumnDefinitionsSelector(apiRef)[colIndex];
-  //   apiRef.current.setCellFocus(id, column.field);
-  // }, [apiRef, coordinates]);
-  // eslint-disable-next-line
-  // const handleClick = (position) => () => {
-  //   const maxRowIndex = gridVisibleRowCountSelector(apiRef) - 1;
-  //   const maxColIndex = gridVisibleColumnDefinitionsSelector(apiRef).length - 1;
-
-  //   setCoordinates((coords) => {
-  //     switch (position) {
-  //       case "top":
-  //         return { ...coords, rowIndex: Math.max(0, coords.rowIndex - 1) };
-  //       case "bottom":
-  //         return {
-  //           ...coords,
-  //           rowIndex: Math.min(maxRowIndex, coords.rowIndex + 1),
-  //         };
-  //       case "left":
-  //         return { ...coords, colIndex: Math.max(0, coords.colIndex - 1) };
-  //       case "right":
-  //         return {
-  //           ...coords,
-  //           colIndex: Math.min(maxColIndex, coords.colIndex + 1),
-  //         };
-  //       default:
-  //         return { ...coords, rowIndex: 0, colIndex: 0 };
-  //     }
-  //   });
-  // };
-
-  // const handleCellClick = (params) => {
-  //   const rowIndex = gridVisibleSortedRowIdsSelector(apiRef).findIndex(
-  //     (id) => id === params.id
-  //   );
-
-  //   const colIndex = gridVisibleColumnDefinitionsSelector(apiRef).findIndex(
-  //     (column) => column.field === params.field
-  //   );
-
-  //   setCoordinates({ rowIndex, colIndex });
-  // };
-  //
-  // const handleLogin = async () => {
-  //   const body = {
-  //     email: "vanshpanchal09@gmail.com",
-  //     password: "yvAspZZCNh",
-  //   };
-  //   try {
-  //     const response = await loginCheck(body);
-  //     if (response) {
-  //       localStorage.setItem("dataToken", response?.data?.token);
-  //     } else {
-  //       alert("not working");
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
-
-  // const handleCheck = async () => {
-  //   const body = {
-  //     Status: "RESONSE CHECK WORKS",
-  //   };
-  //   try {
-  //     const response = await afterLoginCheck(body);
-  //     if (response) {
-  //     } else {
-  //       alert("not working");
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
-
-  // const handleCheck = () => {
-  //   console.log("TOKEN FORM CHECK",localStorage.getItem("dataToken"));
-  // };
-
+  const submitBannerData = async (body) => {
+    setLoading(true);
+    let reader = new FileReader();
+    reader.readAsDataURL(body.Img);
+    reader.onload = () => {
+      reader.result;
+      const reqBody = {
+        name: body.name,
+        description: body.description,
+        categoryId: body.categoryId,
+        Img: reader.result,
+      };
+      save(reqBody);
+    };
+  };
   return (
     <>
       <Container>
         <BreadcrumbArea />
       </Container>
 
-      <Box
-        sx={{
-          padding: "20px",
-          borderRadius: "10px",
-          boxShadow: "rgb(0 0 0 / 15%) 0px 2px 8px",
-          margin: "5px",
-        }}
-      >
-        <ContainerHead variant="h6">Theme Customizer</ContainerHead>
+      <MainBox>
+        <ContainerHead variant="h5">Banner Images</ContainerHead>
 
-        {/* <IOSSwitch
-          checked={value}
-          onChange={(e) => {
-            props.getTheme(e.target.checked);
-            setValue(!value);
-          }}
-        /> */}
-      </Box>
+        {addSection ? (
+          <Box sx={{ width: "50%" }}>
+            <FormText variant="subtitle2">Banner Name</FormText>
+            <Controller
+              name="name"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <InputField
+                  margin="normal"
+                  fullWidth
+                  id="name"
+                  placeholder="Banner Name"
+                  name="name"
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message ? error.message : ""}
+                />
+              )}
+              control={control}
+              rules={{
+                required: "Please Add Banner name",
+                maxLength: {
+                  value: 100,
+                  message: "Cannot be longer than 100 characters",
+                },
+                pattern: {
+                  value: /\S/,
+                  message: "Only words are allowed",
+                },
+                minLength: {
+                  value: 4,
+                  message: "Cannot be smaller than 4 characters",
+                },
+              }}
+            />
+            <FormText variant="subtitle2">Banner Category</FormText>
+            <Controller
+              name="categoryId"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <SelectField
+                    fullWidth
+                    labelId="demo-simple-select-label"
+                    id="categoryId"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ? error.message : ""}
+                  >
+                    {categorySelectionList?.map((card) => {
+                      return (
+                        <CoustomMenuItem
+                          key={card?.BreadcrumbAreakey}
+                          value={card._id}
+                        >
+                          <SelectionBox contasiner>
+                            <SelectionImage
+                              variant="rounded"
+                              alt="Product image"
+                              src={ENDPOINTURLFORIMG + card.categoryImg}
+                            />
+                            <SelectionText>{card.categoryName}</SelectionText>
+                          </SelectionBox>
+                        </CoustomMenuItem>
+                      );
+                    })}
+                  </SelectField>
+                  <FormHelperText error={error}>
+                    {error?.message ? error.message : ""}
+                  </FormHelperText>
+                </>
+              )}
+              control={control}
+              rules={{
+                required: "Select one Category",
+              }}
+            />
+            <FormText variant="subtitle2">Banner Description</FormText>
+            <Controller
+              name="description"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <InputField
+                  margin="normal"
+                  fullWidth
+                  id="description"
+                  placeholder="Banner Description"
+                  name="description"
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message ? error.message : ""}
+                />
+              )}
+              control={control}
+              rules={{
+                required: "Please Add Banner description",
+                maxLength: {
+                  value: 100,
+                  message: "Cannot be longer than 100 characters",
+                },
+                pattern: {
+                  value: /\S/,
+                  message: "Only words are allowed",
+                },
+                minLength: {
+                  value: 4,
+                  message: "Cannot be smaller than 4 characters",
+                },
+              }}
+            />
+            <FormText variant="subtitle2">Banner Image</FormText>
+            <ImgBox>
+              <Controller
+                name="Img"
+                render={({ field: { value }, fieldState: { error } }) => (
+                  <>
+                    {images == null ? (
+                      <Box>
+                        <FormHelperText error={error}>
+                          {error?.message ? error.message : ""}
+                        </FormHelperText>
+                        <GridUi container spacing={2}>
+                          {value == null ? (
+                            <GridUi item xs={12}>
+                              <DragDrop onDrop={onDrop} accept={"image/*"} />
+                            </GridUi>
+                          ) : (
+                            <></>
+                          )}
+                          <GridUi item xs={12}>
+                            {value !== null ? (
+                              <>
+                                <ImgSize component="img" src={value} alt="" />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                            {value !== null ? (
+                              <>
+                                <DelIcon
+                                  onClick={() => setValue("Img", null)}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </GridUi>
+                        </GridUi>
+                      </Box>
+                    ) : (
+                      <>
+                        <GridUi container spacing={2}>
+                          <GridUi item xs={6}>
+                            {images == null ? (
+                              <DragDrop onDrop={onDrop} accept={"image/*"} />
+                            ) : (
+                              <></>
+                            )}
+                          </GridUi>
+                          <GridUi item xs={12}>
+                            <ImgSize component="img" src={images} alt="" />
+                            {images !== null ? (
+                              <>
+                                <DelIcon
+                                  onClick={() => [
+                                    setImages(null),
+                                    setValue("Img", null),
+                                  ]}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </GridUi>
+                        </GridUi>
+                      </>
+                    )}
+                  </>
+                )}
+                control={control}
+                rules={{
+                  required: {
+                    value: " ",
+                    message: "Upload one image",
+                  },
+                }}
+              />
+            </ImgBox>
+          </Box>
+        ) : (
+          <></>
+        )}
+        {!addSection ? (
+          <BottomButton
+            variant="contained"
+            endIcon={<AddCardIcon />}
+            onClick={() => setAddSection(true)}
+          >
+            Add Banner
+          </BottomButton>
+        ) : (
+          <></>
+        )}
+        {addSection ? (
+          <BottomButton
+            type="submit"
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={handleSubmit(submitBannerData)}
+            endIcon={<AddCardIcon />}
+          >
+            Add Banner
+          </BottomButton>
+        ) : (
+          <></>
+        )}
 
-      {/* <Button variant="outlined" size="large" onClick={handleLogin}>
-        LOGIN
-      </Button>
-
-      <Button variant="outlined" size="large" onClick={handleCheck}>
-        CHECK
-      </Button> */}
-      {/* <Box sx={{ height: 400 }}>
-        <DataGridPro
-          apiRef={apiRef}
-          onCellClick={handleCellClick}
-          hideFooter
-          {...data}
-        />
-      </Box> */}
+        <ScrollBox>
+          {bannerList.map((item) => (
+            <ImageListItem key={item.img} cols={2}>
+              <img
+                src={item.Img}
+                alt={item.name}
+                style={{
+                  width: "400px",
+                  borderRadius: "10px",
+                  margin: "10px",
+                  boxShadow:
+                    "rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px",
+                }}
+              />
+              <ImageListItemBar
+                style={{
+                  width: "400px",
+                  marginLeft: "10px",
+                  borderRadius: "10px",
+                }}
+                title={item.name}
+                subtitle={item?.categoryId?.categoryName}
+                actionIcon={
+                  <IconButton aria-label={`info about ${item.name}`}>
+                    <DeleteIcon />
+                  </IconButton>
+                }
+              />
+            </ImageListItem>
+          ))}
+        </ScrollBox>
+      </MainBox>
     </>
   );
 };

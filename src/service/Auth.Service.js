@@ -207,3 +207,16 @@ export const pwdUpdationLinkMail = (body) => {
 export const pwdUpdateByEmailLink = (id, body) => {
   return post(`${ENDPOINTURL}/adminUser/confirmPassword/${id}`, body);
 };
+// Banner List
+export const bannerListData = (body) => {
+  return post(`${ENDPOINTURL}/header/list`, body);
+};
+export const bannerEditHandlerdata = (id, body) => {
+  return patch(`${ENDPOINTURL}/header/${id}`, body);
+};
+export const bannerDataHndlerData = (id) => {
+  return get(`${ENDPOINTURL}/header/${id}`);
+};
+export const bannerAddHandler = (body) => {
+  return post(`${ENDPOINTURL}/header`, body);
+};

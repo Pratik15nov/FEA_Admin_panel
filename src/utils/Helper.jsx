@@ -69,3 +69,11 @@ export default function useToggle(initialValue = false) {
   }, []);
   return [value, toggle];
 }
+export const decoderImg = (data) => {
+  let reader = new FileReader();
+  reader.readAsDataURL(data);
+  reader.onload = () => {
+    reader.result;
+  };
+  return;
+};
