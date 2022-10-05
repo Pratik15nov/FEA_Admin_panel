@@ -5,7 +5,6 @@ import { createTheme } from "@mui/material";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-// import theme from "./theme";
 import defaultTheme from "./defaultTheme";
 import updateTheme from "./updateTheme";
 import Login from "./components/Login";
