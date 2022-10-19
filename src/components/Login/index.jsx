@@ -133,7 +133,7 @@ const Login = () => {
         </Box>
       </LoginSide>
       <SideImage>
-        <img src="/images/sideImage.svg" alt="SIGN_IN" />
+        <img width={250} src="/images/sideImage.svg" alt="SIGN_IN" />
       </SideImage>
     </Container>
   );

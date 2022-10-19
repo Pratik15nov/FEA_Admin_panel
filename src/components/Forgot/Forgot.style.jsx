@@ -5,14 +5,24 @@ export const Container = styled(Box)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "2fr 1fr",
   marginTop: "120px",
+  [theme.breakpoints.down("md")]: {
+    display: "block",
+    margin: "30px",
+  },
+  [theme.breakpoints.up("md")]: {
+    display: "grid",
+  },
+  [theme.breakpoints.up("lg")]: {
+    display: "grid",
+  },
 }));
 
-export const SideImage = styled(Box)`
-  padding-left: 20px;
-  & img {
-    height: calc(100vh - 150px);
-  }
-`;
+export const SideImage = styled(Box)(({ theme }) => ({
+  paddingLeft: "20px",
+  [theme.breakpoints.down("md")]: { display: "none" },
+  [theme.breakpoints.up("md")]: {},
+  [theme.breakpoints.up("lg")]: {},
+}));
 export const LoginSide = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -27,5 +37,5 @@ export const CustomAvatar = styled(Avatar)(({ theme }) => ({
 }));
 
 export const LinkBox = styled(Link)(({ theme }) => ({
- cursor:"pointer"
+  cursor: "pointer",
 }));
