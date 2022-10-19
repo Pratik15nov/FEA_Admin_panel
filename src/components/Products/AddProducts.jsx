@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Typography, Grid, Skeleton } from "@mui/material";
+import { Box, Grid, Skeleton } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import DragDrop from "../DragDrop";
 import {
@@ -70,7 +70,7 @@ export default function AddProducts(props) {
     // eslint-disable-next-line
   }, [search]);
   const categorySelectionList = useSelector((state) => state.categoryList.list);
-  console.log("categorySelectionList: ", categorySelectionList);
+
   const categoryListData = async () => {
     try {
       dispatch(fetchCategoryDataList(listBody({ perPage: 1000 })));

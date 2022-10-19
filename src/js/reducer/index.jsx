@@ -16,7 +16,7 @@ import categoryList from "./categoryList.reducer";
 import roleList from "./roleList.reducer";
 import getLayoutList from "./getLayoutList.reducer";
 import selectedRightList from "./selectedRightsList.reducer";
-
+import bannerImagesList from "./bannerImages.reducer";
 import dashboardReducer from "./dashboard.reducer";
 export const rootReducer = {
   rightchecklist: rightCheckListReducer,
@@ -38,4 +38,5 @@ export const rootReducer = {
   roleList: roleList,
   getLayoutList: getLayoutList,
   selectedRightList: selectedRightList,
+  bannerImages: bannerImagesList,
 };

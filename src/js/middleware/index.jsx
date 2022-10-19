@@ -30,6 +30,7 @@ import {
   addingStaffData,
   updateStaffHandlerData,
   dashboardDataHandler,
+  bannerListData,
 } from "../../service/Auth.Service";
 import {
   loadingStart,
@@ -90,6 +91,7 @@ import {
   fetchSelectedRightListSuccess,
   fetchEditRoleRights,
   fetchEditRoleRightsSuccess,
+  fetchBannerListSuccess,
 } from "../actions";
 import { listBody } from "../../utils/Helper";
 
@@ -1088,6 +1090,25 @@ export const loggerMiddleware = (store) => (next) => (action) => {
       //       store.dispatch(loadingStop());
       //     });
       //   break;
+      case "FETCH_BANNER":
+        store.dispatch(loadingStart());
+        bannerListData(action.payload)
+          .then((res) => {
+            if (res.success) {
+              store.dispatch(fetchBannerListSuccess(res));
+            } else {
+              // store.dispatch(fetchLayoutListFailure());
+              alert("FETCH_BANNER => RESPONSE => FALSE");
+            }
+          })
+          .catch((err) => {
+            store.dispatch(fetchLayoutListFailure());
+            alert("ERROR OCCURED WHILE FETCH_BANNER DISPATCHED ");
+          })
+          .finally(() => {
+            store.dispatch(loadingStop());
+          });
+        break;
 
       default:
         return next(action);
